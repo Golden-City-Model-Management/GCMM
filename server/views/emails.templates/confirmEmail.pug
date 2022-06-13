@@ -1,0 +1,38 @@
+
+
+extends base.pug 
+
+block additionalStyles
+  link(rel="stylesheet", href="../css/newUser.css")
+
+
+block content
+  h1 Welcome to Golden City Model Management 
+  p
+    |Hello #{user.name.split(' ')[0]},
+  p
+    |You have requested to update your email to this email 
+  p 
+    |Please use the following credentials to login:
+  ul
+    li 
+      |Username: #{user.userName}
+    li 
+      |Password: #{user.password}
+    
+    | Follow this 
+    a(href=links.confirmEmail)
+      |link
+    |to login
+  p 
+    |Feel free to change your username and password once you are signed in.
+  p
+    |Kind Regards,
+    br 
+    |The Golden City Model Management Team
+
+block footer
+  p
+    | &copy; Golden City Model Management, Inc. 
+    br
+    | All rights reserved.

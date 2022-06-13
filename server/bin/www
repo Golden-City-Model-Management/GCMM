@@ -1,0 +1,33 @@
+
+process.on('uncaughtException', err => {
+  console.log(err)
+  console.log('UNCAUGHT EXCEPTION SHUTTING DOWN')
+  process.exit(1)
+})
+
+const mongoose = require('mongoose')
+const app = require('../app');
+
+const DEVELOPMENT = process.env.NODE_ENV === 'dev'
+const DB_STRING = DEVELOPMENT ?
+  'mongodb://localhost:27017/gcmmdevlocal' :
+  process.env.DB_PROD
+const DB_PASSWORD = DEVELOPMENT ?
+  process.env.DB_PASSWORD_DEV :
+  process.env.DB_PASSWORD_DEV
+
+const DB = DB_STRING.replace('<PASSWORD>', DB_PASSWORD)
+
+const port = process.env.port * 1 || 9876
+mongoose.connect(DB, {}).then(connection => console.log('DB connected successfully'))
+
+
+const server = app.listen(port, () => {
+  console.log(`listening on port ${port}`)
+})
+
+process.on('unhandledRejection', err => {
+  console.log(err)
+  console.log('UNHANDLED REJECTION SHUTTING DOWN')
+  server.close(() => process.exit(1))
+})

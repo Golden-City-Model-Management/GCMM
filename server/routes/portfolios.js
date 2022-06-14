@@ -1,7 +1,6 @@
 
 
 const express = require('express');
-const multer = require('multer')
 const router = express.Router();
 const { 
   protect, 
@@ -15,7 +14,7 @@ const {
 
 router.route('/')
 .get(getAllPortfolios)
-.post(protect(), restrict('admin', 'manager'), multer, addPortfolio)
+.post(protect(), restrict('admin', 'manager'), addPortfolio)
 
 router.route('/:modelId/:imageId')
 .delete(protect(), restrict('admin', 'manager'), deletePortfolio)

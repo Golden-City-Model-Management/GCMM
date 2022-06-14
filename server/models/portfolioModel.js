@@ -8,20 +8,9 @@ const portfolioSchema = new mongoose.Schema({
     ref: 'Model',
     required: [true, 'Please specify the model this portfolio image belongs to!'],
   },  
-  original:{
-    type: String
-  },
-  small:{
-    type: String,
-    required: [true, 'Please specify the path to the image!']
-  },  
-  medium: {
-    type: String,
-    required: [true, 'Please specify the path to the image!']
-  }, 
-  large: {
-    type: String,
-    required: [true, 'Please specify the path to the image!']
+  image: {
+   type: String,
+   required: [true, 'Please specify the path to the image!']
   }, 
   createdAt: {
     type: Date,

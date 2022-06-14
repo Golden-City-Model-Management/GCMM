@@ -4,10 +4,22 @@ const Portfolio = require('../models/portfolioModel')
 const CustomError = require('../utils/errorUtils')
 
 const polaroidSchema = new mongoose.Schema({
-  full_length: String,
-  waist_up: String,
-  close_up: String,
-  profile: String,
+  full_length: {
+    type: String,
+    default: '',
+  },
+  waist_up: {
+    type: String,
+    default: '',
+  },
+  close_up: {
+    type: String,
+    default: '',
+  },
+  profile: {
+    type: String,
+    default: '',
+  },
 })
 const modelSchema = new mongoose.Schema({
   name: {
@@ -43,48 +55,18 @@ const modelSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Please specify the shoe size']
   },
-  polaroids: {
-    full_length: {
-      type: String,
-      default: ''
-    },
-    waist_up: {
-      type: String,
-      default: ''
-    },
-    close_up: {
-      type: String,
-      default: ''
-    },
-    profile: {
-      type: String,
-      default: ''
-    },
-  },
+  polaroids: polaroidSchema,
   createdAt: {
     type: Date,
     default: Date.now
   },
   extra_polaroids: {
-    type: [{
-      full_length: {
-        type: String,
-        default: ''
-      },
-      waist_up: {
-        type: String,
-        default: ''
-      },
-      close_up: {
-        type: String,
-        default: ''
-      },
-      profile: {
-        type: String,
-        default: ''
-      }
-    }],
+    type: [polaroidSchema],
     validate: [validateLength, 'No more than 2 extra sets polaroids are allowed!']
+  },
+  isActive: {
+    type: Boolean,
+    default: true
   }
 },
   {

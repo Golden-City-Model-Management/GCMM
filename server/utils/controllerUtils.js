@@ -86,7 +86,7 @@ const getAllDocuments = (Model) => {
       .sort()
       .limitFields()
       .paginate().query
-    return createResponse(res, 200, 'success', {total_count: docs.length, docs})
+    return createResponse(res, 200, 'success', 'Documents fetched', {total_count: docs.length, docs})
   })
 }
 module.exports = {

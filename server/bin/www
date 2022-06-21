@@ -14,7 +14,7 @@ const DB_STRING = DEVELOPMENT ?
   process.env.DB_PROD
 const DB_PASSWORD = DEVELOPMENT ?
   process.env.DB_PASSWORD_DEV :
-  process.env.DB_PASSWORD_DEV
+  process.env.DB_PASSWORD_PROD
 
 const DB = DB_STRING.replace('<PASSWORD>', DB_PASSWORD)
 

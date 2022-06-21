@@ -19,7 +19,14 @@ const DB_PASSWORD = DEVELOPMENT ?
 const DB = DB_STRING.replace('<PASSWORD>', DB_PASSWORD)
 
 const port = process.env.port * 1 || 9876
-mongoose.connect(DB, {}).then(connection => console.log('DB connected successfully'))
+mongoose.connect(DB, {
+  useFindAndModify: false,
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
+  replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
+}).then(connection => console.log('DB connected successfully'))
 
 
 const server = app.listen(port, () => {

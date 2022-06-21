@@ -18,7 +18,7 @@ const DB_PASSWORD = DEVELOPMENT ?
 
 const DB = DB_STRING.replace('<PASSWORD>', DB_PASSWORD)
 
-const port = process.env.port || 9876
+const port = process.env.PORT || 9876
 mongoose.connect(DB, {}).then(connection => console.log('DB connected successfully'))
 
 

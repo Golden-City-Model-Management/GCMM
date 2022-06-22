@@ -19,7 +19,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(compression({filter: shouldCompress}))
+app.use(compression())
  
 function shouldCompress(req, res) {
   if (req.headers['x-no-compression']) {

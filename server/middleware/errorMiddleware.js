@@ -11,6 +11,7 @@ const throwDevError = (err, res) => {
   })
 }
 const throwProdError = (err, res) => {
+  console.log(err)
   err.isOperational ?
     res.status(err.statusCode).json({
       status: err.status,

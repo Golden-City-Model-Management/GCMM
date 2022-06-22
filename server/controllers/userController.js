@@ -46,15 +46,13 @@ module.exports.getAllUsers = getAllDocuments(User)
 
 module.exports.loginUser = asyncHelper(async (req, res, next) => {
   const {
-    email,
+    userName,
     password
   } = req.body
-  if (!email || !password) {
+  if (!password || !userName) {
     return next(createCustomError('Please specify all required fields', 400))
   }
-  const user = await User.findOne({
-    email 
-  }).select('+isVerified +password')
+  const user =  await User.findOne({$or:[{userName: userName}, {email: userName}]}).select('+isVerified +password') 
   if (!user) {
     return next(createCustomError('Invalid credentials', 401))
   }

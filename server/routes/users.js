@@ -25,9 +25,9 @@ router.use('/me', meRouter)
 meRouter.patch ('/change-password', protect('+password'), changePassword);
 meRouter.patch('/change-email', protect('+active'),  changeEmail)
 meRouter.patch('/', protect(), editProfile);
-router.post('/',createNewUser);
 
 router.use(protect(), restrict('admin'))
 router.delete('/:id',handleDelete)
+router.post('/',createNewUser);
 router.get('/', getAllUsers)
 module.exports = router;

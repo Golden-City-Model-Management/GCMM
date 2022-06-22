@@ -14,10 +14,10 @@ const OAuth2 = google.auth.OAuth2;
 const oauth2Client = new OAuth2(
   process.env.OAUTH_CLIENTID,
   process.env.OAUTH_CLIENT_SECRET,
-  "https://developers.google.com/oauthplayground" // Redirect URL
+  process.env.REDIRECT_URL,
 ); 
 oauth2Client.setCredentials({
-  refresh_token: "1//04ExdzvnInwrXCgYIARAAGAQSNwF-L9IrJS5rddVmUx_25uqA6dm0s_5hZBrHAJYWO9wG9cp9WBAIXkxsFvXnAdMkqq5F-AypjIY"
+  refresh_token: process.env.OAUTH_REFRESH_TOKEN
 });
 const accessToken = oauth2Client.getAccessToken()
 
@@ -80,7 +80,6 @@ module.exports = class {
     return this
   }
   async sendEmail() {
-    console.log('sending')
     return new Promise((resolve, reject) => {
       transporter.sendMail(this.mailOptions, (err, info) => {
         if (err) {

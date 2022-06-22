@@ -1,6 +1,7 @@
 
 
 const nodemailer = require('nodemailer')
+const { google } = require("googleapis");
 const path = require('path')
 const pug = require('pug');
 const dotenv = require('dotenv')
@@ -8,6 +9,17 @@ const { convert } = require('html-to-text')
 dotenv.config({
   path: './.env'
 })
+
+const OAuth2 = google.auth.OAuth2;
+const oauth2Client = new OAuth2(
+  process.env.OAUTH_CLIENTID,
+  process.env.OAUTH_CLIENT_SECRET,
+  "https://developers.google.com/oauthplayground" // Redirect URL
+); 
+oauth2Client.setCredentials({
+  refresh_token: "1//04ExdzvnInwrXCgYIARAAGAQSNwF-L9IrJS5rddVmUx_25uqA6dm0s_5hZBrHAJYWO9wG9cp9WBAIXkxsFvXnAdMkqq5F-AypjIY"
+});
+const accessToken = oauth2Client.getAccessToken()
 
 let transporter
 if (process.env.NODE_ENV === 'dev') {
@@ -24,6 +36,7 @@ if (process.env.NODE_ENV === 'dev') {
     },
   })
 } else {
+
   transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -32,14 +45,14 @@ if (process.env.NODE_ENV === 'dev') {
       pass: process.env.EMAIL_PASSWORD_PROD,
       clientId: process.env.OAUTH_CLIENTID,
       clientSecret: process.env.OAUTH_CLIENT_SECRET,
-      refreshToken: process.env.REFRESH_TOKEN,
-      accessToken: process.env.OAUTH_ACCESS_TOKEN
-    },
+      refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+      accessToken: accessToken
+    },  
     lessSecureApp: true,
     tls: {
       rejectUnauthorized: false,
     }
-  })
+  }) 
 }
 
 module.exports = class {

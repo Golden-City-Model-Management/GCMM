@@ -93,6 +93,7 @@ module.exports = class {
             info
           })
         }
+        transporter.close()
       })
     })
   }

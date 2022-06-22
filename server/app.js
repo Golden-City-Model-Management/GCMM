@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const dotenv = require('dotenv')
+const compression = require('compression')
 const CustomError = require('./utils/errorUtils')
 const globalErrorHandler = require('./middleware/errorMiddleware')
 const modelsRouter = require('./routes/models');
@@ -18,6 +19,14 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(compression({filter: shouldCompress}))
+ 
+function shouldCompress(req, res) {
+  if (req.headers['x-no-compression']) {
+    return false
+  }
+ return compression.filter(req, res)
+}
 // app.use(verifyClient)
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/models', modelsRouter)

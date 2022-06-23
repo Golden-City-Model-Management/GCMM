@@ -21,6 +21,12 @@ const polaroidSchema = new mongoose.Schema({
     default: '',
   },
 })
+const socialsSchema = new mongoose.Schema({
+  instagram: String,
+  facebook: String,
+  twitter: String,
+  tiktok: String,
+})
 const modelSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -39,6 +45,10 @@ const modelSchema = new mongoose.Schema({
   cover_image: {
     type: String,
     required: [true, 'Please add a cover image!']
+  },
+  socials: {
+    type: socialsSchema,
+    required: [true, 'Pleae provide the model\'s social media handles']
   },
   bust: Number,
   hips: Number, 

@@ -57,10 +57,15 @@ module.exports.loginUser = asyncHelper(async (req, res, next) => {
   }
   isMatch.password = undefined
   isMatch.isVerified = undefined
+  const token = await user.generateAuthToken()
+  res.cookie("access_token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+  })
   req.statusCode = 200
   req.status = 'success'
   req.message = 'Login successful'
-  req.data = {user: isMatch}
+  req.data = {user: isMatch, token}
   next()
 })
 

@@ -57,11 +57,20 @@ module.exports.loginUser = asyncHelper(async (req, res, next) => {
   }
   isMatch.password = undefined
   isMatch.isVerified = undefined
+  isMatch.passwordResetExpires = undefined
+  isMatch.passwordResetToken = undefined
+
   const token = await user.generateAuthToken()
-  res.cookie("access_token", token, {
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() * 90 *24 * 60 * 60 * 1000
+    ),
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-  })
+    secure: true
+  }
+  if((req.secure || req.headers['x-forwarded-proto'] === 'https')){
+    res.cookie("access_token", token, cookieOptions )
+  }
   req.statusCode = 200
   req.status = 'success'
   req.message = 'Login successful'

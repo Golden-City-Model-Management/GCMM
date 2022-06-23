@@ -1,0 +1,3 @@
+[submodule "client"]
+	path = client
+	url = https://github.com/Golden-City-Model-Management/GCMM.git

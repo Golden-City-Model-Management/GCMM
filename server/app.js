@@ -10,6 +10,7 @@ const portfoliosRouter = require('./routes/portfolios');
 const { verifyClient } = require('./middleware/authMiddleware')
 
 const app = express();
+app.enable('trust proxy')
 dotenv.config({
   path: `${__dirname}/.env`
 })

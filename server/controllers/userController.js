@@ -66,11 +66,9 @@ module.exports.loginUser = asyncHelper(async (req, res, next) => {
       Date.now() * 90 *24 * 60 * 60 * 1000
     ),
     httpOnly: true,
-    secure: true
-  }
-  if((req.secure || req.headers['x-forwarded-proto'] === 'https')){
-    res.cookie("access_token", token, cookieOptions )
-  }
+    secure: (req.secure || req.headers['x-forwarded-proto'] === 'https')
+    }
+  res.cookie("access_token", token, cookieOptions )
   req.statusCode = 200
   req.status = 'success'
   req.message = 'Login successful'

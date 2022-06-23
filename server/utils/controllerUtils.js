@@ -15,13 +15,9 @@ const createMailOptions = (from, to, subject) => {
     subject
   }
 }
-const createResponse = (res, statusCode, status, message, data) => {
+const createResponse = (res, statusCode, data) => {
   return res.status(statusCode).json({
-    status: status,
-    data: {
-      message,
-      data
-    }
+    data
   })
 }
 const createCustomError = (message, code) => {
@@ -50,15 +46,25 @@ const editDocument = (excludedFields, document) => {
     editFields(document, fieldsToChange, req.body)
     const saved = await document.save()
     if (!saved) { return next(createCustomError('Unable to update profile! Please try again later', 500)) }
-    return createResponse(res, 203, 'success', 'Successfully updated profile!', saved)
+    // return createResponse(res, 203, {
+    //   status: 'success', message: 'Successfully updated profile!', saved})
+    req.statusCode = 200
+    req.status = 'success'
+    req.message = 'Successfully updated!'
+    req.data = { doc: {...saved} }
+    return next()
   })
 }
 const deleteDocument = (Model, queryKey, queryValue) => {
   return asyncHelper(async (_, res, next) => {
     const document = await Model.findOneAndDelete({ [queryKey]: queryValue })
     if (!document) return next(createCustomError('Unable to perform request. Resource not found', 404))
-    createResponse(res, 204, 'success', 'Successfully deleted user',)
-    return true
+    // createResponse(res, 204,
+    //   { status: 'success', message: 'Successfully deleted user',})
+    req.statusCode = 204
+    req.status = 'success'
+    req.message = 'Successfully deleted!'
+    return next()
   })
 }
 const handleDocDelete = (Model, queryKey) => {
@@ -69,10 +75,22 @@ const handleDocDelete = (Model, queryKey) => {
       return deleteDocument(Model, queryKey, isSingleDelete)(req, res, next)
     } else if (isMultipleDelete) {
       const docs = await Model.deleteMany({ [queryKey]: { $in: isMultipleDelete } })
+      req.sttusCode = 204
+      req.status = 'success'
       if(docs.deletedCount < isMultipleDelete.length){
-           return createResponse(res, 200, 'success', 'Not all documents were deleted. Likely because the documents do not exist', {})
+          //  return createResponse(res, 204, {
+          //    status:  'success', 
+          //    message: 'Not all documents were deleted. Likely because the documents do not exist'
+          //  })
+          req.message = 'Not all documents were deleted. Likely because the documents do not exist'
+          return next()
       }
-      return createResponse(res, 204, 'success', 'Successfully deleted.',)
+      // return createResponse(res, 204, {
+      //   status:  'success',
+      //   message:  'Successfully deleted.',
+      // })
+      req.message = 'Successfully deleted!'
+      return next()
     } else {
       return next(createCustomError('Bad request!', 401))
     }
@@ -86,7 +104,20 @@ const getAllDocuments = (Model) => {
       .sort()
       .limitFields()
       .paginate().query
-    return createResponse(res, 200, 'success', 'Documents fetched', {total_count: docs.length, docs})
+    // return createResponse(res, 200, {
+    //   status: 'success', 
+    //   message: 'Documents fetched', 
+    //   total_count: docs.length,
+    //   docs
+    // })
+    req.statusCode = 200 
+    req.status = 'success'
+    req.message = 'Documents fetched'
+    req.data = {
+      total_count: docs.length,
+      docs
+    }
+    return next()
   })
 }
 module.exports = {

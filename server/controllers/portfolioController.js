@@ -27,19 +27,35 @@ module.exports.addPortfolio = asyncHelper(async (req, res, next) => {
     }
     if(saved.length !== reqImages.length)next(createCustomError('Unable to add all images!', 500))
     const images = await Promise.all(saved)
-    return createResponse(res, 201, 'success', 'Successfully added portfolio images!', images)
+    // return createResponse(res, 201, {status: 'success', message: 'Successfully added portfolio images!', images})
+    req.statusCode = 201
+    req.status = 'success'
+    req.message = 'Successfully added images'
+    req.data ={images}
+    next()
   }
   if(image){
     if(typeof(image) !== 'string') return next(createCustomError('Please specify a string for the image!', 400))
   const doc = await createDocument(Portfolio, req.body)(req, res, next)
-  return createResponse(res, 201, 'success', 'Successfully added portfolio image!', doc)    
+  // return createResponse(res, 201, {status: 'success', message: 'Successfully added portfolio image!', doc})   
+  req.statusCode = 201
+  req.status = 'success'
+  req.message = 'Image added sucessfully'
+  req.data = {doc} 
   }
 }) 
  
 module.exports.deletePortfolio = asyncHelper(async(req,res,next) => {
   const { modelId } = req.params
   const model = await Model.findOne({_id: modelId})
-  if(!model) return createResponse(res, 404, 'error', 'Model not found!')
+  if(!model) {
+    req.statusCode = 404
+    req.status = 'failed'
+    req.message = 'Model not found!'
+    return next()
+    // createResponse(res, 404, {status: 'error', message: 'Model not found!'
+  // })
+}
   await handleDocDelete(Portfolio, 'imageId')(req, res, next)
 })
 

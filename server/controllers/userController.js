@@ -20,7 +20,11 @@ module.exports.createNewUser = asyncHelper(async (req, res, next) => {
   const options = {user: newUserData, links}
   const emailSent = await sendEmail(mailOptions, 'newUser', options, {})
   if (emailSent.response === 'success') {
-    return createResponse(res, 201, 'success', 'User created successfully', user)
+    return createResponse(res, 201, {
+      status: 'success', 
+      message: 'User created successfully', 
+      user
+    })
   } else {
     await User.findOneAndDelete({
       email
@@ -67,13 +71,11 @@ module.exports.loginUser = asyncHelper(async (req, res, next) => {
   }
   isMatch.password = undefined
   isMatch.isVerified = undefined
-  return res.status(200).json({
-    status: 'success',
-    data: {
-      token: await user.generateAuthToken(),
-      user: isMatch
-    }
-  })
+  req.statusCode = 200
+  req.status = 'success'
+  req.message = 'Login successful'
+  req.data = {user: isMatch}
+  next()
 })
 
 module.exports.verifyUser = asyncHelper(async (req, res, next) => {
@@ -88,7 +90,14 @@ module.exports.verifyUser = asyncHelper(async (req, res, next) => {
   user.isVerified = true
   const saved = await user.save()
   if (!saved) return next(createCustomError('Unable to verify email', 500))
-  return createResponse(res, 200, 'success', 'Email verified successfully')
+  // return createResponse(res, 200, {
+  //   status: 'success', 
+  //   message: 'Email verified successfully',
+  // })
+  req.statusCode = 200
+  req.status = 'success'
+  req.message = 'Email verified successfully'
+  next()
 })
 
 module.exports.forgotPassword = asyncHelper(async (req, res, next) => {
@@ -114,7 +123,15 @@ module.exports.forgotPassword = asyncHelper(async (req, res, next) => {
   if (emailSent.response === 'success') {
     const saved = await user.save({ validateBeforeSave: false })
     if (!saved) return next(createCustomError('Unable to reset your password. Please try again later!', 500))
-    return createResponse(res, 200, 'success', 'A Password Reset link has been sent to your email.')
+    // return createResponse(res, 200, 
+    //   {
+    //     status: 'success',
+    //     message:  'A Password Reset link has been sent to your email.'
+    //   })
+    req.statusCode = 200
+    req.status = 'success'
+    req.message = 'A Password Reset link has been sent to your email.'
+    next()
   } else {
     return next(createCustomError('Unable to reset password. Please try again', 500))
   }
@@ -138,7 +155,14 @@ module.exports.passwordReset = asyncHelper(async (req, res, next) => {
   user.passwordResetToken = undefined
   const saved = await user.save()
   if (!saved) return next(createCustomError('Unable to reset your password. Please try again', 500))
-  return createResponse(res, 200, 'success', 'Your password has successfully been reset')
+  // return createResponse(res, 200, {
+  //   status: 'success', 
+  //   message: 'Your password has successfully been reset',
+  // })
+  req.statusCode = 200
+  req.status = 'success'
+  req.message = 'Your password has successfully been reset.'
+  next()
 })
 
 module.exports.changePassword = asyncHelper(async (req, res, next) => {
@@ -153,7 +177,14 @@ module.exports.changePassword = asyncHelper(async (req, res, next) => {
   await user.hashKeys('password')
   const saved = await user.save()
   if (!saved) return next(createCustomError('Unable to change your password! Please try again later', 500))
-  return createResponse(res, 203, 'success', 'Password changed successfully!')
+  // return createResponse(res, 203, {
+  //   status: 'success', 
+  //   message: 'Password changed successfully!',
+  // })
+  req.statusCode = 200
+  req.status = 'success'
+  req.message = 'Password changed successfully.'
+  next()
 })
 
 module.exports.changeEmail = asyncHelper(async (req, res, next) => {
@@ -166,7 +197,14 @@ module.exports.changeEmail = asyncHelper(async (req, res, next) => {
     user.isVerified = false
     const saved = await user.save()
     if (!saved) return next(createCustomError('Unable to update email! Please try again', 500))
-    return createResponse(res, 203, 'success', 'Please check your new email for a verification link')
+    // return createResponse(res, 203, {
+    //   status:  'success', 
+    //   message: 'Please check your new email for a verification link',
+    // })
+    req.statusCode = 200
+    req.status = 'success'
+    req.message = 'A verification link has been sent to your email.'
+    next()
   } else return next(createCustomError('Unable to update your email! Please try again later!', 500))
 })
 

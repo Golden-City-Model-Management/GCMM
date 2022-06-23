@@ -3,7 +3,6 @@ const User = require('../models/userModel')
 const { asyncHelper } = require('../utils/asyncUtils')
 const {
   createMailOptions,
-  createResponse,
   createCustomError,
   createDocument,
   getAllDocuments,
@@ -20,11 +19,11 @@ module.exports.createNewUser = asyncHelper(async (req, res, next) => {
   const options = {user: newUserData, links}
   const emailSent = await sendEmail(mailOptions, 'newUser', options, {})
   if (emailSent.response === 'success') {
-    return createResponse(res, 201, {
-      status: 'success', 
-      message: 'User created successfully', 
-      user
-    })
+    req.statusCode = 201
+    req.status = 'success'
+    req.message = 'User successfully created'
+    req.data = {user}
+    return next()
   } else {
     await User.findOneAndDelete({
       email
@@ -34,19 +33,6 @@ module.exports.createNewUser = asyncHelper(async (req, res, next) => {
 })
 module.exports.handleDelete = asyncHelper(handleDocDelete(User, 'id'))
 module.exports.getAllUsers = getAllDocuments(User)
-
-// CRUD Operations for users above
-
-/*
- * 
- * 
-\\\\\\\\\\\\\\\\\\**************\\\\\\\\\\\\\\\
-\\\\\\\\\\\\\\\\\\**************\\\\\\\\\\\\\\\\\
-*
-*
-*/
-
-// Authentication and verification Logic below
 
 module.exports.loginUser = asyncHelper(async (req, res, next) => {
   const {
@@ -90,10 +76,6 @@ module.exports.verifyUser = asyncHelper(async (req, res, next) => {
   user.isVerified = true
   const saved = await user.save()
   if (!saved) return next(createCustomError('Unable to verify email', 500))
-  // return createResponse(res, 200, {
-  //   status: 'success', 
-  //   message: 'Email verified successfully',
-  // })
   req.statusCode = 200
   req.status = 'success'
   req.message = 'Email verified successfully'
@@ -123,11 +105,6 @@ module.exports.forgotPassword = asyncHelper(async (req, res, next) => {
   if (emailSent.response === 'success') {
     const saved = await user.save({ validateBeforeSave: false })
     if (!saved) return next(createCustomError('Unable to reset your password. Please try again later!', 500))
-    // return createResponse(res, 200, 
-    //   {
-    //     status: 'success',
-    //     message:  'A Password Reset link has been sent to your email.'
-    //   })
     req.statusCode = 200
     req.status = 'success'
     req.message = 'A Password Reset link has been sent to your email.'
@@ -155,10 +132,6 @@ module.exports.passwordReset = asyncHelper(async (req, res, next) => {
   user.passwordResetToken = undefined
   const saved = await user.save()
   if (!saved) return next(createCustomError('Unable to reset your password. Please try again', 500))
-  // return createResponse(res, 200, {
-  //   status: 'success', 
-  //   message: 'Your password has successfully been reset',
-  // })
   req.statusCode = 200
   req.status = 'success'
   req.message = 'Your password has successfully been reset.'
@@ -177,10 +150,6 @@ module.exports.changePassword = asyncHelper(async (req, res, next) => {
   await user.hashKeys('password')
   const saved = await user.save()
   if (!saved) return next(createCustomError('Unable to change your password! Please try again later', 500))
-  // return createResponse(res, 203, {
-  //   status: 'success', 
-  //   message: 'Password changed successfully!',
-  // })
   req.statusCode = 200
   req.status = 'success'
   req.message = 'Password changed successfully.'
@@ -197,10 +166,6 @@ module.exports.changeEmail = asyncHelper(async (req, res, next) => {
     user.isVerified = false
     const saved = await user.save()
     if (!saved) return next(createCustomError('Unable to update email! Please try again', 500))
-    // return createResponse(res, 203, {
-    //   status:  'success', 
-    //   message: 'Please check your new email for a verification link',
-    // })
     req.statusCode = 200
     req.status = 'success'
     req.message = 'A verification link has been sent to your email.'

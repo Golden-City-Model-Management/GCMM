@@ -53,8 +53,6 @@ module.exports.deletePortfolio = asyncHelper(async(req,res,next) => {
     req.status = 'failed'
     req.message = 'Model not found!'
     return next()
-    // createResponse(res, 404, {status: 'error', message: 'Model not found!'
-  // })
 }
   await handleDocDelete(Portfolio, 'imageId')(req, res, next)
 })

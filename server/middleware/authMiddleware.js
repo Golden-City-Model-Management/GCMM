@@ -15,10 +15,11 @@ console.log(token)
 })
 
 module.exports.protect = (...fields) => (asyncHelper(async (req, res, next) => {
+  const access_token = req.cookies.access_token;
   const auth = req.headers.authorization
-  if (!auth)
+  if (!auth && !access_token)
     return next(new CustomError('Unauthorized!', 401))
-  const token = auth.split(' ')[1]
+  const token = access_token || auth.split(' ')[1]
   const verified = verifyJWT(token)
   if (!verified) return next(new CustomError('Unauthorized!', 401))
   const user = await User.findById(verified.id).select(fields.join(' '))
@@ -33,5 +34,7 @@ module.exports.restrict = (...roles) => {
       next(new CustomError('You are not authorized to perform this action', 403))
     else  next()
     }
- 
+}
+module.exports.logout = (req, res) => {
+  return res.clearCookie('access_token').status(200).json({message: 'Logout successful!'})
 }

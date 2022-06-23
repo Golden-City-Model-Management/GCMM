@@ -31,7 +31,7 @@ process.on('unhandledRejection', err => {
   console.log('UNHANDLED REJECTION SHUTTING DOWN')
   server.close(() => process.exit(1))
 })
-process.onn('SIGTERM', () => {
+process.on('SIGTERM', () => {
   console.log('SIGTERM RECIEVED. Shutting down...')
   server.close(() => {
     console.log('Process terminated')

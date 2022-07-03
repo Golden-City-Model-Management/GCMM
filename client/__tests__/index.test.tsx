@@ -25,15 +25,14 @@ describe('Home page is rendered with appropriate elements', () => {
 
   it('renders gallery section with heading and links', () => {
     render(<Home />)
-    const heading = screen.getByRole('heading', {
-      name: /talent at its finest/i,
-    })
-    expect(heading).toBeInTheDocument()
     const gallery = screen.getByTestId('gallery')
-    expect(gallery).toBeInTheDocument()
+    const heading = screen.getByRole('heading', {name: /talent at its finest/i})
     const galleryLink = gallery.getElementsByTagName('a')[0]
+    const galleryHref = new URL(galleryLink.href)
+
+    expect(heading).toBeInTheDocument()
+    expect(gallery).toBeInTheDocument()
     expect(galleryLink).toBeInTheDocument()
-    const linkToGallery = new URL(galleryLink.href)
-    expect(linkToGallery.pathname.split('/')[1]).toBe("gallery")
+    expect(galleryHref.pathname.split('/')[1]).toBe("gallery")
   })
 })

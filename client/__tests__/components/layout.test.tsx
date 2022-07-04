@@ -2,6 +2,7 @@
 
 
 import { screen, render } from '@testing-library/react';
+import  userEvent from '@testing-library/user-event'
 import  LayoutOne  from '@/components/layout/LayoutOne';
 import  LayoutTwo  from '@/components/layout/LayoutTwo';
 import { LayoutProps } from '@/components/layout/layout.types';
@@ -56,14 +57,23 @@ const props: LayoutProps = {
   pageFavicon: 'https://via.placeholder.com/300x300'
 }
 
-describe('Renders Layout One', () => {
-  it('Navigation is present and rendered semantically', testLayout(LayoutOne, props));
-  it('renders a header element with the logo', testLogo(LayoutOne, props));
-  it('renders children outside of navigation', testChildren(LayoutOne, props));
-}) 
+// describe('Renders Layout One', () => {
+//   it('Navigation is present and rendered semantically', testLayout(LayoutOne, props));
+//   it('renders a header element with the logo', testLogo(LayoutOne, props));
+//   it('renders children outside of navigation', testChildren(LayoutOne, props));
+// }) 
 
 describe('Renders Layout Two', () => {
-  it('Navigation is present and rendered semantically', testLayout(LayoutTwo, props));
   it('renders a header element with the logo', testLogo(LayoutTwo, props));
   it('renders children outside of navigation', testChildren(LayoutTwo, props));
+  it('renders functional menu button', async () => {
+    render(<RenderWithProps Layout={LayoutTwo} props={props} />)
+    const menuButton = screen.getByRole('button', {name: /menu/i})
+    expect(menuButton).toBeInTheDocument()
+    await userEvent.click(menuButton)
+    const nav = screen.getByRole('navigation')
+    expect(nav).toBeInTheDocument()
+    await userEvent.click(menuButton)
+    expect(nav).not.toBeInTheDocument()
+  })
 })

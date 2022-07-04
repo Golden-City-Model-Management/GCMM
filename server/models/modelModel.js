@@ -21,6 +21,12 @@ const polaroidSchema = new mongoose.Schema({
     default: '',
   },
 })
+const socialsSchema = new mongoose.Schema({
+  instagram: String,
+  facebook: String,
+  twitter: String,
+  tiktok: String,
+})
 const modelSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -40,6 +46,10 @@ const modelSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please add a cover image!']
   },
+  socials: {
+    type: socialsSchema,
+    required: [true, 'Pleae provide the model\'s social media handles']
+  },
   bust: Number,
   hips: Number, 
   waist: {
@@ -55,11 +65,7 @@ const modelSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Please specify the shoe size']
   },
-  polaroids: polaroidSchema,
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
+  polaroids: polaroidSchema, 
   extra_polaroids: {
     type: [polaroidSchema],
     validate: [validateLength, 'No more than 2 extra sets polaroids are allowed!']
@@ -77,7 +83,8 @@ const modelSchema = new mongoose.Schema({
         return ret
       }
       },
-    toObject: { virtuals: true }
+    toObject: { virtuals: true },
+    timestammps: true,
   }
   )
 

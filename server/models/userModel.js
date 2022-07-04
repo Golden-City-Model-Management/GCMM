@@ -53,12 +53,12 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
     select: false
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
-})
+  }, 
+},
+{
+  timestammps: true,
+}
+)
 userSchema.pre('save', async function(next){ 
   if(!this.isModified('password')) return next()
   await this.hashKeys('password')

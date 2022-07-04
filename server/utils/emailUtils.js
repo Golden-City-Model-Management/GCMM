@@ -15,13 +15,22 @@ const oauth2Client = new OAuth2(
   process.env.OAUTH_CLIENTID,
   process.env.OAUTH_CLIENT_SECRET,
   process.env.REDIRECT_URL,
-); 
+);  
 oauth2Client.setCredentials({
   refresh_token: process.env.OAUTH_REFRESH_TOKEN
 });
-const accessToken = oauth2Client.getAccessToken()
 
-let transporter
+const accessToken = async () => await new Promise((resolve, reject) => {
+  oauth2Client.getAccessToken((err, token) => {
+    if (err) {
+      reject();
+    }
+    resolve(token);
+  });
+});
+// const accessToken = oauth2Client.getAccessToken()
+
+let transporter 
 if (process.env.NODE_ENV === 'dev') {
   transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST_DEV,
@@ -47,7 +56,7 @@ if (process.env.NODE_ENV === 'dev') {
       clientSecret: process.env.OAUTH_CLIENT_SECRET,
       refreshToken: process.env.OAUTH_REFRESH_TOKEN,
       accessToken: accessToken
-    },  
+    },    
     lessSecureApp: true,
     tls: {
       rejectUnauthorized: false,

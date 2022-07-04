@@ -1,39 +1,7 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@exploitenomah 
-exploitenomah
-/
-370d88
-Private
-generated from hatchways/messenger-starter-frontend
-Code
-Issues
-1
-Pull requests
-1
-Actions
-Projects
-Security
-Insights
-Settings
-370d88/.github/workflows/ci.yml
-@exploitenomah
-exploitenomah Initial commit
-Latest commit ea25329 on 13 May
- History
- 1 contributor
-66 lines (56 sloc)  1.82 KB
 
 name: example-basic
 on: [push]
-env:
-  DATABASE_URL: postgres://postgres:now3ef239vlkn@localhost:5432/postgres
-  SESSION_SECRET: werviu239823
+
 jobs:
   test:
     runs-on: ubuntu-latest

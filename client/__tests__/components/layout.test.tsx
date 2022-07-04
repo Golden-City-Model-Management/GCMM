@@ -21,17 +21,22 @@ const RenderWithProps = (
   )
 }
 
+const testSemanticNav = () => {
+  const navLinks = screen.getAllByRole('link')
+  const listItems = []
+  navLinks.forEach(el => {
+   if(el.closest('ul')) 
+     listItems.push(el.closest('li'))
+  })
+  expect(navLinks.length).toBeGreaterThanOrEqual(listItems.length)
+}
+
 const testLayout = (Layout: React.ComponentType<LayoutProps>, props:LayoutProps) => {
   return  () => {
     render(<RenderWithProps Layout={Layout} props={props} />);
-      const nav = screen.getByRole('navigation')
-      const navLinks = screen.getAllByRole('link')
-      const listItems = []
-      navLinks.forEach(el => {
-       listItems.push(el.closest('li'))
-      })
-      expect(navLinks.length).toBeGreaterThanOrEqual(listItems.length)
-      expect(nav).toBeInTheDocument()
+    const nav = screen.getByRole('navigation')
+    testSemanticNav()
+    expect(nav).toBeInTheDocument()
  }
 }
 const testLogo = (Layout: React.ComponentType<LayoutProps>, props: LayoutProps) => {
@@ -47,8 +52,8 @@ const testChildren = (Layout: React.ComponentType<LayoutProps>, props: LayoutPro
     const children = screen.getByText(/children/i)
     expect(children).toBeInTheDocument()
     expect(children.closest('nav')).not.toBeInTheDocument()
+    expect(children.closest('header')).not.toBeInTheDocument()
   }
-
 }
 const props: LayoutProps = {
   children: <div>Children</div>,
@@ -66,7 +71,7 @@ describe('Renders Layout One', () => {
 describe('Renders Layout Two', () => {
   it('renders a header element with the logo', testLogo(LayoutTwo, props));
   it('renders children outside of navigation', testChildren(LayoutTwo, props));
-  it('renders functional menu button', async () => {
+  it('renders functional menu button and toggles navigation onclick of menu button', async () => {
     render(<RenderWithProps Layout={LayoutTwo} props={props} />)
     const menuButton = screen.getByRole('button', {name: /menu/i})
     expect(menuButton).toBeInTheDocument()
@@ -75,5 +80,14 @@ describe('Renders Layout Two', () => {
     expect(nav).toBeInTheDocument()
     await userEvent.click(menuButton)
     expect(nav).not.toBeInTheDocument()
+  })
+
+  it('renders navigation semantically', async () => {
+    render(<RenderWithProps Layout={LayoutTwo} props={props} />)
+    const nav = screen.queryByRole('navigation')
+    expect(nav).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', {name: /menu/i}))
+    expect(screen.getByRole('navigation')).toBeInTheDocument()
+    testSemanticNav()
   })
 })

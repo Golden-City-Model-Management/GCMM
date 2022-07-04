@@ -32,5 +32,5 @@ jobs:
         
       - name: Run client tests
         working-directory: client
-        run: npm test:ci
+        run: npm run test:ci
 

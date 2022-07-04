@@ -11,11 +11,11 @@ on:
     
 defaults:
  run:
-  working-directory: ./client
+  working-directory: client
   
 jobs:
   build:
-   
+
     runs-on: ubuntu-latest
 
     strategy:

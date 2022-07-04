@@ -1,31 +1,59 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@exploitenomah 
+exploitenomah
+/
+370d88
+Private
+generated from hatchways/messenger-starter-frontend
+Code
+Issues
+1
+Pull requests
+1
+Actions
+Projects
+Security
+Insights
+Settings
+370d88/.github/workflows/ci.yml
+@exploitenomah
+exploitenomah Initial commit
+Latest commit ea25329 on 13 May
+ History
+ 1 contributor
+66 lines (56 sloc)  1.82 KB
 
-name: Node.js CI
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-    
-defaults:
- run:
-  working-directory: client
-  
+name: example-basic
+on: [push]
+env:
+  DATABASE_URL: postgres://postgres:now3ef239vlkn@localhost:5432/postgres
+  SESSION_SECRET: werviu239823
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - name: Use Node.js ${{ matrix.node-version }}
-      working-directory: client
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+
+      - name: Install client dependencies
+        working-directory: client
+        run: npm install
+        
+      - name: Run client tests
+        working-directory: client
+        run: npm test
+

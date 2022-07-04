@@ -1,5 +1,5 @@
 
-
+*/rest
 */node_modules
 *.env
 server/client_secret.json

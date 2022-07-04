@@ -1,7 +1,7 @@
 
 import { LayoutProps } from './layout.types'
 
-const LayoutOne = ({ children }: LayoutProps) => {
+const LayoutTwo = ({ children }: LayoutProps) => {
 
   return (
     <>
@@ -9,4 +9,4 @@ const LayoutOne = ({ children }: LayoutProps) => {
   )
 }
 
-export default LayoutOne
+export default LayoutTwo

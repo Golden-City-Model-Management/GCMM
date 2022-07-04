@@ -57,11 +57,11 @@ const props: LayoutProps = {
   pageFavicon: 'https://via.placeholder.com/300x300'
 }
 
-// describe('Renders Layout One', () => {
-//   it('Navigation is present and rendered semantically', testLayout(LayoutOne, props));
-//   it('renders a header element with the logo', testLogo(LayoutOne, props));
-//   it('renders children outside of navigation', testChildren(LayoutOne, props));
-// }) 
+describe('Renders Layout One', () => {
+  it('Navigation is present and rendered semantically', testLayout(LayoutOne, props));
+  it('renders a header element with the logo', testLogo(LayoutOne, props));
+  it('renders children outside of navigation', testChildren(LayoutOne, props));
+}) 
 
 describe('Renders Layout Two', () => {
   it('renders a header element with the logo', testLogo(LayoutTwo, props));

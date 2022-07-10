@@ -3,6 +3,23 @@
 
 import { createTheme } from '@mui/material/styles';
 
+const styleOverrides = {
+  "*, *::before, *::after": {
+    boxSizing: "border-box",
+  },
+  html: { fontSize: "62.5%",
+  '@media (min-width: 600px)': {
+    fontSize: "75%",
+  },
+  '@media (min-width: 900px)': {
+    fontSize: "100%",
+  },
+  '@media (min-width: 1700px)': {
+    fontSize: "115%",
+  }
+}
+}
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -71,26 +88,8 @@ const theme = createTheme({
    }
   },
   components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        "*, *::before, *::after": {
-          boxSizing: "border-box",
-        },
-        html: {
-          fontSize: "62.5%",
-          '@media (min-width: 600px)': {
-            fontSize: "75%",
-          },
-          '@media (min-width: 900px)': {
-            fontSize: "100%",
-          },
-          '@media (min-width: 1700px)': {
-            fontSize: "115%",
-          }
-        },
-      },
-    },
-  }
+    MuiCssBaseline: { styleOverrides, }
+ }
 })
 
 export default theme

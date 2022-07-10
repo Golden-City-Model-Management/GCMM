@@ -13,5 +13,8 @@ declare module '@mui/material/styles' {
   interface CustomThemeOptions extends ThemeOptions {
 
   }
+  interface BreakpointOverrides {
+    xs: false;
+  }
   export function createTheme(options?: CustomThemeOptions): CustomTheme;
 }

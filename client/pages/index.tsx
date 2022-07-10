@@ -6,7 +6,7 @@ const Home: NextPage = () => {
   
   return (
     <div>
-      <Typography  >Hello Next.js</Typography>
+      <Typography variant='h1' >Hello Next.js</Typography>
       Hello world 
     </div>
   ) 

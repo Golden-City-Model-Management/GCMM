@@ -5,7 +5,7 @@ import { screen, render } from '@testing-library/react';
 import  userEvent from '@testing-library/user-event'
 import  LayoutOne  from '@/components/layout/LayoutOne';
 import  LayoutTwo  from '@/components/layout/LayoutTwo';
-import { LayoutProps } from '@/components/layout/layout.types';
+import { LayoutProps } from '@/types/layout';
 
 const RenderWithProps = (
  { Layout, props}: {

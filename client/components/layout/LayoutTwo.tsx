@@ -1,5 +1,5 @@
 
-import { LayoutProps } from './layout.types'
+import { LayoutProps } from '../../types/layout'
 
 const LayoutTwo = ({ children }: LayoutProps) => {
 

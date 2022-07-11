@@ -1,17 +1,23 @@
-import type { NextPage } from 'next'
-import Typography from '@mui/material/Typography'
-import Header from '@/components/header/Header'
- 
-const Home: NextPage = () => {
+
+import { NextPageWithLayout } from '@/types/pages'
+import LayoutOne from '@/components/layout/LayoutOne'
+import getLayout from '@/utils/pages/getLayout'
+
+const Home: NextPageWithLayout = () => {
   
   return (
-    <div>
-      <Header showMenuBtnAlways={false} />
-      <Typography variant='caption' >Hello Next.js</Typography>
+    <div> 
       Hello world 
     </div>
-  ) 
+  )
 } 
+
+const props = {
+  pageTitle: 'Hello',
+  children: <></>
+}
+
+Home.getLayout = getLayout(LayoutOne, props)
 
 export default Home
  

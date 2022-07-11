@@ -42,7 +42,8 @@ const testLayout = (Layout: React.ComponentType<LayoutProps>, props:LayoutProps)
 const testLogo = (Layout: React.ComponentType<LayoutProps>, props: LayoutProps) => {
   return () => {
     render(<RenderWithProps Layout={Layout} props={props} />)
-    expect(screen.getByAltText(/golden city model managemnt logo. A Capital Letter C enclosing a capital letter G/i).closest('header')).toBeInTheDocument()
+    expect(screen.getByTestId(/logo mobile/i).closest('header')).toBeInTheDocument()
+    expect(screen.getByTestId(/logo desktop/i).closest('header')).toBeInTheDocument()
   }
 }
 

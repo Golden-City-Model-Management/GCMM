@@ -1,11 +1,13 @@
 
-import { useCallback } from 'react'
+
 import { LogoDesktop, LogoMobile } from '@/components/svgs/Logos';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 
+
+const logoAlt = 'golden city model managemnt logo. A Capital Letter C enclosing a capital letter G'
 
 const HideInDesktop = (
   { children, mobile } :  
@@ -58,7 +60,9 @@ const Header = ({ showMenuBtnAlways, handleMenuBtnClick,
       position="sticky" 
       sx={appBarSx} >
       <>
-      <Button variant='text'  href='/'>
+      <Button 
+      variant='text' 
+      href='/'>
         <HideInDesktop children={<LogoDesktop />} mobile={false} />
         <HideInDesktop children={<LogoMobile />} mobile={true} />
       </Button>

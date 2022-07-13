@@ -5,7 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles'
 import theme from '../styles/theme'
 import type { AppPropsWithLayout } from '@/types/pages'
-
+import UIProvider from '@/context/ui'
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
@@ -14,8 +14,10 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return(
   <>
     <ThemeProvider theme={theme}>
-     <CssBaseline enableColorScheme  />
-     {getLayout( <Component {...pageProps} />)}
+     <UIProvider>
+      <CssBaseline enableColorScheme  />
+      {getLayout( <Component {...pageProps} />)}
+     </UIProvider>
     </ThemeProvider>
   </>
   )

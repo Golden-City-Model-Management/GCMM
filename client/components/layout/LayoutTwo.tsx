@@ -1,12 +1,16 @@
+ 
 
-import { LayoutProps } from '../../types/layout'
+import { LayoutProps } from '@/types/layout'
+import Header from '@/components/header/Header'
 
-const LayoutTwo = ({ children }: LayoutProps) => {
+const LayoutWithMenuBtnAlways = ({ children }: LayoutProps) => {
 
   return (
     <>
+      <Header showMenuBtnAlways={true} />
+      {children}
     </>
   )
-}
+} 
 
-export default LayoutTwo
+export default LayoutWithMenuBtnAlways

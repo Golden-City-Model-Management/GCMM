@@ -1,14 +1,15 @@
 
 import { NextPageWithLayout } from '@/types/pages'
-import LayoutOne from '@/components/layout/LayoutOne'
+import LayoutTwo from '@/components/layout/LayoutTwo'
 import getLayout from '@/utils/pages/getLayout'
 
 const Home: NextPageWithLayout = () => {
-  
+
+
   return (
-    <div> 
+    <> 
       Hello world 
-    </div>
+    </>
   )
 } 
 
@@ -17,7 +18,7 @@ const props = {
   children: <></>
 }
 
-Home.getLayout = getLayout(LayoutOne, props)
+Home.getLayout = getLayout(LayoutTwo, props)
 
 export default Home
  

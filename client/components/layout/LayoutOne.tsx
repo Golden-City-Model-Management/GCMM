@@ -1,8 +1,9 @@
+ 
 
 import { LayoutProps } from '@/types/layout'
 import Header from '@/components/header/Header'
 
-const LayoutOne = ({ children }: LayoutProps) => {
+const LayoutWithFixedNavInDesktop = ({ children }: LayoutProps) => {
 
   return (
     <>
@@ -12,4 +13,4 @@ const LayoutOne = ({ children }: LayoutProps) => {
   )
 } 
 
-export default LayoutOne
+export default LayoutWithFixedNavInDesktop

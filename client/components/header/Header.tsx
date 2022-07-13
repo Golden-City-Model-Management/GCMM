@@ -1,17 +1,18 @@
 
-
-import { LogoDesktop, LogoMobile } from '@/components/svgs/Logos';
+import { useContext, ReactElement } from 'react';
+import Logo from '@/components/svgs/Logos';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
+import Drawer from '@mui/material/Drawer';
+import { UIContext } from '@/context/ui'
 
 
-const logoAlt = 'golden city model managemnt logo. A Capital Letter C enclosing a capital letter G'
 
 const HideInDesktop = (
   { children, mobile } :  
-  {children: React.ReactElement, mobile: boolean}) => {
+  {children: ReactElement, mobile: boolean}) => {
  
   const logoStyle = { display: 
     { 
@@ -26,10 +27,13 @@ const HideInDesktop = (
   )
 }
 
-const Header = ({ showMenuBtnAlways, handleMenuBtnClick,
- }: { showMenuBtnAlways: boolean,  handleMenuBtnClick?: () => void }) => {
+const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
 
-  const MenuBtn = 
+  const { 
+    showNav, toggleShowNav, 
+    bodyWidth, drawerWidth } = useContext(UIContext)
+  
+  const MenuBtn =
    <Button
     disableFocusRipple
     disableRipple
@@ -37,7 +41,7 @@ const Header = ({ showMenuBtnAlways, handleMenuBtnClick,
     variant='text'
     color='inherit'
     sx={{fontSize: '1.5rem'}}
-    onClick={handleMenuBtnClick ? handleMenuBtnClick : () => {}}> 
+    onClick={toggleShowNav}> 
       { showMenuBtnAlways ? 'menu' :
        <MenuIcon
         sx={{ fontSize: 40, color: '#fff'  }} /> }
@@ -48,33 +52,62 @@ const Header = ({ showMenuBtnAlways, handleMenuBtnClick,
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: {
-      lg: '0  8rem',
+      lg: showMenuBtnAlways ? '0 5rem' : '0 3rem',
       md: '0 3rem',
       xs: '0 1.2rem',
     },
-    top: 0, left: 0, right: 0
+    width: { lg: bodyWidth },
+    mr: { lg: `${drawerWidth}` },
   }
 
   return ( 
+    <>
     <AppBar 
       position="sticky" 
       sx={appBarSx} >
       <>
-      <Button 
+      <Button  
       variant='text' 
       href='/'>
-        <HideInDesktop children={<LogoDesktop />} mobile={false} />
-        <HideInDesktop children={<LogoMobile />} mobile={true} />
+        <Logo />
       </Button>
       {
         showMenuBtnAlways ?
-       {MenuBtn} :
+        <>{MenuBtn}</> :
         <HideInDesktop 
           children={MenuBtn} 
           mobile={!showMenuBtnAlways} />
       }
      </>
     </AppBar>
+    <Box
+        component="nav"
+        sx={{ width: { lg: drawerWidth }, flexShrink: { sm: 0 } }}
+        aria-label="mailbox folders">
+        <Drawer
+          variant={"temporary"}  open={showNav}
+          onClose={toggleShowNav}
+          ModalProps={{ keepMounted: true }}
+          anchor='right'
+          sx={{
+            display: {
+              xs: 'block', 
+              lg:  showMenuBtnAlways ? "block" :  'none' },
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          }}>
+          {'drawer'}
+        </Drawer>
+       { !showMenuBtnAlways && <Drawer
+          variant="permanent" anchor="right" open
+          sx={{
+            display: { xs: 'none', lg: 'block' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          }}
+          >
+          {'drawer'}
+        </Drawer>}
+      </Box>
+    </>
   )
 }
 

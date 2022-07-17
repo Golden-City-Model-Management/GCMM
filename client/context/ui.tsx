@@ -5,7 +5,7 @@ import { ReactNode } from 'react'
 
 const initialValue = {
   drawerWidth: 340,
-  bodyWidth:  `calc(100% - ${340})`,
+  bodyWidth:  `calc(100% - ${340}px)`,
   showNav: false,
   toggleShowNav: () => {}
 }

@@ -42,8 +42,7 @@ const testLayout = (Layout: React.ComponentType<LayoutProps>, props:LayoutProps)
 const testLogo = (Layout: React.ComponentType<LayoutProps>, props: LayoutProps) => {
   return () => {
     render(<RenderWithProps Layout={Layout} props={props} />)
-    expect(screen.getByTestId(/logo mobile/i).closest('header')).toBeInTheDocument()
-    expect(screen.getByTestId(/logo desktop/i).closest('header')).toBeInTheDocument()
+    expect(screen.getByTestId(/logo/i).closest('header')).toBeInTheDocument()
   }
 }
 
@@ -77,7 +76,7 @@ describe('Renders Layout Two', () => {
     const menuButton = screen.getByRole('button', {name: /menu/i})
     expect(menuButton).toBeInTheDocument()
     await userEvent.click(menuButton)
-    const nav = screen.getByRole('navigation')
+    const nav = screen.getByTestId('nav')
     expect(nav).toBeInTheDocument()
     await userEvent.click(menuButton)
     expect(nav).not.toBeInTheDocument()
@@ -85,7 +84,7 @@ describe('Renders Layout Two', () => {
 
   it('renders navigation semantically', async () => {
     render(<RenderWithProps Layout={LayoutTwo} props={props} />)
-    const nav = screen.queryByRole('navigation')
+    const nav = screen.queryByTestId('navigation')
     expect(nav).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', {name: /menu/i}))
     expect(screen.getByRole('navigation')).toBeInTheDocument()

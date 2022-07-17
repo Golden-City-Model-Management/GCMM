@@ -8,20 +8,18 @@ import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
 import { UIContext } from '@/context/ui'
 
-
-
 const HideInDesktop = (
   { children, mobile } :  
   {children: ReactElement, mobile: boolean}) => {
  
-  const logoStyle = { display: 
+  const sx = { display: 
     { 
       lg: mobile ? 'none' : 'flex', 
       xs: !mobile ? 'none' :'flex' 
     }}
 
   return(
-    <Box sx={logoStyle}>
+    <Box sx={sx}>
       {children}
     </Box>
   )
@@ -40,11 +38,9 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
     component='button'
     variant='text'
     color='inherit'
-    sx={{fontSize: '1.5rem'}}
     onClick={toggleShowNav}> 
       { showMenuBtnAlways ? 'menu' :
-       <MenuIcon
-        sx={{ fontSize: 40, color: '#fff'  }} /> }
+       <MenuIcon sx={{ fontSize: 40, color: '#fff'  }} /> }
     </Button>
 
   const appBarSx = {
@@ -55,9 +51,13 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
       lg: showMenuBtnAlways ? '0 5rem' : '0 3rem',
       md: '0 3rem',
       xs: '0 1.2rem',
-    },
-    width: { lg: bodyWidth },
+    }, 
+    width: { lg: !showMenuBtnAlways ? bodyWidth : '100%' },
     mr: { lg: `${drawerWidth}` },
+  }
+
+  const sharedDrawerStyles = {
+    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
   }
 
   return ( 
@@ -82,18 +82,19 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
     </AppBar>
     <Box
         component="nav"
-        sx={{ width: { lg: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders">
+        sx={{ width: { lg: drawerWidth }, flexShrink: { sm: 0 } }}>
         <Drawer
+          data-testid='nav'
+          aria-label="nav"
           variant={"temporary"}  open={showNav}
           onClose={toggleShowNav}
-          ModalProps={{ keepMounted: true }}
+          ModalProps={{ keepMounted: false }}
           anchor='right'
           sx={{
             display: {
               xs: 'block', 
               lg:  showMenuBtnAlways ? "block" :  'none' },
-              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+              ...sharedDrawerStyles
           }}>
           {'drawer'}
         </Drawer>
@@ -101,7 +102,7 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
           variant="permanent" anchor="right" open
           sx={{
             display: { xs: 'none', lg: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            ...sharedDrawerStyles
           }}
           >
           {'drawer'}

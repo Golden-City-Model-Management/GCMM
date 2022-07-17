@@ -5,12 +5,12 @@ import Home from '@/pages/index'
 describe('Home page is rendered with appropriate elements', () => {
 
   it('renders a main element', () => {
-    render(<Home />)
+    render(<>{Home.getLayout(<Home />)}</>)
     expect(screen.getByRole('main')).toBeInTheDocument()
   })
   
   it('renders a heading', () => {
-    render(<Home />)
+    render(<>{Home.getLayout(<Home />)}</>)
     const heading = screen.getByRole('heading', {
       name: /GoldenCity Model Management/i,
     })
@@ -18,7 +18,7 @@ describe('Home page is rendered with appropriate elements', () => {
   })
 
   it('renders call to action', () => {
-    render(<Home />)
+    render(<>{Home.getLayout(<Home />)}</>)
 
     const callToActions = screen.getByTestId('ctas')
     
@@ -31,7 +31,7 @@ describe('Home page is rendered with appropriate elements', () => {
   })
 
   it('renders gallery section with heading and links', () => {
-    render(<Home />)
+    render(<>{Home.getLayout(<Home />)}</>)
     const gallery = screen.getByTestId('gallery')
     const heading = screen.getByRole('heading', {name: /talent at its finest/i})
     expect(gallery).toBeInTheDocument()

@@ -1,11 +1,11 @@
 
 
-
 import { screen, render } from '@testing-library/react';
 import  userEvent from '@testing-library/user-event'
 import  LayoutOne  from '@/components/layout/LayoutOne';
 import  LayoutTwo  from '@/components/layout/LayoutTwo';
 import { LayoutProps } from '@/types/layout';
+import ThemeProvider from '../../styles/ThemeProvider'
 
 const RenderWithProps = (
  { Layout, props}: {
@@ -13,11 +13,13 @@ const RenderWithProps = (
   props: LayoutProps
  }) => {
   return (
+    <>
     <Layout
       children={props.children}
       pageTitle={props.pageTitle}
       pageDescription={props.pageDescription}
       pageFavicon={props.pageFavicon}  />
+    </>
   )
 }
 
@@ -33,7 +35,7 @@ const testSemanticNav = () => {
 
 const testLayout = (Layout: React.ComponentType<LayoutProps>, props:LayoutProps) => {
   return  () => {
-    render(<RenderWithProps Layout={Layout} props={props} />);
+    render(ThemeProvider(<RenderWithProps Layout={Layout} props={props} />));
     const nav = screen.getByRole('navigation')
     testSemanticNav()
     expect(nav).toBeInTheDocument()
@@ -41,14 +43,14 @@ const testLayout = (Layout: React.ComponentType<LayoutProps>, props:LayoutProps)
 }
 const testLogo = (Layout: React.ComponentType<LayoutProps>, props: LayoutProps) => {
   return () => {
-    render(<RenderWithProps Layout={Layout} props={props} />)
+    render(ThemeProvider(<RenderWithProps Layout={Layout} props={props} />))
     expect(screen.getByTestId(/logo/i).closest('header')).toBeInTheDocument()
   }
 }
 
 const testChildren = (Layout: React.ComponentType<LayoutProps>, props: LayoutProps) => { 
   return () => {
-    render(<RenderWithProps Layout={Layout} props={props} />)
+    render(ThemeProvider(<RenderWithProps Layout={Layout} props={props} />))
     const children = screen.getByText(/children/i)
     expect(children).toBeInTheDocument()
     expect(children.closest('nav')).not.toBeInTheDocument()

@@ -1,15 +1,17 @@
 
+
 import { NextPageWithLayout } from '@/types/pages'
 import LayoutOne from '@/components/layout/LayoutOne'
 import getLayout from '@/utils/pages/getLayout'
+import Hero from '@/components/Home/Hero'
+import Box from '@mui/material/Box'
 
 const Home: NextPageWithLayout = () => {
 
-
   return (
-    <> 
-      Hello world 
-    </>
+    <Box> 
+      <Hero />
+    </Box>
   )
 } 
 

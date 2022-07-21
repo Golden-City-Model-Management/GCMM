@@ -7,6 +7,9 @@ const styleOverrides = {
   "*, *::before, *::after": {
     boxSizing: "border-box",
   },
+  body: {
+    color: '#FFFFFF'
+  },
   html: { fontSize: "62.5%",
   '@media (min-width: 600px)': {
     fontSize: "75%",
@@ -29,11 +32,15 @@ const theme = createTheme({
       contrastText: '#FFFFFF',
     },
     secondary: {
-      main: 'FFDD26',
+      main: '#FFDD26',
       light: '#FFDD26',
       dark: '#FFDD26',
       contrastText: '#00000066',
     },
+    text: {
+      primary: '#FFFFFF',
+      secondary: '#FFDD26',
+    }
   },
   typography(palette) {
     return {
@@ -42,6 +49,7 @@ const theme = createTheme({
       fontWeightRegular: 400,
       fontWeightMedium: 500,
       fontWeightBold: 700,
+      color: palette.text.primary,
       caption: {
         fontSize: '2.5rem',
         fontWeight: 400,
@@ -76,6 +84,19 @@ const theme = createTheme({
         fontSize: '1.5rem',
         fontWeight: 500,
         color: palette.text.primary,
+      },
+      mainNavLink: {
+        fontSize: '2rem',
+        fontWeight: 700,
+        lineHeight: 1.2,
+      },
+      subNavLink: {
+        fontSize: '1.3rem',
+        fontWeight: 700,
+        lineHeight: .8
+      },
+      small: {
+       fontSize: '0.65rem',
       }
     };
   },

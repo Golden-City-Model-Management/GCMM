@@ -12,7 +12,7 @@ describe('Home page is rendered with appropriate elements', () => {
   it('renders a heading', () => {
     render(<>{Home.getLayout(<Home />)}</>)
     const heading = screen.getByRole('heading', {
-      name: /GoldenCity Model Management/i,
+      name: /Golden City Model Management/i,
     })
     expect(heading).toBeInTheDocument()
   })

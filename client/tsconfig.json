@@ -16,12 +16,13 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
+      "@/styles/*": ["styles/*"],
       "@/pages/*": ["pages/*"],
       "@/components/*": ["components/*"],
       "@/utils/*": ["utils/*"],
       "@/types/*": ["types/*"],
       "@/context/*": ["context/*"],
-      "@/public/*": ["public/*"]
+      "@/public/*": ["public/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "*.d.ts", "**/*.tsx"],

@@ -1,7 +1,7 @@
 
 
 import { NextPageWithLayout } from '@/types/pages'
-import LayoutOne from '@/components/layout/LayoutOne'
+import LayoutOne from '@/components/layout/LayoutTwo'
 import getLayout from '@/utils/pages/getLayout'
 import Hero from '@/components/Home/Hero'
 import Box from '@mui/material/Box'

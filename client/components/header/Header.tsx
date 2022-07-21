@@ -65,7 +65,7 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
       xs: '13px 13px 0 0',
     },}}
     children={ <ToggleMenuBtn onClick={toggleShowNav} Icon={CloseIcon}/>} 
-    mobile={!showMenuBtnAlways} />
+    mobile={showMenuBtnAlways} />
 
   const appBarSx = (theme: Theme) => ({
     display: 'flex',

@@ -89,11 +89,13 @@ const theme = createTheme({
         fontSize: '2rem',
         fontWeight: 700,
         lineHeight: 1.2,
+        textDecoration: 'none',
       },
       subNavLink: {
         fontSize: '1.3rem',
         fontWeight: 700,
-        lineHeight: .8
+        lineHeight: .8,
+        textDeconration: 'none',
       },
       small: {
        fontSize: '0.65rem',

@@ -129,7 +129,7 @@ const Navigation = () => {
             textTransform: 'capitalize'
           })}
           variant='small'
-         component='small'>
+          component='small'>
           &copy; GOLDEN CITY MODEL MANAGEMENT {new Date().getFullYear()}
         </Typography>
       </Box>

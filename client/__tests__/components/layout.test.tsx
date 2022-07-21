@@ -1,24 +1,23 @@
 
 
-import { screen, render } from '@testing-library/react';
+import { screen, render } from '../utils';
 import  userEvent from '@testing-library/user-event'
 import  LayoutOne  from '@/components/layout/LayoutOne';
 import  LayoutTwo  from '@/components/layout/LayoutTwo';
 import { LayoutProps } from '@/types/layout';
-import ThemeProvider from '../../styles/ThemeProvider'
 
 const RenderWithProps = (
  { Layout, props}: {
   Layout: React.ComponentType<LayoutProps>,
-  props: LayoutProps
+  props: LayoutProps 
  }) => {
   return (
     <>
-    <Layout
+    {<Layout
       children={props.children}
       pageTitle={props.pageTitle}
       pageDescription={props.pageDescription}
-      pageFavicon={props.pageFavicon}  />
+      pageFavicon={props.pageFavicon}  />}
     </>
   )
 }
@@ -35,7 +34,7 @@ const testSemanticNav = () => {
 
 const testLayout = (Layout: React.ComponentType<LayoutProps>, props:LayoutProps) => {
   return  () => {
-    render(ThemeProvider(<RenderWithProps Layout={Layout} props={props} />));
+    render(<RenderWithProps Layout={Layout} props={props} />);
     const nav = screen.getByRole('navigation')
     testSemanticNav()
     expect(nav).toBeInTheDocument()
@@ -43,14 +42,14 @@ const testLayout = (Layout: React.ComponentType<LayoutProps>, props:LayoutProps)
 }
 const testLogo = (Layout: React.ComponentType<LayoutProps>, props: LayoutProps) => {
   return () => {
-    render(ThemeProvider(<RenderWithProps Layout={Layout} props={props} />))
+    render(<RenderWithProps Layout={Layout} props={props} />)
     expect(screen.getByTestId(/logo/i).closest('header')).toBeInTheDocument()
   }
 }
 
 const testChildren = (Layout: React.ComponentType<LayoutProps>, props: LayoutProps) => { 
   return () => {
-    render(ThemeProvider(<RenderWithProps Layout={Layout} props={props} />))
+    render(<RenderWithProps Layout={Layout} props={props} />)
     const children = screen.getByText(/children/i)
     expect(children).toBeInTheDocument()
     expect(children.closest('nav')).not.toBeInTheDocument()
@@ -77,19 +76,9 @@ describe('Renders Layout Two', () => {
     render(<RenderWithProps Layout={LayoutTwo} props={props} />)
     const menuButton = screen.getByRole('button', {name: /menu/i})
     expect(menuButton).toBeInTheDocument()
-    await userEvent.click(menuButton)
-    const nav = screen.getByTestId('nav')
-    expect(nav).toBeInTheDocument()
-    await userEvent.click(menuButton)
-    expect(nav).not.toBeInTheDocument()
-  })
-
-  it('renders navigation semantically', async () => {
-    render(<RenderWithProps Layout={LayoutTwo} props={props} />)
-    const nav = screen.queryByTestId('navigation')
-    expect(nav).not.toBeInTheDocument()
+    expect(screen.queryByTestId('nav')).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', {name: /menu/i}))
-    expect(screen.getByRole('navigation')).toBeInTheDocument()
-    testSemanticNav()
+    expect(screen.getByTestId('nav')).toBeInTheDocument()
+    testSemanticNav() 
   })
-})
+}) 

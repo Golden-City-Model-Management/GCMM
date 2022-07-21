@@ -124,20 +124,20 @@ const Hero = () => {
              color={(theme) => theme.palette.text.secondary}>
               Golden</Typography>City <div />
               Model Management
-          </Typography>
-          <Box
-           sx={{display: 'flex', gap: '25px'}}
-          >
-          {
-            heroLinks.map(link => (
-              <NextLink key={link.to} href={link.to} passHref>
-                <StyledBorderBtn>
-                  {link.name}
-                </StyledBorderBtn>
-              </NextLink>
-            ))
-          }
-          </Box>
+            </Typography>
+            <Box
+            sx={{display: 'flex', gap: '25px'}}
+            >
+            {
+              heroLinks.map(link => (
+                <NextLink key={link.to} href={link.to} passHref>
+                  <StyledBorderBtn>
+                    {link.name}
+                  </StyledBorderBtn>
+                </NextLink>
+              ))
+            }
+            </Box>
         </Box>
       </Box>
   )

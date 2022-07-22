@@ -32,12 +32,10 @@ describe('Home page is rendered with appropriate elements', () => {
 
   it('renders gallery section with heading and links', () => {
     render(<>{Home.getLayout(<Home />)}</>)
-    const gallery = screen.getByTestId('gallery')
+    const gallery = screen.getByTestId('gallery-preview')
     const heading = screen.getByRole('heading', {name: /talent at its finest/i})
     expect(gallery).toBeInTheDocument()
     expect(heading).toBeInTheDocument()
-    expect(screen.getByText( /gallery/i)
-    .closest('a'))
-    .toHaveAttribute('href', '/gallery')
+    expect(screen.getByTestId('gallery-preview-link')).toHaveAttribute('href', '/gallery')
   }) 
 }) 

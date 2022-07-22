@@ -2,11 +2,13 @@
 
 
 import Button from '@mui/material/Button'
+import { ButtonProps } from '@mui/material/Button/Button'
 
 
-export const StyledBorderBtn = ({children}: {children: React.ReactNode | React.ReactNode[]}) => {
+export const StyledBorderBtn = ({children, ...otherProps}: ButtonProps) => {
   return (
     <Button
+    {...otherProps}
     sx={(theme) => ({  
     border: `2px solid currentColor`,
     background: 'transparent',

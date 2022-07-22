@@ -4,6 +4,7 @@ import { NextPageWithLayout } from '@/types/pages'
 import LayoutOne from '@/components/layout/LayoutOne'
 import getLayout from '@/utils/pages/getLayout'
 import Hero from '@/components/Home/Hero'
+import GalleryPreview from '@/components/Home/GalleryPreview'
 import Box from '@mui/material/Box'
 
 const Home: NextPageWithLayout = () => {
@@ -11,6 +12,7 @@ const Home: NextPageWithLayout = () => {
   return (
     <Box> 
       <Hero />
+      <GalleryPreview />
     </Box>
   )
 } 

@@ -127,6 +127,7 @@ const Hero = () => {
             </Typography>
             <Box
             sx={{display: 'flex', gap: '25px'}}
+            data-testid='ctas'
             >
             {
               heroLinks.map(link => (

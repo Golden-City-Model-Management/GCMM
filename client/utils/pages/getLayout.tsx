@@ -1,5 +1,6 @@
 
 import { LayoutProps } from '@/types/layout'
+import { ReactElement, JSXElementConstructor } from 'react'
 
 
 export default function (
@@ -7,7 +8,7 @@ export default function (
   props: LayoutProps
 ) {
 
-  return (page: React.ReactElement) => {
+  return (page: ReactElement<any, string | JSXElementConstructor<any>>) => {
     return (
       <Layout {...props}>
         {page}

@@ -1,8 +1,8 @@
 
 
 export interface LayoutProps {
-  children: React.ReactNode | [React.ReactNode],
-  pageTitle: string,
-  pageDescription?: string,
-  pageFavicon?: string,
+  children?: React.ReactNode | [React.ReactNode],
+  title: string,
+  description: string,
+  favicon?: string,
 }

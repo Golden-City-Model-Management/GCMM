@@ -16,8 +16,9 @@ const Home: NextPageWithLayout = () => {
 } 
 
 const props = {
-  pageTitle: 'Hello',
-  children: <></>
+  title: 'Golden City Model Management',
+  description: 'Golden City Model Management. Finding and refining talent. African Premium Agency located in Lagos, Nigeria',
+  favicon: '/vercel.svg',
 }
 
 Home.getLayout = getLayout(LayoutOne, props)

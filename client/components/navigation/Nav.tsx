@@ -44,7 +44,7 @@ const subNavLinks = [
     to: '/about-us'
   }
 ]
-
+// Todo change links to appropriate routes
 const socialLinks = [
   {
     name: InstagramIcon,

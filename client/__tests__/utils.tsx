@@ -1,12 +1,13 @@
 
 
-import { render } from '@testing-library/react'
+import { render, } from '@testing-library/react'
+import  userEvent from '@testing-library/user-event'
 import { ReactElement, JSXElementConstructor } from 'react'
 import ContextProvider from '@/context/provider'
 
 
 
-const RenderWithContext = (ui: ReactElement<any, string | JSXElementConstructor<any>>) => {
+const renderWithContext = (ui: ReactElement<any, string | JSXElementConstructor<any>>) => {
   
   const wrapper = ({children}: {children: ReactElement<any, string | JSXElementConstructor<any>>}) => {
     return (
@@ -17,5 +18,7 @@ const RenderWithContext = (ui: ReactElement<any, string | JSXElementConstructor<
   return render(ui, { wrapper })
 }
 
+const renderWithSetup = (jsx: ReactElement<any, string | JSXElementConstructor<any>>) => ({user: userEvent.setup(), ...renderWithContext(jsx)})
+
 export * from '@testing-library/react'
-export { RenderWithContext as render }
+export { renderWithContext as render, renderWithSetup }

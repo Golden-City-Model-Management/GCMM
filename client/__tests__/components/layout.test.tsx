@@ -1,7 +1,6 @@
 
 
-import { screen, render } from '../utils';
-import  userEvent from '@testing-library/user-event'
+import { screen, render, renderWithSetup } from '../utils';
 import  LayoutOne  from '@/components/layout/LayoutOne';
 import  LayoutTwo  from '@/components/layout/LayoutTwo';
 import { LayoutProps } from '@/types/layout';
@@ -15,9 +14,9 @@ const RenderWithProps = (
     <>
     {<Layout
       children={props.children}
-      pageTitle={props.pageTitle}
-      pageDescription={props.pageDescription}
-      pageFavicon={props.pageFavicon}  />}
+      title={props.title}
+      description={props.description}
+      favicon={props.favicon}  />}
     </>
   )
 }
@@ -58,9 +57,9 @@ const testChildren = (Layout: React.ComponentType<LayoutProps>, props: LayoutPro
 }
 const props: LayoutProps = {
   children: <div>Children</div>,
-  pageTitle: 'This is the first layout',
-  pageDescription: 'This is the first layout description',
-  pageFavicon: 'https://via.placeholder.com/300x300'
+  title: 'This is the first layout',
+  description: 'This is the first layout description',
+  favicon: 'https://via.placeholder.com/300x300'
 }
 
 describe('Renders Layout One', () => {
@@ -73,11 +72,11 @@ describe('Renders Layout Two', () => {
   it('renders a header element with the logo', testLogo(LayoutTwo, props));
   it('renders children outside of navigation', testChildren(LayoutTwo, props));
   it('renders functional menu button and toggles navigation onclick of menu button', async () => {
-    render(<RenderWithProps Layout={LayoutTwo} props={props} />)
+    const { user } = renderWithSetup(<RenderWithProps Layout={LayoutTwo} props={props} />)
     const menuButton = screen.getByRole('button', {name: /menu/i})
     expect(menuButton).toBeInTheDocument()
     expect(screen.queryByTestId('nav')).not.toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', {name: /menu/i}))
+    await user.click(screen.getByRole('button', {name: /menu/i}))
     expect(screen.getByTestId('nav')).toBeInTheDocument()
     testSemanticNav() 
   })

@@ -73,13 +73,15 @@ const NavLinkItem = ({link, variant,}: {
   const Icon = link.name
   
   return (
-    <ListItem sx={{padding: '8px 0'}}>
+    <ListItem sx={{padding: '0 0 16px 0'}}>
     <NextLink href={link.to} passHref>
      <MUILink
+     href={link.to}
      variant={variant} 
      sx={(theme) => ({
       color: isActive ? theme.palette.text.secondary : theme.palette.text.primary,
       textTransform: 'capitalize',
+      textDecoration: 'none',
       '&:hover': {
         color: theme.palette.text.secondary,
         textDecoration: 'none'
@@ -137,3 +139,5 @@ const Navigation = () => {
 }
 
 export default Navigation
+
+export  { mainNavLinks, subNavLinks, socialLinks, NavLinkItem }

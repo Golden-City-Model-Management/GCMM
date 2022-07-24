@@ -1,11 +1,11 @@
 
 
-
+import { forwardRef } from 'react'
 import Button from '@mui/material/Button'
 import { ButtonProps } from '@mui/material/Button/Button'
 
 
-export const StyledBorderBtn = ({children, ...otherProps}: ButtonProps) => {
+export const StyledBorderBtn = forwardRef(({children, ...otherProps}: ButtonProps, ref) => {
   return (
     <Button
     {...otherProps}
@@ -27,5 +27,5 @@ export const StyledBorderBtn = ({children, ...otherProps}: ButtonProps) => {
     }})}
     >{children}</Button>
   )
-}
+})
 

@@ -8,7 +8,13 @@ const initialValue = {
   bodyWidth:  `calc(100% - ${339}px)`,
   showNav: false,
   toggleShowNav: () => {},
-  fullHeightWithoutHeader: 'calc(100vh - 89px)'
+  fullHeightWithoutHeader: 'calc(100vh - 89px)',
+  universalContainerPadding: {
+    lg: '0 119px',
+    md: '0 50px',
+    xs: '0 30px',
+  },
+  marginBtwContainers: '100px'
 }
 
 export const UIContext = createContext(initialValue)

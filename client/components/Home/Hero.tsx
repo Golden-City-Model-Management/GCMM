@@ -31,7 +31,7 @@ const Hero = () => {
 
   const [currentBg, setCurrentBg] = useState(0)
   const [fade, setFade] = useState(false)
-  const { fullHeightWithoutHeader } = useContext(UIContext)
+  const { fullHeightWithoutHeader, universalContainerPadding } = useContext(UIContext)
   const backgrounds = [ Bg1, Bg2, Bg3, Bg5, Bg6, Bg7, Bg8, ]
 
   useEffect(() => {
@@ -73,7 +73,10 @@ const Hero = () => {
         position: 'relative',
         background: mainBg,
         backgroundPosition: 'center',
-        backgroundSize: 'contain',
+        backgroundSize: {
+          xs: 'cover',
+          md: 'contain',
+        },
         transition: 'all .45 ease-in',
       }}>
         <Box sx={() => ({
@@ -82,7 +85,10 @@ const Hero = () => {
           position: 'absolute',
           background: mainBg,
           backgroundPosition: 'center',
-          backgroundSize: 'contain',
+          backgroundSize: {
+            xs: 'cover',
+            md: 'contain',
+          },
           opacity: fade ? 1 : 0,
           transition: 'all .5s ease-in'
         })}/>
@@ -94,7 +100,10 @@ const Hero = () => {
           background: checkedElBg,
           clipPath: 'polygon(0% 0%, 10% 0%, 10% 100%, 20% 100%, 20% 0%, 30% 0%, 30% 100%, 40% 100%, 40% 0%, 50% 0%, 50% 100%, 60% 100%, 60% 0%, 70% 0%, 70% 100%, 80% 100%, 80% 0%, 90% 0%, 90% 100%, 100% 100%, 100% 0%, 100% 10%, 0% 10%, 0% 20%, 100% 20%, 100% 30%, 0% 30%, 0% 40%, 100% 40%, 100% 50%, 0% 50%, 0% 60%, 100% 60%, 100% 70%, 0% 70%, 0% 80%, 100% 80%, 100% 90%, 0% 90%, 0% 100%)',
           backgroundPosition: 'center',
-          backgroundSize: 'contain',
+          backgroundSize: {
+            xs: 'cover',
+            md: 'contain',
+          },
           opacity: fade ? 1 : 0,
           transition: 'all .5s ease-in'
         })}/>
@@ -109,11 +118,8 @@ const Hero = () => {
           justifyContent: 'center',
           alignItems: 'flex-start',
           width: '100%',
-          padding: {
-            lg: '0 119px',
-            md: '0 50px',
-            xs: '0 30px',
-          }}}>
+          padding: universalContainerPadding
+          }}>
           <Typography
           component='h1'
           variant='caption'

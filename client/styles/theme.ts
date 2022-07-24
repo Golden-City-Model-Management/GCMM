@@ -8,7 +8,7 @@ const styleOverrides = {
     boxSizing: "border-box",
   },
   body: {
-    color: '#FFFFFF'
+    color: '#fff'
   },
   html: { fontSize: "62.5%",
   '@media (min-width: 600px)': {

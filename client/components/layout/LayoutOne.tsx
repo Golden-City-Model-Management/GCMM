@@ -12,7 +12,7 @@ const LayoutWithFixedNavInDesktop = ({ children, pad, ...headProps }: LayoutProp
 
   const { bodyWidth, fullHeightWithoutHeader, universalContainerPadding } = useContext(UIContext)
   return (
-    <Box sx={{width: { lg: bodyWidth}}}>
+    <>
       <Header showMenuBtnAlways={false} />
       <Head {...headProps} />
       <Box
@@ -20,13 +20,16 @@ const LayoutWithFixedNavInDesktop = ({ children, pad, ...headProps }: LayoutProp
         borderRight: { lg: `2px solid ${theme.palette.secondary.light}`},
         minHeight: fullHeightWithoutHeader,
         background: theme.palette.primary.main,
-        padding: pad ? universalContainerPadding : ''
+        padding: pad ? universalContainerPadding : '',
+        width: { lg: bodyWidth},
        })}
        component='main' >
         {children}
       </Box>
-      <Footer />      
-    </Box>
+      <Box sx={{ width: { lg: bodyWidth}}}>
+        <Footer />      
+      </Box>
+    </>
   )
 } 
 

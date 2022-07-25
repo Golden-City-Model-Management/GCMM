@@ -1,16 +1,16 @@
 
-import { render, screen } from '@testing-library/react'
+import { render, screen, renderWithLayout } from '@/utils/test.utils'
 import Home from '@/pages/index'
 
 describe('Home page is rendered with appropriate elements', () => {
 
   it('renders a main element', () => {
-    render(<>{Home.getLayout(<Home />)}</>)
+    render(renderWithLayout(Home))
     expect(screen.getByRole('main')).toBeInTheDocument()
   })
   
   it('renders a heading', () => {
-    render(<>{Home.getLayout(<Home />)}</>)
+    render(renderWithLayout(Home))
     const heading = screen.getByRole('heading', {
       name: /Golden City Model Management/i,
     })
@@ -18,7 +18,7 @@ describe('Home page is rendered with appropriate elements', () => {
   })
 
   it('renders call to action', () => {
-    render(<>{Home.getLayout(<Home />)}</>)
+    render(renderWithLayout(Home))
 
     const callToActions = screen.getByTestId('ctas')
     
@@ -31,7 +31,7 @@ describe('Home page is rendered with appropriate elements', () => {
   })
 
   it('renders gallery section with heading and links', () => {
-    render(<>{Home.getLayout(<Home />)}</>)
+    render(renderWithLayout(Home))
     const gallery = screen.getByTestId('gallery-preview')
     const heading = screen.getByRole('heading', {name: /talent at its finest/i})
     expect(gallery).toBeInTheDocument()

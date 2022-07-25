@@ -1,11 +1,10 @@
 
 
+import { ReactElement, JSXElementConstructor } from 'react'
 import { render, } from '@testing-library/react'
 import  userEvent from '@testing-library/user-event'
-import { ReactElement, JSXElementConstructor } from 'react'
 import ContextProvider from '@/context/provider'
-
-
+import { NextPageWithLayout } from '@/types/pages'
 
 const renderWithContext = (ui: ReactElement<any, string | JSXElementConstructor<any>>) => {
   
@@ -20,5 +19,7 @@ const renderWithContext = (ui: ReactElement<any, string | JSXElementConstructor<
 
 const renderWithSetup = (jsx: ReactElement<any, string | JSXElementConstructor<any>>) => ({user: userEvent.setup(), ...renderWithContext(jsx)})
 
+const renderWithLayout = (Component: NextPageWithLayout) => (<>{Component.getLayout(<Component />)}</>)
+
 export * from '@testing-library/react'
-export { renderWithContext as render, renderWithSetup }
+export { renderWithContext as render, renderWithSetup, renderWithLayout }

@@ -38,7 +38,6 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
       md: '0 35px',
       xs: '0 15px',
     }, 
-    width: { lg: !showMenuBtnAlways ? bodyWidth : '100%' },
     borderBottom: { lg: `1px solid ${theme.palette.secondary.light}`},
   })
 

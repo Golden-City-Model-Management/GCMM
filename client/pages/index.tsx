@@ -5,7 +5,6 @@ import LayoutOne from '@/components/layout/LayoutOne'
 import getLayout from '@/utils/pages/getLayout'
 import Hero from '@/components/Home/Hero'
 import GalleryPreview from '@/components/Home/GalleryPreview'
-import Footer from '@/components/footer/Footer'
 import Box from '@mui/material/Box'
 
 import Bg1 from '@/public/assets/images/BG-01.jpg'
@@ -23,7 +22,6 @@ const Home: NextPageWithLayout = () => {
     <Box> 
       <Hero />
       <GalleryPreview images={images}/>
-      <Footer />
     </Box>
   )
 } 

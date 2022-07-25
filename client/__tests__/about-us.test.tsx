@@ -1,23 +1,23 @@
 
-import { screen, render } from '@testing-library/react'
+import { screen, render, renderWithLayout } from '@/utils/test.utils'
 import AboutUs from '@/pages/about-us'
 
 
 describe('About us page is rendered with appropriate elements', () => {
 
   it('renders a main element', () => {
-    render(<AboutUs />)
+    render(renderWithLayout(AboutUs))
     expect(screen.getByRole('main')).toBeInTheDocument()
   })
 
   it('renders a heading', () => {
-    render(<AboutUs />)
+    render(renderWithLayout(AboutUs))
     expect(screen.getByRole('heading',
      {name: /about us/i})).toBeInTheDocument()
   })
 
   it('renders call to action', () => {
-    render(<AboutUs />)
+    render(renderWithLayout(AboutUs))
 
     const cta = screen.getByRole('link', { name: /join our team/i})
    

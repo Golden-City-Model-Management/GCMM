@@ -5,6 +5,7 @@ import { UIContext } from '@/context/ui'
 import { StyledBorderBtn } from '@/components/common/Buttons'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import { WithNextLink } from '@/components/common/Links'
 import { backgrounds } from '@/constants/images'
 import { heroLinks } from '@/constants/links'
 
@@ -112,11 +113,11 @@ const Hero = () => {
             >
             {
               heroLinks.map(link => (
-                <NextLink key={link.to} href={link.to} passHref>
+                <WithNextLink key={link.to} href={link.to} passHref>
                   <StyledBorderBtn>
                     {link.name}
                   </StyledBorderBtn>
-                </NextLink>
+                </WithNextLink>
               ))
             }
             </Box>

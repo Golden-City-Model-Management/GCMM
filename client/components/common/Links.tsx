@@ -5,7 +5,7 @@ import { Link as MUILink } from '@mui/material';
 import { ListItem } from "@mui/material"
 import { SvgIconComponent } from "@mui/icons-material"
 
-export const LinkListItem = ({link, variant,}: {
+const LinkListItem = ({link, variant,}: {
   link: {
     name: string | SvgIconComponent,
     to: string
@@ -37,3 +37,18 @@ export const LinkListItem = ({link, variant,}: {
   </ListItem>
   )
 }
+
+const WithNextLink = ({children, href, passHref }:
+  {children: React.ReactNode,
+  href: string,
+  passHref: boolean 
+ }) => {
+
+  return(
+    <NextLink href={href} passHref={passHref}>
+      {children}
+   </NextLink>
+  )
+}
+
+export { WithNextLink, LinkListItem }

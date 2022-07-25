@@ -1,6 +1,6 @@
 
 
-import Box from '@mui/material/Box'
+import Box, { BoxProps } from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer';
 import { DrawerProps } from '@mui/material/Drawer/Drawer'
 import { Theme } from '@mui/material'
@@ -31,12 +31,11 @@ interface TemporaryDrawerInterface extends DrawerProps {
   drawerWidth: number
 }
 
-const TemporaryDrawer = ({children, open, handleClose, isInDesktop, drawerWidth}: TemporaryDrawerInterface) => {
+const TemporaryDrawer = ({children, open, handleClose, isInDesktop, drawerWidth, ...otherProps}: TemporaryDrawerInterface) => {
 
   return(
     <Drawer
-    data-testid='nav'
-    aria-label="nav"
+    {...otherProps}
     variant={"temporary"}  open={open}
     onClose={handleClose}
     ModalProps={{ keepMounted: false }}
@@ -56,11 +55,11 @@ interface PermanentDrawerInterface extends DrawerProps {
   children: React.ReactNode | React.ReactNode[]
   drawerWidth: number
 }
-const PermanentDrawer = ({ children, drawerWidth, }: PermanentDrawerInterface) => {
+const PermanentDrawer = ({ children, drawerWidth, ...otherProps}: PermanentDrawerInterface) => {
 
   return(
     <Drawer
-      data-testid='nav'
+     {...otherProps}
       variant="permanent" 
       anchor="right" open
       sx={(theme) => ({
@@ -73,17 +72,32 @@ const PermanentDrawer = ({ children, drawerWidth, }: PermanentDrawerInterface) =
   )
 }
 
-const ResponsiveDrawer = ({ children, drawerWidth, open, handleClose, isInDesktop,}: TemporaryDrawerInterface ) => {
+interface ResponsiveDrawerInterface extends BoxProps {
+  children: React.ReactNode | React.ReactNode[],
+  open: boolean,
+  handleClose: () => void,
+  isInDesktop: boolean,
+  drawerWidth: number,
+}
+const ResponsiveDrawer = ({ children, drawerWidth, open, handleClose, isInDesktop, ...otherProps}: ResponsiveDrawerInterface ) => {
 
   return(
     <Box
-    component="nav"
+    {...otherProps}
     sx={{ width: { lg: drawerWidth }, flexShrink: { sm: 0 } }}>
-      <TemporaryDrawer open={open} handleClose={handleClose} isInDesktop={isInDesktop} drawerWidth={drawerWidth}>
+      <TemporaryDrawer 
+       data-testid='nav'
+       open={open} 
+       handleClose={handleClose} 
+       isInDesktop={isInDesktop} 
+       drawerWidth={drawerWidth}>
         {children}
       </TemporaryDrawer>
+
     { !isInDesktop &&
-    <PermanentDrawer drawerWidth={drawerWidth}>
+    <PermanentDrawer
+      data-testid='nav'
+      drawerWidth={drawerWidth}>
       {children}
     </PermanentDrawer>
     }

@@ -6,16 +6,16 @@ import Button from '@mui/material/Button'
 import { ReactElement } from 'react'
 
 interface HideInDesktopProps extends BoxProps {
-  children: ReactElement, mobile: boolean, sxProp?: object,
+  children: ReactElement, hideInDesktop: boolean, sxProp?: object,
 }
 
 const HideInDesktop = (
-  { children, mobile, sxProp, ...otherProps }: HideInDesktopProps ) => {
+  { children, hideInDesktop, sxProp, ...otherProps }: HideInDesktopProps ) => {
  
   const sx = {
     display:{ 
-      lg: mobile ? 'none' : 'flex', 
-      xs: !mobile ? 'none' :'flex' 
+      lg: hideInDesktop ? 'none' : 'flex', 
+      xs: 'flex'
     },
     ...sxProp
   }

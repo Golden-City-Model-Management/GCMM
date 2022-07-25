@@ -11,7 +11,7 @@ import Navigation from '@/components/navigation/Nav';
 import { UIContext } from '@/context/ui'
 import { Theme } from '@mui/material';
 import { HideInDesktop, IconOrTextBtn } from '@/components/common/bones'
-import { PermanentDrawer, TemporaryDrawer } from '@/components/common/Drawer'
+import { ResponsiveDrawer } from '@/components/common/Drawer'
  
 
 const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
@@ -24,12 +24,11 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
 
   const CloseMenuBtn = <HideInDesktop 
     sxProp={{justifyContent: 'flex-end', padding: {
-      lg: '64px 64px 0 0',
       md: '18px 18px 0 0',
       xs: '13px 13px 0 0',
     },}}
     children={ <IconOrTextBtn onClick={toggleShowNav} Icon={CloseIcon}/>} 
-    mobile={!showMenuBtnAlways} />
+    hideInDesktop={!showMenuBtnAlways} />
 
   const appBarSx = (theme: Theme) => ({
     display: 'flex',
@@ -67,22 +66,18 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
          <>{OpenMenuBtn}</> :
          <HideInDesktop 
           children={OpenMenuBtn} 
-          mobile={!showMenuBtnAlways} />
+          hideInDesktop={!showMenuBtnAlways} />
        }
      </>
     </AppBar>
-    <Box
-        component="nav"
-        sx={{ width: { lg: drawerWidth }, flexShrink: { sm: 0 } }}>
-          <TemporaryDrawer open={showNav} handleClose={toggleShowNav} isInDesktop={showMenuBtnAlways} drawerWidth={drawerWidth}>
-            {DrawerChildren}
-          </TemporaryDrawer>
-       { !showMenuBtnAlways &&
-        <PermanentDrawer drawerWidth={drawerWidth}>
-          {DrawerChildren}
-        </PermanentDrawer>
-        }
-      </Box>
+    <ResponsiveDrawer 
+      component="nav"
+      open={showNav} 
+      handleClose={toggleShowNav} 
+      isInDesktop={showMenuBtnAlways} 
+      drawerWidth={drawerWidth}>
+      {DrawerChildren}
+    </ResponsiveDrawer>
     </>
   )
 }

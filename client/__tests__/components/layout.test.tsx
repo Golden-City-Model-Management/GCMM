@@ -1,6 +1,6 @@
 
 
-import { screen, render, renderWithSetup } from '../utils';
+import { screen, render, renderWithSetup } from '@/utils/test.utils';
 import  LayoutOne  from '@/components/layout/LayoutOne';
 import  LayoutTwo  from '@/components/layout/LayoutTwo';
 import { LayoutProps } from '@/types/layout';

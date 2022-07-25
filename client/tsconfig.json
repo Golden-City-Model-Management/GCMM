@@ -23,6 +23,7 @@
       "@/types/*": ["types/*"],
       "@/context/*": ["context/*"],
       "@/public/*": ["public/*"],
+      "@/constants/*": ["constants/*"], 
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "*.d.ts", "**/*.tsx"],

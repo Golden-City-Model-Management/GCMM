@@ -1,6 +1,7 @@
 
 
-import { mainNavLinks, subNavLinks, socialLinks, NavLinkItem } from '@/components/navigation/Nav'
+import { LinkListItem } from '@/components/common/Links'
+import { mainNavLinks, subNavLinks, socialLinks, } from '@/constants/links'
 import Box from '@mui/material/Box'
 import PlaceIcon from '@mui/icons-material/Place';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
@@ -29,12 +30,12 @@ const Footer = () => {
         }}>
 
       <Box component='ul' sx={{padding: 0, margin: 0}}>
-        {[...mainNavLinks, ...subNavLinks].map(link => (<NavLinkItem key={link.to} variant='subNavLink' link={link} />))}
+        {[...mainNavLinks, ...subNavLinks].map(link => (<LinkListItem key={link.to} variant='subNavLink' link={link} />))}
         <Box component='ul' sx={{display: 'flex', margin: '10px 0', padding: '0', maxWidth: {
           md: '100%',
           xs: '30%'
         }}}>
-          {socialLinks.map(link => (<NavLinkItem key={link.to} variant='subNavLink' link={link} />))}
+          {socialLinks.map(link => (<LinkListItem key={link.to} variant='subNavLink' link={link} />))}
         </Box>
       </Box>
       <Box sx={{display: 'flex', flexDirection: 'column', lineHeight: '30px'}}>

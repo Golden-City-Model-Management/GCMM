@@ -1,5 +1,5 @@
 
-import { useContext, ReactElement } from 'react';
+import { useContext } from 'react';
 import Logo from '@/components/svgs/Logos';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -7,54 +7,18 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
-import { SvgIconComponent } from '@mui/icons-material';
 import Navigation from '@/components/navigation/Nav';
 import { UIContext } from '@/context/ui'
 import { Theme } from '@mui/material';
-
-const HideInDesktop = (
-  { children, mobile, sxProp }: { children: ReactElement, mobile: boolean, sxProp?: object }) => {
+import { HideInDesktop, IconOrTextBtn } from '@/components/common/bones'
+import { PermanentDrawer, TemporaryDrawer } from '@/components/common/Drawer'
  
-  const sx = {
-    display:{ 
-      lg: mobile ? 'none' : 'flex', 
-      xs: !mobile ? 'none' :'flex' 
-    },
-    ...sxProp
-  }
-
-  return(
-    <Box sx={sx}>
-      {children}
-    </Box>
-  )
-}
-
-const ToggleMenuBtn = ({Icon, onClick}:
-   {
-    Icon: SvgIconComponent | string,
-    onClick: () => void
-   }) => {
-  return(
-    <Button
-    disableFocusRipple
-    disableRipple
-    component='button'
-    variant='text'
-    color='inherit'
-    onClick={onClick}> 
-    { typeof Icon === 'string' ? 
-    Icon :
-    <Icon sx={{ fontSize: 40, color: 'palette.primary.contrastText' }} />}
-    </Button>
-   )
-} 
 
 const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
 
   const {showNav, toggleShowNav, bodyWidth, drawerWidth } = useContext(UIContext)
   
-  const OpenMenuBtn = <ToggleMenuBtn 
+  const OpenMenuBtn = <IconOrTextBtn 
     onClick={toggleShowNav} 
     Icon={showMenuBtnAlways ? 'menu' : MenuIcon} />
 
@@ -64,7 +28,7 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
       md: '18px 18px 0 0',
       xs: '13px 13px 0 0',
     },}}
-    children={ <ToggleMenuBtn onClick={toggleShowNav} Icon={CloseIcon}/>} 
+    children={ <IconOrTextBtn onClick={toggleShowNav} Icon={CloseIcon}/>} 
     mobile={!showMenuBtnAlways} />
 
   const appBarSx = (theme: Theme) => ({
@@ -81,19 +45,6 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
     borderBottom: { lg: `1px solid ${theme.palette.secondary.light}`},
   })
 
-  const drawerSx = (theme: Theme) => ({
-    '& .MuiDrawer-paper': { 
-    boxSizing: 'border-box',
-    width: {
-      sm: drawerWidth,
-      xs: 250
-    },  background: theme.palette.primary.dark,
-    paddingTop: {
-      lg: !showMenuBtnAlways ? '75px' : ''
-    }
-   },
-  })
-
   const DrawerChildren = (
     <>
     {CloseMenuBtn}
@@ -105,52 +56,32 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
     <>
     <AppBar 
       position="sticky" 
-      sx={(theme) => ({...appBarSx(theme)})}
-      > 
+      sx={(theme) => ({...appBarSx(theme)})}> 
       <>
-      <Button  
-      variant='text' 
-      href='/'>
-        <Logo />
-      </Button>
-      {
-        showMenuBtnAlways ?
-        <>{OpenMenuBtn}</> :
-        <HideInDesktop 
+        <Button  
+          variant='text' 
+          href='/'>
+          <Logo />
+        </Button>
+       { showMenuBtnAlways ?
+         <>{OpenMenuBtn}</> :
+         <HideInDesktop 
           children={OpenMenuBtn} 
           mobile={!showMenuBtnAlways} />
-      }
+       }
      </>
     </AppBar>
     <Box
         component="nav"
         sx={{ width: { lg: drawerWidth }, flexShrink: { sm: 0 } }}>
-        <Drawer
-          data-testid='nav'
-          aria-label="nav"
-          variant={"temporary"}  open={showNav}
-          onClose={toggleShowNav}
-          ModalProps={{ keepMounted: false }}
-          anchor='right'
-          sx={theme => ({
-            display: {
-              xs: 'block', 
-              lg:  showMenuBtnAlways ? "block" :  'none' },
-              ...drawerSx(theme),
-          })}>
+          <TemporaryDrawer open={showNav} handleClose={toggleShowNav} isInDesktop={showMenuBtnAlways} drawerWidth={drawerWidth}>
+            {DrawerChildren}
+          </TemporaryDrawer>
+       { !showMenuBtnAlways &&
+        <PermanentDrawer drawerWidth={drawerWidth}>
           {DrawerChildren}
-        </Drawer>
-       { !showMenuBtnAlways && <Drawer
-          data-testid='nav'
-          variant="permanent" 
-          anchor="right" open
-          sx={(theme) => ({
-            display: { xs: 'none', lg: 'block' },
-            ...drawerSx(theme),
-          })}
-          >
-          {DrawerChildren}
-        </Drawer>}
+        </PermanentDrawer>
+        }
       </Box>
     </>
   )

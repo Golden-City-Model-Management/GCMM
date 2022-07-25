@@ -28,10 +28,10 @@ const mainNavLinks = [
 ]
 
 const subNavLinks = [
-  {
-    name: 'Contact Us',
-    to: '/contact-us'
-  },
+  // {
+  //   name: 'Contact Us',
+  //   to: '/contact-us'
+  // },
   {
     name: 'About Us',
     to: '/about-us'

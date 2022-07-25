@@ -2,11 +2,9 @@
 import { useContext } from 'react';
 import Logo from '@/components/svgs/Logos';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
-import Drawer from '@mui/material/Drawer';
 import Navigation from '@/components/navigation/Nav';
 import { UIContext } from '@/context/ui'
 import { Theme } from '@mui/material';

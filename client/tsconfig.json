@@ -16,10 +16,16 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
+      "@/styles/*": ["styles/*"],
       "@/pages/*": ["pages/*"],
-      "@/components/*": ["components/*"]
+      "@/components/*": ["components/*"],
+      "@/utils/*": ["utils/*"],
+      "@/types/*": ["types/*"],
+      "@/context/*": ["context/*"],
+      "@/public/*": ["public/*"],
+      "@/constants/*": ["constants/*"], 
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "*.d.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }

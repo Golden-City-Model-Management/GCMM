@@ -1,23 +1,23 @@
 
 
-
-import { screen, render } from '@testing-library/react';
-import  userEvent from '@testing-library/user-event'
+import { screen, render, renderWithSetup } from '@/utils/test.utils';
 import  LayoutOne  from '@/components/layout/LayoutOne';
 import  LayoutTwo  from '@/components/layout/LayoutTwo';
-import { LayoutProps } from '@/components/layout/layout.types';
+import { LayoutProps } from '@/types/layout';
 
 const RenderWithProps = (
  { Layout, props}: {
   Layout: React.ComponentType<LayoutProps>,
-  props: LayoutProps
+  props: LayoutProps 
  }) => {
   return (
-    <Layout
+    <>
+    {<Layout
       children={props.children}
-      pageTitle={props.pageTitle}
-      pageDescription={props.pageDescription}
-      pageFavicon={props.pageFavicon}  />
+      title={props.title}
+      description={props.description}
+      favicon={props.favicon}  />}
+    </>
   )
 }
 
@@ -42,7 +42,7 @@ const testLayout = (Layout: React.ComponentType<LayoutProps>, props:LayoutProps)
 const testLogo = (Layout: React.ComponentType<LayoutProps>, props: LayoutProps) => {
   return () => {
     render(<RenderWithProps Layout={Layout} props={props} />)
-    expect(screen.getByAltText(/golden city model managemnt logo. A Capital Letter C enclosing a capital letter G/i).closest('header')).toBeInTheDocument()
+    expect(screen.getByTestId(/logo/i).closest('header')).toBeInTheDocument()
   }
 }
 
@@ -57,9 +57,9 @@ const testChildren = (Layout: React.ComponentType<LayoutProps>, props: LayoutPro
 }
 const props: LayoutProps = {
   children: <div>Children</div>,
-  pageTitle: 'This is the first layout',
-  pageDescription: 'This is the first layout description',
-  pageFavicon: 'https://via.placeholder.com/300x300'
+  title: 'This is the first layout',
+  description: 'This is the first layout description',
+  favicon: 'https://via.placeholder.com/300x300'
 }
 
 describe('Renders Layout One', () => {
@@ -72,22 +72,12 @@ describe('Renders Layout Two', () => {
   it('renders a header element with the logo', testLogo(LayoutTwo, props));
   it('renders children outside of navigation', testChildren(LayoutTwo, props));
   it('renders functional menu button and toggles navigation onclick of menu button', async () => {
-    render(<RenderWithProps Layout={LayoutTwo} props={props} />)
+    const { user } = renderWithSetup(<RenderWithProps Layout={LayoutTwo} props={props} />)
     const menuButton = screen.getByRole('button', {name: /menu/i})
     expect(menuButton).toBeInTheDocument()
-    await userEvent.click(menuButton)
-    const nav = screen.getByRole('navigation')
-    expect(nav).toBeInTheDocument()
-    await userEvent.click(menuButton)
-    expect(nav).not.toBeInTheDocument()
+    expect(screen.queryByTestId('nav')).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', {name: /menu/i}))
+    expect(screen.getByTestId('nav')).toBeInTheDocument()
+    testSemanticNav() 
   })
-
-  it('renders navigation semantically', async () => {
-    render(<RenderWithProps Layout={LayoutTwo} props={props} />)
-    const nav = screen.queryByRole('navigation')
-    expect(nav).not.toBeInTheDocument()
-    await userEvent.click(screen.getByRole('button', {name: /menu/i}))
-    expect(screen.getByRole('navigation')).toBeInTheDocument()
-    testSemanticNav()
-  })
-})
+}) 

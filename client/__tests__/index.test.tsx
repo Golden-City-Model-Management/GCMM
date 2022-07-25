@@ -1,24 +1,24 @@
 
-import { render, screen } from '@testing-library/react'
+import { render, screen, renderWithLayout } from '@/utils/test.utils'
 import Home from '@/pages/index'
 
 describe('Home page is rendered with appropriate elements', () => {
 
   it('renders a main element', () => {
-    render(<Home />)
+    render(renderWithLayout(Home))
     expect(screen.getByRole('main')).toBeInTheDocument()
   })
   
   it('renders a heading', () => {
-    render(<Home />)
+    render(renderWithLayout(Home))
     const heading = screen.getByRole('heading', {
-      name: /GoldenCity Model Management/i,
+      name: /Golden City Model Management/i,
     })
     expect(heading).toBeInTheDocument()
   })
 
   it('renders call to action', () => {
-    render(<Home />)
+    render(renderWithLayout(Home))
 
     const callToActions = screen.getByTestId('ctas')
     
@@ -31,13 +31,11 @@ describe('Home page is rendered with appropriate elements', () => {
   })
 
   it('renders gallery section with heading and links', () => {
-    render(<Home />)
-    const gallery = screen.getByTestId('gallery')
+    render(renderWithLayout(Home))
+    const gallery = screen.getByTestId('gallery-preview')
     const heading = screen.getByRole('heading', {name: /talent at its finest/i})
     expect(gallery).toBeInTheDocument()
     expect(heading).toBeInTheDocument()
-    expect(screen.getByText( /gallery/i)
-    .closest('a'))
-    .toHaveAttribute('href', '/gallery')
+    expect(screen.getByTestId('gallery-preview-link')).toHaveAttribute('href', '/gallery')
   }) 
 }) 

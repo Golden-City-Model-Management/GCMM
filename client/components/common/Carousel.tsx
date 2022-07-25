@@ -1,13 +1,13 @@
 
+import { StaticImageData } from 'next/image'
 import { useState, useCallback, useEffect } from 'react'
+import { Theme } from '@mui/material';
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import IconButton from '@mui/material/IconButton';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { StaticImageData } from 'next/image'
-import { Theme } from '@mui/material';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 
 const Carousel = ({ images, width, height }: {

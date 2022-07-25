@@ -1,9 +1,8 @@
 
 
-import Box, { BoxProps } from '@mui/material/Box'
-import Drawer from '@mui/material/Drawer';
-import { DrawerProps } from '@mui/material/Drawer/Drawer'
 import { Theme } from '@mui/material'
+import Box, { BoxProps } from '@mui/material/Box'
+import Drawer, { DrawerProps } from '@mui/material/Drawer'
 
 interface DrawerSxInterface {
   theme: Theme,

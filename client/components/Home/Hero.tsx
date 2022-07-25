@@ -1,7 +1,7 @@
 
 import { useContext, useState, useEffect } from 'react' 
-import { UIContext } from '@/context/ui'
 import NextLink from 'next/link'
+import { UIContext } from '@/context/ui'
 import { StyledBorderBtn } from '@/components/common/Buttons'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'

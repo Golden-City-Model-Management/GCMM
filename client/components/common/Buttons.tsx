@@ -1,8 +1,7 @@
 
 
 import { forwardRef } from 'react'
-import Button from '@mui/material/Button'
-import { ButtonProps } from '@mui/material/Button/Button'
+import Button, { ButtonProps } from '@mui/material/Button'
 
 
 export const StyledBorderBtn = forwardRef(({children, ...otherProps}: ButtonProps, ref) => {

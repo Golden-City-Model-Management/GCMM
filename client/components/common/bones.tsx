@@ -1,9 +1,8 @@
 
-import { SvgIconComponent } from '@mui/icons-material'
-import Box from '@mui/material/Box'
-import { BoxProps } from '@mui/material/Box/Box'
-import Button from '@mui/material/Button'
 import { ReactElement } from 'react'
+import { SvgIconComponent } from '@mui/icons-material'
+import Box, { BoxProps } from '@mui/material/Box'
+import Button from '@mui/material/Button'
 
 interface HideInDesktopProps extends BoxProps {
   children: ReactElement, hideInDesktop: boolean, sxProp?: object,

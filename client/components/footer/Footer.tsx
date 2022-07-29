@@ -41,8 +41,8 @@ const Footer = () => {
       <Box sx={{display: 'flex', flexDirection: 'column', lineHeight: '30px'}}>
       <Typography sx={{ maxWidth: '25ch', margin: '20px 0' }} component='address'>
       <PlaceIcon  />
-          Kelly Ann,<br/>
-          Egbeda Alimosho,<br/>
+          No 4, Okiki imole street,<br/>
+          Ikola agodo, Ipaja,<br/>
           Lagos State, Nigeria.<br/>
           PO BOX 100001
        </Typography>

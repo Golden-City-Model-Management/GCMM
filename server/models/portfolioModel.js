@@ -11,11 +11,9 @@ const portfolioSchema = new mongoose.Schema({
   image: {
    type: String,
    required: [true, 'Please specify the path to the image!']
-  }, 
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  },
+},{
+  timestammps: true,
 })
 
 module.exports = mongoose.model('Portfolio', portfolioSchema)

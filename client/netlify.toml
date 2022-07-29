@@ -4,6 +4,6 @@
   publish = ".next"
   
 [redirects]
-from = “/*”
-to = “/index.html”
+from = "/*"
+to = "/index.html"
 status = 200

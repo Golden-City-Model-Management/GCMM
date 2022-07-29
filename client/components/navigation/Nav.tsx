@@ -6,7 +6,7 @@ import { LinkListItem } from '@/components/common/Links'
 import { mainNavLinks, subNavLinks, socialLinks } from '@/constants/links'
 
 const listSx = () => ({
-    margin: '0 0 30px 0'
+    // margin: '0 0 15px 0'
   })
 const Navigation = () => {
 
@@ -14,7 +14,13 @@ const Navigation = () => {
       <Box sx={() => ({
         padding: '10px 0 10px 32px',
       })}>
-        <List sx={() => ({...listSx()})}>
+      <Box sx={() => ({
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        minHeight: '80vh'
+      })}>
+      <List sx={() => ({...listSx()})}>
           {mainNavLinks.map(link => (<LinkListItem
           key={link.to} 
           variant='mainNavLink'
@@ -30,7 +36,9 @@ const Navigation = () => {
         <List 
           sx={() => ({
             display: 'flex', 
-            maxWidth: '40%',})}>
+            maxWidth: '40%',
+            marginTop: 'auto', 
+            })}>
           {socialLinks.map(link => (<LinkListItem 
           key={link.to} 
           variant='subNavLink'
@@ -40,12 +48,13 @@ const Navigation = () => {
          sx={(theme) => 
           ({
             color: theme.palette.text.primary,
-            textTransform: 'capitalize'
+            textTransform: 'capitalize',
           })}
           variant='small'
           component='small'>
           &copy; GOLDEN CITY MODEL MANAGEMENT {new Date().getFullYear()}
         </Typography>
+      </Box>
       </Box>
   );
 }

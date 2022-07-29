@@ -28,7 +28,7 @@ const Head = ({
       <meta property='og:site_name' content={'Golden City Model Management'} />
       <meta property='og:type' content='website' />
       <meta property='og:image' content='/public/assets/images/BG-05.jpg' />
-      <meta property='og:url' content='/' />
+      <meta property='og:url' content='https://goldencitymodelsng.netlify.app/' />
     </NextHead>
   )
 }

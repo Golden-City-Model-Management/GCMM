@@ -1,7 +1,6 @@
 
 
 import FacebookIcon from '@mui/icons-material/Facebook'
-import TwitterIcon from '@mui/icons-material/Twitter'
 import InstagramIcon from '@mui/icons-material/Instagram'
 
 const mainNavLinks = [
@@ -28,10 +27,6 @@ const mainNavLinks = [
 ]
 
 const subNavLinks = [
-  // {
-  //   name: 'Contact Us',
-  //   to: '/contact-us'
-  // },
   {
     name: 'About Us',
     to: '/about-us'
@@ -41,15 +36,11 @@ const subNavLinks = [
 const socialLinks = [
   {
     name: InstagramIcon,
-    to: 'https://www.instagram.com/',
+    to: 'https://www.instagram.com/goldencitymodelsng/?igshid=YmMyMTA2M2Y%3D',
   },
   {
     name: FacebookIcon, 
-    to: 'https://www.facebook.com',
-  },
-  {
-    name:  TwitterIcon,
-    to: 'https://www.twitter.com',
+    to: 'https://web.facebook.com/goldencitymodelsng-113310673451415/',
   }
 ]
 

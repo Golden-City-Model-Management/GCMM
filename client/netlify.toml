@@ -1,8 +1,9 @@
-[build]
-publish = “build”
-command = “yarn build”
 
-[[redirects]]
+[build]
+  command = "yarn build"
+  publish = ".next"
+  
+[redirects]
 from = “/*”
 to = “/index.html”
 status = 200

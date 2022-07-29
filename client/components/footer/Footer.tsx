@@ -41,10 +41,10 @@ const Footer = () => {
       <Box sx={{display: 'flex', flexDirection: 'column', lineHeight: '30px'}}>
       <Typography sx={{ maxWidth: '25ch', margin: '20px 0' }} component='address'>
       <PlaceIcon  />
-          #20 Street Address,<br/>
-          Town Address, City,<br/>
-          State, Nigeria.<br/>
-          PO BOX 32342
+          Kelly Ann,<br/>
+          Egbeda Alimosho,<br/>
+          Lagos State, Nigeria.<br/>
+          PO BOX 100001
        </Typography>
        <Link passHref href='mailto:gcmm@gmail.com' >
         <MUILink color='inherit'><ForwardToInboxIcon /> &nbsp; goldencity@gcmm.com</MUILink>

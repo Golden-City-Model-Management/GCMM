@@ -5,7 +5,7 @@ import { Link as MUILink } from '@mui/material';
 import { ListItem } from "@mui/material"
 import { SvgIconComponent } from "@mui/icons-material"
 
-const LinkListItem = ({link, variant, onClick}: {
+const LinkListItem = ({link, variant, }: {
   link: {
     name: string | SvgIconComponent,
     to: string,
@@ -22,7 +22,7 @@ const LinkListItem = ({link, variant, onClick}: {
     <ListItem sx={{padding: '0 0 16px 0'}}>
     <NextLink href={link.to} passHref>
      <MUILink
-     onClick={() => onClick && onClick() && console.log('clicked')}
+     onClick={() => link.onClick && link.onClick()}
      href={link.to}
      variant={variant} 
      sx={(theme) => ({

@@ -98,3 +98,6 @@
 // const handleSwipeEnd = useCallback<TouchEventHandler>((e) => {
 //   handleTouchEnd(e)
 // }, [])
+
+
+export {}

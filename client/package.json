@@ -10,8 +10,10 @@
     "lint": "next lint",
     "test": "jest --watch",
     "test:ci": "jest --ci",
-    "cypress": "cypress open",
-    "cypress:headless": "cypress run"
+    "cypress:dev": "cypress open",
+    "cypress:ci:e2e": "cypress run",
+    "cypress:ci:component": "cypress run --component"
+   
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",

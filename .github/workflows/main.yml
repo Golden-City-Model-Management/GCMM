@@ -38,9 +38,13 @@ jobs:
           PORT: 3000
         run: npm run start &
 
-      - name: Cypress
+      - name: Cypress Component
         working-directory: client
-        run: npm run cypress:headless
+        run: npm run cypress:ci:component
+
+      - name: Cypress e2e
+        working-directory: client
+        run: npm run cypress:ci:e2e
 
       - name: Save screenshots
         uses: actions/upload-artifact@v2

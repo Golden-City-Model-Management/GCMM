@@ -27,8 +27,25 @@ jobs:
         working-directory: client
         run: npm install
 
-      - name: Cypress run
-        uses: cypress-io/github-action@v4
+      - name: Start frontend in the background
+        working-directory: client
+        env:
+          HOST: localhost
+          PORT: 3000
+        run: npm run start &
+
+      - name: Cypress
+        working-directory: client
+        run: yarn cypress run
+
+      - name: Save screenshots
+        uses: actions/upload-artifact@v2
         with:
-          build: npm run build
-          start: npm start
+          name: cypress-screenshots
+          path: client/cypress/screenshots
+
+      - name: Save videos
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-videos
+          path: client/cypress/videos

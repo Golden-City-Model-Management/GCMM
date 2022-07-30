@@ -7,9 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install client dependencies
-        working-directory: client
+        working-directory: ./client
         run: npm install
-        
+
       - name: Checkout
         uses: actions/checkout@v2
       # Install NPM dependencies, cache them correctly

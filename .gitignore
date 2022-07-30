@@ -13,6 +13,8 @@ server/client_secret.json
 
 # testing
 /coverage
+client/cypress/screenshots
+client/cypress/videos
 
 # next.js
 */.next/

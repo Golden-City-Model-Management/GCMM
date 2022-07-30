@@ -27,6 +27,10 @@ jobs:
         working-directory: client
         run: npm install
 
+      - name: Create build
+        working-directory: client
+        run: npm run build
+
       - name: Start frontend in the background
         working-directory: client
         env:
@@ -36,7 +40,7 @@ jobs:
 
       - name: Cypress
         working-directory: client
-        run: yarn cypress run
+        run: npm run cypress:headless
 
       - name: Save screenshots
         uses: actions/upload-artifact@v2

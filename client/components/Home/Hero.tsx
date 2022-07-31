@@ -108,7 +108,7 @@ const Hero = () => {
             </Typography>
             <Box
             sx={{display: 'flex', gap: '25px'}}
-            data-testid='hero-ctas'
+            data-testid='hero-cta'
             >
             {
               heroLinks.map(link => (

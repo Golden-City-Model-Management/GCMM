@@ -13,7 +13,7 @@ export default defineConfig({
     },
     supportFile: "./cypress/support/component.tsx",
     watchForFileChanges: true,
-    specPattern: "./cypress/component/*.cy.{js,jsx,ts,tsx}",
+    specPattern:[ "./cypress/component/*.cy.{js,jsx,ts,tsx}",  "**/cypress/component/*.cy.{js,jsx,ts,tsx}"],
   },
   
 });

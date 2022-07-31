@@ -8,8 +8,6 @@
     "start": "next start",
     "export": "next export",
     "lint": "next lint",
-    "test": "jest --watch",
-    "test:ci": "jest --ci",
     "cypress:dev": "cypress open",
     "cypress:ci:e2e": "cypress run",
     "cypress:ci:component": "cypress run --component"
@@ -28,17 +26,12 @@
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^4.13.1",
-    "@testing-library/jest-dom": "5.16.4",
-    "@testing-library/react": "13.2.0",
-    "@testing-library/user-event": "14.2.0",
     "@types/node": "18.0.0",
     "@types/react": "18.0.14",
     "@types/react-dom": "18.0.5",
     "cypress": "^10.3.1",
     "eslint": "8.18.0",
     "eslint-config-next": "12.2.0",
-    "jest": "28.1.0",
-    "jest-environment-jsdom": "28.1.0",
     "typescript": "4.7.4"
   }
 }

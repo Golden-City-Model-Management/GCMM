@@ -11,14 +11,12 @@ describe('Home page is rendered with appropriate elements', () => {
     cy.visit(baseUrl)
     cy.get('h1').should('exist').should('contain', 'GoldenCity Model Management')
   })
-  it('renders call to actions', () => {
+  it('renders call to action', () => {
     cy.visit(baseUrl)
-    const ctas = cy.get('[data-testid="hero-ctas"]')
-    ctas.children('a').its('length').should('eq', 2)
-    const mainBoardLink = ctas.get('a[href="/main-board"]')
-    mainBoardLink.should('exist').should('contain.text', 'main board')
-   const newFacesLink = ctas.get('a[href="/new-faces"]')
-   newFacesLink.should('exist').should('contain.text', 'new faces')
+    const callToAction = cy.get('[data-testid="hero-cta"]')
+    callToAction.children('a').its('length').should('eq', 2)
+    callToAction.get('a[href="/main-board"]').should('exist').should('contain.text', 'main board')
+    callToAction.get('a[href="/new-faces"]').should('exist').should('contain.text', 'new faces')
   }) 
   
   it('renders gallery section with heading and link', () => {

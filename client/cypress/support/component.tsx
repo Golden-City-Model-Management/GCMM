@@ -18,7 +18,7 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
-
+import * as NextRouter from 'next/router';
 import CssBaseline from '@mui/material/CssBaseline';
 import ContextProvider from '@/context/provider'
 
@@ -28,6 +28,12 @@ import { mount } from 'cypress/react'
 // your custom command.
 // Alternatively, can be defined in cypress/support/component.d.ts
 // with a <reference path="./component" /> at the top of your spec.
+
+beforeEach(() => {
+  const asPath = '/'
+  cy.stub(NextRouter, 'useRouter').returns({ asPath })
+})
+
 declare global {
   namespace Cypress {
     interface Chainable {

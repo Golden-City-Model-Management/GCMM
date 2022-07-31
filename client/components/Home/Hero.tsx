@@ -1,6 +1,5 @@
 
 import { useContext, useState, useEffect } from 'react' 
-import NextLink from 'next/link'
 import { UIContext } from '@/context/ui'
 import { StyledBorderBtn } from '@/components/common/Buttons'
 import Box from '@mui/material/Box'
@@ -109,7 +108,7 @@ const Hero = () => {
             </Typography>
             <Box
             sx={{display: 'flex', gap: '25px'}}
-            data-testid='ctas'
+            data-testid='hero-ctas'
             >
             {
               heroLinks.map(link => (

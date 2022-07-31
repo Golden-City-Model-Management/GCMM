@@ -26,13 +26,14 @@ const HideInDesktop = (
   )
 }
 
-const IconOrTextBtn = ({Icon, onClick}:
+const IconOrTextBtn = ({Icon, onClick, ...otherProps}:
   {
    Icon: SvgIconComponent | string,
    onClick: () => void
   }) => {
  return(
    <Button
+   {...otherProps}
    disableFocusRipple
    disableRipple
    component='button'

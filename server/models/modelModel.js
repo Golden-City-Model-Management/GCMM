@@ -31,7 +31,7 @@ const modelSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'A model must have a name!'],
-    minLength: [5, 'The name must be at least 5 characters long!'],
+    minLength: [3, 'The name must be at least 5 characters long!'],
   },
   age: {
     type: Number,

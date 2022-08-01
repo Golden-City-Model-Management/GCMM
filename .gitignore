@@ -15,6 +15,7 @@ server/client_secret.json
 /coverage
 client/cypress/screenshots
 client/cypress/videos
+client/cypress/downloads
 
 # next.js
 */.next/

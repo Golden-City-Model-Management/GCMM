@@ -8,6 +8,7 @@ const globalErrorHandler = require('./middleware/errorMiddleware')
 const modelsRouter = require('./routes/models');
 const usersRouter = require('./routes/users');
 const portfoliosRouter = require('./routes/portfolios');
+const inquiriesRouter = require('./routes/feedbacks');
 const { verifyClient } = require('./middleware/authMiddleware')
 
 const app = express();
@@ -32,6 +33,7 @@ app.use(cookieParser());
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/models', modelsRouter)
 app.use('/api/v1/portfolios', portfoliosRouter)
+app.use('/api/v1/feedback', inquiriesRouter)
 
 // catch 404 and forward to error handler
 app.all('*', (req, _, next) => {

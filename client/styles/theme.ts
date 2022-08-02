@@ -20,6 +20,18 @@ const styleOverrides = {
   },
   '@media (min-width: 1700px)': {
     fontSize: "115%",
+  },
+  textarea:{
+    backgroundColor: 'transparent',
+    color: 'inherit',
+    fontFamily: 'inherit',
+    fontSize: 'inherit',
+    border: 'none', 
+    width: '100%',
+    height: '100%',
+    '&:focus': {
+      outline: 'none'
+    }
   }
 }
 }

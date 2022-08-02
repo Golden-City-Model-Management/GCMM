@@ -20,7 +20,7 @@ describe('Home page is rendered with appropriate elements', () => {
     callToAction.children('a').should('have.length', 2)
     callToAction.get('a[href="/main-board"]').should('exist')
     callToAction.get('a[href="/new-faces"]').should('exist')
-  }) 
+  })  
   
   it('renders gallery section with heading and link', () => {
     const gallery = cy.get('[data-testid="gallery-preview"]')

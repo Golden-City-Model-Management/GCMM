@@ -18,8 +18,8 @@ describe('Home page is rendered with appropriate elements', () => {
   it('renders call to action', () => {
     const callToAction = cy.get('[data-testid="hero-cta"]')
     callToAction.children('a').should('have.length', 2)
-    callToAction.get('a[href="/main-board"]').should('exist')
-    callToAction.get('a[href="/new-faces"]').should('exist')
+    callToAction.get('a[href="/mainboard"]').should('exist')
+    callToAction.get('a[href="/newfaces"]').should('exist')
   })  
   
   it('renders gallery section with heading and link', () => {
@@ -36,14 +36,14 @@ describe('call to action leads to appropriate page', () => {
   })
   it('navigates to main board page on click of call to action', () => {
     const hero = cy.get('[data-testid="hero-cta"]')
-    hero.children('a[href="/main-board"]').click()
-    cy.url().should('include', '/main-board')
+    hero.children('a[href="/mainboard"]').click()
+    cy.url().should('include', '/mainboard')
   })
 
   it('navigates to new faces page on click of call to action', () => {
     const hero = cy.get('[data-testid="hero-cta"]')
-    hero.children('a[href="/new-faces"]').click()
-    cy.url().should('include', '/new-faces')
+    hero.children('a[href="/newfaces"]').click()
+    cy.url().should('include', '/newfaces')
   })
 })
 

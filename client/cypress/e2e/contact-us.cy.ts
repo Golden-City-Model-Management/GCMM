@@ -1,5 +1,5 @@
 
-const baseUrl = '/contact-us'
+const baseUrl = '/contact'
 
 describe('Contact page is rendered with appropriate elements', () => {
 

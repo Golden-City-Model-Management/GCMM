@@ -1,6 +1,6 @@
 
 
-const baseUrl = '/about-us'
+const baseUrl = '/about'
 
 describe('About us page is rendered with appropriate elements', () => {
 

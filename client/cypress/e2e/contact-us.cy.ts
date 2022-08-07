@@ -19,8 +19,8 @@ describe('Contact page is rendered with appropriate elements', () => {
     cy.get('form').should('exist')
     cy.get('input[name="name"]').should('exist')
     cy.get('input[name="email"]').should('exist')
-    cy.get('input[name="message"]').should('exist')
-    cy.get('input[type="submit"]').should('exist')
+    cy.get('textarea[name="message"]').should('exist')
+    cy.get('button[type="submit"]').should('exist')
   })
 
 })

@@ -15,12 +15,12 @@ export const rounded = () => ({
 
 export const padded = () => ({
   sm: {
-    padding: '8px',
+    padding: '8px 12px',
   },
   md: {
-    padding: '12px',
+    padding: '12px 16px',
   },
   lg: {
-    padding: '15px',
+    padding: '15px 20px',
   }
 })

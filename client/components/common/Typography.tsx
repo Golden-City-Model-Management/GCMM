@@ -13,7 +13,7 @@ const Prose = ({ text, sxProp, ...otherProps }: ProseProps) => {
       sx={{
         fontSize: '1.5rem',
         lineHeight: '1.5',
-        maxWidth: '65ch',
+        maxWidth: '45ch',
         ...sxProp
       }}
     >{text}</Typography>

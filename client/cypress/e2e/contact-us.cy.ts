@@ -36,3 +36,5 @@ describe('contact form submits', () => {
     successAlert.should('not.exist')
   })
 })
+
+export {}

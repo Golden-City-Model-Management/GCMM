@@ -1,7 +1,7 @@
 
 
 import { Theme } from '@mui/material'
-import TextAreaAutoSize, { TextareaAutosizeProps } from '@mui/material/TextareaAutoSize'
+import TextAreaAutoSize, { TextareaAutosizeProps } from '@mui/material/TextareaAutosize'
 import Input, { InputProps } from '@mui/material/Input'
 import Box from '@mui/material/Box'
 import { rounded, padded } from '@/styles/styles'

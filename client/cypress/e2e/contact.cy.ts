@@ -27,12 +27,15 @@ describe('Contact page is rendered with appropriate elements', () => {
 
 describe('contact form submits', () => {
   it('submits form', () => {
+    cy.intercept('POST', '/api/feedback', { message: 'Thank you for your feedback!'}).as('submitFeedback')
     cy.get('input[name="name"]').type('Test User')
     cy.get('input[name="email"]').type('test@email.com')
     cy.get('textarea[name="message"]').type('This is a test message')
-    cy.get('button[type="submit"]').click()
-    const successAlert = cy.get('[data-testid="contact-form-success"]').should('exist').should('contain.text', 'Your message has been sent!')
-    cy.get('[data-testid="contact-form-success"]').children('[data-testid="contact-form-success-close"]').click()
+    cy.get('form').submit()
+    cy.wait('@submitFeedback')
+    const successAlert = cy.get('[data-testid="contact-form-success"]')
+    successAlert.should('exist').should('contain.text', 'Your message has been sent!')
+    successAlert.get('button').click()
     successAlert.should('not.exist')
   })
 })

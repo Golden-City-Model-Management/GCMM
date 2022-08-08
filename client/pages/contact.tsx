@@ -7,15 +7,24 @@ import { NextPageWithLayout } from '@/types/pages'
 import LayoutOne from '@/components/layout/LayoutOne'
 import getLayout from '@/utils/pages/getLayout' 
 import Typography  from '@mui/material/Typography'
+import CloseIcon from '@mui/icons-material/Close';
+import Button from '@mui/material/Button';
+import { TopCenteredSnackbar } from '@/components/common/snackbars'
+import { SuccessAlert, ErrorAlert } from '@/components/common/alert'
 import { Prose } from '@/components/common/Typography'
 import { WhiteBorderInput, TextareaAutoResizeWhiteBorder } from '@/components/common/Inputs'
 import { WhiteButton } from '@/components/common/Buttons'
 import Box from '@mui/material/Box'
+import FetchRequest from '@/utils/fetch/fetch'
 
 const ContactUs: NextPageWithLayout = () => { 
 
   const [ feedback, setFeedback ] = useState({
     name: '', email: '', message: ''
+  })
+
+  const [ submitSuccessfull, setSubmitSuccessFull ] = useState({
+    success: false, message: 'bvbnmbvmbvbvmb', open: false
   })
 
   const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -25,23 +34,58 @@ const ContactUs: NextPageWithLayout = () => {
     }))
   }, [])
 
-  const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
+  const resetSubmituccessful = useCallback(() => {
+    setSubmitSuccessFull({
+      success: false, message: '', open: false
+    })
+  }, [])
+
+  const handleSubmit = useCallback( async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if(feedback.name && feedback.email && feedback.message) {
-      console.log(feedback)
+      const response = await FetchRequest({
+        method: 'POST', 
+        url: '/api/feedback',
+        data: feedback
+      }) 
+      if(response.status === 200) {
+        const { message } = await response.json()
+        setSubmitSuccessFull({
+          success: true, message, open: true,
+        })
+        setFeedback({
+          name: '', email: '', message: ''
+        })
+      }
     }
-    setFeedback({
-      name: '', email: '', message: ''
-    })
   }, [feedback])
+
+  const AlertChildren = () =>
+      (<Box component='div'>
+        {submitSuccessfull.message}
+        <Button onClick={resetSubmituccessful} color="inherit" size="small">
+            <CloseIcon />
+        </Button>
+      </Box>)
 
   return ( 
     <Box sx={{padding: '60px 0', maxWidth: {
       lg: '600px'
-    } }}> 
+    }}}> 
+     <TopCenteredSnackbar
+      data-testid='contact-form-success'
+      open={submitSuccessfull.open}
+      autoHideDuration={600000} 
+      onClose={resetSubmituccessful}>
+       {
+        submitSuccessfull.success  ?
+         <SuccessAlert children={<AlertChildren />} /> :
+         <ErrorAlert children={<AlertChildren />} />
+       }
+      </TopCenteredSnackbar>
      <Typography variant='caption' component='h1'>Contact Us</Typography> 
      <Prose 
-      sxProp={{margin: '30px 0'}} 
+      sxProp={{margin: '20px 0'}} 
       text={
       `Questions?  Compliants?  Feedback? 
       \n Don't hesitate to reach us.
@@ -53,7 +97,9 @@ const ContactUs: NextPageWithLayout = () => {
         maxWidth: '600px',
      }}>
      <Box sx={{
-      display: 'flex', 
+      display: {
+        md:  'flex',
+      },
       alignItems: 'stretch',
       gap: '20px',
      }}>
@@ -85,7 +131,13 @@ const ContactUs: NextPageWithLayout = () => {
       </Box>
       <Box  sx={{
         flexBasis: '60%',
-        maxWidth: '60%',
+        marginTop: {
+          xs: '20px',
+          md: '0'
+        },
+        maxWidth: {
+          md: '60%',
+        },
       }}>
         <TextareaAutoResizeWhiteBorder 
           name='message'

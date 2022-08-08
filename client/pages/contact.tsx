@@ -63,7 +63,7 @@ const ContactUs: NextPageWithLayout = () => {
   const AlertChildren = () =>
       (<Box component='div'>
         {submitSuccessfull.message}
-        <Button onClick={resetSubmituccessful} color="inherit" size="small">
+        <Button data-testid='close-contact-form-success' onClick={resetSubmituccessful} color="inherit" size="small">
             <CloseIcon />
         </Button>
       </Box>)

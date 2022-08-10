@@ -14,6 +14,7 @@ import { SuccessAlert, ErrorAlert } from '@/components/common/alert'
 import { Prose } from '@/components/common/Typography'
 import { WhiteBorderInput, TextareaAutoResizeWhiteBorder } from '@/components/common/Inputs'
 import { WhiteButton } from '@/components/common/Buttons'
+import Loader from '@/components/common/loader'
 import Box from '@mui/material/Box'
 import Request from '@/utils/request/request'
 
@@ -22,6 +23,8 @@ const ContactUs: NextPageWithLayout = () => {
   const [ feedback, setFeedback ] = useState({
     name: '', email: '', message: ''
   })
+
+  const [ loading, setLoading ] = useState(false)
 
   const [ submitSuccessfull, setSubmitSuccessfull ] = useState({
     success: false, message: '', open: false
@@ -48,6 +51,7 @@ const ContactUs: NextPageWithLayout = () => {
     if(feedback.message.trim().length > 500) return setSubmitSuccessfull({
       success: false, message: `Message too long!`, open: true 
     })
+    setLoading(true)
      const response = await Request({
        method: 'POST', 
         path: '/feedback',
@@ -67,6 +71,7 @@ const ContactUs: NextPageWithLayout = () => {
           success: false, message, open: true, 
         })
       }
+      setLoading(false)
   }, [feedback])
 
   const AlertChildren = () =>
@@ -92,6 +97,7 @@ const ContactUs: NextPageWithLayout = () => {
          <ErrorAlert children={<AlertChildren />} />
        }
       </TopCenteredSnackbar>
+      <Loader open={loading} />
      <Typography variant='caption' component='h1'>Contact Us</Typography> 
      <Prose 
       sxProp={{margin: '20px 0 35px'}} 

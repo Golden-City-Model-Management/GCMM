@@ -30,7 +30,11 @@ async function Request ({
     })
     .then(response => ({...response.data, statusCode: response.status}))
     .catch(err => {
-      return {statusCode: err.response.status, ...err.response.data}
+      if(err.response) {
+        return {...err.response.data, statusCode: err.response.status}
+      } else {
+        return {message: 'Something went wrong!', statusCode: 500}
+      }
     })
 }
 

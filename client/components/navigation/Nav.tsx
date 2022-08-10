@@ -5,9 +5,7 @@ import Typography from '@mui/material/Typography'
 import { LinkListItem } from '@/components/common/Links'
 import { mainNavLinks, subNavLinks, socialLinks } from '@/constants/links'
 
-const listSx = () => ({
-    // margin: '0 0 15px 0'
-  })
+
 const Navigation = () => {
 
   return (
@@ -20,14 +18,14 @@ const Navigation = () => {
         justifyContent: 'center',
         minHeight: '80vh'
       })}>
-      <List sx={() => ({...listSx()})}>
+      <List>
           {mainNavLinks.map(link => (<LinkListItem
           key={link.to} 
           variant='mainNavLink'
           link={link} />))}
 
         </List>
-        <List  sx={() => ({...listSx()})}>
+        <List >
          {subNavLinks.map(link => ( <LinkListItem
           key={link.to} 
           variant='subNavLink'
@@ -36,7 +34,7 @@ const Navigation = () => {
         <List 
           sx={() => ({
             display: 'flex', 
-            maxWidth: '40%',
+            maxWidth: '20%',
             marginTop: 'auto', 
             })}>
           {socialLinks.map(link => (<LinkListItem 

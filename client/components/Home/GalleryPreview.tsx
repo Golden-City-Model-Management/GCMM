@@ -38,8 +38,8 @@ const GalleryPreview = ({images}:{images: { img: StaticImageData, title: string 
       
       <Box sx={{display: { md: 'block', xs: 'flex'}, justifyContent: 'center'}}>
       <NextLink href='/gallery' passHref>
-        <StyledBorderBtn data-testid='gallery-preview-link'>
-          Explore Gallery
+        <StyledBorderBtn>
+          explore gallery
         </StyledBorderBtn>
       </NextLink>
       </Box>

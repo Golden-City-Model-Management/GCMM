@@ -14,9 +14,10 @@ import { UIContext } from '@/context/ui'
 
 const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
 
-  const {showNav, toggleShowNav, bodyWidth, drawerWidth } = useContext(UIContext)
+  const {showNav, toggleShowNav, drawerWidth } = useContext(UIContext)
   
   const OpenMenuBtn = <IconOrTextBtn 
+    data-testid="menu-button"
     onClick={toggleShowNav} 
     Icon={showMenuBtnAlways ? 'menu' : MenuIcon} />
 
@@ -25,7 +26,7 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
       md: '18px 18px 0 0',
       xs: '13px 13px 0 0',
     },}}
-    children={ <IconOrTextBtn onClick={toggleShowNav} Icon={CloseIcon}/>} 
+    children={ <IconOrTextBtn data-testid="close-menu-button" onClick={toggleShowNav} Icon={CloseIcon}/>} 
     hideInDesktop={!showMenuBtnAlways} />
 
   const appBarSx = (theme: Theme) => ({

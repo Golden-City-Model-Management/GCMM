@@ -5,34 +5,38 @@ import InstagramIcon from '@mui/icons-material/Instagram'
 
 const mainNavLinks = [
   {
-    name: 'Main Board',
-    to: '/main-board',
+    name: 'main board',
+    to: '/mainboard',
   },
   {
-    name: 'Women',
+    name: 'women',
     to: '/women',
   },
   {
-    name: 'Men',
+    name: 'men',
     to: '/men',
   },
   {
-    name: 'New Faces',
-    to: '/new-faces'
+    name: 'new faces',
+    to: '/newfaces'
   },
   {
-    name: 'Gallery',
+    name: 'gallery',
     to: '/gallery'
   },
 ]
 
 const subNavLinks = [
   {
-    name: 'About Us',
-    to: '/about-us'
+    name: 'about us',
+    to: '/about'
+  },
+  {
+    name: 'contact us',
+    to: '/contact'
   }
 ]
-// Todo change links to appropriate routes
+
 const socialLinks = [
   {
     name: InstagramIcon,
@@ -46,12 +50,12 @@ const socialLinks = [
 
 const heroLinks = [
   {
-    name: 'Main Board',
-    to: '/main-board'
+    name: 'main board',
+    to: '/mainboard'
   },
   {
-    name: 'New Faces',
-    to: '/new-faces'
+    name: 'new faces',
+    to: '/newfaces'
   }
 ]
 

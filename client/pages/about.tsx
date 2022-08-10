@@ -22,7 +22,7 @@ const AboutUs: NextPageWithLayout = () => {
         ))
       }
       <WithNextLink href='/careers' passHref>
-        <StyledBorderBtn>Join our Team</StyledBorderBtn>
+        <StyledBorderBtn>join our team</StyledBorderBtn>
       </WithNextLink>
     </Box>
   )

@@ -18,7 +18,7 @@ interface DrawerSxInterface {
     },  background: theme.palette.primary.dark,
     paddingTop: {
       lg: !temporary ? '75px' : ''
-    }
+    },
    },
 })
 
@@ -95,7 +95,7 @@ const ResponsiveDrawer = ({ children, drawerWidth, open, handleClose, isInDeskto
 
     { !isInDesktop &&
     <PermanentDrawer
-      data-testid='nav'
+      data-testid='nav-desktop'
       drawerWidth={drawerWidth}>
       {children}
     </PermanentDrawer>

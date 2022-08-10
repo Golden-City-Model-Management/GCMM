@@ -6,15 +6,15 @@ import { Theme } from '@mui/material'
 import { rounded, padded } from '@/styles/styles'
 
 const btnStyles = (theme: Theme) => ({
-  padding: '10px 15px',
+  ...padded().sm,
   textTransform: 'uppercase',
   fontSize: '1.4rem',
   lineHeight: '24px',
   fontWeight: '700',
   textAlign: 'center',
   ...rounded().sm,
-  [theme.breakpoints.up('sm')]: {
-    ...padded().sm,
+  [theme.breakpoints.up('md')]: {
+    ...padded().md,
   }
 })
 export const StyledBorderBtn = forwardRef(({children, ...otherProps}: ButtonProps, ref) => {

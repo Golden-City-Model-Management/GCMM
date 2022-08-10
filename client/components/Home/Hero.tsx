@@ -1,48 +1,18 @@
 
-import { useContext, useState, useEffect } from 'react' 
+import { useContext, useState } from 'react' 
 import { UIContext } from '@/context/ui'
 import { StyledBorderBtn } from '@/components/common/Buttons'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { WithNextLink } from '@/components/common/Links'
-import { backgrounds } from '@/constants/images'
 import { heroLinks } from '@/constants/links'
+import Bg5 from '@/public/assets/images/BG-05.jpg'
+
 
 
 const Hero = () => {
-  const [currentBg, setCurrentBg] = useState(0)
-  const [fade, setFade] = useState(false)
+
   const { fullHeightWithoutHeader, universalContainerPadding } = useContext(UIContext)
-
-  useEffect(() => {
-    const incrementInterval = setInterval(() => {
-      if(fade === true){
-        if(currentBg === backgrounds.length - 1){
-          setCurrentBg(0)
-        }else if(currentBg < backgrounds.length - 1){
-          setCurrentBg(prev => prev + 1)
-        }
-        setFade(false)
-      }
-    }, 4500)
-    return () => {
-      clearInterval(incrementInterval)
-    }
-  }, [backgrounds])
-
-  useEffect(() => {
-    const fadeInterval = setInterval(() => {
-      setFade(true)
-    }, 4000)
-
-    return () => {
-      clearInterval(fadeInterval)
-    }
-  }, [])
-
-  const checkedElBg = currentBg % 2 ? `linear-gradient(0deg, rgba(25,25,25,1) 0%, rgba(0,0,0,0.2956) 100%), url(${backgrounds[currentBg].src}), url(${backgrounds[currentBg].blurDataURL})` : `linear-gradient(135deg, hsl(0deg 0% 16% / 24%) 49%, hsl(51deg 100% 50% / 32%) 100%), url(${backgrounds[currentBg].src}), url(${backgrounds[currentBg].blurDataURL})`
-
-  const mainBg = currentBg % 2 ? `linear-gradient(135deg, hsl(0deg 0% 16% / 24%) 49%, hsl(51deg 100% 50% / 32%) 100%), url(${backgrounds[currentBg].src}), url(${backgrounds[currentBg].blurDataURL})` : `linear-gradient(0deg, rgba(25,25,25,1) 0%, rgba(0,0,0,0.2956) 100%), url(${backgrounds[currentBg].src}), url(${backgrounds[currentBg].blurDataURL})`
 
   const bgElementSx = () => ({
     width: '100%',
@@ -53,11 +23,8 @@ const Hero = () => {
       xs: 'cover',
       md: 'contain',
     },
-    opacity: fade ? 1 : 0,
     transition: 'all .5s ease-in'
   })
-
-
   return (
       <Box sx={{
         display: 'flex',
@@ -65,35 +32,31 @@ const Hero = () => {
         alignItems: 'center',
         minHeight: fullHeightWithoutHeader,
         position: 'relative',
-        background: mainBg,
+        background: ` url(${Bg5.src}), url(${Bg5.blurDataURL})`,
         backgroundPosition: 'center',
-        backgroundSize: {
-          xs: 'cover',
-          md: 'contain',
-        },
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'contain',
         transition: 'all .45 ease-in',
       }}>
         <Box sx={() => ({
           ...bgElementSx(),
-          background: mainBg,
-        })}/>
-        <Box sx={() => ({
-          ...bgElementSx(),
-          background: checkedElBg,
+          background: `url(${Bg5.src}), url(${Bg5.blurDataURL})`,
           clipPath: 'polygon(0% 0%, 10% 0%, 10% 100%, 20% 100%, 20% 0%, 30% 0%, 30% 100%, 40% 100%, 40% 0%, 50% 0%, 50% 100%, 60% 100%, 60% 0%, 70% 0%, 70% 100%, 80% 100%, 80% 0%, 90% 0%, 90% 100%, 100% 100%, 100% 0%, 100% 10%, 0% 10%, 0% 20%, 100% 20%, 100% 30%, 0% 30%, 0% 40%, 100% 40%, 100% 50%, 0% 50%, 0% 60%, 100% 60%, 100% 70%, 0% 70%, 0% 80%, 100% 80%, 100% 90%, 0% 90%, 0% 100%)',
+          opacity: '.3'
         })}/>
 
         <Box sx={{
           zIndex: 2,
-          background:fade ? '#1919198c' : '#19191992',
-          backdropFilter: fade ? 'blur(2px)' : '',
+          background:  '#19191992',
           transition: 'all .5s ease-in',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'flex-start',
           width: '100%',
-          padding: universalContainerPadding
+          position: 'relative',
+          minHeight: fullHeightWithoutHeader,
+          padding: universalContainerPadding,
           }}>
           <Typography
           component='h1'

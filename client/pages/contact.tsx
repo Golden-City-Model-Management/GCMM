@@ -8,14 +8,14 @@ import LayoutOne from '@/components/layout/LayoutOne'
 import getLayout from '@/utils/pages/getLayout' 
 import Typography  from '@mui/material/Typography'
 import CloseIcon from '@mui/icons-material/Close';
-import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import { TopCenteredSnackbar } from '@/components/common/snackbars'
 import { SuccessAlert, ErrorAlert } from '@/components/common/alert'
 import { Prose } from '@/components/common/Typography'
 import { WhiteBorderInput, TextareaAutoResizeWhiteBorder } from '@/components/common/Inputs'
 import { WhiteButton } from '@/components/common/Buttons'
 import Box from '@mui/material/Box'
-import FetchRequest from '@/utils/fetch/fetch'
+import Request from '@/utils/request/request'
 
 const ContactUs: NextPageWithLayout = () => { 
 
@@ -23,8 +23,8 @@ const ContactUs: NextPageWithLayout = () => {
     name: '', email: '', message: ''
   })
 
-  const [ submitSuccessfull, setSubmitSuccessFull ] = useState({
-    success: false, message: 'bvbnmbvmbvbvmb', open: false
+  const [ submitSuccessfull, setSubmitSuccessfull ] = useState({
+    success: false, message: '', open: false
   })
 
   const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -35,37 +35,46 @@ const ContactUs: NextPageWithLayout = () => {
   }, [])
 
   const resetSubmituccessful = useCallback(() => {
-    setSubmitSuccessFull({
+    setSubmitSuccessfull({
       success: false, message: '', open: false
     })
   }, [])
 
   const handleSubmit = useCallback( async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if(feedback.name && feedback.email && feedback.message) {
-      const response = await FetchRequest({
-        method: 'POST', 
-        url: '/api/feedback',
+    if(feedback.message.trim().length < 10) return setSubmitSuccessfull({
+      success: false, message: 'Message must be at least 10 characters long', open: true
+    })
+    if(feedback.message.trim().length > 500) return setSubmitSuccessfull({
+      success: false, message: `Message too long!`, open: true 
+    })
+     const response = await Request({
+       method: 'POST', 
+        path: '/feedback',
         data: feedback
       }) 
-      if(response.status === 200) {
-        const { message } = await response.json()
-        setSubmitSuccessFull({
+      if( response.status === 201) {
+        const { data: { message } } = response 
+        setSubmitSuccessfull({ 
           success: true, message, open: true,
         })
         setFeedback({
           name: '', email: '', message: ''
         })
+      }else{
+        const { data: { message } } = response.response
+        setSubmitSuccessfull({
+          success: false, message, open: true, 
+        })
       }
-    }
   }, [feedback])
 
   const AlertChildren = () =>
-      (<Box component='div'>
+  (<Box component='div'>
         {submitSuccessfull.message}
-        <Button data-testid='close-contact-form-success' onClick={resetSubmituccessful} color="inherit" size="small">
+        <IconButton sx={{justifyContent: 'flex-end'}} data-testid='close-contact-form-success' onClick={resetSubmituccessful} color="inherit" size="small">
             <CloseIcon />
-        </Button>
+        </IconButton>
       </Box>)
 
   return ( 
@@ -85,7 +94,7 @@ const ContactUs: NextPageWithLayout = () => {
       </TopCenteredSnackbar>
      <Typography variant='caption' component='h1'>Contact Us</Typography> 
      <Prose 
-      sxProp={{margin: '20px 0'}} 
+      sxProp={{margin: '20px 0 35px'}} 
       text={
       `Questions?  Compliants?  Feedback? 
       \n Don't hesitate to reach us.
@@ -117,6 +126,7 @@ const ContactUs: NextPageWithLayout = () => {
           onChange={handleChange}
           value={feedback.name}
           sx={() => ({ width: '100%' })}
+          inputProps={{ maxLength: 30, minLength: 3 }}
           required
          />
          <WhiteBorderInput 
@@ -126,6 +136,7 @@ const ContactUs: NextPageWithLayout = () => {
           onChange={handleChange}
           value={feedback.email}
           sx={() => ({ width: '100%' })}
+          inputProps={{ maxLength: 30, minLength: 3 }}
           required
          />
       </Box>
@@ -138,15 +149,18 @@ const ContactUs: NextPageWithLayout = () => {
         maxWidth: {
           md: '60%',
         },
+        display: 'flex', 
+        flexDirection: 'column',
+        alignItems: 'stretch',
       }}>
         <TextareaAutoResizeWhiteBorder 
           name='message'
-          placeholder='Enter your message'
+          placeholder={`Enter your message \nMinimum of 10 characters \nMaximum of 500 characters`}
           onChange={handleChange}
           value={feedback.message}
           required
          />
-      </Box>     
+      </Box>
      </Box>
      <Box sx={{ margin: '20px 0'}}>
         <WhiteButton type='submit' variant='contained' sx={() => ({width: '100%'})} >

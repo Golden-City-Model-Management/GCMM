@@ -11,7 +11,6 @@
     "cypress:dev": "cypress open",
     "cypress:ci:e2e": "cypress run",
     "cypress:ci:component": "cypress run --component"
-   
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
@@ -19,6 +18,7 @@
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.7",
     "@mui/styled-engine-sc": "^5.8.0",
+    "axios": "^0.27.2",
     "next": "^12.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

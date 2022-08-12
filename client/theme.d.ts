@@ -13,12 +13,22 @@ declare module '@mui/material/Typography' {
   }
 }
 declare module '@mui/material/styles' {
-  interface CustomTheme extends Theme {
+  interface Theme {
+    adminPalette: {
+      main: string,
+      light: string,
+      dark: string,
+      contrastText: string
+    },
   }
   // allow configuration using `createTheme`
-  interface CustomThemeOptions extends ThemeOptions {
+  interface ThemeOptions {
+    adminPalette?: {
+      main: string,
+      light: string,
+      dark: string,
+      contrastText: string
+    },
   }
-  interface BreakpointOverrides {
-  }
-  export function createTheme(options?: CustomThemeOptions): CustomTheme;
+  // export function createTheme(options?: CustomThemeOptions): CustomTheme;
 }

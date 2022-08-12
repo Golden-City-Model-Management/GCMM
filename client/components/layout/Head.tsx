@@ -14,7 +14,7 @@ const Head = ({
 
 }) => {
 
-  // Todo change url to site url when launched
+
   return (
     <NextHead>
       <title>{title}</title>

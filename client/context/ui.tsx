@@ -1,7 +1,8 @@
 
 
-import { useState, useCallback, createContext } from 'react'
+import {  createContext } from 'react'
 import { ReactNode } from 'react'
+import  useToggle from '@/utils/hooks/useToggle'
 
 const initialValue = {
   drawerWidth: 340,
@@ -22,11 +23,7 @@ export const UIContext = createContext(initialValue)
 const UIProvider = ({ children }:
    { children: ReactNode | ReactNode[] }) => {
 
-  const [showNav, setShowNav] = useState<boolean>(false)
-  
-  const toggleShowNav = useCallback(() => {
-    setShowNav(prev => !prev)
-  }, [setShowNav])
+  const [showNav, toggleShowNav] = useToggle(false)
 
   const value = {
     ...initialValue,

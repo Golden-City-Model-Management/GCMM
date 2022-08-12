@@ -2,6 +2,7 @@
 
 import LayoutOne from '@/components/layout/LayoutOne';
 import LayoutTwo from '@/components/layout/LayoutTwo';
+import AdminLayout from '@/components/layout/AdminLayout'
 
 const LayoutChild = () => <div>Hello world</div>
 
@@ -47,15 +48,13 @@ describe('layout display on medium and small screens',   {
   })
 })
 
-describe('layout display on large screens', {
-  viewportHeight: 600,
-  viewportWidth: 1200,
-}, () => {
-  it('shows the navigation always for layout one', () => {
-    cy.mount(<LayoutOne title={'Hello world'} description={'page description'} ><LayoutChild /></LayoutOne>)
-    cy.get('[data-testid="nav-desktop"]').should('exist') 
+describe('renders admin dashboard layout with header, navigation, logo and children', () => {
+  it('renders admin layout', () => {
+    cy.mount(<AdminLayout  title={'Hello world'} description='page description'><LayoutChild /></AdminLayout>)
+    cy.get('header').should('be.visible')
+    cy.get('nav').should('exist')
+    cy.get('main').should('contain', 'Hello world')
   })
 })
-
 
 export {}

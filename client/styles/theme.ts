@@ -41,7 +41,13 @@ const theme = createTheme({
     text: {
       primary: '#FFFFFF',
       secondary: '#FFDD26',
-    }
+    },
+  },
+  adminPalette: {
+    main: '#020126',
+    light: '#0201267d',
+    dark: '#020126',
+    contrastText: '#FFFFFF',
   },
   typography(palette) {
     return {
@@ -91,12 +97,21 @@ const theme = createTheme({
         fontWeight: 700,
         lineHeight: 1.2,
         textDecoration: 'none',
+        textTransform: 'capitalize',
+        '&:hover': {
+          color: palette.text.secondary,
+          textDecoration: 'none'
+        }
       },
       subNavLink: {
         fontSize: '1.3rem',
         fontWeight: 700,
         lineHeight: .8,
-        textDeconration: 'none',
+        textTransform: 'capitalize',
+        '&:hover': {
+          color: palette.text.secondary,
+          textDecoration: 'none'
+        }
       },
       small: {
        fontSize: '0.65rem',

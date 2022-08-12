@@ -28,14 +28,13 @@ const AdminNavigation = () => {
         },
         minHeight: '80vh'
       })}>
-      <List>
+         <List>
           <Mapper 
             itemName='link'
             list={adminLinks}  
             ComponentItem={NavLinkListItemWithSubLinks} 
-            key='to' 
+            mapKey='to' 
             itemProps={{variant:'mainNavLink'}} />
-
         </List>
         <Typography
          sx={(theme) => 

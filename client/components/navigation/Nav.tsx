@@ -23,7 +23,7 @@ const Navigation = () => {
             itemName='link'
             list={mainNavLinks}  
             ComponentItem={LinkListItem} 
-            key='to' 
+            mapKey='to' 
             itemProps={{variant:'mainNavLink'}} />
 
         </List>
@@ -32,7 +32,7 @@ const Navigation = () => {
             itemName='link'  
             list={subNavLinks}
             ComponentItem={LinkListItem}
-            key='to'
+            mapKey='to'
             itemProps={{variant:'subNavLink'}} />
         </List>
         <List 
@@ -45,7 +45,7 @@ const Navigation = () => {
             itemName='link'
             list={socialLinks}
             ComponentItem={LinkListItem}
-            key='to'
+            mapKey='to'
             itemProps={{variant:'subNavLink'}} />
         </List>
         <Typography

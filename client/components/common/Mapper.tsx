@@ -1,9 +1,9 @@
 
 
-const Mapper = ({ list, ComponentItem, key, itemProps, itemName}:{
+const Mapper = ({ list, ComponentItem, mapKey, itemProps, itemName}:{
   list: any[],
   ComponentItem: any,
-  key: string,
+  mapKey: string,
   itemProps: any,
   itemName: string,
 }) => {
@@ -17,7 +17,7 @@ const Mapper = ({ list, ComponentItem, key, itemProps, itemName}:{
           list.map((item: any) => {
             return (
               <ComponentItem 
-                key={item[key]} 
+                key={item[mapKey]} 
                 {...componentProps(item)} />
             )
           })

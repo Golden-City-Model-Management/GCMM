@@ -43,10 +43,12 @@ const LinkListItem = ({link, variant, }: {
     <ListItem sx={{padding: '0 0 16px 0'}}>
     <WithNextLink href={link.to} passHref>
      <MUILink
+     component='span'
      onClick={() => link.onClick && link.onClick()}
      href={link.to}
      variant={variant} 
      sx={(theme) => ({
+      cursor: 'pointer',
       zIndex: 10,
       color: isActive ? theme.palette.text.secondary : theme.palette.text.primary,
      })}
@@ -72,6 +74,7 @@ const NavLinkListItemWithSubLinks = ({
 
   return (
     <ListItem 
+      component='div'
       onMouseOver={() => toggleShowSubLinks(true)}
       onMouseEnter={() => toggleShowSubLinks(true)}
       onMouseLeave={() => toggleShowSubLinks(false)}
@@ -113,7 +116,7 @@ const NavLinkListItemWithSubLinks = ({
           itemName='link'
           list={subLinks}
           ComponentItem={LinkListItem}
-          key='to'
+          mapKey='to'
           itemProps={{variant:'subNavLink'}}
         />
       </List>

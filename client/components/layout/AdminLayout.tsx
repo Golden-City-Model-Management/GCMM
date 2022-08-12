@@ -24,8 +24,6 @@ const AdminLayout = ({ children, ...headProps }: LayoutProps) => {
      component='main' >
       {children}
     </Box>
-    <Box sx={{ width: { lg: bodyWidth}}}>
-    </Box>
   </>
   )
 }

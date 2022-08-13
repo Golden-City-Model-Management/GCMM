@@ -1,3 +1,5 @@
+import { Theme } from "@mui/material"
+
 export const rounded = () => ({
   circle: {
     borderRadius: '50%',
@@ -23,4 +25,11 @@ export const padded = () => ({
   lg: {
     padding: '15px 20px',
   }
+})
+
+export const flexRowJustifyBetweenAlignCenter = () => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
 })

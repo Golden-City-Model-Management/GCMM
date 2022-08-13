@@ -48,8 +48,18 @@ const LinkListItem = ({link, variant, }: {
      href={link.to}
      variant={variant} 
      sx={(theme) => ({
+      '&.MuiLink-root': {
+        textDecoration: 'none',
+        textDecorationColor: 'none',
+      },
+      '&.MuiLink-root:hover': {
+        textDecoration: 'none',
+        textDecorationColor: 'none',
+      },
       cursor: 'pointer',
       zIndex: 10,
+      textDecoration: 'none',
+      textDecorationColor: 'transparent',
       color: isActive ? theme.palette.text.secondary : theme.palette.text.primary,
      })}
      >{typeof link.name === 'string' ? link.name : <Icon />}</MUILink>
@@ -81,13 +91,14 @@ const NavLinkListItemWithSubLinks = ({
       onMouseOut={() => toggleShowSubLinks(false)}
       sx={(theme) => ({
         position: 'relative',
+        paddingLeft: 0,
        '&:hover':{
          color: theme.palette.text.secondary,
         }
     })}>
       <WithNextLink href={link.to} passHref>
         <MUILink
-         variant='mainNavLink'
+         variant='defaultNavLink'
          sx={theme => ({
           color: isActive ? theme.palette.text.secondary : theme.palette.text.primary,
         })}>
@@ -97,19 +108,13 @@ const NavLinkListItemWithSubLinks = ({
       <List 
         onMouseLeave={() => toggleShowSubLinks(false)}
         onMouseOut={() => toggleShowSubLinks(false)}
-        sx={(theme) => ({
-          display: showSubLinks ? 'block' : 'none',
+        sx={() => ({
+          display: showSubLinks ? 'flex' : 'none',
+          flexDirection: 'column',
           position: 'absolute',
-          top: {
-            xs: '0',
-            md: '100%',
-          },
-          left: {
-            xs: '30%',
-            md: '0',
-          },
-          zIndex: 10,
-          background: theme.adminPalette.main
+          top: '100%',
+          minWidth: 'max-content', 
+
         })}
       >
         <Mapper
@@ -117,7 +122,7 @@ const NavLinkListItemWithSubLinks = ({
           list={subLinks}
           ComponentItem={LinkListItem}
           mapKey='to'
-          itemProps={{variant:'subNavLink'}}
+          itemProps={{variant:'defaultNavLink'}}
         />
       </List>
     </ListItem>

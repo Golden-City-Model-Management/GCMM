@@ -20,7 +20,7 @@ const styleOverrides = {
   },
   '@media (min-width: 1700px)': {
     fontSize: "115%",
-  }
+  },
 }
 }
 
@@ -44,9 +44,9 @@ const theme = createTheme({
     },
   },
   adminPalette: {
-    main: '#020126',
+    main: '#1c2e4a',
     light: '#0201267d',
-    dark: '#020126',
+    dark: '#152238',
     contrastText: '#FFFFFF',
   },
   typography(palette) {
@@ -97,7 +97,6 @@ const theme = createTheme({
         fontWeight: 700,
         lineHeight: 1.2,
         textDecoration: 'none',
-        textTransform: 'capitalize',
         '&:hover': {
           color: palette.text.secondary,
           textDecoration: 'none'
@@ -107,10 +106,17 @@ const theme = createTheme({
         fontSize: '1.3rem',
         fontWeight: 700,
         lineHeight: .8,
-        textTransform: 'capitalize',
         '&:hover': {
           color: palette.text.secondary,
           textDecoration: 'none'
+        }
+      },
+      defaultNavLink: {
+        fontSize: '1.25rem',
+        // padding: '0',
+        '&:hover': {
+          color: palette.text.secondary,
+          textDecoration: 'none' 
         }
       },
       small: {
@@ -138,6 +144,17 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontSize: '1.4rem',
+        }
+      },
+    },
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          textDecoration: 'none',
+          textDecorationColor: 'none',
+          textTransform: 'capitalize',
+          margin: 0,
+          padding: 0,
         }
       },
     },

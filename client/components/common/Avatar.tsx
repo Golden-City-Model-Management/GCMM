@@ -1,24 +1,25 @@
 
 
 import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
+import Avatar, { AvatarProps } from '@mui/material/Avatar';
 import { rounded } from '@/styles/styles'
+import { ElementType, forwardRef } from 'react';
 
-
-const UserImage = ({ avatar }: {
+interface AvatarPropsExtended extends AvatarProps {
   avatar: {
     src: string;
     alt: string;
-  }
-}) => {
+  },
+  component: ElementType<any>,
+  href?: string
+}
 
+const UserImage = forwardRef<any, AvatarPropsExtended>((props, ref) => {
+ const { avatar, component, href, ...rest } = props
   return (
-    <Box sx={{
-      width: 70, 
-      height: 70, 
-      ...rounded().circle,
-      }}>
+    <Box component={component} href={href} ref={ref}>
     <Avatar
+    {...rest}
       alt="Remy Sharp"
       src={avatar.src}
       sx={{ 
@@ -29,6 +30,7 @@ const UserImage = ({ avatar }: {
     />
     </Box>
   )
-}
+})
 
 export default UserImage
+

@@ -4,20 +4,22 @@ import { Theme } from '@mui/material'
 import Box, { BoxProps } from '@mui/material/Box'
 import Drawer, { DrawerProps } from '@mui/material/Drawer'
 
-interface DrawerSxInterface {
+interface DrawerPaperSx {
   theme: Theme,
   drawerWidth: number,
   temporary: boolean,
+  background?: string
 }
- const drawerSx = ({theme, drawerWidth, temporary}: DrawerSxInterface) => ({
+ const drawerPaperSx = ({theme, drawerWidth, temporary, background}: DrawerPaperSx) => ({
     '& .MuiDrawer-paper': { 
     boxSizing: 'border-box',
     width: {
       sm: drawerWidth,
       xs: 250
-    },  background: theme.palette.primary.dark,
+    },  
+    background: background || theme.palette.primary.dark,
     paddingTop: {
-      lg: !temporary ? '75px' : ''
+      lg: temporary ? '' : '75px'
     },
    },
 })
@@ -27,10 +29,13 @@ interface TemporaryDrawerInterface extends DrawerProps {
   open: boolean,
   handleClose: () => void,
   isInDesktop: boolean,
-  drawerWidth: number
+  drawerWidth: number,
+  background?: string | ((theme: Theme) => string)
 }
 
-const TemporaryDrawer = ({children, open, handleClose, isInDesktop, drawerWidth, ...otherProps}: TemporaryDrawerInterface) => {
+const TemporaryDrawer = ({children, open, handleClose, isInDesktop, drawerWidth, background, ...otherProps}: TemporaryDrawerInterface) => {
+
+  const bg = typeof(background) !== 'undefined' ? background : (theme: Theme) => theme.palette.primary.dark
 
   return(
     <Drawer
@@ -43,7 +48,8 @@ const TemporaryDrawer = ({children, open, handleClose, isInDesktop, drawerWidth,
       display: {
         xs: 'block', 
         lg:  isInDesktop ? "block" :  'none' },
-        ...drawerSx({theme, drawerWidth, temporary: true}),
+        ...drawerPaperSx({theme, drawerWidth, temporary: true, 
+           background: typeof(bg) === 'string' ? bg : bg(theme) }),
     })}>
     {children}
   </Drawer>
@@ -63,7 +69,7 @@ const PermanentDrawer = ({ children, drawerWidth, ...otherProps}: PermanentDrawe
       anchor="right" open
       sx={(theme) => ({
         display: { xs: 'none', lg: 'block' },
-        ...drawerSx({theme, drawerWidth, temporary: false}),
+        ...drawerPaperSx({theme, drawerWidth, temporary: false}),
       })}
       >
       {children}

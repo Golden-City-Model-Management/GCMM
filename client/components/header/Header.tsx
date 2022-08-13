@@ -4,12 +4,14 @@ import AppBar from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import { Theme } from '@mui/material';
 import { HideInDesktop, IconOrTextBtn } from '@/components/common/bones'
 import Navigation from '@/components/navigation/Nav';
 import { ResponsiveDrawer } from '@/components/common/Drawer'
 import Logo from '@/components/svgs/Logos';
 import { UIContext } from '@/context/ui'
+import { flexRowJustifyBetweenAlignCenter } from '@/styles/styles';
  
 
 const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
@@ -27,15 +29,13 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
       xs: '13px 13px 0 0',
     },}}
     children={ <IconOrTextBtn
-       data-testid="close-menu-button"
-        onClick={() => toggleShowNav()}
-        Icon={CloseIcon}/>} 
+    data-testid="close-menu-button"
+    onClick={() => toggleShowNav()}
+    Icon={CloseIcon}/>} 
     hideInDesktop={!showMenuBtnAlways} />
 
   const appBarSx = (theme: Theme) => ({
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+   ...flexRowJustifyBetweenAlignCenter(),
     background: theme.palette.primary.dark,
     padding: {
       lg: showMenuBtnAlways ? '0 55px' : '0 114px',
@@ -71,6 +71,7 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
        }
      </>
     </AppBar>
+    <Box >
     <ResponsiveDrawer 
       component="nav"
       open={showNav} 
@@ -79,6 +80,7 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
       drawerWidth={drawerWidth}>
       {DrawerChildren}
     </ResponsiveDrawer>
+    </Box>
     </>
   )
 }

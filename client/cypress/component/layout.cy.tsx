@@ -2,7 +2,6 @@
 
 import LayoutOne from '@/components/layout/LayoutOne';
 import LayoutTwo from '@/components/layout/LayoutTwo';
-import AdminLayout from '@/components/layout/AdminLayout'
 
 const LayoutChild = () => <div>Hello world</div>
 
@@ -45,16 +44,6 @@ describe('layout display on medium and small screens',   {
     nav.should('be.visible')
     cy.get('[data-testid="close-menu-button"]').click() 
     nav.should('not.be.visible')  
-  })
-})
-
-describe('renders admin dashboard layout with header, navigation, logo and children', () => {
-  it('renders admin layout', () => {
-    cy.mount(<AdminLayout  title={'Hello world'} description='page description'><LayoutChild /></AdminLayout>)
-    cy.get('header').should('be.visible')
-    cy.get('[data-testid="admin-nav-toggle"]').should('be.visible').click()
-    cy.get('nav').should('exist')
-    cy.get('main').should('contain', 'Hello world')
   })
 })
 

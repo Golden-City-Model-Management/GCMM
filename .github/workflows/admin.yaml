@@ -13,6 +13,8 @@ jobs:
        uses: actions/cache@v2
        env: 
          cache-name: cache-node-modules
+         CYPRESS_TEST_USERNAME: ${{ secrets.CYPRESS_TEST_USERNAME }}
+         CYPRESS_TEST_PASSWORD: ${{ secrets.CYPRESS_TEST_PASSWORD }}
        with:
          path: ~/.mpm
          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}

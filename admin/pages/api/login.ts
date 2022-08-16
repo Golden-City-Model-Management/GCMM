@@ -22,7 +22,7 @@ export default async function handler(
   console.log('hhelloworelhHHhhHHHHHHHHHHHHHHHHHHHHHHHHHKHIOOOHHHH')
   const method = req.method && req.method.toUpperCase() 
 
-  if(!method || method !== 'GET') return res.status(405).json({ message: 'Method not allowed' })
+  if(!method || method !== 'POST') return res.status(405).json({ message: 'Method not allowed' })
   console.log(';sdakjfl;aja;];fjkdskkdsjfsfdslka;a;dkf;adkslfkfdsfkdfj') 
 
   return res.status(200).json({

@@ -69,4 +69,64 @@ const LinkListItem = ({link, variant, }: {
 } 
 
 
-export { WithNextLink, LinkListItem }
+
+const NavLinkListItemWithSubLinks = ({
+  link
+}: {
+  link: LinkWithSubLinks
+}) => {
+  const [showSubLinks, toggleShowSubLinks] = useToggle(false)
+
+  const router = useRouter()
+  const isActive = router.asPath === link.to
+  const Icon = link.name
+  const subLinks = link.subLinks as any[]
+
+  return (
+    <ListItem 
+      component='div'
+      onMouseOver={() => toggleShowSubLinks(true)}
+      onMouseEnter={() => toggleShowSubLinks(true)}
+      onMouseLeave={() => toggleShowSubLinks(false)}
+      onMouseOut={() => toggleShowSubLinks(false)}
+      sx={(theme) => ({
+        position: 'relative',
+        paddingLeft: 0,
+       '&:hover':{
+         color: theme.palette.text.secondary,
+        }
+    })}>
+      <WithNextLink href={link.to} passHref>
+        <MUILink
+         variant='defaultNavLink'
+         sx={theme => ({
+          color: isActive ? theme.palette.text.secondary : theme.palette.text.primary,
+        })}>
+          {typeof link.name === 'string' ? link.name : <Icon />}
+        </MUILink>
+      </WithNextLink>
+      <List 
+        onMouseLeave={() => toggleShowSubLinks(false)}
+        onMouseOut={() => toggleShowSubLinks(false)}
+        sx={() => ({
+          display: showSubLinks ? 'flex' : 'none',
+          flexDirection: 'column',
+          position: 'absolute',
+          top: '100%',
+          minWidth: 'max-content', 
+
+        })}
+      >
+        <Mapper
+          itemName='link'
+          list={subLinks}
+          ComponentItem={LinkListItem}
+          mapKey='to'
+          itemProps={{variant:'defaultNavLink'}}
+        />
+      </List>
+    </ListItem>
+  )
+}
+
+export { WithNextLink, LinkListItem, NavLinkListItemWithSubLinks }

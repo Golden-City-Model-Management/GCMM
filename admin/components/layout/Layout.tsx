@@ -1,6 +1,6 @@
 
-import AdminLayoutHeader from '@/components/header/AdminLayoutHeader'
-import { AdminNavigationDesktop } from '@/components/navigation/AdminNav'
+import AdminLayoutHeader from '@/components/header/Header'
+import { AdminNavigationDesktop } from '@/components/navigation/Nav'
 import Box from '@mui/material/Box'
 import { useContext } from 'react'
 import { LayoutProps } from '@/types/layout'

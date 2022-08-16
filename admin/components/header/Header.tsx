@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { flexRowJustifyBetweenAlignCenter, padded } from '@/styles/styles';
 import { IconOrTextBtn } from '@/components/common/bones'
-import AdminNavigation from '@/components/navigation/AdminNav';
+import AdminNavigation from '@/components/navigation/Nav';
 import { TemporaryDrawer } from '@/components/common/Drawer'
 import Logo from '@/components/svgs/Logos';
 import { UIContext } from '@/context/ui';
@@ -31,7 +31,7 @@ const UserIcconLink = ({ avatar }: {
   )
 }
 
-const AdminLayoutHeader = ({
+const Header = ({
   avatar
 }: {
   avatar: {
@@ -107,4 +107,4 @@ const AdminLayoutHeader = ({
   )
 }
 
-export default AdminLayoutHeader;
+export default Header;

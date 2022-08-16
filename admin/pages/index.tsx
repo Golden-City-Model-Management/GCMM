@@ -1,16 +1,18 @@
 
 
-import AdminLayout from '@/components/layout/AdminLayout'
+import AdminLayout from '@/components/layout/Layout'
 
 import { NextPageWithLayout } from '@/types/pages'
 import getLayout from '@/utils/pages/getLayout'
 import Box from '@mui/material/Box'
+import getUserDetails from '@/utils/pages/getServerSideProps'
 
-const AdminHomePage: NextPageWithLayout = () => {
+const AdminHomePage: NextPageWithLayout = (props) => {
 
-  return (
-    <Box> 
-     Hello World
+  console.log(props)
+  return ( 
+    <Box>  
+     Hello jhhjhjhhjhh 
     </Box>
   )
 } 
@@ -23,4 +25,6 @@ const props = {
 
 AdminHomePage.getLayout = getLayout(AdminLayout, props)
 
-export default AdminHomePage
+export default AdminHomePage 
+
+export const getServerSideProps = getUserDetails

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import Typography from '@mui/material/Typography'
 import { NavLinkListItemWithSubLinks, } from '@/components/common/Links'
-import { adminLinks, } from '@/constants/links'
+import { navLinks } from '@/constants/links'
 import Mapper from '@/components/common/Mapper'
 
 
@@ -32,7 +32,7 @@ export const AdminNavigationDesktop = () => {
           })} >
           <Mapper 
             itemName='link'
-            list={adminLinks}  
+            list={navLinks}  
             ComponentItem={NavLinkListItemWithSubLinks} 
             mapKey='to' 
             itemProps={{  }} />
@@ -54,7 +54,7 @@ const AdminNavigationMobile = () => {
          }} >
           <Mapper 
             itemName='link'
-            list={adminLinks}  
+            list={navLinks}  
             ComponentItem={NavLinkListItemWithSubLinks} 
             mapKey='to' 
             itemProps={{variant:'mainNavLink'}} />

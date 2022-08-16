@@ -51,7 +51,7 @@ jobs:
          path: admin/cypress/screenshots
 
      - name: Save videos
-       uses: actions/upload-atrifact@v2
+       uses: actions/upload-artifact@v2
        with:
         name: cypress-videos
         path: admin/cypress/videos

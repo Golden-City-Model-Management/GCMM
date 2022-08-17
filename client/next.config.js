@@ -9,7 +9,7 @@ const nextConfig = {
       fallback: [
         {
           source: '/:path*',
-          destination: `http://localhost:4000/:path*`,
+          destination: process.env.ADMIN_URL || ADMIN_URL,
         },
       ]
     }

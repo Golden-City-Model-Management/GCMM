@@ -24,8 +24,9 @@ jobs:
            ${{ runner.os }}-build-${{ env.cache-name }}-
            ${{ runner.os }}-build-
            ${{ runner.os }}- 
-         run: |
-           echo "the var was detected to be test = " $MYVAR
+     - name: spill
+       run: |
+          echo "the var was detected to be test = " $MYVAR
      - name: Install client dependencies
        working-directory: admin
        run: npm install

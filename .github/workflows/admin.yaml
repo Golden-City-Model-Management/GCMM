@@ -13,6 +13,7 @@ jobs:
        uses: actions/cache@v2
        env: 
          cache-name: cache-node-modules
+         CYPRESS_SERVER_URL: ${{ secrets.SERVER_URL }}
          CYPRESS_TEST_USERNAME: ${{ secrets.CYPRESS_TEST_USERNAME }}
          CYPRESS_TEST_PASSWORD: ${{ secrets.CYPRESS_TEST_PASSWORD }}
        with:
@@ -22,7 +23,6 @@ jobs:
            ${{ runner.os }}-build-${{ env.cache-name }}-
            ${{ runner.os }}-build-
            ${{ runner.os }}- 
-      
      - name: Install client dependencies
        working-directory: admin
        run: npm install
@@ -44,6 +44,10 @@ jobs:
       
      - name: Cypress e2e
        working-directory: admin
+       env: 
+        SERVER_URL: ${{ secrets.SERVER_URL }}
+        CYPRESS_TEST_USERNAME: ${{ secrets.CYPRESS_TEST_USERNAME }}
+        CYPRESS_TEST_PASSWORD: ${{ secrets.CYPRESS_TEST_PASSWORD }}
        run: npm run cypress:ci:e2e
 
      - name: Save screenshots

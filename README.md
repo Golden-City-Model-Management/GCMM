@@ -1,1 +1,1 @@
-# (GCMM)[https://goldencitymodelsng.netlify.app/]
+# [GCMM](https://goldencitymodelsng.netlify.app)

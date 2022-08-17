@@ -6,7 +6,7 @@ describe('Login user', () => {
     cy.visit(baseUrl).location('href').should('contain', '/login')
     cy.request({
       method: 'POST',
-      url: `${Cypress.env('server')}/users/login`,
+      url: `${Cypress.env('CYPRESS_SERVER_URL')}/users/login`,
       body: {
         userName: Cypress.env('CYPRESS_TEST_USERNAME'),
         password: Cypress.env('CYPRESS_TEST_PASSWORD')

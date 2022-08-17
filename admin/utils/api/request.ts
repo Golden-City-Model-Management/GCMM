@@ -9,7 +9,7 @@ interface RequestInterface {
 }
 
 let myAxios = axios.create({
-  baseURL: 'http://localhost:9876/api/v1/',
+  baseURL: process.env.SERVER_URL,
   headers: {
     client_secret: process.env.CLIENT_SECRET || '' ,        
   }

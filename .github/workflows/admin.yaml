@@ -26,7 +26,9 @@ jobs:
            ${{ runner.os }}- 
      - name: spill
        run: |
-          echo "the var was detected to be test = " $MYVAR
+          echo "the var was detected to be test = " $CYPRESS_SERVER_URL
+          echo $CYPRESS_TEST_USERNAME
+          echo $CYPRESS_TEST_PASSWORD
      - name: Install client dependencies
        working-directory: admin
        run: npm install
@@ -48,7 +50,14 @@ jobs:
       
      - name: Cypress e2e
        working-directory: admin
+       env: 
+        SERVER_URL: ${{ secrets.SERVER_URL }}
+        CYPRESS_TEST_USERNAME: ${{ secrets.CYPRESS_TEST_USERNAME }}
+        CYPRESS_TEST_PASSWORD: ${{ secrets.CYPRESS_TEST_PASSWORD }}
        run: npm run cypress:ci:e2e
+            echo "the var was detected to be test = " $CYPRESS_SERVER_URL
+            echo $CYPRESS_TEST_USERNAME
+            echo $CYPRESS_TEST_PASSWORD
 
      - name: Save screenshots
        uses: actions/upload-artifact@v2

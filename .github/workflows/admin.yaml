@@ -11,16 +11,21 @@ jobs:
        uses: actions/checkout@v2
 
      - name: Cache node modules
+       uses: actions/cache@v2
        env: 
          cache-name: cache-node-modules
-         SERVER_URL: ${{ secrets.SERVER_URL }}
+         CYPRESS_SERVER_URL: ${{ secrets.SERVER_URL }}
          CYPRESS_TEST_USERNAME: ${{ secrets.CYPRESS_TEST_USERNAME }}
          CYPRESS_TEST_PASSWORD: ${{ secrets.CYPRESS_TEST_PASSWORD }}
-         NODE_ENV: ci
-     - name: print env
-       run: |
-        echo "the var was detected to be test = " $MYVAR 
-
+       with:
+         path: ~/.mpm
+         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+         restore-keys: |
+           ${{ runner.os }}-build-${{ env.cache-name }}-
+           ${{ runner.os }}-build-
+           ${{ runner.os }}- 
+         run: |
+           echo "the var was detected to be test = " $MYVAR
      - name: Install client dependencies
        working-directory: admin
        run: npm install

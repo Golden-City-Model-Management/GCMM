@@ -18,7 +18,10 @@ jobs:
          CYPRESS_TEST_USERNAME: ${{ secrets.CYPRESS_TEST_USERNAME }}
          CYPRESS_TEST_PASSWORD: ${{ secrets.CYPRESS_TEST_PASSWORD }}
          NODE_ENV: ci
-      
+     - name: print env
+       run: |
+        echo "the var was detected to be test = " $MYVAR 
+
      - name: Install client dependencies
        working-directory: admin
        run: npm install

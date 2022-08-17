@@ -1,6 +1,6 @@
 
 
-import AdminLayout from 'components/layout/Layout'
+import AdminLayout from '@/components/layout/Layout'
 
 const LayoutChild = () => <div>Hello world</div>
   

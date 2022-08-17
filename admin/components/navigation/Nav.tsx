@@ -18,7 +18,7 @@ export const AdminNavigationDesktop = () => {
       display: 'none', 
       alignItems: 'center', 
       justifyContent: 'center',
-      background: theme.adminPalette.light,
+      background: theme.palette.primary.light,
       [theme.breakpoints.up('md')]: {
         display: 'flex'
       }

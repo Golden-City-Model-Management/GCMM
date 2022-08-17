@@ -13,7 +13,7 @@ const AdminLayout = ({ children, ...headProps }: LayoutProps) => {
   return (
     <Box sx={theme => ({
       position: 'relative', 
-      background: theme.adminPalette.main,
+      background: theme.palette.primary.main,
     })}>
     <Head {...headProps} />
     <AdminLayoutHeader avatar={{ src: '', alt: ''}}/>
@@ -21,7 +21,7 @@ const AdminLayout = ({ children, ...headProps }: LayoutProps) => {
     <Box
      sx={(theme) => ({
       minHeight: fullHeightWithoutHeader,
-      background: theme.adminPalette.main,
+      background: theme.palette.primary.main,
      })}
      component='main' >
       {children}

@@ -45,7 +45,7 @@ const Header = ({
     <AppBar
       position="sticky"
       sx={theme => ({
-        background: theme.adminPalette.dark,
+        background: theme.palette.primary.dark,
         ...flexRowJustifyBetweenAlignCenter(),
         padding: {
           lg: '0 55px',
@@ -77,7 +77,7 @@ const Header = ({
         </Box>
       </Box>
       <TemporaryDrawer
-        background={(theme) => (theme.adminPalette.dark)}
+        background={(theme) => (theme.palette.primary.dark)}
         open={showNav}
         handleClose={() => toggleShowNav()}
         isInDesktop={false}

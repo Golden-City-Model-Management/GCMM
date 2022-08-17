@@ -27,9 +27,9 @@ const styleOverrides = {
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#191919',
-      light: '#292929',
-      dark: '#0D0D0D',
+      main: '#1c2e4a',
+      light: '#0201267d',
+      dark: '#152238',
       contrastText: '#FFFFFF',
     },
     secondary: {
@@ -42,12 +42,6 @@ const theme = createTheme({
       primary: '#FFFFFF',
       secondary: '#FFDD26',
     },
-  },
-  adminPalette: {
-    main: '#1c2e4a',
-    light: '#0201267d',
-    dark: '#152238',
-    contrastText: '#FFFFFF',
   },
   typography(palette) {
     return {

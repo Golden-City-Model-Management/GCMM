@@ -14,22 +14,5 @@ declare module '@mui/material/Typography' {
   }
 }
 declare module '@mui/material/styles' {
-  interface Theme {
-    adminPalette: {
-      main: string,
-      light: string,
-      dark: string,
-      contrastText: string
-    },
-  }
-  // allow configuration using `createTheme`
-  interface ThemeOptions {
-    adminPalette?: {
-      main: string,
-      light: string,
-      dark: string,
-      contrastText: string
-    },
-  }
-  // export function createTheme(options?: CustomThemeOptions): CustomTheme;
+  
 }

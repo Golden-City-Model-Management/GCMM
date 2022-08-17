@@ -45,10 +45,12 @@ declare global {
 Cypress.Commands.add('mount', (component, options = {}) => {
   const { routerProps = { initialEntries: ['/'] }, ...mountOptions } = options
 
-  const wrapped = ContextProvider(<>
-    <CssBaseline />
-    {component}
-  </>)
+  const wrapped =(
+    <ContextProvider>
+      <CssBaseline />
+      {component}
+    </ContextProvider>
+    )
 
   return mount(wrapped, mountOptions)
 })

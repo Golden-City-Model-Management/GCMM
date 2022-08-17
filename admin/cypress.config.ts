@@ -8,15 +8,15 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       config.env.server =
         process.env.NODE_ENV === 'development' ? 
-        'https://golden-city-model-management.herokuapp.com/' : 
-        'https://golden-city-model-management.herokuapp.com/'
+        'http://localhost:9876/api/v1/api/v1' : 
+        'https://golden-city-model-management.herokuapp.com/api/v1'
       config.env.CYPRESS_TEST_USERNAME = 'iksploiting@gmail.com'
       config.env.CYPRESS_TEST_PASSWORD = 'dev1234'
       return config
     }
   },
   component: {
-    devServer: {
+    devServer: { 
       framework: "next",
       bundler: "webpack",
     },

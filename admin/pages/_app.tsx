@@ -9,14 +9,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     return (
       <>
-        {
-          ContextProvider(
-          <>
-            <CssBaseline enableColorScheme />
-            <Component {...pageProps} />
-          </>
-          )
-        }
+        <ContextProvider>
+          <CssBaseline enableColorScheme />
+          <Component {...pageProps} />
+        </ContextProvider>
       </>
     )
 }

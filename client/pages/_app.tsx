@@ -9,15 +9,13 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   const getLayout = Component.getLayout ?? ((page) => page)
 
-  return(
-  <>
-    { 
-     ContextProvider(<>
-      <CssBaseline enableColorScheme  />
-      {getLayout( <Component {...pageProps} />)}
-     </>)
-    }
-  </>
+  return (
+    <>
+      <ContextProvider>
+        <CssBaseline enableColorScheme />
+        {getLayout(<Component {...pageProps} />)}
+      </ContextProvider>
+    </>
   )
 }
 

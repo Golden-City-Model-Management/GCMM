@@ -14,7 +14,7 @@ jobs:
        uses: actions/cache@v2
        env: 
          cache-name: cache-node-modules
-         CYPRESS_SERVER_URL: ${{ secrets.SERVER_URL }}
+         SERVER_URL: ${{ secrets.SERVER_URL }}
          CYPRESS_TEST_USERNAME: ${{ secrets.CYPRESS_TEST_USERNAME }}
          CYPRESS_TEST_PASSWORD: ${{ secrets.CYPRESS_TEST_PASSWORD }}
        with:

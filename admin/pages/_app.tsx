@@ -3,20 +3,19 @@
 import '../styles/globals.css'
 import CssBaseline from '@mui/material/CssBaseline';
 import ContextProvider from '@/context/provider'
-import type { AppPropsWithLayout } from '@/types/pages'
+import { AppProps } from "next/app"
 
-
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-
-  const getLayout = Component.getLayout ?? ((page) => page)
+function MyApp({ Component, pageProps }: AppProps) {
 
     return (
       <>
         {
-          ContextProvider(<>
-              <CssBaseline enableColorScheme />
-              {getLayout(<Component {...pageProps} />)}
-          </>)
+          ContextProvider(
+          <>
+            <CssBaseline enableColorScheme />
+            <Component {...pageProps} />
+          </>
+          )
         }
       </>
     )

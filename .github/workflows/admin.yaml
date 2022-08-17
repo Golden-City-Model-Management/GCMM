@@ -17,13 +17,7 @@ jobs:
          SERVER_URL: ${{ secrets.SERVER_URL }}
          CYPRESS_TEST_USERNAME: ${{ secrets.CYPRESS_TEST_USERNAME }}
          CYPRESS_TEST_PASSWORD: ${{ secrets.CYPRESS_TEST_PASSWORD }}
-       with:
-         path: ~/.mpm
-         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-         restore-keys: |
-           ${{ runner.os }}-build-${{ env.cache-name }}-
-           ${{ runner.os }}-build-
-           ${{ runner.os }}- 
+         NODE_ENV: ci
       
      - name: Install client dependencies
        working-directory: admin

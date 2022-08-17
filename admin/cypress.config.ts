@@ -1,4 +1,7 @@
 import { defineConfig } from "cypress";
+import * as dotenv from 'dotenv'
+
+dotenv.config()
 
 export default defineConfig({
   e2e: {
@@ -6,12 +9,9 @@ export default defineConfig({
     watchForFileChanges: true,
     specPattern: "./cypress/e2e/*.cy.{js,jsx,ts,tsx}",
     setupNodeEvents(on, config) {
-      config.env.server =
-        process.env.NODE_ENV === 'development' ? 
-        'http://localhost:9876/api/v1/api/v1' : 
-        'https://golden-city-model-management.herokuapp.com/api/v1'
-      config.env.CYPRESS_TEST_USERNAME = 'iksploiting@gmail.com'
-      config.env.CYPRESS_TEST_PASSWORD = 'dev1234'
+      config.env.server = process.env.SERVER_URL
+      config.env.CYPRESS_TEST_USERNAME = process.env.CYPRESS_TEST_USERNAME
+      config.env.CYPRESS_TEST_PASSWORD = process.env.CYPRESS_TEST_PASSWORD
       return config
     }
   },

@@ -31,9 +31,9 @@ describe('contact form submits', () => {
     cy.get('input[name="email"]').type('test@email.com')
     cy.get('textarea[name="message"]').type('This is a test message')
     cy.get('form').submit()
-    const successAlert = cy.get('[data-testid="contact-form-success"]')
+    const successAlert = cy.dataCy('contact-form-success')
     successAlert.should('exist')
-    successAlert.get('button[data-testid="close-contact-form-success"]').click()
+    cy.dataCy('close-contact-form-success').click()
   })
 })
 

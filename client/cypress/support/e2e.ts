@@ -19,5 +19,9 @@ Cypress.on('uncaught:exception', () => {
   // returning false here prevents Cypress from failing the test
   return false
 })
+
+Cypress.Commands.add('dataCy', (dataTestId) => {
+  cy.get(`[data-testid="${dataTestId}"]`)
+})
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

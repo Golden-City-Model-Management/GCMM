@@ -5,9 +5,7 @@ const setupConfig =  (config: AxiosRequestConfig): AxiosRequestConfig => {
   if(!config.headers){
     config.headers = {}
   }
-  console.log(config)
   config.headers.client_secret = true
-  console.log(config)
   return config; 
 }
 

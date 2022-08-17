@@ -29,6 +29,7 @@ const GalleryPreview = ({images}:{images: { img: StaticImageData, title: string 
       <Box sx={(theme) =>({
         margin: '50px 0',
         border: `1px solid ${theme.palette.secondary.main}`,
+        boxShadow: '0 0 30px 3px #0d0d0d, inset 0 0 30px 3px #ffd7001a',
         borderLeft: 0,
         borderRight: 0,
         borderRadius: '50px'

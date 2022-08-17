@@ -47,15 +47,4 @@ describe('layout display on medium and small screens',   {
   })
 })
 
-describe('layout display on large screens', {
-  viewportHeight: 600,
-  viewportWidth: 1200,
-}, () => {
-  it('shows the navigation always for layout one', () => {
-    cy.mount(<LayoutOne title={'Hello world'} description={'page description'} ><LayoutChild /></LayoutOne>)
-    cy.get('[data-testid="nav-desktop"]').should('exist') 
-  })
-})
-
-
 export {}

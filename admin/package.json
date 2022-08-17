@@ -1,0 +1,42 @@
+
+{
+  "name": "golden-city-model-management",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 4000",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export",
+    "lint": "next lint",
+    "cypress:dev": "cypress open",
+    "cypress:ci:e2e": "cypress run",
+    "cypress:ci:component": "cypress run --component",
+    "type-check": "tsc"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.8.7",
+    "@mui/styled-engine-sc": "^5.8.0",
+    "axios": "^0.27.2",
+    "next": "latest",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "styled-components": "^5.3.5"
+  },
+  "devDependencies": {
+    "@netlify/plugin-nextjs": "^4.13.1",
+    "@types/node": "^12.12.21",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "18.0.5",
+    "cypress": "^10.3.1",
+    "eslint": "8.18.0",
+    "eslint-config-next": "12.2.0",
+    "typescript": "4.7.4"
+  },
+  "resolutions": {
+    "@types/react": "17.0.30"
+  }
+}

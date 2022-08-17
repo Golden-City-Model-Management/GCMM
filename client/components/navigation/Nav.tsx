@@ -4,10 +4,10 @@ import List from '@mui/material/List'
 import Typography from '@mui/material/Typography'
 import { LinkListItem } from '@/components/common/Links'
 import { mainNavLinks, subNavLinks, socialLinks } from '@/constants/links'
+import Mapper from '@/components/common/Mapper'
 
 
 const Navigation = () => {
-
   return (
       <Box sx={() => ({
         padding: '10px 0 10px 32px',
@@ -19,17 +19,21 @@ const Navigation = () => {
         minHeight: '80vh'
       })}>
       <List>
-          {mainNavLinks.map(link => (<LinkListItem
-          key={link.to} 
-          variant='mainNavLink'
-          link={link} />))}
+          <Mapper 
+            itemName='link'
+            list={mainNavLinks}  
+            ComponentItem={LinkListItem} 
+            mapKey='to' 
+            itemProps={{variant:'mainNavLink'}} />
 
         </List>
         <List >
-         {subNavLinks.map(link => ( <LinkListItem
-          key={link.to} 
-          variant='subNavLink'
-          link={link} />))}
+          <Mapper
+            itemName='link'  
+            list={subNavLinks}
+            ComponentItem={LinkListItem}
+            mapKey='to'
+            itemProps={{variant:'subNavLink'}} />
         </List>
         <List 
           sx={() => ({
@@ -37,10 +41,12 @@ const Navigation = () => {
             maxWidth: '20%',
             marginTop: 'auto', 
             })}>
-          {socialLinks.map(link => (<LinkListItem 
-          key={link.to} 
-          variant='subNavLink'
-          link={link} />))}
+          <Mapper
+            itemName='link'
+            list={socialLinks}
+            ComponentItem={LinkListItem}
+            mapKey='to'
+            itemProps={{variant:'subNavLink'}} />
         </List>
         <Typography
          sx={(theme) => 

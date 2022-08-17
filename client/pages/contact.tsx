@@ -16,7 +16,7 @@ import { WhiteBorderInput, TextareaAutoResizeWhiteBorder } from '@/components/co
 import { WhiteButton } from '@/components/common/Buttons'
 import Loader from '@/components/common/loader'
 import Box from '@mui/material/Box'
-import Request from '@/utils/request/request'
+import Request from '@/utils/client/request'
 
 const ContactUs: NextPageWithLayout = () => { 
 

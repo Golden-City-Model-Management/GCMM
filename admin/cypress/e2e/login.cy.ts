@@ -30,7 +30,9 @@ describe('Login user with form', () => {
     cy.get('[data-testid="login"]').click()
 
     cy.wait('@login').then((res) => {
-      cy.setCookie('access_token',  res.response.body.token)
+      if(res && res.response && res.response.body && res.response.body.token){
+        cy.setCookie('access_token',  res.response.body.token)
+      }
     })
     cy.visit(baseUrl) 
     cy.location('href').should('not.include', '/login')

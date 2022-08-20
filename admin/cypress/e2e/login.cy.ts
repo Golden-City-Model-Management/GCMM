@@ -7,7 +7,7 @@ describe('Login user', () => {
     cy.visit(baseUrl).location('href').should('contain', '/login')
     cy.request({
       method: 'POST',
-      url: `${Cypress.env('CYPRESS_SERVER_URL')}users/login`,
+      url: `${Cypress.env('CYPRESS_SERVER_URL')}/users/login`,
       body: {
         userName: Cypress.env('CYPRESS_TEST_USERNAME'),
         password: Cypress.env('CYPRESS_TEST_PASSWORD')
@@ -22,7 +22,7 @@ describe('Login user', () => {
 
 describe('Login user with form', () => {
   it('Login user with email and password', () => {
-    cy.intercept('POST', `${Cypress.env('CYPRESS_SERVER_URL')}users/login`, { token }).as('login')
+    cy.intercept('POST', `${Cypress.env('CYPRESS_SERVER_URL')}/users/login`, { token }).as('login')
     cy.visit(baseUrl).location('href').should('contain', '/login')
 
     cy.get('[data-testid="email"]').type(Cypress.env('CYPRESS_TEST_USERNAME'))

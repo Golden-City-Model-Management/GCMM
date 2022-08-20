@@ -1,21 +1,17 @@
 
 
-import Layout from '@/components/layout/Layout'
 import { NextPage } from "next"
-
-const layoutProps = {
-  title: 'Golden City Model Management | Administration',
-  description: 'Golden City Model Management. Finding and refining talent. African Premium Agency located in Lagos, Nigeria',
-  favicon: '/vercel.svg',
-}
+import { useEffect } from "react"
 
 const AdminHomePage: NextPage = (props) => {
+ const fetcher = async () => {
+    await fetch("http://localhost:9876/api/v1/users/login")
+   }
 
-  console.log('props')
   return ( 
-    <Layout {...layoutProps} >  
+    <div className="test" onClick={() => fetcher()}>  
       Log me in!!!!
-    </Layout>
+    </div>
   )
 } 
 

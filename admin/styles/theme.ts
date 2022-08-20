@@ -9,7 +9,7 @@ const styleOverrides = {
   },
   body: {
     color: '#fff',
-    background: '#191919'
+    background: '#152238'
   },
   html: { fontSize: "62.5%",
   '@media (min-width: 600px)': {

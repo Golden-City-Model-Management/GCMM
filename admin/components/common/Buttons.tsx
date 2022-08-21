@@ -26,14 +26,12 @@ export const StyledBorderBtn = forwardRef(({children, ...otherProps}: ButtonProp
     background: 'transparent',
     color: theme.palette.text.primary,
     ...btnStyles(theme),
-    '&:hover': {
-      color: theme.palette.text.secondary,
-    }})}
+  })}
     >{children}</Button>
   )
 })
 
-export const WhiteButton = forwardRef(({children, sx, ...otherProps}: 
+export const BasicBtn = forwardRef(({children, sx, ...otherProps}: 
   { sx: (theme: Theme) => ({}) } & ButtonProps, ref) => {
   return (
     <Button
@@ -44,8 +42,9 @@ export const WhiteButton = forwardRef(({children, sx, ...otherProps}:
     ...btnStyles(theme),
     ...sx(theme),
     '&:hover': {
-      color: theme.palette.primary.main,
-      background:  theme.palette.text.secondary,
+      color:  theme.palette.text.primary,
+      background: theme.palette.primary.main,
+      filter: 'brightness(1.5)'
     }
     })}
     >{children}</Button>

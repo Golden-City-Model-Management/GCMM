@@ -30,7 +30,7 @@ const theme = createTheme({
       main: '#1c2e4a',
       light: '#0201267d',
       dark: '#152238',
-      contrastText: '#FFFFFF',
+      contrastText: '#D9D9D9',
     },
     secondary: {
       main: '#FFDD26',
@@ -114,7 +114,7 @@ const theme = createTheme({
         }
       },
       small: {
-       fontSize: '0.65rem',
+       fontSize: '0.85rem',
       }
     };
   },
@@ -130,9 +130,9 @@ const theme = createTheme({
   components: {
     MuiCssBaseline: { styleOverrides, },
     MuiButtonBase: {
-      defaultProps: {
-        disableRipple: true,
-      },
+      // defaultProps: {
+      //   disableRipple: true,
+      // },
     },
     MuiButton: {
       styleOverrides: {

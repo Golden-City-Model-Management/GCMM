@@ -7,6 +7,11 @@ import { NextPage } from "next"
 import { rounded, flexDirection, flexCenterCenter } from '../styles/styles'
 import { WhiteBorderInput } from '../components/common/Inputs'
 import { BasicBtn } from '../components/common/Buttons'
+import { useCallback, useState, 
+  FormEventHandler, FormEvent, ChangeEventHandler, ChangeEvent } from "react"
+import { TopCenteredSnackbar } from "@/components/common/snackbars"
+import { ErrorAlert } from '@/components/common/alert'
+import Request from "@/utils/client/request"
 
 
 const formStyles = (theme: Theme) => ({
@@ -34,7 +39,7 @@ const inputStyles = (theme: Theme) => ({
   }
 })
 
-const labelStyles = (theme?: Theme) => ({
+const labelStyles = (_?: Theme) => ({
   width: '80%'
 })
 
@@ -47,12 +52,47 @@ const submitBtnStyles = (theme: Theme) => ({
 
 const AdminHomePage: NextPage = () => {
 
+  const [loginDetails, setLoginDetails] = useState({
+    email: '', password: ''
+  })
+  const [isError, setIsError] = useState({
+    error: false, message: ''
+  })
+
+  const setError = useCallback((newState: typeof isError) => {
+    setIsError(prev => ({...prev, ...newState}))
+    }, [])
+
+  const handleSubmit: FormEventHandler = useCallback(async (e: FormEvent) => {
+    e.preventDefault()
+    if(loginDetails.email.trim().length === 0 || loginDetails.password.trim().length === 0){
+      setError({error: true, message: 'All fields are required!'})
+    }else{
+      const response = await Request({path: '/login', method: 'post', data: loginDetails})
+      console.log(response)
+      if( response.status === 200) {
+        const { data } = response 
+        console.log(data)
+      }else{
+        const { data: { message } } = response.response
+      }
+    }
+  }, [loginDetails])
+
+  const handleChange: ChangeEventHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setLoginDetails(prev => ({...prev, [e.target.name]: e.target.value}))
+  }, [])
 
 
   return (
     <Box sx={{ minHeight: '100vh', ...flexCenterCenter, }}>
 
-      <Box component='form' sx={formStyles}>
+      <TopCenteredSnackbar onClose={() => setError({error: false, message: ''})} open={isError.error}>
+        <ErrorAlert >
+          {isError.message}
+        </ErrorAlert>
+      </TopCenteredSnackbar>
+      <Box onSubmit={handleSubmit} component='form' sx={formStyles}>
 
         <Typography
           sx={{ textAlign: 'center' }}
@@ -66,15 +106,21 @@ const AdminHomePage: NextPage = () => {
         
         <Box component='label' sx={labelStyles}>
           <Box>Username / Email</Box>
-          <WhiteBorderInput sx={inputStyles} />
+          <WhiteBorderInput required value={loginDetails.email} 
+          name='email' 
+          onChange={handleChange} 
+          data-testid='email' sx={inputStyles} />
         </Box>
 
         <Box component='label' sx={labelStyles}>
           <Box>Password</Box>
-          <WhiteBorderInput sx={inputStyles} />
+          <WhiteBorderInput value={loginDetails.password} 
+          name='password' 
+          onChange={handleChange} 
+          data-testid='password' sx={inputStyles} />
         </Box>
 
-        <BasicBtn sx={submitBtnStyles}>
+        <BasicBtn type="submit" data-testid='login' sx={submitBtnStyles}>
           Log In
         </BasicBtn>
       </Box>

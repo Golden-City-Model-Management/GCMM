@@ -14,6 +14,7 @@ const {
    editProfile, 
    changeEmail,
    verifyUser,
+   getUser,
    } = require('../controllers/userController')
 
 router.post('/login', loginUser, createResponse);
@@ -21,7 +22,9 @@ router.get('/logout', protect(), logout)
 router.get('/verify', verifyUser, createResponse)
 router.post('/forgot-password', forgotPassword, createResponse)
 router.post('/password-reset/:token/:id', passwordReset, createResponse)
-router.use('/me', meRouter)
+
+router.use('/me', meRouter) 
+meRouter.get('/', protect("-__v -createdAt -passwordResetExpires -passwordResetToken"), getUser, createResponse)
 meRouter.patch ('/change-password', protect('+password'), changePassword, createResponse);
 meRouter.patch('/change-email', protect('+active'),  changeEmail, createResponse)
 meRouter.patch('/', protect(), editProfile, createResponse);

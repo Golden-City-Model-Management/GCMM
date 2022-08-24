@@ -185,6 +185,14 @@ module.exports.changeEmail = asyncHelper(async (req, res, next) => {
   } else return next(createCustomError('Unable to update your email! Please try again later!', 500))
 })
 
+module.exports.getUser = asyncHelper(async (req, res, next) => {
+  req.statusCode = 200
+  req.status = 'success'
+  req.message = 'Profile fetched successfully'
+  req.data = { user: req.user }
+  next()
+})
+
 module.exports.editProfile = asyncHelper(async (req, res, next) => {
   const user = req.user
   const excludedFields = ['password', 'email', 'role']

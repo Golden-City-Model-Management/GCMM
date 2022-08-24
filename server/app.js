@@ -9,7 +9,6 @@ const modelsRouter = require('./routes/models');
 const usersRouter = require('./routes/users');
 const portfoliosRouter = require('./routes/portfolios');
 const inquiriesRouter = require('./routes/feedbacks');
-const { verifyClient } = require('./middleware/authMiddleware')
 
 const app = express();
 app.enable('trust proxy')

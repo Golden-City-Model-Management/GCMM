@@ -1,10 +1,10 @@
 import { GetServerSideProps } from 'next'
+import Request from '@/utils/api/request'
 
 const getUserDetails: GetServerSideProps = async (ctx) => {
 
-  ctx.req.headers = ctx.req.headers || {
+  ctx.req.headers = ctx.req.headers || {}
 
-  }
   ctx.req.headers.authorization = ctx.req.headers.authorization || ''
 
   const accessTokenCookie = ctx.req.cookies['access_token']
@@ -18,6 +18,13 @@ const getUserDetails: GetServerSideProps = async (ctx) => {
     })
     ctx.res.end()
    }
+  }else {
+    if(accessToken){
+      ctx.res.writeHead(302, {
+        location: '/admin'
+      })  
+      ctx.res.end()
+    }
   }
 
   return {

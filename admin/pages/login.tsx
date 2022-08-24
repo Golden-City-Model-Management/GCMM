@@ -12,7 +12,9 @@ import { useCallback, useState,
 import { TopCenteredSnackbar } from "@/components/common/snackbars"
 import { ErrorAlert } from '@/components/common/alert'
 import Request from "@/utils/client/request"
-
+import { useRouter } from "next/router"
+import { useCookies } from "react-cookie"
+import getUserDetails from "@/utils/pages/getServerSideProps"
 
 const formStyles = (theme: Theme) => ({
   ...flexCenterCenter,
@@ -52,31 +54,38 @@ const submitBtnStyles = (theme: Theme) => ({
 
 const AdminHomePage: NextPage = () => {
 
+  const router = useRouter()
+  const [_, setCookie] = useCookies(["access_token"])
   const [loginDetails, setLoginDetails] = useState({
-    email: '', password: ''
+    userName: '', password: ''
   })
   const [isError, setIsError] = useState({
     error: false, message: ''
   })
 
-  const setError = useCallback((newState: typeof isError) => {
+  const handleSetError = useCallback((newState: typeof isError) => {
     setIsError(prev => ({...prev, ...newState}))
     }, [])
 
   const handleSubmit: FormEventHandler = useCallback(async (e: FormEvent) => {
     e.preventDefault()
-    if(loginDetails.email.trim().length === 0 || loginDetails.password.trim().length === 0){
-      setError({error: true, message: 'All fields are required!'})
-    }else{
-      const response = await Request({path: '/login', method: 'post', data: loginDetails})
-      console.log(response)
-      if( response.status === 200) {
+
+    if(loginDetails.userName.trim().length === 0 || loginDetails.password.trim().length === 0)
+     return handleSetError({error: true, message: 'All fields are required!'})
+
+    const response = await Request({path: '/login', method: 'post', data: loginDetails})
+    if( response.status === 200) {
         const { data } = response 
-        console.log(data)
-      }else{
-        const { data: { message } } = response.response
-      }
-    }
+        setCookie('access_token', JSON.stringify(data.token), {
+          path: '/',
+          sameSite: 'lax',
+          maxAge: 3600,
+        })
+        router.push('/')
+     }else {
+       const { data: { message } } = response
+       return handleSetError({error: true, message})
+     }
   }, [loginDetails])
 
   const handleChange: ChangeEventHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -87,7 +96,7 @@ const AdminHomePage: NextPage = () => {
   return (
     <Box sx={{ minHeight: '100vh', ...flexCenterCenter, }}>
 
-      <TopCenteredSnackbar onClose={() => setError({error: false, message: ''})} open={isError.error}>
+      <TopCenteredSnackbar onClose={() => handleSetError({error: false, message: ''})} open={isError.error}>
         <ErrorAlert >
           {isError.message}
         </ErrorAlert>
@@ -106,8 +115,8 @@ const AdminHomePage: NextPage = () => {
         
         <Box component='label' sx={labelStyles}>
           <Box>Username / Email</Box>
-          <WhiteBorderInput required value={loginDetails.email} 
-          name='email' 
+          <WhiteBorderInput required value={loginDetails.userName} 
+          name='userName' 
           onChange={handleChange} 
           data-testid='email' sx={inputStyles} />
         </Box>
@@ -124,9 +133,10 @@ const AdminHomePage: NextPage = () => {
           Log In
         </BasicBtn>
       </Box>
-    </Box>
-  )
+    </Box> 
+  ) 
 }
 
-
 export default AdminHomePage 
+
+export const getServerSideProps = getUserDetails

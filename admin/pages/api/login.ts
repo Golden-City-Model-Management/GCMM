@@ -1,7 +1,5 @@
 
 
-
-
 import { NextApiResponse, NextApiRequest } from 'next'
 import { tryCatcher } from '../../utils/api/async'
 import Request from '../../utils/api/request'
@@ -13,23 +11,21 @@ export const config = {
     },
   },
 }
-  
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
  ) {
 
-  console.log('hhelloworelhHHhhHHHHHHHHHHHHHHHHHHHHHHHHHKHIOOOHHHH')
   const method = req.method && req.method.toUpperCase() 
 
   if(!method || method !== 'POST') return res.status(405).json({ message: 'Method not allowed' })
-  console.log(';sdakjfl;aja;];fjkdskkdsjfsfdslka;a;dkf;adkslfkfdsfkdfj') 
 
-  return res.status(200).json({
-    email: 'hehr',
-    name: 'herlej'
-  })
-
+  const response = await tryCatcher(async (req, _) => {
+    const data = await Request({ path: '/users/login', method: 'post', data: req.body})
+    return data
+  }) 
+  const loginData =  await response(req, res) 
+  res.status(loginData.statusCode).json({...loginData})
 }
-
 

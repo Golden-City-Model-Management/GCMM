@@ -31,11 +31,10 @@ async function Request ({
       url: path,
       data,
     })
-    console.log(response)
     return response
 
   }catch(err: any){
-    return err.response
+    return err.response 
   }
 }
 

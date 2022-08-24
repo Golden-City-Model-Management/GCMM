@@ -11,10 +11,9 @@ const layoutProps = {
 
 const AdminHomePage: NextPage = (props) => {
 
-  console.log('props')
   return ( 
     <Layout {...layoutProps} >  
-      Log me in!!!!
+      Log me in!!!! 
     </Layout>
   )
 } 

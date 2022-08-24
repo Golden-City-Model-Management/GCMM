@@ -27,7 +27,6 @@ module.exports.addPortfolio = asyncHelper(async (req, res, next) => {
     }
     if(saved.length !== reqImages.length)next(createCustomError('Unable to add all images!', 500))
     const images = await Promise.all(saved)
-    // return createResponse(res, 201, {status: 'success', message: 'Successfully added portfolio images!', images})
     req.statusCode = 201
     req.status = 'success'
     req.message = 'Successfully added images'
@@ -37,7 +36,6 @@ module.exports.addPortfolio = asyncHelper(async (req, res, next) => {
   if(image){
     if(typeof(image) !== 'string') return next(createCustomError('Please specify a string for the image!', 400))
   const doc = await createDocument(Portfolio, req.body)(req, res, next)
-  // return createResponse(res, 201, {status: 'success', message: 'Successfully added portfolio image!', doc})   
   req.statusCode = 201
   req.status = 'success'
   req.message = 'Image added sucessfully'

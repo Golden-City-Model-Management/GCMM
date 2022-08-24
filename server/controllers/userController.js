@@ -78,7 +78,7 @@ module.exports.loginUser = asyncHelper(async (req, res, next) => {
 
 module.exports.verifyUser = asyncHelper(async (req, res, next) => {
   const { token, id } = req.query
-  if (!token) return next(createCustomError('Unauthorized', 403))
+  if (!token || !id) return next(createCustomError('Unauthorized', 403))
   const user = await User.findOne({ _id: id })
   if (!user) return next(createCustomError('Cannot verify non-existent user!', 404))
   if (!user.emailConfirmationToken) return next(createCustomError('Unauthorized', 403))

@@ -66,7 +66,7 @@ const handleDocDelete = (Model, queryKey) => {
       return deleteDocument(Model, queryKey, isSingleDelete)(req, res, next)
     } else if (isMultipleDelete) {
       const docs = await Model.deleteMany({ [queryKey]: { $in: isMultipleDelete } })
-      req.sttusCode = 204
+      req.statusCode = 204
       req.status = 'success'
       if(docs.deletedCount < isMultipleDelete.length){ 
           req.message = 'Not all documents were deleted. Likely because the documents do not exist'

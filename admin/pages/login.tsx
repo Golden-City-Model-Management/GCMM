@@ -74,7 +74,8 @@ const AdminHomePage: NextPage = () => {
      return handleSetError({error: true, message: 'All fields are required!'})
 
     const response = await Request({path: '/login', method: 'post', data: loginDetails})
-    if( response.status === 200) {
+    console.log(response)
+    if(response.status === 200) {
         const { data } = response 
         setCookie('access_token', JSON.stringify(data.token), {
           path: '/',

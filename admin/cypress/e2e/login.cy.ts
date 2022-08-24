@@ -12,11 +12,15 @@ describe('Login user with form', () => {
 
     cy.wait('@login').then((res) => {
       if(res && res.response && res.response.body && res.response.body.token){
-        cy.setCookie('access_token',  res.response.body.token)
+        if(res.response.body.statusCode === 200){
+          cy.setCookie('access_token',  res.response.body.token)
+          cy.visit(baseUrl) 
+          cy.location('href').should('not.include', '/login')
+        }else {
+          cy.location('href').should('include', '/login')
+        }
       }
     })
-    cy.visit(baseUrl) 
-    cy.location('href').should('not.include', '/login')
   })
 })
 export {}

@@ -7,6 +7,9 @@ interface RequestInterface {
   method: string,
   data?: object,
 }
+interface ResponseInterface {
+  
+}
 
 let myAxios = axios.create({
   baseURL: process.env.SERVER_URL,
@@ -15,12 +18,12 @@ let myAxios = axios.create({
   }
 })
 
-async function Request ({
+const Request = async ({
   baseURL,
   path,
   method = 'GET',
   data = {},
-}: RequestInterface) {
+}: RequestInterface) => {
 
   if(baseURL) myAxios.defaults.baseURL = baseURL
   return  myAxios({

@@ -10,7 +10,7 @@ interface RequestInterface {
 }
 
 let myAxios = axios.create({
-  baseURL: '/api',
+  baseURL: '/admin/api',
 })
 
 myAxios = setUpInterceptors(myAxios)
@@ -31,11 +31,10 @@ async function Request ({
       url: path,
       data,
     })
-    console.log(response)
     return response
 
   }catch(err: any){
-    return err
+    return err.response 
   }
 }
 

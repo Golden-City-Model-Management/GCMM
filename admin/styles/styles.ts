@@ -27,6 +27,52 @@ export const padded = () => ({
   }
 })
 
+const base = {
+  inherit: 'inherit',
+  initial: 'initial',
+  revert: 'revert',
+  unset: 'unset',
+}
+
+export const display = {
+  ...base,
+  flex: 'flex',
+  block: 'block',
+  inlineBlock: 'inline-block',
+  inlineFlex: 'inline-flex',
+  contents: 'contents',
+}
+export const flexDirection = {
+  ...base,
+  row: 'row',
+  rowReverse: 'row-reverse',
+  column: 'column',
+  columnReverse: 'column-reverse',
+}
+export const layout = {
+  ...base,
+  right: 'right',
+  left: 'left',
+  center: 'center',
+  flexStart: 'flex-end',
+  flexEnd: 'flex-end',
+  spaceAround: 'space-around',
+  spaceBetween: 'space-between',
+  spaceEvenly: 'space-evenly',
+  end: 'end',
+  start: 'start',
+  normal: 'normal',
+  stretch: 'stretch',
+  baseline: 'baseline',
+  selfStart: 'self-start',
+  selfEnd: 'self-end',
+}
+
+export const flexCenterCenter = {
+  display: display.flex,
+  justifyContent: layout.center,
+  alignItems:layout.center
+}
 export const flexRowJustifyBetweenAlignCenter = () => ({
   display: 'flex',
   flexDirection: 'row',

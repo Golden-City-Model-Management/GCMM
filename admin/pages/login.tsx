@@ -117,6 +117,8 @@ const AdminHomePage: NextPage = () => {
           <Box>Username / Email</Box>
           <WhiteBorderInput required value={loginDetails.userName} 
           name='userName' 
+          type='text'
+          placeholder="Username or Email"
           onChange={handleChange} 
           data-testid='email' sx={inputStyles} />
         </Box>
@@ -125,6 +127,8 @@ const AdminHomePage: NextPage = () => {
           <Box>Password</Box>
           <WhiteBorderInput value={loginDetails.password} 
           name='password' 
+          type='passoword'
+          placeholder="password"
           onChange={handleChange} 
           data-testid='password' sx={inputStyles} />
         </Box>

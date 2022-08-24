@@ -1,6 +1,6 @@
 
 const mongoose = require('mongoose')
-const { signToken, bcryptEncrypt, bcryptCompare } = require('../utils/authUtils')
+const { signToken, bcryptEncrypt, comparePlainAndHashed } = require('../utils/authUtils')
 const crypto = require('crypto')
 
 const userSchema = new mongoose.Schema({
@@ -78,7 +78,7 @@ userSchema.methods.hashKeys = async function (...keys) {
   }
 }
 userSchema.methods.compareKey = async function (key, value) {
-  const isMatch = await bcryptCompare(value, this[key])
+  const isMatch = await comparePlainAndHashed({plain: value, hashed: this[key]})
   if (isMatch) {
     return this
   } else {

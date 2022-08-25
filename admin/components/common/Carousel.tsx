@@ -27,7 +27,7 @@ const Carousel = ({ images, width, height }: {
       setCurrentActive(0)
       setTranslate(0);
     }
-  }, [currentActive])
+  }, [currentActive, images.length])
 
   const handlePrevClick = useCallback(() => {
     if(currentActive > 0){

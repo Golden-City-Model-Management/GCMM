@@ -60,12 +60,15 @@ const AdminHomePage: NextPage = () => {
     userName: '', password: ''
   })
   const [isError, setIsError] = useState({
-    error: false, message: ''
+    error: router.query.error ? true : false, message: router.query.error
   })
 
   const handleSetError = useCallback((newState: typeof isError) => {
+    if(router.query.error){
+      router.push('/login')
+    }
     setIsError(prev => ({...prev, ...newState}))
-    }, [])
+    }, [router])
 
   const handleSubmit: FormEventHandler = useCallback(async (e: FormEvent) => {
     e.preventDefault()
@@ -86,7 +89,7 @@ const AdminHomePage: NextPage = () => {
        const { data: { message } } = response
        return handleSetError({error: true, message})
      }
-  }, [loginDetails])
+  }, [handleSetError, loginDetails, router, setCookie])
 
   const handleChange: ChangeEventHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setLoginDetails(prev => ({...prev, [e.target.name]: e.target.value}))
@@ -127,7 +130,7 @@ const AdminHomePage: NextPage = () => {
           <Box>Password</Box>
           <WhiteBorderInput value={loginDetails.password} 
           name='password' 
-          type='passoword'
+          type='password'
           placeholder="password"
           onChange={handleChange} 
           data-testid='password' sx={inputStyles} />

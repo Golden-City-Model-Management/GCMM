@@ -12,3 +12,5 @@ export const TopCenteredSnackbar = forwardRef<HTMLDivElement, SnackbarProps>((pr
     </Snackbar>
   )
 })
+
+TopCenteredSnackbar.displayName = 'TopCenteredSnackbar'

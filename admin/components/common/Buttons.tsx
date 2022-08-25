@@ -30,6 +30,7 @@ export const StyledBorderBtn = forwardRef(({children, ...otherProps}: ButtonProp
     >{children}</Button>
   )
 })
+StyledBorderBtn.displayName = 'StyledBorderBtn'
 
 export const BasicBtn = forwardRef(({children, sx, ...otherProps}: 
   { sx: (theme: Theme) => ({}) } & ButtonProps, ref) => {
@@ -50,3 +51,4 @@ export const BasicBtn = forwardRef(({children, sx, ...otherProps}:
     >{children}</Button>
   )
 })
+BasicBtn.displayName = 'BasicBtn'

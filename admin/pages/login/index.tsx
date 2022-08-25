@@ -17,6 +17,7 @@ import Request from "@/utils/client/request"
 import { useRouter } from "next/router"
 import { useCookies } from "react-cookie"
 import getUserDetails from "@/utils/pages/getServerSideProps"
+import Loader from "@/components/common/loader"
 import * as styles from './style'
 
 
@@ -30,6 +31,7 @@ const AdminHomePage: NextPage = () => {
   const [isError, setIsError] = useState({
     error: router.query.error ? true : false, message: router.query.error
   })
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSetError = useCallback((newState: typeof isError) => {
     if (router.query.error) {
@@ -43,6 +45,7 @@ const AdminHomePage: NextPage = () => {
 
     if (loginDetails.userName.trim().length === 0 || loginDetails.password.trim().length === 0)
       return handleSetError({ error: true, message: 'All fields are required!' })
+    setIsLoading(true)
 
     const response = await Request({ path: '/login', method: 'post', data: loginDetails })
     if (response.status === 200) {
@@ -52,9 +55,11 @@ const AdminHomePage: NextPage = () => {
         sameSite: 'lax',
         maxAge: 3600,
       })
+      setIsLoading(false)
       router.push('/')
     } else {
       const { data: { message } } = response
+      setIsLoading(false)
       return handleSetError({ error: true, message })
     }
   }, [handleSetError, loginDetails, router, setCookie])
@@ -67,7 +72,7 @@ const AdminHomePage: NextPage = () => {
   return (
     <Box display='flex' justifyContent='center'
       alignItems='center' minHeight='100vh' >
-
+      <Loader open={isLoading} />
       <TopCenteredSnackbar onClose={() => handleSetError({ error: false, message: '' })} open={isError.error}>
         <ErrorAlert >
           {isError.message}

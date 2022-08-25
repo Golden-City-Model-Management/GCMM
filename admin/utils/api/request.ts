@@ -1,16 +1,13 @@
 
-import axios from 'axios'
+import axios, { AxiosRequestHeaders } from 'axios'
 
 interface RequestInterface {
   baseURL?: string,
   path: string,
   method: string,
   data?: object,
-}
-interface ResponseInterface {
-  
-}
-
+  headers?: AxiosRequestHeaders
+} 
 let myAxios = axios.create({
   baseURL: process.env.SERVER_URL,
   headers: {
@@ -23,6 +20,7 @@ const Request = async ({
   path,
   method = 'GET',
   data = {},
+  headers = {}
 }: RequestInterface) => {
 
   if(baseURL) myAxios.defaults.baseURL = baseURL
@@ -30,6 +28,7 @@ const Request = async ({
       method,
       url: path,
       data,
+      headers
     })
     .then(response => ({...response.data, statusCode: response.status}))
     .catch(err => {

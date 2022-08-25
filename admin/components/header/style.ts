@@ -5,15 +5,6 @@ import { Theme } from '@mui/material'
 export const AppbarSx = (theme: Theme) => {
   return ({
     background: theme.palette.primary.dark,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: {
-      lg: '0 55px',
-      md: padded().lg['padding'],
-      xs: padded().sm['padding'],
-    },
   })
 }
 

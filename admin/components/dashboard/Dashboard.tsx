@@ -1,10 +1,9 @@
 
-import { rounded, flexJCenterACenter, 
-  flexJStartACenter,  display, layout } from '@/styles/styles'
+import { rounded, flexJCenterACenter } from '@/styles/styles'
 import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
 import Box from "@mui/material/Box"
-import { StyledBorderBtn } from '../common/Buttons'
+import { StyledBorderBtn } from '../Buttons/Buttons'
 
 
 const DashBoard = ({ user }: {

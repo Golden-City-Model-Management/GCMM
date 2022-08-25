@@ -2,9 +2,9 @@
 import getUserDetails from '@/utils/pages/getServerSideProps'
 import Layout from '@/components/layout/Layout'
 import DashBoard from '@/components/dashboard/Dashboard'
-import { ReactNode } from 'react'
+import { ReactNode, useContext, } from 'react'
 import Box from '@mui/material/Box'
-import { padded, display, layout } from '@/styles/styles'
+import { UIContext } from '@/context/ui'
 
 const layoutProps = {
   title: 'Golden City Model Management | Administration',
@@ -26,19 +26,13 @@ const AdminHomePage = ({ user }: {
   }
 }) => {
 
+  const { boxPadding } = useContext(UIContext)
+
   return ( 
     <Layout {...layoutProps} > 
-    <Box sx={{
-      display: display.flex,
-      justifyContent: layout.start,
-      alignItems: layout.center,
-      minHeight: '80vh',
-      padding: {
-        lg: '0 55px',
-        md: padded().lg['padding'],
-        xs: padded().sm['padding'],
-      },
-    }}>
+    <Box display='flex' justifyContent='center' 
+    alignItems='flex-start' minHeight='80vh'  
+    sx={{padding: {...boxPadding}}}>
       <DashBoard user={user} />
     </Box>
     </Layout>

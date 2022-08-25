@@ -4,9 +4,9 @@ import { Theme } from "@mui/material"
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { NextPage } from "next"
-import { rounded, flexDirection, flexJCenterACenter } from '../styles/styles'
-import { WhiteBorderInput } from '../components/common/Inputs'
-import { BasicBtn } from '../components/common/Buttons'
+import { rounded, flexDirection, flexJCenterACenter } from '@/styles/styles'
+import { BorderInput } from '@/components/Inputs/Inputs'
+import { BasicBtn } from '@/components/Buttons/Buttons'
 import { useCallback, useState, 
   FormEventHandler, FormEvent, ChangeEventHandler, ChangeEvent } from "react"
 import { TopCenteredSnackbar } from "@/components/common/snackbars"
@@ -15,42 +15,8 @@ import Request from "@/utils/client/request"
 import { useRouter } from "next/router"
 import { useCookies } from "react-cookie"
 import getUserDetails from "@/utils/pages/getServerSideProps"
+import * as styles from './style'
 
-const formStyles = (theme: Theme) => ({
-  ...flexJCenterACenter,
-  flexDirection: flexDirection.column,
-  borderRadius: rounded().md,
-  background: theme.palette.primary.contrastText,
-  color: theme.palette.primary.main,
-  width: '90vw',
-  maxWidth: '450px',
-  height: '70vh',
-  maxHeight: '600px',
-  gap: '26px',
-})
-
-const inputStyles = (theme: Theme) => ({
-  '&.MuiInputBase-root, .MuiInput-root': {
-    width: '100%',
-  },
-  color: theme.palette.primary.main,
-  borderColor: 'currentColor',
-  fontSize: '',
-  '&:hover': {
-    color: theme.palette.primary.main
-  }
-})
-
-const labelStyles = (_?: Theme) => ({
-  width: '80%'
-})
-
-const submitBtnStyles = (theme: Theme) => ({
-  background: theme.palette.primary.main,
-  color: theme.palette.primary.contrastText,
-  width: '80%',
-  minHeight: '55px',
-})
 
 const AdminHomePage: NextPage = () => {
 
@@ -104,7 +70,10 @@ const AdminHomePage: NextPage = () => {
           {isError.message}
         </ErrorAlert>
       </TopCenteredSnackbar>
-      <Box onSubmit={handleSubmit} component='form' sx={formStyles}>
+      <Box 
+      onSubmit={handleSubmit} component='form' 
+      display='flex' justifyContent='center' 
+      alignItems='center' flexDirection='column' sx={styles.formStyles}>
 
         <Typography
           sx={{ textAlign: 'center' }}
@@ -116,27 +85,27 @@ const AdminHomePage: NextPage = () => {
           color={'rgba(0, 0, 0, 0.6)'}
           variant='small'>Please sign in to continue</Typography>
         
-        <Box component='label' sx={labelStyles}>
+        <Box component='label' width={'80%'}>
           <Box>Username / Email</Box>
-          <WhiteBorderInput required value={loginDetails.userName} 
+          <BorderInput required value={loginDetails.userName} 
           name='userName' 
           type='text'
           placeholder="Username or Email"
           onChange={handleChange} 
-          data-testid='email' sx={inputStyles} />
+          data-testid='email' sx={styles.inputStyles} />
         </Box>
 
-        <Box component='label' sx={labelStyles}>
+        <Box component='label' width={'80%'}>
           <Box>Password</Box>
-          <WhiteBorderInput value={loginDetails.password} 
+          <BorderInput value={loginDetails.password} 
           name='password' 
           type='password'
           placeholder="password"
           onChange={handleChange} 
-          data-testid='password' sx={inputStyles} />
+          data-testid='password' sx={styles.inputStyles} />
         </Box>
 
-        <BasicBtn type="submit" data-testid='login' sx={submitBtnStyles}>
+        <BasicBtn type="submit" data-testid='login' sx={styles.submitBtnStyles}>
           Log In
         </BasicBtn>
       </Box>

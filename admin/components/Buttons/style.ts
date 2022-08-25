@@ -1,11 +1,7 @@
+import { padded, rounded } from "@/styles/styles"
+import { Theme } from "@mui/material"
 
-
-import { forwardRef } from 'react'
-import Button, { ButtonProps } from '@mui/material/Button'
-import { Theme } from '@mui/material'
-import { rounded, padded } from '@/styles/styles'
-
-const btnStyles = (theme: Theme) => ({
+export const btnStyles = (theme: Theme) => ({
   ...padded().sm,
   textTransform: 'uppercase',
   fontSize: '1.4rem',
@@ -17,11 +13,10 @@ const btnStyles = (theme: Theme) => ({
     ...padded().md,
   }
 })
-export const StyledBorderBtn = forwardRef(({children, ...otherProps}: ButtonProps, ref) => {
-  return (
-    <Button
-    {...otherProps}
-    sx={(theme) => ({  
+
+export const StyledBorderBtnSx = (theme: Theme) => {
+
+  return ({
     border: `2px solid currentColor`,
     background: 'transparent',
     color: theme.palette.text.primary,
@@ -31,18 +26,12 @@ export const StyledBorderBtn = forwardRef(({children, ...otherProps}: ButtonProp
       borderRadius: '30px'
     },
     ...btnStyles(theme),
-  })}
-    >{children}</Button>
-  )
-})
-StyledBorderBtn.displayName = 'StyledBorderBtn'
+  })
+}
 
-export const BasicBtn = forwardRef(({children, sx, ...otherProps}: 
-  { sx: (theme: Theme) => ({}) } & ButtonProps, ref) => {
-  return (
-    <Button
-    {...otherProps}
-    sx={(theme) => ({  
+export const BasicBtnSx = (theme: Theme, sx: (theme: Theme) => ({})) => {
+  
+  return ({
     background:  theme.palette.text.primary,
     color: theme.palette.primary.main,
     ...btnStyles(theme),
@@ -52,8 +41,5 @@ export const BasicBtn = forwardRef(({children, sx, ...otherProps}:
       background: theme.palette.primary.main,
       filter: 'brightness(1.5)'
     }
-    })}
-    >{children}</Button>
-  )
-})
-BasicBtn.displayName = 'BasicBtn'
+  })
+}

@@ -4,7 +4,7 @@ import List from '@mui/material/List'
 import Typography from '@mui/material/Typography'
 import { NavLinkListItemWithSubLinks, } from '@/components/common/Links'
 import { navLinks } from '@/constants/links'
-import Mapper from '@/components/common/Mapper'
+import Mapper from '@/components/Mapper'
 
 
 export const AdminNavigationDesktop = () => {

@@ -2,6 +2,7 @@
 import getUserDetails from '@/utils/pages/getServerSideProps'
 import Layout from '@/components/layout/Layout'
 import { NextPage } from "next"
+import { ReactNode } from 'react'
 
 const layoutProps = {
   title: 'Golden City Model Management | Administration',
@@ -9,15 +10,25 @@ const layoutProps = {
   favicon: '/vercel.svg',
 }
 
-const AdminHomePage: NextPage = (props) => {
+export const getServerSideProps = getUserDetails
+
+const AdminHomePage = ({ user }: {
+  children?: ReactNode,
+  user: {
+    _id: string,
+    name: string,
+    avatar: string,
+    email: string,
+    userName: string,
+    role: string,
+  }
+}) => {
 
   return ( 
-    <Layout {...layoutProps} >  
-      Log me in!!!! 
+    <Layout {...layoutProps} > 
+      19182f7d
     </Layout>
   )
 } 
 
 export default AdminHomePage 
-
-export const getServerSideProps = getUserDetails

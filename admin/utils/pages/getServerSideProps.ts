@@ -27,12 +27,23 @@ const getUserDetails: GetServerSideProps = async (ctx) => {
     }
   }
 
+  const response = await Request({
+    method: 'get',
+    path: '/users/me',
+    headers: {
+      'Authorization': 'Bearer ' + accessToken.replace(/"/g, '')
+    }
+  })
+  if(response.statusCode === 200){
+    return {
+      props: {
+        user: response.user
+      }
+    }    
+  }
   return {
     props: {
-      user: {
-        name: 'Hhello world ',
-        age: 'halelluja'
-      }
+      user: {}
     }
   }
 }

@@ -1,0 +1,46 @@
+import { padded } from '@/styles/styles'
+import { Theme } from '@mui/material'
+
+
+export const AppbarSx = (theme: Theme) => {
+  return ({
+    background: theme.palette.primary.dark,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: {
+      lg: '0 55px',
+      md: padded().lg['padding'],
+      xs: padded().sm['padding'],
+    },
+  })
+}
+
+export const AvatarSectionSx = (theme: Theme) => {
+  return ({
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+      alignItems: 'center'
+    }
+  })
+}
+
+export const MenuBtnSectionSx = (theme: Theme) => {
+  return ({
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    }
+  })
+}
+
+export const TemporaryDrawerSx = (theme: Theme) => {
+  return ({
+    padding: '30px 20px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 5,
+  })
+}

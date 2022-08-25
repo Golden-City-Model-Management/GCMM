@@ -32,5 +32,7 @@ const UserImage = forwardRef<any, AvatarPropsExtended>((props, ref) => {
   )
 })
 
+UserImage.displayName = 'UserImage'
+
 export default UserImage
 

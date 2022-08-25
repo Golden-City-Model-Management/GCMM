@@ -4,7 +4,7 @@ import { Theme } from "@mui/material"
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { NextPage } from "next"
-import { rounded, flexDirection, flexCenterCenter } from '../styles/styles'
+import { rounded, flexDirection, flexJCenterACenter } from '../styles/styles'
 import { WhiteBorderInput } from '../components/common/Inputs'
 import { BasicBtn } from '../components/common/Buttons'
 import { useCallback, useState, 
@@ -17,7 +17,7 @@ import { useCookies } from "react-cookie"
 import getUserDetails from "@/utils/pages/getServerSideProps"
 
 const formStyles = (theme: Theme) => ({
-  ...flexCenterCenter,
+  ...flexJCenterACenter,
   flexDirection: flexDirection.column,
   borderRadius: rounded().md,
   background: theme.palette.primary.contrastText,
@@ -97,7 +97,7 @@ const AdminHomePage: NextPage = () => {
 
 
   return (
-    <Box sx={{ minHeight: '100vh', ...flexCenterCenter, }}>
+    <Box sx={{ minHeight: '100vh', ...flexJCenterACenter, }}>
 
       <TopCenteredSnackbar onClose={() => handleSetError({error: false, message: ''})} open={isError.error}>
         <ErrorAlert >

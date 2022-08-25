@@ -1,8 +1,10 @@
 
 import getUserDetails from '@/utils/pages/getServerSideProps'
 import Layout from '@/components/layout/Layout'
-import { NextPage } from "next"
+import DashBoard from '@/components/dashboard/Dashboard'
 import { ReactNode } from 'react'
+import Box from '@mui/material/Box'
+import { padded, display, layout } from '@/styles/styles'
 
 const layoutProps = {
   title: 'Golden City Model Management | Administration',
@@ -26,7 +28,19 @@ const AdminHomePage = ({ user }: {
 
   return ( 
     <Layout {...layoutProps} > 
-      19182f7d
+    <Box sx={{
+      display: display.flex,
+      justifyContent: layout.start,
+      alignItems: layout.center,
+      minHeight: '80vh',
+      padding: {
+        lg: '0 55px',
+        md: padded().lg['padding'],
+        xs: padded().sm['padding'],
+      },
+    }}>
+      <DashBoard user={user} />
+    </Box>
     </Layout>
   )
 } 

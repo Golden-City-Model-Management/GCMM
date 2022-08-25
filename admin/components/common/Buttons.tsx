@@ -25,6 +25,11 @@ export const StyledBorderBtn = forwardRef(({children, ...otherProps}: ButtonProp
     border: `2px solid currentColor`,
     background: 'transparent',
     color: theme.palette.text.primary,
+    transition: 'all .3s ease',
+    '&:hover': {
+      color: theme.palette.secondary.main,
+      borderRadius: '30px'
+    },
     ...btnStyles(theme),
   })}
     >{children}</Button>

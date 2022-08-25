@@ -25,7 +25,7 @@ const UserIcconLink = ({ avatar }: {
 }) => {
 
   return (
-    <WithNextLink href="/admin/me" passHref={true}>
+    <WithNextLink href="/me" passHref={true}>
       <UserAvatar component='a' avatar={avatar} />
     </WithNextLink>
   )

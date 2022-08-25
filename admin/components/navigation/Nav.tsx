@@ -28,7 +28,7 @@ export const AdminNavigationDesktop = () => {
            display: 'flex', 
            alignItems: 'center', 
            justifyContent: 'center',
-           gap: 7,
+           gap: '27%',
           })} >
           <Mapper 
             itemName='link'

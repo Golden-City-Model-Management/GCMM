@@ -20,7 +20,7 @@ const UserImage = forwardRef<any, AvatarPropsExtended>((props, ref) => {
     <Box component={component} href={href} ref={ref}>
     <Avatar
     {...rest}
-      alt="Remy Sharp"
+      alt={avatar.alt}
       src={avatar.src}
       sx={{ 
         width: 55, 

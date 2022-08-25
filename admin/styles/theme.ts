@@ -55,6 +55,7 @@ const theme = createTheme({
         fontSize: '2.5rem',
         fontWeight: 400,
         color: palette.text.primary,
+        textTransform: 'capitalize',
       },
       h1: {
         fontSize: '2.25rem',

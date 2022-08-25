@@ -31,7 +31,7 @@ const getUserDetails: GetServerSideProps = async (ctx) => {
     method: 'get',
     path: '/users/me',
     headers: {
-      'Authorization': 'Bearer ' + accessToken.replace(/"/g, '')
+      'Authorization': 'Bearer ' + accessToken?.replace(/"/g, '')
     }
   })
   if(response.statusCode === 200){

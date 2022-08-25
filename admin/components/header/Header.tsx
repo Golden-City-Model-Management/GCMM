@@ -15,17 +15,16 @@ import { UIContext } from '@/context/ui';
 import Avatar from '@mui/material/Avatar';
 import { WithNextLink } from '@/components/common/Links'
 import * as styles from './style'
+import { UserContext } from '@/context/user';
 
 
 
-const Header = ({ avatar }: {
-  avatar: {
-    src: string;
-    alt: string;
-  }
-}) => {
+const Header = () => {
+
   const { showNav, toggleShowNav, drawerWidth, boxPadding } = useContext(UIContext)
+  const { user } = useContext(UserContext)
 
+  console.log(user)
   return (
     <AppBar component='header' position="sticky" sx={styles.AppbarSx} >
       <Box display='flex' justifyContent='space-between' alignItems='center'  padding={{ ...boxPadding }}>
@@ -35,8 +34,9 @@ const Header = ({ avatar }: {
           <Box sx={styles.AvatarSectionSx}>
             <Typography component='span' mr={2}>  Welcome Back </Typography>
             <WithNextLink href="/me" passHref={true}>
-              <Avatar src={avatar.src} alt={avatar.alt} component={'a'} />
-            </WithNextLink>        </Box>
+              <Avatar src={user.avatar} alt={user.name} component={'a'} />
+            </WithNextLink>        
+          </Box>
           <Box sx={styles.MenuBtnSectionSx}>
             <IconOrTextBtn data-testid='admin-nav-toggle' Icon={MenuIcon} onClick={() => toggleShowNav()} />
           </Box>
@@ -54,7 +54,7 @@ const Header = ({ avatar }: {
 
           <Box display='flex' justifyContent='space-between' alignItems='center'>
             <WithNextLink href="/me" passHref={true}>
-              <Avatar src={avatar.src} alt={avatar.alt} component={'a'} />
+              <Avatar src={user.avatar} alt={user.name} component={'a'} />
             </WithNextLink>
             <IconOrTextBtn Icon={CloseIcon} onClick={() => toggleShowNav()} />
           </Box>

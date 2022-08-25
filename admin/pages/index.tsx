@@ -2,9 +2,10 @@
 import getUserDetails from '@/utils/pages/getServerSideProps'
 import Layout from '@/components/layout/Layout'
 import DashBoard from '@/components/dashboard/Dashboard'
-import { ReactNode, useContext, } from 'react'
+import { ReactNode, useContext, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import { UIContext } from '@/context/ui'
+import { UserContext } from '@/context/user'
 
 const layoutProps = {
   title: 'Golden City Model Management | Administration',
@@ -27,7 +28,13 @@ const AdminHomePage = ({ user }: {
 }) => {
 
   const { boxPadding } = useContext(UIContext)
+  const { updateUser } = useContext(UserContext)
 
+  useEffect(() => {
+    updateUser(user)
+  }, [updateUser, user])
+  console.log(user)
+  
   return ( 
     <Layout {...layoutProps} > 
     <Box display='flex' justifyContent='center' 

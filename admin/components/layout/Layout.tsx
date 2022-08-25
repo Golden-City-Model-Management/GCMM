@@ -16,7 +16,7 @@ const AdminLayout = ({ children, ...headProps }: LayoutProps) => {
       background: theme.palette.primary.main,
     })}>
     <Head {...headProps} />
-    <AdminLayoutHeader avatar={{ src: '', alt: ''}}/>
+    <AdminLayoutHeader />
     <AdminNavigationDesktop />
     <Box
      sx={() => ({

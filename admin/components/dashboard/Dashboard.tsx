@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
 import Box from "@mui/material/Box"
 import { StyledBorderBtn } from '../Buttons/Buttons'
-
+import * as styles from './style'
 
 const DashBoard = ({ user }: {
   user: {
@@ -18,35 +18,23 @@ const DashBoard = ({ user }: {
 }) => {
 
   return (
-    <Box sx={() => ({
-      ...flexJCenterACenter,
-      gap: 5,
-      flexWrap: 'wrap',
-      ...rounded().circle,
-    })}>
-      <Box sx={theme => ({
+    <Box 
+     display='flex' justifyContent='center' alignItems='center'
+     gap='1rem' flexWrap='wrap'  minHeight='80vh' sx={{...rounded().circle,}}>
+      <Box
+       width='80vw' height='80vw' maxWidth='320px' maxHeight='320px'
+       display='flex' justifyContent='center' alignItems='center' 
+       sx={theme => ({
         border: `1px solid ${theme.palette.primary.contrastText}`,
-        width: '80vw',
-        height: '80vw',
-        maxWidth: 320,
-        maxHeight: 320,
-        ...flexJCenterACenter,
         ...rounded().circle,
-      })}>
+       })}>
         <Avatar
           alt={user.name} src={user.avatar}
-          sx={theme => ({
-            width: '65vw',
-            height: '65vw',
-            maxWidth: 280,
-            maxHeight: 280, fontSize: '10rem',
-            border: `1px solid ${theme.palette.secondary.main}`,
-            background: theme.palette.primary.dark,
-          })} />
+          sx={styles.AvatarSx} />
       </Box>
-      <Box >
-        <Typography variant='caption' >Welcome Back {user.name}</Typography><br />
-        <Box sx={{...flexJCenterACenter, gap: 3, mt: 4}}>
+      <Box mt={0}>
+        <Typography textAlign='center' variant='caption' component='h1'>Welcome Back {user.name}</Typography><br />
+        <Box display='flex' justifyContent='center' alignItems='center' gap={3} mt={4}>
           <StyledBorderBtn href='/me' >
             Profile
           </StyledBorderBtn>

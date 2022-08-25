@@ -37,9 +37,11 @@ const AdminHomePage = ({ user }: {
   
   return ( 
     <Layout {...layoutProps} > 
-    <Box display='flex' justifyContent='center' 
-    alignItems='flex-start' minHeight='80vh'  
-    sx={{padding: {...boxPadding}}}>
+    <Box 
+    display='flex' justifyContent='start' 
+    alignItems='center' minHeight='80vh'  
+    sx={{padding: {...boxPadding}}}
+    >
       <DashBoard user={user} />
     </Box>
     </Layout>

@@ -1,20 +1,13 @@
 
-import { rounded, flexJCenterACenter } from '@/styles/styles'
+import { rounded, } from '@/styles/styles'
 import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
 import Box from "@mui/material/Box"
-import { StyledBorderBtn } from '../Buttons/Buttons'
 import * as styles from './style'
+import { User } from '@/context/user'
 
 const DashBoard = ({ user }: {
-  user: {
-    _id: string,
-    name: string,
-    avatar: string,
-    userName: string,
-    email: string,
-    role: string,
-  }
+  user: User
 }) => {
 
   return (
@@ -33,16 +26,15 @@ const DashBoard = ({ user }: {
           sx={styles.AvatarSx} />
       </Box>
       <Box mt={0}>
-        <Typography textAlign='center' variant='caption' component='h1'>Welcome Back {user.name}</Typography><br />
-        <Box display='flex' justifyContent='center' alignItems='center' gap={3} mt={4}>
-          <StyledBorderBtn href='/me' >
-            Profile
-          </StyledBorderBtn>
-          <StyledBorderBtn href='/me/settings' >
-            Settings
-          </StyledBorderBtn>         
-        </Box>
-
+        <Typography  variant='caption' component='h1'>Welcome Back {user.name}</Typography><br />
+         <Box display='flex' gap={'5px'}>
+         <Typography lineHeight={2} variant='h2' textTransform='capitalize' >Username:</Typography>
+         <Typography lineHeight={2} variant='h3' textTransform='capitalize' >{user.userName}</Typography>
+         </Box>
+         <Box display='flex' gap={'5px'}>
+         <Typography lineHeight={2} variant='h2' textTransform='capitalize' >Email:</Typography>
+         <Typography lineHeight={2} variant='h4' textTransform='capitalize' >{user.email}</Typography>
+         </Box>     
       </Box>
     </Box>
   )

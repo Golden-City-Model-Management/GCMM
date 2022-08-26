@@ -50,9 +50,6 @@ const Header = () => {
         <Box sx={styles.TemporaryDrawerSx} component="nav">
 
           <Box display='flex' justifyContent='space-between' alignItems='center'>
-            <WithNextLink href="/me" passHref={true}>
-              <Avatar src={user.avatar} alt={user.name} component={'a'} />
-            </WithNextLink>
             <IconOrTextBtn Icon={CloseIcon} onClick={() => toggleShowNav()} />
           </Box>
           <AdminNavigation />

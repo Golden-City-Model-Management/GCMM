@@ -1,10 +1,9 @@
 
 
-import { Theme } from "@mui/material"
+import { GetServerSideProps } from 'next'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { NextPage } from "next"
-import { rounded, flexDirection, flexJCenterACenter } from '@/styles/styles'
 import { BorderInput } from '@/components/Inputs/Inputs'
 import { BasicBtn } from '@/components/Buttons/Buttons'
 import {
@@ -16,7 +15,7 @@ import { ErrorAlert } from '@/components/common/alert'
 import Request from "@/utils/client/request"
 import { useRouter } from "next/router"
 import { useCookies } from "react-cookie"
-import getUserDetails from "@/utils/pages/getServerSideProps"
+import { getAccessTokenFromReq } from "@/utils/pages/getServerSideProps"
 import Loader from "@/components/common/loader"
 import * as styles from './style'
 
@@ -84,12 +83,12 @@ const AdminHomePage: NextPage = () => {
         alignItems='center' flexDirection='column' sx={styles.formStyles}>
 
         <Typography
-          sx={{ textAlign: 'center' }}
+          textAlign='center'
           color={theme => theme.palette.primary.main}
           variant='caption'>Welcome Back</Typography>
 
         <Typography
-          sx={{ textAlign: 'center' }}
+          textAlign='center'
           color={'rgba(0, 0, 0, 0.6)'}
           variant='small'>Please sign in to continue</Typography>
 
@@ -123,4 +122,17 @@ const AdminHomePage: NextPage = () => {
 
 export default AdminHomePage
 
-export const getServerSideProps = getUserDetails
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  console.log(ctx)
+  const accessToken = getAccessTokenFromReq(ctx.req)
+  console.log(accessToken)
+  if (accessToken) {
+    ctx.res.writeHead(302, {
+      Location: '/admin'
+    })
+    ctx.res.end()
+  }
+  return {
+    props: {}
+  }
+}

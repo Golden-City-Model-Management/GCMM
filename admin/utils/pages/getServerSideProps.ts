@@ -1,55 +1,55 @@
 import { GetServerSideProps } from 'next'
+import { IncomingMessage } from 'http'
 import Request from '@/utils/api/request'
-import cookie from 'cookie'
 
 const getUserDetails: GetServerSideProps = async (ctx) => {
 
-  ctx.req.headers = ctx.req.headers || {}
+  const accessToken = getAccessTokenFromReq(ctx.req)
 
-  ctx.req.headers.authorization = ctx.req.headers.authorization || ''
+  let response;
 
-  const accessTokenCookie = ctx.req.cookies['access_token']
-  const accessTokenFromHeader = ctx.req.headers.authorization.split(' ')[1]
-  const accessToken = accessTokenCookie || accessTokenFromHeader
-
-  let response
-
-  if(!accessToken){
-    if(!ctx.resolvedUrl.includes('login')){
-      ctx.res.writeHead(302, {
-        Location: '/admin/login'
-      })
-      ctx.res.end()
-    }else {
-      return { 
-        props: {}
+  if (!accessToken) {
+    ctx.res.writeHead(302, {
+      Location: '/admin/login'
+    })
+    ctx.res.end()
+    return {
+      props: {
+        user: null
       }
     }
-  }else{
-    if(ctx.resolvedUrl.includes('login')){
-      ctx.res.writeHead(302, {
-        location: '/admin'
-      })  
-     ctx.res.end()
-    }
+  } else {
     response = await Request({
       method: 'get',
       path: '/users/me',
-      headers: {
-        'Authorization': 'Bearer ' + accessToken?.replace(/"/g, '')
-      }
+      headers: { 'Authorization': 'Bearer ' + accessToken.replace(/"/g, '') }
     })
-  } 
-   if(response && response.statusCode !== 200){
-      ctx.res.setHeader( "Set-Cookie", [`access_token=deleted; Max-Age=0`,]);
-      ctx.res.writeHead(302, { Location: '/admin/login?error="Authentication failed.Please login again!"',})
+    if (response && response.statusCode === 200) {
+      return {
+        props: {
+          user: response.user
+        }
+      }
+    } else {
+      ctx.res.writeHead(302, { Location: `/admin/error?error=${response.message}`, })
       ctx.res.end()
-    }
-    return {
-      props: {
-        user: response.user
+      return {
+        props: {
+          user: null
+        }
       }
     }
+  }
 }
 
-export default getUserDetails 
+export default getUserDetails
+
+export const getAccessTokenFromReq = (req: IncomingMessage & { cookies: Partial<{ [key: string]: string }> }) => {
+  req.headers = req.headers || {}
+  req.headers.authorization = req.headers.authorization || ''
+
+  const accessTokenCookie = req.cookies['access_token']
+  const accessTokenFromHeader = req.headers.authorization.split(' ')[1]
+
+  return accessTokenCookie ? accessTokenCookie : accessTokenFromHeader
+}

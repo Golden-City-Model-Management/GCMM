@@ -6,6 +6,7 @@ import { ReactNode, useContext, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import { UIContext } from '@/context/ui'
 import { UserContext } from '@/context/user'
+import { useRouter } from 'next/router'
 
 const layoutProps = {
   title: 'Golden City Model Management | Administration',
@@ -24,17 +25,21 @@ const AdminHomePage = ({ user }: {
     email: string,
     userName: string,
     role: string,
-  }
+  } | undefined
 }) => {
 
+  const router = useRouter()
   const { boxPadding } = useContext(UIContext)
-  const { updateUser } = useContext(UserContext)
+  const { updateUser, user: state } = useContext(UserContext)
 
   useEffect(() => {
-    updateUser(user)
-  }, [updateUser, user])
-  console.log(user)
-  
+    if(user === undefined){
+      router.push('/error?error=An error occurred! Please try again')
+    }else{
+      updateUser(user) 
+    }
+  }, [updateUser, user, router])
+
   return ( 
     <Layout {...layoutProps} > 
     <Box 
@@ -42,7 +47,7 @@ const AdminHomePage = ({ user }: {
     alignItems='center' minHeight='80vh'  
     sx={{padding: {...boxPadding}}}
     >
-      <DashBoard user={user} />
+      <DashBoard user={state} />
     </Box>
     </Layout>
   )

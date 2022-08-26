@@ -13,7 +13,6 @@ import { TemporaryDrawer } from '@/components/common/Drawer'
 import Logo from '@/components/svgs/Logos';
 import { UIContext } from '@/context/ui';
 import Avatar from '@mui/material/Avatar';
-import { WithNextLink } from '@/components/common/Links'
 import * as styles from './style'
 import { UserContext } from '@/context/user';
 

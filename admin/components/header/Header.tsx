@@ -32,10 +32,7 @@ const Header = () => {
 
         <Box ml='auto'>
           <Box sx={styles.AvatarSectionSx}>
-            <Typography component='span' mr={2}>  Welcome Back </Typography>
-            <WithNextLink href="/me" passHref={true}>
-              <Avatar src={user.avatar} alt={user.name} component={'a'} />
-            </WithNextLink>        
+            <Typography component='span' mr={2}>  Welcome Back </Typography>      
           </Box>
           <Box sx={styles.MenuBtnSectionSx}>
             <IconOrTextBtn data-testid='admin-nav-toggle' Icon={MenuIcon} onClick={() => toggleShowNav()} />

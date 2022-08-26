@@ -6,7 +6,7 @@ import List from '@mui/material/Link'
 import { ListItem } from "@mui/material"
 import { SvgIconComponent } from "@mui/icons-material"
 import useToggle from '@/utils/hooks/useToggle'
-import Mapper from '@/components/common/Mapper'
+import Mapper from '@/components/Mapper'
 
 interface LinkInterface {
   name: string | SvgIconComponent,

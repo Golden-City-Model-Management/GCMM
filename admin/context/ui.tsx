@@ -10,12 +10,12 @@ const initialValue = {
   showNav: false,
   toggleShowNav: () => {},
   fullHeightWithoutHeader: 'calc(100vh - 89px)',
-  universalContainerPadding: {
+  boxPadding: {
     lg: '0 119px',
     md: '0 50px',
     xs: '0 30px',
   },
-  marginBtwContainers: '100px'
+  marginBtwContainers: '100px',
 }
 
 export const UIContext = createContext(initialValue)

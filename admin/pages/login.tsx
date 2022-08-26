@@ -1,56 +1,24 @@
 
 
-import { Theme } from "@mui/material"
+import { GetServerSideProps } from 'next'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { NextPage } from "next"
-import { rounded, flexDirection, flexCenterCenter } from '../styles/styles'
-import { WhiteBorderInput } from '../components/common/Inputs'
-import { BasicBtn } from '../components/common/Buttons'
-import { useCallback, useState, 
-  FormEventHandler, FormEvent, ChangeEventHandler, ChangeEvent } from "react"
+import { BorderInput } from '@/components/Inputs/Inputs'
+import { BasicBtn } from '@/components/Buttons/Buttons'
+import {
+  useCallback, useState,
+  FormEventHandler, FormEvent, ChangeEventHandler, ChangeEvent
+} from "react"
 import { TopCenteredSnackbar } from "@/components/common/snackbars"
 import { ErrorAlert } from '@/components/common/alert'
 import Request from "@/utils/client/request"
 import { useRouter } from "next/router"
 import { useCookies } from "react-cookie"
-import getUserDetails from "@/utils/pages/getServerSideProps"
+import { getAccessTokenFromReq } from "@/utils/pages/getServerSideProps"
+import Loader from "@/components/common/loader"
+import * as styles from '@/styles/pages/login'
 
-const formStyles = (theme: Theme) => ({
-  ...flexCenterCenter,
-  flexDirection: flexDirection.column,
-  borderRadius: rounded().md,
-  background: theme.palette.primary.contrastText,
-  color: theme.palette.primary.main,
-  width: '90vw',
-  maxWidth: '450px',
-  height: '70vh',
-  maxHeight: '600px',
-  gap: '26px',
-})
-
-const inputStyles = (theme: Theme) => ({
-  '&.MuiInputBase-root, .MuiInput-root': {
-    width: '100%',
-  },
-  color: theme.palette.primary.main,
-  borderColor: 'currentColor',
-  fontSize: '',
-  '&:hover': {
-    color: theme.palette.primary.main
-  }
-})
-
-const labelStyles = (_?: Theme) => ({
-  width: '80%'
-})
-
-const submitBtnStyles = (theme: Theme) => ({
-  background: theme.palette.primary.main,
-  color: theme.palette.primary.contrastText,
-  width: '80%',
-  minHeight: '55px',
-})
 
 const AdminHomePage: NextPage = () => {
 
@@ -62,88 +30,109 @@ const AdminHomePage: NextPage = () => {
   const [isError, setIsError] = useState({
     error: router.query.error ? true : false, message: router.query.error
   })
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSetError = useCallback((newState: typeof isError) => {
-    if(router.query.error){
+    if (router.query.error) {
       router.push('/login')
     }
-    setIsError(prev => ({...prev, ...newState}))
-    }, [router])
+    setIsError(prev => ({ ...prev, ...newState }))
+  }, [router])
 
   const handleSubmit: FormEventHandler = useCallback(async (e: FormEvent) => {
     e.preventDefault()
 
-    if(loginDetails.userName.trim().length === 0 || loginDetails.password.trim().length === 0)
-     return handleSetError({error: true, message: 'All fields are required!'})
+    if (loginDetails.userName.trim().length === 0 || loginDetails.password.trim().length === 0)
+      return handleSetError({ error: true, message: 'All fields are required!' })
+    setIsLoading(true)
 
-    const response = await Request({path: '/login', method: 'post', data: loginDetails})
-    if(response.status === 200) {
-        const { data } = response 
-        setCookie('access_token', JSON.stringify(data.token), {
-          path: '/',
-          sameSite: 'lax',
-          maxAge: 3600,
-        })
-        router.push('/')
-     }else {
-       const { data: { message } } = response
-       return handleSetError({error: true, message})
-     }
+    const response = await Request({ path: '/login', method: 'post', data: loginDetails })
+    if (response.status === 200) {
+      const { data } = response
+      setCookie('access_token', JSON.stringify(data.token), {
+        path: '/',
+        sameSite: 'lax',
+        maxAge: 3600,
+      })
+      setIsLoading(false)
+      router.push('/')
+    } else {
+      const { data: { message } } = response
+      setIsLoading(false)
+      return handleSetError({ error: true, message })
+    }
   }, [handleSetError, loginDetails, router, setCookie])
 
   const handleChange: ChangeEventHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setLoginDetails(prev => ({...prev, [e.target.name]: e.target.value}))
+    setLoginDetails(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }, [])
 
 
   return (
-    <Box sx={{ minHeight: '100vh', ...flexCenterCenter, }}>
-
-      <TopCenteredSnackbar onClose={() => handleSetError({error: false, message: ''})} open={isError.error}>
+    <Box display='flex' justifyContent='center'
+      alignItems='center' minHeight='100vh' >
+      <Loader open={isLoading} />
+      <TopCenteredSnackbar onClose={() => handleSetError({ error: false, message: '' })} open={isError.error}>
         <ErrorAlert >
           {isError.message}
         </ErrorAlert>
       </TopCenteredSnackbar>
-      <Box onSubmit={handleSubmit} component='form' sx={formStyles}>
+      <Box
+        onSubmit={handleSubmit} component='form'
+        display='flex' justifyContent='center'
+        alignItems='center' flexDirection='column' sx={styles.formStyles}>
 
         <Typography
-          sx={{ textAlign: 'center' }}
+          textAlign='center'
           color={theme => theme.palette.primary.main}
           variant='caption'>Welcome Back</Typography>
 
         <Typography
-          sx={{ textAlign: 'center' }}
+          textAlign='center'
           color={'rgba(0, 0, 0, 0.6)'}
           variant='small'>Please sign in to continue</Typography>
-        
-        <Box component='label' sx={labelStyles}>
+
+        <Box component='label' width={'80%'}>
           <Box>Username / Email</Box>
-          <WhiteBorderInput required value={loginDetails.userName} 
-          name='userName' 
-          type='text'
-          placeholder="Username or Email"
-          onChange={handleChange} 
-          data-testid='email' sx={inputStyles} />
+          <BorderInput required value={loginDetails.userName}
+            name='userName'
+            type='text'
+            placeholder="Username or Email"
+            onChange={handleChange}
+            data-testid='email' sx={styles.inputStyles} />
         </Box>
 
-        <Box component='label' sx={labelStyles}>
+        <Box component='label' width={'80%'}>
           <Box>Password</Box>
-          <WhiteBorderInput value={loginDetails.password} 
-          name='password' 
-          type='password'
-          placeholder="password"
-          onChange={handleChange} 
-          data-testid='password' sx={inputStyles} />
+          <BorderInput value={loginDetails.password}
+            name='password'
+            type='password'
+            placeholder="password"
+            onChange={handleChange}
+            data-testid='password' sx={styles.inputStyles} />
         </Box>
 
-        <BasicBtn type="submit" data-testid='login' sx={submitBtnStyles}>
+        <BasicBtn type="submit" data-testid='login' sx={styles.submitBtnStyles}>
           Log In
         </BasicBtn>
       </Box>
-    </Box> 
-  ) 
+    </Box>
+  )
 }
 
-export default AdminHomePage 
+export default AdminHomePage
 
-export const getServerSideProps = getUserDetails
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  console.log(ctx)
+  const accessToken = getAccessTokenFromReq(ctx.req)
+  console.log(accessToken)
+  if (accessToken) {
+    ctx.res.writeHead(302, {
+      Location: '/admin'
+    })
+    ctx.res.end()
+  }
+  return {
+    props: {}
+  }
+}

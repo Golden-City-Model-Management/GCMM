@@ -1,8 +1,12 @@
 
 import getUserDetails from '@/utils/pages/getServerSideProps'
 import Layout from '@/components/layout/Layout'
-import { NextPage } from "next"
-import { ReactNode } from 'react'
+import DashBoard from '@/components/dashboard/Dashboard'
+import { ReactNode, useContext, useEffect } from 'react'
+import Box from '@mui/material/Box'
+import { UIContext } from '@/context/ui'
+import { UserContext } from '@/context/user'
+import { useRouter } from 'next/router'
 
 const layoutProps = {
   title: 'Golden City Model Management | Administration',
@@ -21,12 +25,30 @@ const AdminHomePage = ({ user }: {
     email: string,
     userName: string,
     role: string,
-  }
+  } | undefined
 }) => {
+
+  const router = useRouter()
+  const { boxPadding } = useContext(UIContext)
+  const { updateUser, user: state } = useContext(UserContext)
+
+  useEffect(() => {
+    if(user === undefined){
+      router.push('/error?error=An error occurred! Please try again')
+    }else{
+      updateUser(user) 
+    }
+  }, [updateUser, user, router])
 
   return ( 
     <Layout {...layoutProps} > 
-      19182f7d
+    <Box 
+    display='flex' justifyContent='start' 
+    alignItems='center' minHeight='80vh'  
+    sx={{padding: {...boxPadding}}}
+    >
+      <DashBoard user={state} />
+    </Box>
     </Layout>
   )
 } 

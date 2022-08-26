@@ -68,9 +68,15 @@ export const layout = {
   selfEnd: 'self-end',
 }
 
-export const flexCenterCenter = {
+export const flexJCenterACenter = {
   display: display.flex,
   justifyContent: layout.center,
+  alignItems:layout.center
+}
+
+export const flexJStartACenter = {
+  display: display.flex,
+  justifyContent: layout.start,
   alignItems:layout.center
 }
 export const flexRowJustifyBetweenAlignCenter = () => ({

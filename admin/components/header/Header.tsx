@@ -12,19 +12,10 @@ import AdminNavigation from '@/components/navigation/Nav';
 import { TemporaryDrawer } from '@/components/common/Drawer'
 import Logo from '@/components/svgs/Logos';
 import { UIContext } from '@/context/ui';
-import Avatar from '@mui/material/Avatar';
-import { WithNextLink } from '@/components/common/Links'
 import * as styles from './style'
-import { UserContext } from '@/context/user';
-
-
 
 const Header = () => {
-
   const { showNav, toggleShowNav, drawerWidth, boxPadding } = useContext(UIContext)
-  const { user } = useContext(UserContext)
-
-  console.log(user)
   return (
     <AppBar component='header' position="sticky" sx={styles.AppbarSx} >
       <Box display='flex' justifyContent='space-between' alignItems='center'  padding={{ ...boxPadding }}>
@@ -32,10 +23,7 @@ const Header = () => {
 
         <Box ml='auto'>
           <Box sx={styles.AvatarSectionSx}>
-            <Typography component='span' mr={2}>  Welcome Back </Typography>
-            <WithNextLink href="/me" passHref={true}>
-              <Avatar src={user.avatar} alt={user.name} component={'a'} />
-            </WithNextLink>        
+            <Typography component='span' mr={2}>  Welcome Back </Typography>      
           </Box>
           <Box sx={styles.MenuBtnSectionSx}>
             <IconOrTextBtn data-testid='admin-nav-toggle' Icon={MenuIcon} onClick={() => toggleShowNav()} />
@@ -53,9 +41,6 @@ const Header = () => {
         <Box sx={styles.TemporaryDrawerSx} component="nav">
 
           <Box display='flex' justifyContent='space-between' alignItems='center'>
-            <WithNextLink href="/me" passHref={true}>
-              <Avatar src={user.avatar} alt={user.name} component={'a'} />
-            </WithNextLink>
             <IconOrTextBtn Icon={CloseIcon} onClick={() => toggleShowNav()} />
           </Box>
           <AdminNavigation />

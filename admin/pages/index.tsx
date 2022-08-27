@@ -5,7 +5,7 @@ import DashBoard from '@/components/dashboard/Dashboard'
 import { ReactNode, useContext, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import { UIContext } from '@/context/ui'
-import { UserContext } from '@/context/user'
+import { UserContext, User } from '@/context/user'
 import { useRouter } from 'next/router'
 
 const layoutProps = {
@@ -18,14 +18,7 @@ export const getServerSideProps = getUserDetails
 
 const AdminHomePage = ({ user }: {
   children?: ReactNode,
-  user: {
-    _id: string,
-    name: string,
-    avatar: string,
-    email: string,
-    userName: string,
-    role: string,
-  } | undefined
+  user: User| undefined
 }) => {
 
   const router = useRouter()

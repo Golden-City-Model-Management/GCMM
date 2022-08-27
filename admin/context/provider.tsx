@@ -4,6 +4,8 @@ import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
 import theme from '../styles/theme'
 import UIProvider from '@/context/ui'
 import UserProvider from '@/context/user'
+import ModelsProvider from '@/context/models'
+
 
 const ContextProvider = ({ children }: {
   children: React.ReactNode | React.ReactNode[]
@@ -11,12 +13,15 @@ const ContextProvider = ({ children }: {
 
   return (
     <>
+
       <UserProvider>
-        <UIProvider>
-          <MuiThemeProvider theme={theme}>
-            {children}
-          </MuiThemeProvider>
-        </UIProvider>
+        <ModelsProvider>
+          <UIProvider>
+            <MuiThemeProvider theme={theme}>
+              {children}
+            </MuiThemeProvider>
+          </UIProvider>
+        </ModelsProvider>
       </UserProvider>
     </>
   )

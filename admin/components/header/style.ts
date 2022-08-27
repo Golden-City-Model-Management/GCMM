@@ -5,6 +5,7 @@ import { Theme } from '@mui/material'
 export const AppbarSx = (theme: Theme) => {
   return ({
     background: theme.palette.primary.dark,
+    boxShadow: '0 20px 30px #ffffff12'
   })
 }
 

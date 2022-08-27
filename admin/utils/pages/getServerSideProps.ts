@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next'
-import { IncomingMessage } from 'http'
+import { IncomingMessage, OutgoingMessage } from 'http'
 import Request from '@/utils/api/request'
 
 const getUserDetails: GetServerSideProps = async (ctx) => {
@@ -9,10 +9,7 @@ const getUserDetails: GetServerSideProps = async (ctx) => {
   let response;
 
   if (!accessToken) {
-    ctx.res.writeHead(302, {
-      Location: '/admin/login'
-    })
-    ctx.res.end()
+    handleRedirectToLogin(ctx.res)
     return {
       props: {
         user: null
@@ -24,6 +21,7 @@ const getUserDetails: GetServerSideProps = async (ctx) => {
       path: '/users/me',
       headers: { 'Authorization': 'Bearer ' + accessToken.replace(/"/g, '') }
     })
+    
     if (response && response.statusCode === 200) {
       return {
         props: {
@@ -52,4 +50,11 @@ export const getAccessTokenFromReq = (req: IncomingMessage & { cookies: Partial<
   const accessTokenFromHeader = req.headers.authorization.split(' ')[1]
 
   return accessTokenCookie ? accessTokenCookie : accessTokenFromHeader
+}
+
+export const handleRedirectToLogin = (res: OutgoingMessage & { writeHead: (arg0: number, arg1: { Location: string }) => void; end: () => void }) => {
+  res.writeHead(302, {
+    Location: '/admin/login'
+  })
+  res.end()
 }

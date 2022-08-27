@@ -2,7 +2,7 @@
 import { createContext, ReactNode, useCallback, useMemo, useState } from "react";
 
 
-interface User {
+export interface User {
   _id: string, name: string, avatar: string,
   email: string, userName: string, role: string
 }
@@ -15,7 +15,7 @@ const initialUserState = {
     userName: '',
     role: '',    
   },
-  updateUser: (user: User) => undefined
+  updateUser: (user: User) => {}
 }
 
 export const UserContext = createContext({...initialUserState})
@@ -28,7 +28,6 @@ const UserProvider = ({ children } : {
 
   const updateUser = useCallback((user) => {
     setUser(user)
-    return undefined
   }, [])
 
   const value = {

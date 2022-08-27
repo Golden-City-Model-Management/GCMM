@@ -53,6 +53,7 @@ const AdminHomePage: NextPage = () => {
         path: '/',
         sameSite: 'lax',
         maxAge: 3600,
+        secure: true
       })
       setIsLoading(false)
       router.push('/')

@@ -10,57 +10,54 @@ import Mapper from '@/components/Mapper'
 export const AdminNavigationDesktop = () => {
 
   return (
-    <Box sx={theme => ({
-      position: 'sticky',
-      top: 0,
-      left: 0,
-      right: 0,
-      display: 'none', 
-      alignItems: 'center', 
-      justifyContent: 'center',
-      background: theme.palette.primary.light,
-      [theme.breakpoints.up('md')]: {
-        display: 'flex'
-      }
-     })}>
-         <List
-          sx={theme => ({
-           display: 'flex', 
-           alignItems: 'center', 
-           justifyContent: 'center',
-           gap: '27%',
-          })} >
-          <Mapper 
-            itemName='link'
-            list={navLinks}  
-            ComponentItem={NavLinkListItemWithSubLinks} 
-            mapKey='to' 
-            itemProps={{  }} />
-        </List>
+    <Box position='sticky' justifyContent='center'
+      alignItems='center' top={0} left={0}
+      zIndex={2000} boxShadow='0 18px 10px 0px #0000001f'
+      right={0} maxWidth='94vw' mx='auto' sx={theme => ({
+        display: 'none',
+        background: theme.palette.primary.light,
+        [theme.breakpoints.up('md')]: {
+          display: 'flex'
+        }
+      })}>
+      <List 
+        sx={(theme) => ({
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '22%',
+        })} >
+        <Mapper
+          itemName='link'
+          list={navLinks}
+          ComponentItem={NavLinkListItemWithSubLinks}
+          mapKey='to'
+          itemProps={{background: true}} />
+      </List>
     </Box>
   )
 }
 
 const AdminNavigationMobile = () => {
   return (
-      <Box>
+    <Box>
       <Box >
-         <List sx={{
-           display: 'flex', 
-           flexDirection: 'column',
-           alignItems: 'flex-start', 
-           justifyContent: 'flex-start',
-           gap: 7,
-         }} >
-          <Mapper 
+        <List sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          justifyContent: 'flex-start',
+          gap: 7,
+        }} >
+          <Mapper
             itemName='link'
-            list={navLinks}  
-            ComponentItem={NavLinkListItemWithSubLinks} 
-            mapKey='to' 
-            itemProps={{variant:'mainNavLink'}} />
+            list={navLinks}
+            ComponentItem={NavLinkListItemWithSubLinks}
+            mapKey='to'
+            itemProps={{ variant: 'mainNavLink' }} />
         </List>
         <Typography
-         sx={(theme) => 
+          sx={(theme) =>
           ({
             color: theme.palette.text.primary,
             textTransform: 'capitalize',
@@ -70,7 +67,7 @@ const AdminNavigationMobile = () => {
           &copy; GOLDEN CITY MODEL MANAGEMENT {new Date().getFullYear()}
         </Typography>
       </Box>
-      </Box>
+    </Box>
   );
 }
 

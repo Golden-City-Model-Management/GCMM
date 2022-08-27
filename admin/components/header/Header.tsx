@@ -13,16 +13,9 @@ import { TemporaryDrawer } from '@/components/common/Drawer'
 import Logo from '@/components/svgs/Logos';
 import { UIContext } from '@/context/ui';
 import * as styles from './style'
-import { UserContext } from '@/context/user';
-
-
 
 const Header = () => {
-
   const { showNav, toggleShowNav, drawerWidth, boxPadding } = useContext(UIContext)
-  const { user } = useContext(UserContext)
-
-  console.log(user)
   return (
     <AppBar component='header' position="sticky" sx={styles.AppbarSx} >
       <Box display='flex' justifyContent='space-between' alignItems='center'  padding={{ ...boxPadding }}>

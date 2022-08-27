@@ -71,9 +71,11 @@ const LinkListItem = ({link, variant, }: {
 
 
 const NavLinkListItemWithSubLinks = ({
-  link
+  link,
+  background
 }: {
   link: LinkWithSubLinks
+  background?: boolean
 }) => {
   const [showSubLinks, toggleShowSubLinks] = useToggle(false)
 
@@ -108,13 +110,14 @@ const NavLinkListItemWithSubLinks = ({
       <List 
         onMouseLeave={() => toggleShowSubLinks(false)}
         onMouseOut={() => toggleShowSubLinks(false)}
-        sx={() => ({
+        sx={(theme) => ({
+          padding: subLinks.length > 0 ? '1rem 1rem 0' : '',
           display: showSubLinks ? 'flex' : 'none',
           flexDirection: 'column',
           position: 'absolute',
           top: '100%',
           minWidth: 'max-content', 
-
+          backgroundColor: background ? theme.palette.primary.dark : ''
         })}
       >
         <Mapper

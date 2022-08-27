@@ -18,7 +18,7 @@ export const getServerSideProps = getUserDetails
 
 const AdminHomePage = ({ user }: {
   children?: ReactNode,
-  user: User | undefined
+  user: User| undefined
 }) => {
 
   const router = useRouter()

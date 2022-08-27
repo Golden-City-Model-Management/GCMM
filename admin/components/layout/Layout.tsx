@@ -10,8 +10,8 @@ import CustomizedBreadcrumbs from '@/components/common/breadcrumbs'
 import { useRouter } from 'next/router'
 
 const AdminLayout = ({ children, ...headProps }: LayoutProps) => {
-  const router = useRouter()
 
+  const router = useRouter()
   const paths = router.asPath.split('/').filter(x => x)
   const crumbs = paths.map(path => ({
     href: '/' + path, label: path, isActive: paths[paths.length - 1] === path
@@ -28,7 +28,7 @@ const AdminLayout = ({ children, ...headProps }: LayoutProps) => {
       <AdminLayoutHeader />
       <AdminNavigationDesktop />
       <Box display='flex' maxWidth='88vw' mx='auto' 
-      padding='1rem' zIndex={3000} 
+      padding='1rem' zIndex={3000} position='sticky' top='77px'
       boxShadow='box-shadow: 0px 20px 20px #ffffff15' sx={{background: '#000',}}>
         <CustomizedBreadcrumbs currentPath={router.asPath} crumbs={crumbs} />
       </Box>

@@ -27,10 +27,14 @@ const AdminLayout = ({ children, ...headProps }: LayoutProps) => {
       <Head {...headProps} />
       <AdminLayoutHeader />
       <AdminNavigationDesktop />
-      <Box display='flex' maxWidth='88vw' mx='auto' 
-      padding='1rem' zIndex={3000} position='sticky' top='77px'
-      boxShadow='box-shadow: 0px 20px 20px #ffffff15' sx={{background: '#000',}}>
-        <CustomizedBreadcrumbs currentPath={router.asPath} crumbs={crumbs} />
+      <Box position='sticky' top='77px' sx={theme => ({
+        background: theme.palette.primary.main,
+      })}>
+        <Box display='flex' maxWidth='88vw' mx='auto'
+          padding='1rem' zIndex={3000}
+          boxShadow='box-shadow: 0px 20px 20px #ffffff15' sx={{ background: '#000', }}>
+          <CustomizedBreadcrumbs currentPath={router.asPath} crumbs={crumbs} />
+        </Box>
       </Box>
       <Box
         sx={() => ({

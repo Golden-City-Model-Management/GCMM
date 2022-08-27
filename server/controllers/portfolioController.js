@@ -56,5 +56,19 @@ module.exports.deletePortfolio = asyncHelper(async(req,res,next) => {
 }
   await handleDocDelete(Portfolio, 'imageId')(req, res, next)
 })
-
+module.exports.getModelPortfolio = asyncHelper(async (req, res, next) => {
+  const docs = await Portfolio.find({model: req.params.modelId})
+  if(docs.length === 0){
+    req.message = 'No documents were found that match your search.'
+  }else{
+    req.message = 'Documents successfuly fetched.'
+    req.data.total_count = docs.length
+  }
+  req.data = {...req.data, docs}
+  req.statusCode = 200
+  req.data = { docs }
+  req.statusCode = 200
+  req.status = 'success'
+  next()
+})
 module.exports.getAllPortfolios = getAllDocuments(Portfolio)

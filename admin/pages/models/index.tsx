@@ -5,7 +5,8 @@ import Request from "@/utils/api/request"
 import AdminLayout from "@/components/layout/Layout"
 import { ModelsContext, Model } from "@/context/models"
 import { useContext, useEffect } from "react"
-
+import ModelsList from "@/components/models/ModelsList"
+import Box from '@mui/material/Box'
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   
   const accessToken = getAccessTokenFromReq(ctx.req)
@@ -49,19 +50,9 @@ const Models = ({ models }: { models:  Model[]; status: string; message: string;
   
   return (
     <AdminLayout title={"Models"} description={"GoldenCity Models"}>
-      {
-        stateModels.map(model => (
-          <div key={model.id}>
-          {model.name} <br/>
-          {model.age} <br/>
-          {model.bust || model.chest} <br/>
-          {model.height} <br/>
-          {model.hips} <br/>
-          {model.shoe} <br/>
-          {model.cover_image} <br/>
-          </div>
-        ))
-      }
+      <Box marginTop='25px' >
+        <ModelsList models={stateModels} />
+      </Box>
     </AdminLayout>
   )
 }

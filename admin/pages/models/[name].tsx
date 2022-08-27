@@ -4,7 +4,8 @@ import { getAccessTokenFromReq, handleRedirectToLogin } from "@/utils/pages/getS
 import Request from "@/utils/api/request"
 import AdminLayout from "@/components/layout/Layout"
 import { ModelsContext, Model } from "@/context/models"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
+import { useRouter } from "next/router"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   
@@ -13,53 +14,53 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if(!accessToken){
     handleRedirectToLogin(ctx.res)
   }
-  const fields = 'name,age,gender,cover_image,hips,waist,chest,height,shoe,id'
+  console.log(ctx.query)
+
   const response = await Request({
-    path: `/models?limit=10&page=1&fields=${fields}`, method: 'get', headers: { 'Authorization': 'Bearer ' + accessToken.replace(/"/g, '') }
+    path: `/models/${ctx.query.id}?name=${ctx.query.name}`, method: 'get', headers: { 'Authorization': 'Bearer ' + accessToken.replace(/"/g, '') }
   })
 
+  console.log(response, ctx.query)
   if(response.statusCode === 200){
     return {
       props: {
-        models: response.docs,
-        totalCount: response.total_count,
-        message: response.message,
-        status: response.status
+        // models: response.docs,
+        // totalCount: response.total_count,
+        // message: response.message,
+        // status: response.status
       }
     }
   }else{
     return {
       props: {
-        models: [],
-        message: 'An error occured!',
-        totalCount: 0,
-        status: response.status
+        // models: [],
+        // message: 'An error occured!',
+        // totalCount: 0,
+        // status: response.status
       }
     }    
   }
 }
 
-const Models = ({ models }: { models:  Model[]; status: string; message: string; totalCount: number }) => {
+const Models = ({ model }: { model:  Model }) => {
 
+  const router = useRouter()
   const {  models: stateModels, updateModels } = useContext(ModelsContext)
-  
-  useEffect(() => {
-    updateModels(models)
-  }, [updateModels, models])
-  
+  console.log(model)
+  console.log(router.query)
+
   return (
     <AdminLayout title={"Models"} description={"GoldenCity Models"}>
-      {/* <CustomizedBreadcrumbs  /> */}
       {
         stateModels.map(model => (
           <>
-          {model.name} <br/>
+          {/* {model.name} <br/>
           {model.age} <br/>
           {model.bust || model.chest} <br/>
           {model.height} <br/>
           {model.hips} <br/>
           {model.shoe} <br/>
-          {model.cover_image} <br/>
+          {model.cover_image} <br/> */}
           </>
         ))
       }

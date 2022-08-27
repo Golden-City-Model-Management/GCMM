@@ -33,7 +33,7 @@ module.exports.handleDelete =  handleDocDelete(Model, 'id')
 
 module.exports.getModel = asyncHelper(async (req, res, next) => {
   const model = req.doc
-  req.statusCode = 201 
+  req.statusCode = 200 
   req.status = 'success' 
   req.message = 'Model found'
   req.data = { model }

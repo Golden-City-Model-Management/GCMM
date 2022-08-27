@@ -16,12 +16,22 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
   console.log(ctx.query)
 
-  const response = await Request({
-    path: `/models/${ctx.query.id}?name=${ctx.query.name}`, method: 'get', headers: { 'Authorization': 'Bearer ' + accessToken.replace(/"/g, '') }
+  const headers = { 'Authorization': 'Bearer ' + accessToken.replace(/"/g, '') }
+
+  const modelPromise = Request({
+    path: `/models/${ctx.query.id}?name=${ctx.query.name}`, method: 'get', headers
   })
 
-  console.log(response, ctx.query)
-  if(response.statusCode === 200){
+  const portfolioPromise = Request({
+    path: `/portfolio/${ctx.query.id}?name=${ctx.query.name}`, 
+    method: 'get', 
+    headers, 
+  })
+
+  const [modelRes, portfolioRes] = await Promise.all([modelPromise, portfolioPromise])
+
+  console.log(modelRes, portfolioRes)
+  if(modelRes.statusCode === 200){
     return {
       props: {
         // models: response.docs,

@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton"
 import LaunchIcon from "@mui/icons-material/Launch"
 import { useState, useCallback } from 'react'
 import Typography from "@mui/material/Typography";
-import { ImageLIDetails, CardIconBtnSx } from './style'
+import { ImageLIDetails, ImageLIBSx } from './style'
 
 const KeyValueData = ({ objKey, value }: { objKey: string, value: string | number | undefined }) => {
   return (
@@ -42,13 +42,13 @@ const ModelCardItem = ({ model }: { model: Model }) => {
           }
         </Box>
         <ImageListItemBar
+          onMouseLeave={() => showStats ? toggleShowStats(false) : toggleShowStats(true)}
           onMouseEnter={() => toggleShowStats(false)}
-          sx={{ textTransform: 'uppercase' }}
+          sx={ImageLIBSx}
           title={`${model.name}`}
           subtitle={`Age: ${model.age}`}
           actionIcon={
             <IconButton
-              sx={CardIconBtnSx}
               aria-label={`more info about ${model.name}`}>
               <LaunchIcon />
             </IconButton>

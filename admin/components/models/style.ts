@@ -17,8 +17,10 @@ export const ImageListSx = (theme: Theme) => ({
  }
 })
 
-export const CardIconBtnSx  = (theme: Theme) => ({
+export const ImageLIBSx  = (theme: Theme) => ({
+  textTransform: 'uppercase' ,
   color: 'rgba(255, 255, 255, 0.54)', 
+  transition: 'all .25s ease',
   '&:hover': {
-   background: emphasize(theme.palette.secondary.main)
+   background: emphasize(theme.palette.primary.main)
 }})

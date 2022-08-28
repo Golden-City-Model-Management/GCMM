@@ -1,4 +1,4 @@
-import { Theme } from "@mui/material/styles";
+import { Theme, emphasize } from "@mui/material/styles";
 
 
 export const ImageLIDetails = (theme: Theme, showStats: boolean) => ({
@@ -16,3 +16,9 @@ export const ImageListSx = (theme: Theme) => ({
   gridTemplateColumns: 'repeat(1, 1fr) !important'
  }
 })
+
+export const CardIconBtnSx  = (theme: Theme) => ({
+  color: 'rgba(255, 255, 255, 0.54)', 
+  '&:hover': {
+   background: emphasize(theme.palette.secondary.main)
+}})

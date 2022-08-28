@@ -1,6 +1,5 @@
 
 import AdminLayoutHeader from '@/components/header/Header'
-import { AdminNavigationDesktop } from '@/components/navigation/Nav'
 import Box from '@mui/material/Box'
 import { useContext } from 'react'
 import { LayoutProps } from '@/types/layout'
@@ -20,27 +19,20 @@ const AdminLayout = ({ children, ...headProps }: LayoutProps) => {
   const { fullHeightWithoutHeader } = useContext(UIContext)
 
   return (
-    <Box sx={theme => ({
-      position: 'relative',
+    <Box position='relative' sx={theme => ({
       background: theme.palette.primary.main,
     })}>
       <Head {...headProps} />
       <AdminLayoutHeader />
-      <AdminNavigationDesktop />
-      <Box position='sticky' zIndex={3000} top='77px' sx={theme => ({
+      <Box position='sticky' top='77px' sx={theme => ({
         background: theme.palette.primary.main,
       })}>
         <Box display='flex' maxWidth='88vw' mx='auto'
-          padding='1rem'
-          boxShadow='box-shadow: 0px 20px 20px #ffffff15' sx={{ background: '#000', }}>
+          padding='1rem' boxShadow='box-shadow: 0px 20px 20px #ffffff15' sx={{ background: '#00000052', }}>
           <CustomizedBreadcrumbs currentPath={router.asPath} crumbs={crumbs} />
         </Box>
       </Box>
-      <Box
-        sx={() => ({
-          minHeight: fullHeightWithoutHeader,
-        })}
-        component='main' >
+      <Box minHeight={fullHeightWithoutHeader} component='main' >
         {children}
       </Box>
     </Box>

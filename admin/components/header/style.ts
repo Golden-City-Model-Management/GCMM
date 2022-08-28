@@ -36,3 +36,13 @@ export const TemporaryDrawerSx = (theme: Theme) => {
     gap: 5,
   })
 }
+
+export const DesktopNavSx = (theme: Theme) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '40px',
+  [theme.breakpoints.down('md')]: {
+    display: 'none'
+  }
+ })

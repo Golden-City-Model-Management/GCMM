@@ -102,6 +102,11 @@ modelSchema.virtual('portfolio',{
   foreignField: 'model',
   localField: '_id'
 })
+modelSchema.virtual('age').get(function() {
+  const birthYear = new Date(this.dob).getFullYear()
+  const currentYear = new Date(Date.now()).getFullYear()
+  return this.age = currentYear - birthYear
+});
 modelSchema.pre('findOne', function(){
   this.populate('portfolio')
 })

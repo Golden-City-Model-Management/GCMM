@@ -10,43 +10,29 @@ import { useRouter } from "next/router"
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   
   const accessToken = getAccessTokenFromReq(ctx.req)
+  const headers = { 'Authorization': 'Bearer ' + accessToken.replace(/"/g, '') }
 
   if(!accessToken){
     handleRedirectToLogin(ctx.res)
   }
-  console.log(ctx.query)
-
-  const headers = { 'Authorization': 'Bearer ' + accessToken.replace(/"/g, '') }
-
-  const modelPromise = Request({
+  const response = await Request({
     path: `/models/${ctx.query.id}?name=${ctx.query.name}`, method: 'get', headers
   })
-
-  const portfolioPromise = Request({
-    path: `/portfolio/${ctx.query.id}?name=${ctx.query.name}`, 
-    method: 'get', 
-    headers, 
-  })
-
-  const [modelRes, portfolioRes] = await Promise.all([modelPromise, portfolioPromise])
-
-  console.log(modelRes, portfolioRes)
-  if(modelRes.statusCode === 200){
+  if(response.statusCode === 200){
     return {
       props: {
-        // models: response.docs,
-        // totalCount: response.total_count,
-        // message: response.message,
-        // status: response.status
+        model: response.model,
+        message: response.message,
+        status: response.status
       }
     }
   }else{
     return {
       props: {
-        // models: [],
-        // message: 'An error occured!',
-        // totalCount: 0,
-        // status: response.status
+        models: {},
+        message: `An error occured! ${response.message}`,
+        totalCount: 0,
+        status: response.status
       }
     }    
   }
@@ -55,24 +41,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const Models = ({ model }: { model:  Model }) => {
 
   const router = useRouter()
-  const {  models: stateModels, updateModels } = useContext(ModelsContext)
   console.log(model)
   console.log(router.query)
 
   return (
-    <AdminLayout title={"Models"} description={"GoldenCity Models"}>
+    <AdminLayout title={`${model.name} | GCMM`} description={`An overview of ${model.name}`}>
       {
-        stateModels.map(model => (
-          <>
-          {/* {model.name} <br/>
-          {model.age} <br/>
-          {model.bust || model.chest} <br/>
-          {model.height} <br/>
-          {model.hips} <br/>
-          {model.shoe} <br/>
-          {model.cover_image} <br/> */}
-          </>
-        ))
+        
       }
     </AdminLayout>
   )

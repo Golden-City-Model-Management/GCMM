@@ -27,11 +27,11 @@ const AdminLayout = ({ children, ...headProps }: LayoutProps) => {
       <Head {...headProps} />
       <AdminLayoutHeader />
       <AdminNavigationDesktop />
-      <Box position='sticky' top='77px' sx={theme => ({
+      <Box position='sticky' zIndex={3000} top='77px' sx={theme => ({
         background: theme.palette.primary.main,
       })}>
         <Box display='flex' maxWidth='88vw' mx='auto'
-          padding='1rem' zIndex={3000}
+          padding='1rem'
           boxShadow='box-shadow: 0px 20px 20px #ffffff15' sx={{ background: '#000', }}>
           <CustomizedBreadcrumbs currentPath={router.asPath} crumbs={crumbs} />
         </Box>

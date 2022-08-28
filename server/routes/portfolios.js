@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { createResponse } = require('../middleware/responseMiddleware')
+const { createResponse } = require('../middleware/responseMiddleware');
 const { 
   protect, 
   restrict
@@ -11,7 +11,8 @@ const {
   getAllPortfolios,
   deletePortfolio,
   addPortfolio,
-} = require('../controllers/portfolioController')
+  getModelPortfolio,
+} = require('../controllers/portfolioController');
 
 router.route('/')
 .get(getAllPortfolios, createResponse)
@@ -21,6 +22,7 @@ router.route('/:modelId/:imageId')
 .delete(protect(), restrict('admin', 'manager'), deletePortfolio, createResponse)
 
 router.route('/:modelId')
+.get(getModelPortfolio, createResponse)
 .delete(protect(), restrict('admin', 'manager'), deletePortfolio, createResponse)
  
 module.exports = router

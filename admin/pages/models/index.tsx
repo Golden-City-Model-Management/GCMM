@@ -55,10 +55,10 @@ const Models = ({ models }: { models: Model[]; status: string; message: string; 
   return (
     <AdminLayout title={"Models | GCMM"} description={"GoldenCity Models"}>
       <Box maxWidth='600px' position='sticky' zIndex='3000'
-       top='154px' width='80vw' mx='6vw' mt='4vh'
-       sx={theme => ({
-        background: theme.palette.primary.main,
-       })}>
+        top='154px' width='80vw' mx='6vw' mt='4vh'
+        sx={theme => ({
+          background: theme.palette.primary.main,
+        })}>
         <SearchBox handleChange={handleSearch} value={searchTerm} />
       </Box>
       <Box mt='4vh' >

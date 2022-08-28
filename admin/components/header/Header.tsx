@@ -5,7 +5,6 @@ import { useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { IconOrTextBtn } from '@/components/Buttons/Buttons'
 import AdminNavigation from '@/components/navigation/Nav';
@@ -13,6 +12,10 @@ import { TemporaryDrawer } from '@/components/common/Drawer'
 import Logo from '@/components/svgs/Logos';
 import { UIContext } from '@/context/ui';
 import * as styles from './style'
+import List from '@mui/material/List';
+import Mapper from '../Mapper';
+import { NavLinkListItemWithSubLinks } from '../common/Links';
+import { navLinks } from '@/constants/links';
 
 const Header = () => {
   const { showNav, toggleShowNav, drawerWidth, boxPadding } = useContext(UIContext)
@@ -22,9 +25,15 @@ const Header = () => {
         <Logo />
 
         <Box ml='auto'>
-          <Box sx={styles.AvatarSectionSx}>
-            <Typography component='span' mr={2}>  Welcome Back </Typography>      
-          </Box>
+        <List 
+         sx={styles.DesktopNavSx} >
+        <Mapper
+          itemName='link'
+          list={navLinks}
+          ComponentItem={NavLinkListItemWithSubLinks}
+          mapKey='to'
+          itemProps={{background: true}} />
+      </List>
           <Box sx={styles.MenuBtnSectionSx}>
             <IconOrTextBtn data-testid='admin-nav-toggle' Icon={MenuIcon} onClick={() => toggleShowNav()} />
           </Box>

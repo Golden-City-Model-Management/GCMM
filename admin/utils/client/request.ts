@@ -5,7 +5,7 @@ import setUpInterceptors from './interceptors'
 interface RequestInterface {
   baseURL?: string,
   path: string,
-  method: string,
+  method?: string,
   data?: object,
 }
 

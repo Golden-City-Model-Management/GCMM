@@ -5,7 +5,6 @@ import Typography from '@mui/material/Typography'
 import { NavLinkListItemWithSubLinks, } from '@/components/common/Links'
 import { navLinks } from '@/constants/links'
 import Mapper from '@/components/Mapper'
-import { useEffect, useState } from 'react'
 
 const AdminNavigationMobile = () => {
   return (

@@ -153,6 +153,20 @@ const theme = createTheme({
         }
       },
     },
+    MuiInput: {
+      styleOverrides: {
+        root: {
+          '&:hover': {
+            '&:before': {
+              display: 'none'
+            },
+            '&:after': {
+              display: 'none'
+            }
+          }
+        }
+      }
+    }
  }
 })
 

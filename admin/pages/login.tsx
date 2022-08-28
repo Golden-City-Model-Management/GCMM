@@ -124,12 +124,10 @@ const AdminHomePage: NextPage = () => {
 export default AdminHomePage
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  console.log(ctx)
   const accessToken = getAccessTokenFromReq(ctx.req)
-  console.log(accessToken)
   if (accessToken) {
     ctx.res.writeHead(302, {
-      Location: '/admin'
+      Location: '/admin/models'
     })
     ctx.res.end()
   }

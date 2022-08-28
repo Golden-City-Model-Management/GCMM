@@ -4,21 +4,21 @@ import { getAccessTokenFromReq, handleRedirectToLogin } from "@/utils/pages/getS
 import Request from "@/utils/api/request"
 import AdminLayout from "@/components/layout/Layout"
 import { ModelsContext, Model } from "@/context/models"
-import { useContext, useEffect } from "react"
+import { ChangeEvent, ChangeEventHandler, useCallback, useContext, useEffect, useState } from "react"
+import ModelsList from "@/components/models/ModelsList"
+import Box from '@mui/material/Box'
+import SearchBox from '@/components/common/searchbox'
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  
   const accessToken = getAccessTokenFromReq(ctx.req)
-
-  if(!accessToken){
+  if (!accessToken) {
     handleRedirectToLogin(ctx.res)
   }
   const fields = 'name,age,gender,cover_image,hips,waist,chest,height,shoe,id'
   const response = await Request({
-    path: `/models?limit=10&page=1&fields=${fields}`, method: 'get', headers: { 'Authorization': 'Bearer ' + accessToken.replace(/"/g, '') }
+    path: `/models?limit=10&page=1&fields=${fields}`, method: 'get', headers: { 'Authorization': 'Bearer ' + accessToken?.replace(/"/g, '') }
   })
-
-  if(response.statusCode === 200){
+  if (response.statusCode === 200) {
     return {
       props: {
         models: response.docs,
@@ -27,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         status: response.status
       }
     }
-  }else{
+  } else {
     return {
       props: {
         models: [],
@@ -35,33 +35,35 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         totalCount: 0,
         status: response.status
       }
-    }    
+    }
   }
 }
 
-const Models = ({ models }: { models:  Model[]; status: string; message: string; totalCount: number }) => {
+const Models = ({ models }: { models: Model[]; status: string; message: string; totalCount: number }) => {
+  const { models: stateModels, updateModels } = useContext(ModelsContext)
 
-  const {  models: stateModels, updateModels } = useContext(ModelsContext)
-  
   useEffect(() => {
     updateModels(models)
   }, [updateModels, models])
-  
+
+  const [searchTerm, setSearchTerm] = useState('HHHello world')
+
+  const handleSearch: ChangeEventHandler<HTMLInputElement> = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value)
+  }, [])
+
   return (
-    <AdminLayout title={"Models"} description={"GoldenCity Models"}>
-      {
-        stateModels.map(model => (
-          <div key={model.id}>
-          {model.name} <br/>
-          {model.age} <br/>
-          {model.bust || model.chest} <br/>
-          {model.height} <br/>
-          {model.hips} <br/>
-          {model.shoe} <br/>
-          {model.cover_image} <br/>
-          </div>
-        ))
-      }
+    <AdminLayout title={"Models | GCMM"} description={"GoldenCity Models"}>
+      <Box maxWidth='600px' position='sticky' zIndex='3000'
+       top='154px' width='80vw' mx='6vw' mt='4vh'
+       sx={theme => ({
+        background: theme.palette.primary.main,
+       })}>
+        <SearchBox handleChange={handleSearch} value={searchTerm} />
+      </Box>
+      <Box mt='4vh' >
+        <ModelsList models={stateModels} />
+      </Box>
     </AdminLayout>
   )
 }

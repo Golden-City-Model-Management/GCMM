@@ -12,7 +12,7 @@ import SearchBox from '@/components/common/searchbox'
 import Loader from "@/components/common/loader"
 import { ErrorAlert, SuccessAlert } from '@/components/common/alert'
 import { TopCenteredSnackbar } from "@/components/common/snackbars"
-import Snackbar, { SnackbarProps } from '@mui/material/Snackbar';
+import Typography from '@mui/material/Typography';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const accessToken = getAccessTokenFromReq(ctx.req)
@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 const Models = ({ models, statusCode, message, }:
   { models: Model[]; status: string; message: string; totalCount: number, statusCode: number }) => {
-    
+
   const { models: stateModels, updateModels } = useContext(ModelsContext)
   const [modelsDisplayed, setModelsDisplayed] = useState(models)
   const [searchTerm, setSearchTerm] = useState('')
@@ -74,10 +74,10 @@ const Models = ({ models, statusCode, message, }:
   const getModels = useCallback(async () => {
     let res = await ClientRequest({ path: '/models', method: 'get' })
     const data = res.data
-    if(data.statusCode === 200){
+    if (data.statusCode === 200) {
       updateModels(data.models)
       setNotification(prev => ({ ...prev, message: data.message, show: true, type: 'success' }))
-    }else{
+    } else {
       setNotification(prev => ({ ...prev, message: `${data.message} Please check your internet connection!`, show: true, type: 'error' }))
     }
     setLoading(false)
@@ -93,29 +93,33 @@ const Models = ({ models, statusCode, message, }:
       setNotification(prev => ({ ...prev, message: `${message} Tryng to get models`, show: true, type: 'error' }))
       setLoading(true)
       getModels()
-    }else{
+    } else {
       setNotification(prev => ({ ...prev, message, show: true, type: 'success' }))
     }
   }, [statusCode, models, message, getModels])
-  
+
   return (
     <AdminLayout title={"Models | GCMM"} description={"GoldenCity Models"}>
-        <Box>
-        <TopCenteredSnackbar  autoHideDuration={600000}  open={notification.show} onClose={() => setNotification(x => ({...x, show: false}))}>
+      <Box>
+        <TopCenteredSnackbar autoHideDuration={600000} open={notification.show} onClose={() => setNotification(x => ({ ...x, show: false }))}>
           <>
             {notification.type === 'error' && <ErrorAlert>{notification.message}</ErrorAlert>}
             {notification.type === 'success' && <SuccessAlert>{notification.message}</SuccessAlert>}
           </>
         </TopCenteredSnackbar>
-        </Box>
+      </Box>
       <Loader open={loading} />
       <Box maxWidth='600px' position='sticky' zIndex='20'
         top='134px' width='80vw' mx='6vw' mb='4vh'
-        sx={theme => ({background: theme.palette.primary.main})}>
+        sx={theme => ({ background: theme.palette.primary.main })}>
         <SearchBox handleChange={handleSearch} value={searchTerm} />
       </Box>
-      <Box m='4vh' >
-        <ModelsList models={modelsDisplayed} />
+      <Box m='4vh'  display='flex' justifyContent='center' >
+        {modelsDisplayed.length > 0 && <ModelsList models={modelsDisplayed} />} 
+        <Typography variant='h1' >
+          {searchTerm.trim().length > 0 && modelsDisplayed.length === 0 && 'No Models match your search' }
+          {searchTerm.trim().length === 0 && modelsDisplayed.length === 0 && 'Unable to fetch models. Please try again!'}
+        </Typography>
       </Box>
     </AdminLayout>
   )

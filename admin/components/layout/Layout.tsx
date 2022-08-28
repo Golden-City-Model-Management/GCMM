@@ -24,7 +24,7 @@ const AdminLayout = ({ children, ...headProps }: LayoutProps) => {
     })}>
       <Head {...headProps} />
       <AdminLayoutHeader />
-      <Box position='sticky' top='77px' sx={theme => ({
+      <Box position='sticky' top='77px' zIndex={200} sx={theme => ({
         background: theme.palette.primary.main,
       })}>
         <Box display='flex' maxWidth='88vw' mx='auto'

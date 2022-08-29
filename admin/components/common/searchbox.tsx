@@ -4,10 +4,9 @@ import Box from '@mui/material/Box'
 import Input from '@mui/material/Input'
 import { ChangeEventHandler, KeyboardEventHandler } from 'react'
 
-const SearchBox = ({ value, handleChange, placeholder, handleKeyDown }:{
+const SearchBox = ({ value, handleChange, placeholder, }:{
   value: string,
   handleChange: ChangeEventHandler<HTMLInputElement>,
-  handleKeyDown: KeyboardEventHandler<HTMLInputElement>,
   placeholder?: string
 }) => {
 
@@ -24,7 +23,6 @@ const SearchBox = ({ value, handleChange, placeholder, handleKeyDown }:{
      })}>
     <Input  
     value={value} 
-    onKeyDown={handleKeyDown}
     onChange={handleChange} 
     placeholder={placeholder || 'Search'}
     sx={{flexBasis: '92%', padding: 0}} />

@@ -5,7 +5,7 @@ import Request from "@/utils/api/request"
 import ClientRequest from "@/utils/client/request"
 import AdminLayout from "@/components/layout/Layout"
 import { ModelsContext, Model } from "@/context/models"
-import React, { ChangeEvent, ChangeEventHandler, KeyboardEvent, KeyboardEventHandler, useCallback, useContext, useEffect, useState } from "react"
+import React, { ChangeEvent, ChangeEventHandler, KeyboardEvent, KeyboardEventHandler, UIEventHandler, useCallback, useContext, useEffect, useRef, useState } from "react"
 import ModelsList from "@/components/models/ModelsList"
 import Box from '@mui/material/Box'
 import SearchBox from '@/components/common/searchbox'
@@ -13,15 +13,17 @@ import Loader from "@/components/common/loader"
 import { ErrorAlert, SuccessAlert } from '@/components/common/alert'
 import { TopCenteredSnackbar } from "@/components/common/snackbars"
 import Typography from '@mui/material/Typography';
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const fields = 'name,age,gender,cover_image,hips,waist,chest,height,shoe,id'
+const limit = 5
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const accessToken = getAccessTokenFromReq(ctx.req)
   if (!accessToken) {
     handleRedirectToLogin(ctx.res)
   }
   const response = await Request({
-    path: `/models?limit=100&page=1&fields=${fields}`, method: 'get', headers: { 'Authorization': 'Bearer ' + accessToken?.replace(/"/g, '') }
+    path: `/models?limit=${limit}&page=1&fields=${fields}`, method: 'get', headers: { 'Authorization': 'Bearer ' + accessToken?.replace(/"/g, '') }
   })
   if (response.statusCode === 200) {
     return {
@@ -52,7 +54,9 @@ const Models = ({ models, statusCode, message, }:
   const { models: stateModels, updateModels } = useContext(ModelsContext)
   const [modelsDisplayed, setModelsDisplayed] = useState(models)
   const [searchTerm, setSearchTerm] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
   const [errorDisplayTxt, setErrorDisplayTxt] = useState('')
+  const [shouldFetchWithPaginate, setShouldFetchWithPaginate] = useState(true)
   const [notification, setNotification] = useState<{
     type?: 'error' | 'success' | 'info',
     message: string,
@@ -70,26 +74,29 @@ const Models = ({ models, statusCode, message, }:
     }[]) => {
     const queryString =  query?.map(el => Object.keys(el).map(key => `${key}=${el[key as keyof typeof el]}`).join('&')).join()
     try {
-     let  res = await ClientRequest({ path: `/models?${queryString}&fields=${fields}`.replace('%20', ' '), method: 'get' })
+     let  res = await ClientRequest({ path: `/models?${queryString ? queryString : ''}&fields=${fields}`, method: 'get' })
       const data = res.data
       if (data.statusCode === 200) {
-        updateModels(data.docs)
         setNotification(prev => ({ ...prev, message: data.message, show: true, type: 'success' }))
         setErrorDisplayTxt('')
         return data.docs
       } else {
         setNotification(prev => ({
-          ...prev, message: `${data.message} Please check your internet connection!`,
+          ...prev, message: `${data.message}`,
           show: true, type: 'error'
         }))
       }
-    } catch (err) {
-      console.error(err)
+    } catch (err: any) {
+      console.error(err) 
+      setNotification(prev => ({
+        ...prev, message: `${err.response.data.message} Please check your internet connection!`,
+        show: true, type: 'error'
+      }))
       return []
     } finally {
       setLoading(false)
     }
-  }, [updateModels])
+  }, [])
   
   const filteredModels = useCallback((models: Model[], search: string) => models.filter(el => el.name.split(' ').some(str => str.startsWith(search)) || 
   el.name.includes(search)), [])
@@ -97,7 +104,7 @@ const Models = ({ models, statusCode, message, }:
   const handleSearch: ChangeEventHandler<HTMLInputElement> = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
     const searchValue = e.target.value
     setSearchTerm(searchValue)
-    if (searchValue.length === 0) {
+    if (searchValue.trim().length === 0) {
       return setModelsDisplayed(stateModels)
     }
     if (filteredModels(stateModels, searchValue).length > 0) {
@@ -109,25 +116,40 @@ const Models = ({ models, statusCode, message, }:
   }, [filteredModels, stateModels])
 
   const handleSubmitSearch: KeyboardEventHandler<Element> = useCallback( async (e: KeyboardEvent<HTMLInputElement>) => {
-    if(e.key === 'Enter'){
+    if(e.key === 'Enter' && searchTerm.trim().length > 0){
       const models = await getModels([{'name[gte]':searchTerm, 'name[lte]': searchTerm}])
-      setModelsDisplayed(filteredModels(models, searchTerm))    }
-  }, [filteredModels, getModels, searchTerm]) 
+      updateModels(models)
+      setModelsDisplayed(filteredModels(models, searchTerm))
+    }
+  }, [filteredModels, getModels, searchTerm, updateModels]) 
 
-  useEffect(() => {
-    updateModels(models)
-  }, [updateModels, models])
+  const handlePaginationWithScroll = useCallback(async () => {
+    let models
+    models = await getModels([{'limit': `${limit}`, 'page': (currentPage + 1).toString()}])
+    if(models){
+      updateModels(models)
+      setCurrentPage(prev => prev + 1)
+      if(models.length < limit){
+        setShouldFetchWithPaginate(false)
+      }   
+    }
+  }, [currentPage, getModels, updateModels])
 
   useEffect(() => {
     setLoading(false)
     if (statusCode !== 200) {
       setNotification(prev => ({ ...prev, message: `${message} Tryng to get models`, show: true, type: 'error' }))
       setLoading(true)
-      getModels()
+      getModels().then(data => updateModels(data))
     } else {
+      updateModels(models)
       setNotification(prev => ({ ...prev, message, show: true, type: 'success' }))
     }
-  }, [statusCode, models, message, getModels])
+  }, [statusCode, models, message, getModels, updateModels])
+
+  useEffect(() => {
+    setModelsDisplayed([...stateModels])
+  }, [stateModels])
 
   return (
     <AdminLayout title={"Models | GCMM"} description={"GoldenCity Models"}>
@@ -146,7 +168,21 @@ const Models = ({ models, statusCode, message, }:
         <SearchBox placeholder="Search By Name" handleChange={handleSearch} value={searchTerm} handleKeyDown={handleSubmitSearch} />
       </Box>
       <Box m='4vh' display='flex' justifyContent='center' >
-        {modelsDisplayed.length > 0 && <ModelsList models={modelsDisplayed} />}
+        {modelsDisplayed.length > 0 && 
+        <InfiniteScroll
+        dataLength={stateModels.length} 
+        next={handlePaginationWithScroll}
+        hasMore={shouldFetchWithPaginate}
+        loader={<h4>Loading...</h4>}
+        endMessage={
+          <Typography style={{ textAlign: 'center' }}>
+            {notification.message}
+          </Typography>
+        }
+      >
+        {<ModelsList models={modelsDisplayed} />}
+      </InfiniteScroll>
+        }
         <Typography variant='h1' >
           {(searchTerm.trim().length > 0 && modelsDisplayed.length === 0) && <>{!errorDisplayTxt ? 'No Models match your search' : errorDisplayTxt}</>}
           {searchTerm.trim().length === 0 && (stateModels.length === 0 || modelsDisplayed.length === 0 )&& 'Unable to fetch models. Please try again!'}

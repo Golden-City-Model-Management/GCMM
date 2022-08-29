@@ -24,9 +24,10 @@ const ModelsProvider = ({ children }: {
 
   const updateModels = useCallback((updatingModels: Model[]) => {
     setModels(existingModels => {
+      console.log(existingModels, updatingModels)
       const stringifiedUpd = updatingModels.map(model => JSON.stringify(model))
       const stringifiedCurrentModels = existingModels.map(model => JSON.stringify(model))
-      const uniqueModelsString = new Set([...stringifiedUpd, ...stringifiedCurrentModels])
+      const uniqueModelsString = new Set([ ...stringifiedCurrentModels, ...stringifiedUpd,])
       const uniqueModels = [...uniqueModelsString].map((strModel: string) => JSON.parse(strModel))
       return uniqueModels
     })

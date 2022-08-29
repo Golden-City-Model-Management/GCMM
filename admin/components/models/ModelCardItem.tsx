@@ -4,7 +4,7 @@ import ImageListItem from "@mui/material/ImageListItem"
 import Box from '@mui/material/Box';
 import NextLink from 'next/link'
 import NextImage from 'next/image'
-import React, { useMemo } from "react"
+import React, { RefObject, useMemo } from "react"
 import ImageListItemBar from "@mui/material/ImageListItemBar"
 import IconButton from "@mui/material/IconButton"
 import LaunchIcon from "@mui/icons-material/Launch"
@@ -19,7 +19,8 @@ const KeyValueData = ({ objKey, value }: { objKey: string, value: string | numbe
     </Typography>
   )
 }
-const ModelCardItem = ({ model }: { model: Model }) => {
+const ModelCardItem = React.forwardRef(({ model  }: { model: Model }, ref) => {
+
   const [showStats, setShowStats] = useState(false)
   const toggleShowStats = useCallback((show: boolean) => {
     setShowStats(show)
@@ -27,7 +28,7 @@ const ModelCardItem = ({ model }: { model: Model }) => {
   const statKeys = useMemo(() => Object.keys(model).filter(key => (key !== 'id' && key !== 'cover_image')), [model])
   return (
     <NextLink href={`/models/${model.name}?id=${model.id}`} as={`/models/${model.name}`} passHref>
-      <ImageListItem onMouseEnter={() => toggleShowStats(true)} onMouseLeave={() => toggleShowStats(false)} sx={{ position: 'relative' }} component='a' >
+      <ImageListItem ref={ref as RefObject<HTMLAnchorElement>} onMouseEnter={() => toggleShowStats(true)} onMouseLeave={() => toggleShowStats(false)} sx={{ position: 'relative' }} component='a' >
         <NextImage priority layout="fill" src={model.cover_image} />
         <Box
           visibility={showStats ? 'visible' : 'hidden'}
@@ -58,6 +59,8 @@ const ModelCardItem = ({ model }: { model: Model }) => {
     </NextLink>
 
   )
-}
+})
+
+ModelCardItem.displayName = 'ModelCardItem'
 
 export default ModelCardItem

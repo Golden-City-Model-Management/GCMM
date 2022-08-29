@@ -33,9 +33,14 @@ const modelSchema = new mongoose.Schema({
     required: [true, 'A model must have a name!'],
     minLength: [3, 'The name must be at least 5 characters long!'],
   },
-  age: {
-    type: Number,
-    required: [true, 'Please specify the age field!']
+  dob: {
+    type: Date,
+    validate: {
+      validator:  function(val){
+        return Object.prototype.toString.call(val) === "[object Date]"
+      }
+    },
+    required: [true, 'Please specify the dob field!'],
   },
   gender: {
     type: String,
@@ -97,6 +102,11 @@ modelSchema.virtual('portfolio',{
   foreignField: 'model',
   localField: '_id'
 })
+modelSchema.virtual('age').get(function() {
+  const birthYear = new Date(this.dob).getFullYear()
+  const currentYear = new Date(Date.now()).getFullYear()
+  return this.age = currentYear - birthYear
+});
 modelSchema.pre('findOne', function(){
   this.populate('portfolio')
 })

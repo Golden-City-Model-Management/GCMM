@@ -12,8 +12,9 @@ export const config = {
   },
 }
 const getAllModels = tryCatcher(async (req, res) => {
+ const path = req.url?.split('/api') 
   const response = await Request({
-    path: '/models', 
+    path: path ? path[1] : '/models', 
     method: 'GET',
   })
   if(response.statusCode === 200){

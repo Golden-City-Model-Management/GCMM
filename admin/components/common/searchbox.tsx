@@ -2,11 +2,12 @@
 import { SearchSharp } from '@mui/icons-material'
 import Box from '@mui/material/Box'
 import Input from '@mui/material/Input'
-import { ChangeEventHandler } from 'react'
+import { ChangeEventHandler, KeyboardEventHandler } from 'react'
 
-const SearchBox = ({ value, handleChange, placeholder }:{
+const SearchBox = ({ value, handleChange, placeholder, handleKeyDown }:{
   value: string,
   handleChange: ChangeEventHandler<HTMLInputElement>,
+  handleKeyDown: KeyboardEventHandler<HTMLInputElement>,
   placeholder?: string
 }) => {
 
@@ -23,6 +24,7 @@ const SearchBox = ({ value, handleChange, placeholder }:{
      })}>
     <Input  
     value={value} 
+    onKeyDown={handleKeyDown}
     onChange={handleChange} 
     placeholder={placeholder || 'Search'}
     sx={{flexBasis: '92%', padding: 0}} />

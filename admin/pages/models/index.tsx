@@ -5,7 +5,8 @@ import Request from "@/utils/api/request"
 import ClientRequest from "@/utils/client/request"
 import AdminLayout from "@/components/layout/Layout"
 import { ModelsContext, Model } from "@/context/models"
-import React, { ChangeEvent, ChangeEventHandler, KeyboardEvent, KeyboardEventHandler, UIEventHandler, useCallback, useContext, useEffect, useRef, useState } from "react"
+import React, { ChangeEvent, ChangeEventHandler, KeyboardEvent, KeyboardEventHandler,
+  useCallback, useContext, useEffect, useState } from "react"
 import ModelsList from "@/components/models/ModelsList"
 import Box from '@mui/material/Box'
 import SearchBox from '@/components/common/searchbox'
@@ -13,6 +14,7 @@ import Loader from "@/components/common/loader"
 import { ErrorAlert, SuccessAlert } from '@/components/common/alert'
 import { TopCenteredSnackbar } from "@/components/common/snackbars"
 import Typography from '@mui/material/Typography';
+import ModelsListSearchBar from '@/components/models/Search'
 
 const fields = 'name,age,gender,cover_image,hips,waist,chest,height,shoe,id'
 const limit = 5
@@ -161,13 +163,7 @@ const Models = ({ initialModels, initialStatusCode, initialMessage, }:
         </TopCenteredSnackbar>
       </Box>
       <Loader open={loading} />
-
-      <Box maxWidth='600px' position='sticky' zIndex='20'
-        top='134px' width='80vw' mx='6vw' mb='4vh'
-        sx={theme => ({ background: theme.palette.primary.main })}>
-        <SearchBox placeholder="Search By Name" handleChange={handleSearch} value={searchTerm} handleKeyDown={handleSubmitSearch} />
-      </Box>
-
+      <SearchBox value={searchTerm} handleChange={handleSearch} handleKeyDown={handleSubmitSearch} />
       <Box m='4vh' display='flex' justifyContent='center' >
         {modelsDisplayed.length > 0 &&
           <ModelsList 

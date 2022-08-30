@@ -25,6 +25,7 @@ const ModelsList = ({ models, handlePaginationWithScroll, shouldFetchWithPaginat
         </Typography>
       }>
       <ImageList
+        data-testid='models-list'
         sx={ImageListSx} cols={4}
         gap={40} rowHeight={350}>
         <Mapper list={models} mapKey='id' itemName="model" itemProps={{}} ComponentItem={ModelCardItem} />

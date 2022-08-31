@@ -6,7 +6,7 @@ const navLinks = [
     subLinks: [
       {
         name: 'add model',
-        to: '/models/add',
+        to: '/models/new',
       },
       {
         name: 'view models',

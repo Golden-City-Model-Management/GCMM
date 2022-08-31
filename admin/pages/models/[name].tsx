@@ -6,6 +6,9 @@ import AdminLayout from "@/components/layout/Layout"
 import { ModelsContext, Model } from "@/context/models"
 import { useContext, useEffect, useState } from "react"
 import { useRouter } from "next/router"
+import ModelForm from '@/components/models/ModelForm'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   
@@ -46,9 +49,16 @@ const Models = ({ model }: { model:  Model }) => {
 
   return (
     <AdminLayout title={`${model.name} | GCMM`} description={`An overview of ${model.name}`}>
-      {
-        
-      }
+      <Box>
+        <Typography fontSize={'3.5rem'} fontWeight={300} textTransform='capitalize' color='secondary' sx={{
+          fontFamily: 'Aboreto'
+        }} >{model.name}</Typography>
+        <Box>
+          <Box>
+
+          </Box>
+        </Box>
+      </Box>
     </AdminLayout>
   )
 }

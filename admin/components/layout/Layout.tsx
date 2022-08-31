@@ -32,7 +32,7 @@ const AdminLayout = ({ children, ...headProps }: LayoutProps) => {
           <CustomizedBreadcrumbs currentPath={router.asPath} crumbs={crumbs} />
         </Box>
       </Box>
-      <Box minHeight={fullHeightWithoutHeader} component='main' >
+      <Box  component='main' >
         {children}
       </Box>
     </Box>

@@ -26,9 +26,14 @@ const ModelData = ({model}:{model: Model}) => {
   return (
     <>
       <Box position="relative" mx='auto' height='70%' width='80%'>
-        <Image src={model.cover_image} alt={model.name} layout='fill' />
+        <Image src={model.cover_image} alt={model.name} 
+        objectFit='contain' 
+        objectPosition='center' layout='fill' />
       </Box>
-      <Box my={2} mx='auto' width='80%' display='flex' rowGap={1} columnGap={3} flexWrap='wrap' alignItems='center' justifyContent='center'>
+      <Box 
+      my={2} mx='auto' width='80%' 
+      display='flex'rowGap={1} columnGap={3} 
+      flexWrap='wrap' alignItems='center' justifyContent='center'>
         {modelStatistics.map(stat => (<StatsKeyValPair key={stat} title={stat} value={model[stat as keyof Model] + 'cm'} />))}
       </Box>
     </>

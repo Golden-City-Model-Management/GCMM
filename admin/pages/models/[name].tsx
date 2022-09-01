@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import ModelDataDetails from '@/components/models/ModelData'
+import PolaroidsList from '@/components/models/PolaroidsList'
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
@@ -51,25 +52,38 @@ const Models = ({ model }: { model: Model }) => {
     <AdminLayout title={`${model.name} | GCMM`} description={`An overview of ${model.name}`}>
       <Box mt={6}>
         <Typography
-          fontFamily='Aboreto' maxWidth='88vw' margin='0 auto'
+          fontFamily='Aboreto' maxWidth='88vw' margin='0 auto' component='h1'
           fontSize={'3.5rem'} fontWeight={'100'} textTransform='capitalize'
         >{model.name}</Typography>
-        <Grid width='100vw' my={0} container columns={2} columnSpacing={3}>
-          <Grid minHeight='72vh' borderTop="3px solid gold" borderRight="3px solid gold" padding='35px 0 0' item xs={2} md={.8}>
-            <ModelDataDetails model={model}  />
-            <Box justifyContent='center' my={5} display='flex'>
+        <Grid width='100vw' my={0} minHeight='72vh' container columns={2} columnSpacing={3}>
+
+          <Grid item borderTop="3px solid" borderRight="3px solid"
+            borderColor={t => t.palette.secondary.main} padding='35px 0 ' xs={2} md={.8}>
+            <ModelDataDetails model={model} />
+            <Box justifyContent='center' mt={5} display='flex'>
               <Button color='inherit' variant='outlined'>
                 Edit Details
-              </Button>              
+              </Button>
             </Box>
           </Grid>
-          <Grid position="relative" item xs={2} md={1}>
+
+          <Grid item position="relative" justifyContent='center'
+            xs={2} md={1.1} mx={'auto'} my={{ xs: 8, md: 0 }} pb='35px'>
             <Typography
-              fontFamily='Aboreto' maxWidth='88vw' margin='0 auto'
-              fontSize={'3.5rem'} fontWeight={'100'} textTransform='capitalize'
-              color='secondary'
-            >{model.name}</Typography>
+              fontFamily='Aboreto' maxWidth='88vw' margin='0 auto' component='h2'
+              fontSize={'1.8rem'} fontWeight={'100'} textTransform='capitalize'
+            >Polaroids and Portfolio</Typography>
+            <PolaroidsList />
+            <Box display='flex' justifyContent='space-around' alignItems='center' mt={6}  >
+              <Button color='inherit' variant='outlined'>
+                Manage Polaroids
+              </Button>
+              <Button color='inherit' variant='outlined'>
+                Manage Portfolio
+              </Button>
+            </Box>
           </Grid>
+
         </Grid>
       </Box>
     </AdminLayout>

@@ -63,9 +63,9 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit }: {
         }).map(field => (
           <Grid key={field} item xs={3} sm={1.5} md={1}>
             <TextField aria-labelledby={field} required aria-label={field} 
-              error={error[field]}
+              error={error[field]} 
               name={field} onChange={handleFormDataChange} label={field} hiddenLabel
-              InputLabelProps={{ shrink: true }} fullWidth color='secondary' 
+              InputLabelProps={{ shrink: true }} fullWidth 
               type={
                 typeof model[field as keyof typeof formData] === 'object' ? 'date' : 
                 typeof model[field as keyof typeof formData]}

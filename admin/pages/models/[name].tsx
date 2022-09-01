@@ -13,6 +13,8 @@ import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import ModelDataDetails from '@/components/models/ModelData'
 import PolaroidsList from '@/components/models/PolaroidsList'
+import EditModelForm from '@/components/models/EditModelData'
+import NextLink from 'next/link'
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
@@ -47,7 +49,20 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 const Models = ({ model }: { model: Model }) => {
   const router = useRouter()
+  const query = router.query
 
+  if (router.query.editDetails) {
+    return (
+      <Box display='flex' minHeight='100vh' justifyContent='center' alignItems='center' >
+        <Box onClick={() => router.back()} position='fixed' top='5%' left='2%' >
+          <Button variant='text' color='inherit'>&larr;&nbsp;Back</Button>
+        </Box>
+        <Box borderRadius='12px' bgcolor='primary.light' px={8} py={16} >
+        <EditModelForm model={model} />
+        </Box>
+      </Box>
+    )
+  }
   return (
     <AdminLayout title={`${model.name} | GCMM`} description={`An overview of ${model.name}`}>
       <Box mt={6}>
@@ -61,9 +76,12 @@ const Models = ({ model }: { model: Model }) => {
             borderColor={t => t.palette.secondary.main} padding='35px 0 ' xs={2} md={.8}>
             <ModelDataDetails model={model} />
             <Box justifyContent='center' mt={5} display='flex'>
+              <NextLink passHref 
+              href={`/models/${model.name}?id=${model.id}&editDetails=true`} as={`/models/${model.name}?editDetails=true`}>
               <Button color='inherit' variant='outlined'>
                 Edit Details
               </Button>
+              </NextLink>
             </Box>
           </Grid>
 
@@ -74,7 +92,7 @@ const Models = ({ model }: { model: Model }) => {
               fontSize={'1.8rem'} fontWeight={'100'} textTransform='capitalize'
             >Polaroids and Portfolio</Typography>
             <PolaroidsList />
-            <Box display='flex' justifyContent='space-around' alignItems='center' mt={6}  >
+            <Box display='flex' justifyContent='space-around' alignItems='center' mt={5}  >
               <Button color='inherit' variant='outlined'>
                 Manage Polaroids
               </Button>

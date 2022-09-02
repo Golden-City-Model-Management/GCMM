@@ -6,18 +6,30 @@ import Image from 'next/image'
 import { useRouter } from "next/router"
 import ModelForm from "./ModelForm"
 import Request from '@/utils/client/request'
-import { useCallback } from "react"
+import { useCallback, useState } from "react"
 
 
 const EditModelDetails = ({ model }: {model: Model}) => {
 
-  const updateDetails =  useCallback(async (details: Model) => {
-    console.log(details)
-    const response = await Request({path: `/models/${model.id}`, method: 'post', data: details})
-    console.log(response)
-  }, [model.id])
+  const [modelData, setModelData] = useState(model)
+  const [notification, setNotification] = useState({
+    show: false, message: ''
+  })
 
+  const updateDetails =  useCallback(async (details: Model) => {
+    const data = { ...details, dob: new Date(details.dob)}
+    const response = await Request({path: `/models/${model.id}`, method: 'patch', data})
+    if(response.status === 200){
+      setModelData(response.data.doc)
+      setNotification({show: true, message: response.data.message})
+    }else{
+      setNotification({show: true, message: response.data.message})
+    }
+  }, [model])
+ console.log(modelData);
+ 
   const router = useRouter()
+
   return (
     <Box display='flex' minHeight='100vh' justifyContent='center' alignItems='center' >
     <Box position='fixed' top='5%' left='2%' >
@@ -30,7 +42,7 @@ const EditModelDetails = ({ model }: {model: Model}) => {
       <Typography variant='caption' textAlign='center' my={3} mx='auto' component='h1'>
         Now editing {model.name}
       </Typography>
-    <ModelForm model={{...model, dob: new Date('2022-03-03')}} submitBtnTxt='Update Details' handleSubmit={updateDetails} />
+    <ModelForm model={{...modelData, dob: new Date(modelData.dob)}} submitBtnTxt='Update Details' handleSubmit={updateDetails} />
     </Box>
   </Box>
   )

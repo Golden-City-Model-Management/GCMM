@@ -16,7 +16,7 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit }: {
     'portfolio',
     'polaroids',
     'extra_polaroids',
-    'socials', 'dob',
+    'socials', 'age',
     'id', 'isActive',]
   const keysOfNonNestedFields = Object.keys(model).filter(key => !excludedFields.includes(key) )
   let initialState = keysOfNonNestedFields.map(key => ({ [key]: model[key as keyof typeof model] }))
@@ -33,10 +33,11 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit }: {
     if(error[e.target.name as keyof typeof error]){
       setError(prev => ({...prev, [e.target.name]: false}))
     }
+    console.log(formData, e.target.name, e.target.value)
     setFormData(prev => {
       return { ...prev, [e.target.name]: e.target.type === 'number' ? +(e.target.value) : e.target.value }
     })
-  }, [error])
+  }, [error, formData])
 
   const retrieveValuesAndSubmit: React.FormEventHandler<HTMLFormElement> = useCallback((e) => {
     e.preventDefault()
@@ -70,7 +71,7 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit }: {
               type={
                 typeof model[field as keyof typeof formData] === 'object' ? 'date' : 
                 typeof model[field as keyof typeof formData]}
-              value={formData[field as keyof typeof formData]}
+              value={formData[field as keyof typeof formData]?.toString()}
               sx={t => ({
                 '.MuiOutlinedInput-notchedOutline': {
                   borderColor: t.palette.text.primary

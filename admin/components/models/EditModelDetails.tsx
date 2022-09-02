@@ -5,10 +5,17 @@ import Button from '@mui/material/Button'
 import Image from 'next/image'
 import { useRouter } from "next/router"
 import ModelForm from "./ModelForm"
-
+import Request from '@/utils/client/request'
+import { useCallback } from "react"
 
 
 const EditModelDetails = ({ model }: {model: Model}) => {
+
+  const updateDetails =  useCallback(async (details: Model) => {
+    console.log(details)
+    const response = await Request({path: `/models/${model.id}`, method: 'post', data: details})
+    console.log(response)
+  }, [model.id])
 
   const router = useRouter()
   return (
@@ -23,7 +30,7 @@ const EditModelDetails = ({ model }: {model: Model}) => {
       <Typography variant='caption' textAlign='center' my={3} mx='auto' component='h1'>
         Now editing {model.name}
       </Typography>
-    <ModelForm model={model} submitBtnTxt='Update Details' handleSubmit={() => console.log()} />
+    <ModelForm model={{...model, dob: new Date('2022-03-03')}} submitBtnTxt='Update Details' handleSubmit={updateDetails} />
     </Box>
   </Box>
   )

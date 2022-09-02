@@ -2,7 +2,7 @@ import ClientRequest from "@/utils/client/request";
 import { createContext, ReactNode, useCallback, useState } from "react";
 
 export interface Model {
-  name: string, age: number, gender: string, 
+  name: string, gender: string, dob: string | number | Date,
   cover_image: string, waist: number, 
   chest?: number, bust?: number, hips?: number,
   height: number, shoe: number, id: string

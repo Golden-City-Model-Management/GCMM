@@ -3,21 +3,22 @@ import { useState, useCallback } from 'react'
 import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/box'
-import { Button } from '@mui/material'
-
-interface Model {
-  name: string, dob: Date, height: number, shoe: number, gender: 'male' | 'female',
-  bust?: number, chest?: number, waist: number, hips: number, id?: string, cover_image: string,
-}
+import Button from '@mui/material/Button'
+import {Model} from '@/context/models' 
 
 const ModelForm = ({ model, submitBtnTxt, handleSubmit }: {
   model: Model,
   submitBtnTxt: string,
   handleSubmit: (data: Model) => void
 }) => {
-  const keysOfNonNestedFields = Object.keys(model).filter(key => (
-    key !== 'polaroids' && key !== 'extra_polaroids' && key !== 'portfolio'
-  ))
+  const excludedFields = [
+    'cover_image',
+    'portfolio',
+    'polaroids',
+    'extra_polaroids',
+    'socials', 'dob',
+    'id', 'isActive',]
+  const keysOfNonNestedFields = Object.keys(model).filter(key => !excludedFields.includes(key) )
   let initialState = keysOfNonNestedFields.map(key => ({ [key]: model[key as keyof typeof model] }))
   const [formData, setFormData] = useState<Model>(() => {
     let data = {}
@@ -63,13 +64,18 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit }: {
         }).map(field => (
           <Grid key={field} item xs={3} sm={1.5} md={1}>
             <TextField aria-labelledby={field} required aria-label={field} 
-              error={error[field]} 
+              error={error[field]} color={'secondary'}
               name={field} onChange={handleFormDataChange} label={field} hiddenLabel
-              InputLabelProps={{ shrink: true }} fullWidth 
+              InputLabelProps={{ shrink: true }} fullWidth variant='outlined'
               type={
                 typeof model[field as keyof typeof formData] === 'object' ? 'date' : 
                 typeof model[field as keyof typeof formData]}
-              value={formData[field as keyof typeof formData]} />
+              value={formData[field as keyof typeof formData]}
+              sx={t => ({
+                '.MuiOutlinedInput-notchedOutline': {
+                  borderColor: t.palette.text.primary
+                }})} 
+                />
           </Grid>
         ))}
       </Grid>
@@ -77,4 +83,5 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit }: {
     </Box>
   )
 }
+
 export default ModelForm

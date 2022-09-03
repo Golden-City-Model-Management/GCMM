@@ -99,7 +99,7 @@ const Models = ({ initialModels, initialStatusCode, initialMessage, }:
         </Box>  
         <Loader open={loading} />
         <ModelsListSearchBar />
-        <Box m='4vh' display='flex' justifyContent='center' >
+        <Box data-testid='models-list' m='4vh' display='flex' justifyContent='center' >
           {modelsDisplayed.length > 0 &&
             <ModelsList
               models={modelsDisplayed}

@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next"
 import { getAccessTokenFromReq, handleRedirectToLogin } from "@/utils/pages/getServerSideProps"
 import Request from "@/utils/api/request"
 import AdminLayout from "@/components/layout/Layout"
-import { Model } from "@/context/models"
+import { ModelWithPolaroidsAndPortfolio } from "@/types/models"
 import { useRouter } from "next/router"
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 }
 
 const Models = ({ model, message, status }:
-   { model: Model & { dob: string }, message: string, status: number | null }) => {
+   { model: ModelWithPolaroidsAndPortfolio, message: string, status: number | null }) => {
   const router = useRouter()
   const query = router.query
 

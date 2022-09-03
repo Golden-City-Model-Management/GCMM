@@ -2,7 +2,7 @@
 import { useState, useCallback } from 'react'
 import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Grid'
-import Box from '@mui/material/box'
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import {Model} from '@/context/models' 
 import InputAdornment from '@mui/material/InputAdornment'

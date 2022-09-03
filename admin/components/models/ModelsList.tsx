@@ -1,5 +1,5 @@
 
-import { Model } from "@/context/models"
+import { Model } from "@/types/models"
 import ModelCardItem from './ModelCardItem'
 import ImageList from '@mui/material/ImageList'
 import { ImageListSx } from './style'

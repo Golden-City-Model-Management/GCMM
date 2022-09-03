@@ -1,4 +1,4 @@
-import { Model } from "@/context/models"
+import { ModelWithPolaroidsAndPortfolio, Model } from "@/types/models"
 import Typography from "@mui/material/Typography"
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -12,7 +12,7 @@ import Request from '@/utils/client/request'
 import { useCallback, useState } from "react"
 
 
-const EditModelDetails = ({ model }: { model: Model }) => {
+const EditModelDetails = ({ model }: { model: ModelWithPolaroidsAndPortfolio }) => {
 
   const [modelData, setModelData] = useState(model)
   const [notification, setNotification] = useState<{

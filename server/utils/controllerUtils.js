@@ -44,7 +44,7 @@ const editDocument = (excludedFields, document) => {
     req.statusCode = 200
     req.status = 'success'
     req.message = 'Successfully updated!'
-    req.data = { doc: {...saved} }
+    req.data = { doc: saved }
     return next()
   })
 }

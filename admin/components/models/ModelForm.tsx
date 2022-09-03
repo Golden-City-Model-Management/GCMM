@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid'
 import Box from '@mui/material/box'
 import Button from '@mui/material/Button'
 import {Model} from '@/context/models' 
+import InputAdornment from '@mui/material/InputAdornment'
 
 const ModelForm = ({ model, submitBtnTxt, handleSubmit }: {
   model: Model,
@@ -33,11 +34,10 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit }: {
     if(error[e.target.name as keyof typeof error]){
       setError(prev => ({...prev, [e.target.name]: false}))
     }
-    console.log(formData, e.target.name, e.target.value)
     setFormData(prev => {
       return { ...prev, [e.target.name]: e.target.type === 'number' ? +(e.target.value) : e.target.value }
     })
-  }, [error, formData])
+  }, [error])
 
   const retrieveValuesAndSubmit: React.FormEventHandler<HTMLFormElement> = useCallback((e) => {
     e.preventDefault()
@@ -68,6 +68,10 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit }: {
               error={error[field]} color={'secondary'}
               name={field} onChange={handleFormDataChange} label={field} hiddenLabel
               InputLabelProps={{ shrink: true }} fullWidth variant='outlined'
+              InputProps={{
+                startAdornment: typeof model[field as keyof typeof formData] === 'number' ?
+                 <InputAdornment position="start">cm</InputAdornment> : ''
+              }}
               type={
                 typeof model[field as keyof typeof formData] === 'object' ? 'date' : 
                 typeof model[field as keyof typeof formData]}

@@ -10,8 +10,8 @@ export default defineConfig({
     specPattern: "./cypress/e2e/*.cy.{js,jsx,ts,tsx}",
     setupNodeEvents(on, config) {
       config.env.CYPRESS_SERVER_URL = process.env.SERVER_URL
-      config.env.CYPRESS_TEST_USERNAME = 'iksploiting@gmail.com'
-      config.env.CYPRESS_TEST_PASSWORD = 'dev1234'
+      config.env.CYPRESS_TEST_USERNAME = process.env.CYPRESS_TEST_USERNAME
+      config.env.CYPRESS_TEST_PASSWORD = process.env.CYPRESS_TEST_PASSWORD
       return config
     }
   },

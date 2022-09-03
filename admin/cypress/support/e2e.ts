@@ -9,7 +9,7 @@ Cypress.Commands.add('dataCy', (dataTestId) => {
 })
 Cypress.Commands.add('login', ({email, password}: {email: string, password: string}) => { 
     cy.request({
-      url: `/admin/api/login`,
+      url: `${Cypress.env('CYPRESS_SERVER_URL')}/users/login`,
       method: 'POST',
       body: { userName: email, password },
     }).then((res) => { 

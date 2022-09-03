@@ -38,7 +38,7 @@ const ModelCardItem = React.forwardRef(({ model  }: { model: Model }, ref) => {
           width='100%' height='100%' sx={theme => ImageLIDetails(theme, showStats)}>
           {statKeys.map((key: string) => {
             const value = model[key as keyof Model]
-            return <KeyValueData value={value} key={key} objKey={key} />
+            return <KeyValueData value={value as string | number | undefined} key={key} objKey={key} />
           })
           }
         </Box>
@@ -47,7 +47,7 @@ const ModelCardItem = React.forwardRef(({ model  }: { model: Model }, ref) => {
           onMouseEnter={() => toggleShowStats(false)}
           sx={ImageLIBSx}
           title={`${model.name}`}
-          subtitle={`Age: ${model.age}`}
+          subtitle={`Gender: ${model.gender}`}
           actionIcon={
             <IconButton
               aria-label={`more info about ${model.name}`}>

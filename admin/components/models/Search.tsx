@@ -3,8 +3,8 @@ import SearchBox from '@/components/common/searchbox'
 import { Box } from '@mui/material'
 import { ChangeEvent, ChangeEventHandler, KeyboardEventHandler, useCallback, useContext } from 'react'
 import { ModelSearchContext } from '@/context/model.search'
-import { Model, ModelsContext } from '@/context/models'
-
+import { ModelsContext } from '@/context/models'
+import { Model } from '@/types/models'
 
 const ModelsListSearchBar = () => {
 

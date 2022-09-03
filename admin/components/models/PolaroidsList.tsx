@@ -2,19 +2,24 @@ import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Image from 'next/image';
+import { Polaroids } from '@/types/models';
 
-export default function MasonryImageList() {
+const PolaroidsList = ({ polaroids }: {
+  polaroids: Polaroids
+}) => {
+
   return (
-    < >
+    <>
       <ImageList sx={{ width: '100%', height: { xs: '100%', md: '74%' }, }}
         cols={2} gap={8} rowHeight={'auto'}>
-        {itemData.map((item) => (
-          <ImageListItem rows={1} cols={1} key={item.img}>
+        {Object.keys(polaroids).map((key: string) => (
+          key === '_id' ? null : 
+          <ImageListItem rows={1} cols={1} key={key}>
             <Image
-              src={`${item.img}?w=248&auto=format`}
+              src={`${polaroids[key as keyof Polaroids]}`}
               objectPosition='center'
               layout='fill'
-              alt={item.title}
+              alt={key.split('_').join(' ')}
               loading="lazy"
             />
           </ImageListItem>
@@ -23,6 +28,8 @@ export default function MasonryImageList() {
     </>
   );
 }
+
+export default PolaroidsList
 
 const itemData = [
 

@@ -1,6 +1,6 @@
 
 import AdminLayout from "@/components/layout/Layout"
-import { Model } from "@/types/models"
+import { ModelWithPolaroidsAndPortfolio } from "@/types/models"
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
@@ -9,7 +9,7 @@ import ModelDataDetails from '@/components/models/ModelData'
 import PolaroidsList from '@/components/models/PolaroidsList'
 import NextLink from 'next/link'
 
-const ModelOverview = ({ model } : {model: Model}) => {
+const ModelOverview = ({ model } : {model: ModelWithPolaroidsAndPortfolio}) => {
 
   return (
     <AdminLayout title={`${model.name} | GCMM`} description={`An overview of ${model.name}`}>
@@ -39,7 +39,7 @@ const ModelOverview = ({ model } : {model: Model}) => {
               fontFamily='Aboreto' maxWidth='88vw' margin='0 auto' component='h2'
               fontSize={'1.8rem'} fontWeight={'100'} textTransform='capitalize'
             >Polaroids and Portfolio</Typography>
-            <PolaroidsList />
+            <PolaroidsList polaroids={model.polaroids} />
             <Box textTransform='lowercase' display='flex' justifyContent='space-around' 
             alignItems='center' mt={5} pb={8} gap={3}  >
               <Button size='small' color='inherit' variant='outlined' sx={{fontSize: '1.2rem'}}>

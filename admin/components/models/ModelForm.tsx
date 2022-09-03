@@ -62,7 +62,7 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit }: {
           const isA = typeof model[a as keyof typeof formData] === 'number' ? 1 : 0
           const isB = typeof model[b as keyof typeof formData] === 'number' ? 1 : 0
           return isA - isB
-        }).map(field => (
+        }).map((field: string) => (
           <Grid key={field} item xs={3} sm={1.5} md={1}>
             <TextField aria-labelledby={field} required aria-label={field} 
               error={error[field]} color={'secondary'}
@@ -73,7 +73,7 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit }: {
                  <InputAdornment position="start">cm</InputAdornment> : ''
               }}
               type={
-                typeof model[field as keyof typeof formData] === 'object' ? 'date' : 
+                field === 'dob' ? 'date' : 
                 typeof model[field as keyof typeof formData]}
               value={formData[field as keyof typeof formData]?.toString()}
               sx={t => ({

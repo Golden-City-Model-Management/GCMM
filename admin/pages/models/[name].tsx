@@ -65,7 +65,10 @@ const Models = ({ model, message, status }:
 
   if (query.editDetails) {
     return (
-      <EditModelDetails model={model} />
+      <AdminLayout title={`Edit ${model.name}`} description={`Edit ${model.name}'s details and statistics`} 
+      hideLayout={true}>
+        <EditModelDetails model={model} />
+      </AdminLayout>
     )
   }
   return (

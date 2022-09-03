@@ -2,14 +2,14 @@ import ClientRequest from "@/utils/client/request";
 import { createContext, ReactNode, useCallback, useState } from "react";
 
 export interface Model {
-  name: string, gender: string, dob: string | number | Date,
+  name: string, gender: string, dob: string,
   cover_image: string, waist: number, 
   chest?: number, bust?: number, hips?: number,
   height: number, shoe: number, id: string
 }
 
 const fields = 'name,age,gender,cover_image,hips,waist,chest,height,shoe,id'
-const limit = 5
+const limit = 15
 
 const initailModelsState: {
   models: Model[],
@@ -61,7 +61,6 @@ const ModelsProvider = ({ children }: {
 
   const updateModels = useCallback((updatingModels: Model[]) => {
     setModels(existingModels => {
-      console.log(existingModels, updatingModels)
       const stringifiedUpd = updatingModels.map(model => JSON.stringify(model))
       const stringifiedCurrentModels = existingModels.map(model => JSON.stringify(model))
       const uniqueModelsString = new Set([ ...stringifiedCurrentModels, ...stringifiedUpd,])
@@ -82,7 +81,7 @@ const ModelsProvider = ({ children }: {
     { [key: string]: string }[]) => {
     const queryString = query?.map(el => Object.keys(el).map(key => `${key}=${el[key as keyof typeof el]}`).join('&')).join()
     try {
-      let res = await ClientRequest({ path: `/models?${queryString ? queryString : ''}&fields=${fields}`, method: 'get' })
+      let res = await ClientRequest({ path: `/models?${queryString ? queryString : ''}&fields=${fields}&limit=${limit}`, method: 'get' })
       const data = res.data
       if (data.statusCode === 200) {
         setNotification(prev => ({ ...prev, message: data.message, show: true, type: 'success' }))

@@ -10,14 +10,15 @@ const PolaroidsList = ({ polaroids }: {
 
   return (
     <>
-      <ImageList sx={{ width: '100%', height: { xs: '100%', md: '74%' }, }}
-        cols={2} gap={8} rowHeight={'auto'}>
+      <ImageList  sx={{ width: '100%', height: '70%', margin: '0 auto' }}
+        cols={2} gap={18} rowHeight={'auto'}>
         {Object.keys(polaroids).map((key: string) => (
           key === '_id' ? null : 
-          <ImageListItem rows={1} cols={1} key={key}>
+          <ImageListItem rows={1} cols={1} key={key} sx={t => ({ border: `1px solid ${t.palette.primary.dark}`})}>
             <Image
               src={`${polaroids[key as keyof Polaroids]}`}
               objectPosition='center'
+              objectFit='contain'
               layout='fill'
               alt={key.split('_').join(' ')}
               loading="lazy"

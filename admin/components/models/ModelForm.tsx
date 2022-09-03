@@ -22,7 +22,9 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit }: {
   handleSubmit: (data: Model) => void
 }) => {
 
-  const keysOfNonNestedFields = Object.keys(model).filter(key => !nonDisplayedFields.includes(key) )
+  const keysOfNonNestedFields = Object.keys(model)
+  .filter(key => key === 'name' || key === 'dob' || !nonDisplayedFields.includes(key))
+
   let initialState = keysOfNonNestedFields.map(key => ({ [key]: model[key as keyof typeof model] }))
   const [formData, setFormData] = useState<Model>(() => {
     let data = {}

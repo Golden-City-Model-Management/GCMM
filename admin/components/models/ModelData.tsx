@@ -19,7 +19,7 @@ const ModelData = ({model}:{model: Model}) => {
   const modelStatistics = Object.keys(model).filter(key => !nonDisplayedFields.includes(key))
   return (
     <>
-      <Box position="relative" mx='auto' height='70%' width='80%'>
+      <Box position="relative" mx='auto' minHeight='50%' width='100%' borderRadius={'100%'} overflow='hidden' >
         <Image src={model.cover_image} alt={model.name} 
         objectFit='contain' 
         objectPosition='center' layout='fill' />

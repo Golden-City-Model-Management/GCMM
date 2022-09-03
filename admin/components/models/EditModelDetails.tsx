@@ -1,6 +1,6 @@
 import { Model } from "@/context/models"
 import Typography from "@mui/material/Typography"
-import Box from '@mui/material/box'
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Loader from "@/components/common/loader"
 import { ErrorAlert, SuccessAlert } from '@/components/common/alert'

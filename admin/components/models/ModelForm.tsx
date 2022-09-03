@@ -4,22 +4,25 @@ import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import {Model} from '@/context/models' 
+import { ModelWithPolaroidsAndPortfolio, Model } from '@/types/models' 
 import InputAdornment from '@mui/material/InputAdornment'
 
+
+export const nonDisplayedFields = [
+  'cover_image',
+  'portfolio',
+  'polaroids',
+  'extra_polaroids',
+  'socials', 'gender', 'dob', 'age',
+  'id', 'isActive', 'name']
+
 const ModelForm = ({ model, submitBtnTxt, handleSubmit }: {
-  model: Model,
+  model: ModelWithPolaroidsAndPortfolio | Model,
   submitBtnTxt: string,
   handleSubmit: (data: Model) => void
 }) => {
-  const excludedFields = [
-    'cover_image',
-    'portfolio',
-    'polaroids',
-    'extra_polaroids',
-    'socials', 'age',
-    'id', 'isActive',]
-  const keysOfNonNestedFields = Object.keys(model).filter(key => !excludedFields.includes(key) )
+
+  const keysOfNonNestedFields = Object.keys(model).filter(key => !nonDisplayedFields.includes(key) )
   let initialState = keysOfNonNestedFields.map(key => ({ [key]: model[key as keyof typeof model] }))
   const [formData, setFormData] = useState<Model>(() => {
     let data = {}

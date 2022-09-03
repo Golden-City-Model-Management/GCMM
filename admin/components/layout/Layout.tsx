@@ -13,10 +13,8 @@ const AdminLayout = ({ children, ...headProps }: LayoutProps) => {
   const router = useRouter()
   const paths = router.asPath.split('/').filter(x => x)
   const crumbs = paths.map(path => ({
-    href: '/' + path, label: path, isActive: paths[paths.length - 1] === path
+    href: '/' + path, label: path.split('?')[0] , isActive: paths[paths.length - 1]=== path
   }))
-
-  const { fullHeightWithoutHeader } = useContext(UIContext)
 
   return (
     <Box position='relative' sx={theme => ({

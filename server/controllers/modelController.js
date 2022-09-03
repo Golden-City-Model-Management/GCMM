@@ -24,9 +24,9 @@ module.exports.editModelProfile = asyncHelper(async (req, res, next) => {
   if(req.body.polaroids){
     const fields = Object.keys(req.body.polaroids)
     model.polaroids = editFields(model.polaroids, fields, req.body.polaroids)
+    delete req.body.polaroids 
+    await model.save()    
   }
-   delete req.body.polaroids 
-   await model.save()
   editDocument([], model)(req, res, next)
 }) 
 module.exports.handleDelete =  handleDocDelete(Model, 'id')

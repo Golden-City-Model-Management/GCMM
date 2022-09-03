@@ -59,7 +59,7 @@ const EditModelDetails = ({ model }: { model: Model }) => {
         <Typography variant='caption' textAlign='center' my={3} mx='auto' component='h1'>
           Now editing {model.name}
         </Typography>
-        <ModelForm model={{ ...modelData, dob: new Date(modelData.dob) }} submitBtnTxt='Update Details' handleSubmit={updateDetails} />
+        <ModelForm model={{ ...modelData, dob: modelData.dob.slice(0, 10) }} submitBtnTxt='Update Details' handleSubmit={updateDetails} />
       </Box>
     </Box>
   )

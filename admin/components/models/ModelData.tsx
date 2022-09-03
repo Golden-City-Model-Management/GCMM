@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { Model } from '@/context/models'
-
+import { Model } from '@/types/models'
+import { nonDisplayedFields } from '@/components/models/ModelForm'
 
 const StatsKeyValPair = ({ title, value }: { title: string, value?: string | number }) => {
   return (
@@ -14,15 +14,9 @@ const StatsKeyValPair = ({ title, value }: { title: string, value?: string | num
 }
 
 
-const ModelData = ({model}:{model: Model}) => {
-  const excludedFields = [
-    'cover_image',
-    'portfolio',
-    'polaroids',
-    'extra_polaroids',
-    'socials', 'gender', 'dob', 'age',
-    'id', 'isActive', 'name']
-  const modelStatistics = Object.keys(model).filter(key => !excludedFields.includes(key))
+const ModelData = ({model}:{model: Model}) => { 
+  
+  const modelStatistics = Object.keys(model).filter(key => !nonDisplayedFields.includes(key))
   return (
     <>
       <Box position="relative" mx='auto' height='70%' width='80%'>

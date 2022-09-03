@@ -12,6 +12,7 @@ describe('Models', () => {
   it('renders list of models with authenticated user', () => {
     cy.login({ email: Cypress.env('CYPRESS_TEST_USERNAME'), password: Cypress.env('CYPRESS_TEST_PASSWORD') })
     cy.visit(baseUrl)
+    cy.location('href').should('not.include', 'login')
     cy.dataCy('models-list').should('exist')
   })
 })

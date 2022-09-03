@@ -94,7 +94,7 @@ const Models = ({ initialModels, initialStatusCode, initialMessage, }:
             <>
               {notification.type === 'error' && <ErrorAlert>{notification.message}</ErrorAlert>}
               {notification.type === 'success' && <SuccessAlert>{notification.message}</SuccessAlert>}
-            </>
+            </>    
           </TopCenteredSnackbar>
         </Box>  
         <Loader open={loading} />
@@ -105,7 +105,7 @@ const Models = ({ initialModels, initialStatusCode, initialMessage, }:
               models={modelsDisplayed}
               handlePaginationWithScroll={handlePaginationWithScroll}
               shouldFetchWithPaginate={shouldFetchWithPaginate} />
-          }
+           }
           <NotFound />
         </Box>
       </ModelSearchProvider> 

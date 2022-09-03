@@ -2,17 +2,14 @@
 import { GetServerSideProps } from "next"
 import { getAccessTokenFromReq, handleRedirectToLogin } from "@/utils/pages/getServerSideProps"
 import Request from "@/utils/api/request"
-import ClientRequest from "@/utils/client/request"
 import AdminLayout from "@/components/layout/Layout"
 import { ModelsContext, Model } from "@/context/models"
 import React, {
-  ChangeEvent, ChangeEventHandler, KeyboardEvent, KeyboardEventHandler,
   useCallback, useContext, useEffect, useState
 } from "react"
-import ModelSearchProvider, { ModelSearchContext } from '@/context/model.search'
+import ModelSearchProvider from '@/context/model.search'
 import ModelsList from "@/components/models/ModelsList"
 import Box from '@mui/material/Box'
-import SearchBox from '@/components/common/searchbox'
 import Loader from "@/components/common/loader"
 import { ErrorAlert, SuccessAlert } from '@/components/common/alert'
 import { TopCenteredSnackbar } from "@/components/common/snackbars"

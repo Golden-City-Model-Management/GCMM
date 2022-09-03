@@ -1,5 +1,5 @@
 
-import { Model } from "@/context/models"
+import { Model } from "@/types/models"
 import ImageListItem from "@mui/material/ImageListItem"
 import Box from '@mui/material/Box';
 import NextLink from 'next/link'
@@ -29,7 +29,7 @@ const ModelCardItem = React.forwardRef(({ model  }: { model: Model }, ref) => {
   return (
     <NextLink href={`/models/${model.name}?id=${model.id}`} as={`/models/${model.name}`} passHref>
       <ImageListItem ref={ref as RefObject<HTMLAnchorElement>} onMouseEnter={() => toggleShowStats(true)} onMouseLeave={() => toggleShowStats(false)} sx={{ position: 'relative' }} component='a' >
-        <NextImage priority layout="fill" src={model.cover_image} />
+        <NextImage priority={true} layout="fill" src={model.cover_image} />
         <Box
           visibility={showStats ? 'visible' : 'hidden'}
           zIndex={1} display='flex' flexDirection='column'

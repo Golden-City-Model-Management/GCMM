@@ -3,7 +3,8 @@ import { GetServerSideProps } from "next"
 import { getAccessTokenFromReq, handleRedirectToLogin } from "@/utils/pages/getServerSideProps"
 import Request from "@/utils/api/request"
 import AdminLayout from "@/components/layout/Layout"
-import { ModelsContext, Model } from "@/context/models"
+import { ModelsContext } from "@/context/models"
+import { Model } from '@/types/models'
 import React, {
   useCallback, useContext, useEffect, useState
 } from "react"

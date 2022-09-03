@@ -96,7 +96,7 @@ const Models = ({ initialModels, initialStatusCode, initialMessage, }:
               {notification.type === 'success' && <SuccessAlert>{notification.message}</SuccessAlert>}
             </>
           </TopCenteredSnackbar>
-        </Box>
+        </Box> 
         <Loader open={loading} />
         <ModelsListSearchBar />
         <Box m='4vh' display='flex' justifyContent='center' >
@@ -108,7 +108,7 @@ const Models = ({ initialModels, initialStatusCode, initialMessage, }:
           }
           <NotFound />
         </Box>
-      </ModelSearchProvider>
+      </ModelSearchProvider> 
     </AdminLayout>
   )
 }

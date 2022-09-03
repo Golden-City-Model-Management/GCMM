@@ -3,18 +3,11 @@ import { GetServerSideProps } from "next"
 import { getAccessTokenFromReq, handleRedirectToLogin } from "@/utils/pages/getServerSideProps"
 import Request from "@/utils/api/request"
 import AdminLayout from "@/components/layout/Layout"
-import { ModelsContext, Model } from "@/context/models"
-import { useContext, useEffect, useState } from "react"
+import { Model } from "@/context/models"
 import { useRouter } from "next/router"
-import ModelForm from '@/components/models/ModelForm'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import Grid from '@mui/material/Grid'
-import Button from '@mui/material/Button'
-import ModelDataDetails from '@/components/models/ModelData'
-import PolaroidsList from '@/components/models/PolaroidsList'
 import EditModelDetails from '@/components/models/EditModelDetails'
-import NextLink from 'next/link'
 import ModelOverview from '@/components/models/ModelOverview'
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -33,24 +26,42 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       props: {
         model: response.model,
         message: response.message,
-        status: response.status
+        status: response.status || null
       }
     }
   } else {
     return {
       props: {
-        models: {},
+        model: {},
         message: `An error occured! ${response.message}`,
-        totalCount: 0,
-        status: response.status
+        status: response.statusCode || null
       }
     }
   }
 }
 
-const Models = ({ model }: { model: Model & { dob: string } }) => {
+const Models = ({ model, message, status }:
+   { model: Model & { dob: string }, message: string, status: number | null }) => {
   const router = useRouter()
   const query = router.query
+
+  if(Object.keys(model).length === 0){
+    return (
+      <AdminLayout title='Error'description='An error has occurred!'>
+        <Box display='flex' justifyContent='center' alignItems='center' minHeight='65vh'>
+          <Box maxWidth='800px' textAlign='center'  mx='auto'>
+            <Typography lineHeight={1.3} my={3} variant='caption' component='h1'>
+              {message} <br/> 
+              The server returned a status code of {status}.
+            </Typography>
+            <Typography variant='h4' component='p'>
+              Please check your internet connection and try refreshing the page.<br/>
+            </Typography>
+          </Box>
+        </Box>
+      </AdminLayout>
+    )
+  }
 
   if (query.editDetails) {
     return (

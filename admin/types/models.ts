@@ -25,6 +25,6 @@ export interface Model {
 
 export interface ModelWithPolaroidsAndPortfolio extends Model {
   polaroids: Polaroids,
-  extraPolaroids: Polaroids[],
+  extra_polaroids: Polaroids[],
   portfolio: Portfolio[]
 }

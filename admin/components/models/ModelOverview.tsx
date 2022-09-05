@@ -14,7 +14,7 @@ const ModelOverview = ({ model }: { model: ModelWithPolaroidsAndPortfolio }) => 
   return (
     <AdminLayout title={`${model.name} | GCMM`} description={`An overview of ${model.name}`}>
       <Box mt={6}>
-        <Grid width='100vw' py={5} minHeight={{xs: '150vh', md: '90vh'}} container columns={2} gap={3}>
+        <Grid width='100vw' py={5} minHeight={{ xs: '150vh', md: '90vh' }} container columns={2} gap={3}>
 
           <Grid item xs={2} md={.65} justifyContent='center' alignItems='center'>
             <Typography textAlign='center'
@@ -33,7 +33,7 @@ const ModelOverview = ({ model }: { model: ModelWithPolaroidsAndPortfolio }) => 
           </Grid>
 
           <Grid item position="relative" justifyContent='center'
-            xs={2} md={1.2} mx={'auto'} maxWidth={{md: '100%', xs: '75%'}}  
+            xs={2} md={1.2} mx={'auto'} maxWidth={{ md: '100%', xs: '75%' }}
             sx={{ backgroundColor: '#ffffff1a', borderRadius: '50px' }}>
             <Typography
               fontFamily='Aboreto' textAlign='center' my={3} component='h2'
@@ -42,9 +42,13 @@ const ModelOverview = ({ model }: { model: ModelWithPolaroidsAndPortfolio }) => 
             <PolaroidsList polaroids={model.polaroids} />
             <Box textTransform='lowercase' display='flex' justifyContent='space-around'
               alignItems='center' my={6} gap={3}  >
-              <Button size='small' color='inherit' variant='outlined' sx={{ fontSize: '1.2rem' }}>
-                Manage Polaroids
-              </Button>
+              <NextLink passHref
+                href={`/models/${model.name}?id=${model.id}&polaroidsOverview=true`} as={`/models/${model.name}?polaroidsOverview=true`}>
+                <Button size='small' color='inherit' variant='outlined' sx={{ fontSize: '1.2rem' }}>
+                  Manage Polaroids
+                </Button>
+              </NextLink>
+
               <Button size='small' color='inherit' variant='outlined' >
                 Manage Portfolio
               </Button>

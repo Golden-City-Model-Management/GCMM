@@ -9,6 +9,8 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import EditModelDetails from '@/components/models/EditModelDetails'
 import ModelOverview from '@/components/models/ModelOverview'
+import PolaroidsOverview from "@/components/models/PolaroidsOverview"
+
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
@@ -65,9 +67,17 @@ const Models = ({ model, message, status }:
 
   if (query.editDetails) {
     return (
-      <AdminLayout title={`Edit ${model.name}`} description={`Edit ${model.name}'s details and statistics`} 
+      <AdminLayout title={`${model.name} | Edit details and statistics`} description={`View and edit ${model.name}'s Polaroids`} 
       hideLayout={true}>
         <EditModelDetails model={model} />
+      </AdminLayout>
+    )
+  }
+  if(query.polaroidsOverview){
+    return (
+      <AdminLayout title={`${model.name} | Polaroids`} description={`Edit ${model.name}'s details and statistics`} 
+      hideLayout={true}>
+        <PolaroidsOverview model={model} />
       </AdminLayout>
     )
   }

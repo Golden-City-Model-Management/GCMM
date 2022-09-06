@@ -10,7 +10,7 @@ import { useRouter } from "next/router"
 import Request from '@/utils/client/request'
 import { useCallback, useState } from "react"
 import EditOutlined from "@mui/icons-material/EditOutlined"
-import PolaroidsOverviewBox from './PolaroidOverviewBox'
+import PolaroidsOverviewBox from './SinglePolaroidOverviewBox'
 
 const getValuesFromObj = (obj: {[key: string]: any}, excludedFields: string[]) => {
   return Object.keys(obj).filter(key => !excludedFields.includes(key)).map(key  => obj[key as keyof typeof obj])
@@ -36,7 +36,7 @@ const PolaroidsOverview = ({ model }: {
 
   const router = useRouter()
   return (
-    <Box display='flex' gap={3} pt={5} pb={15} flexDirection='column' minHeight='100vh' justifyContent='center' alignItems='center' >
+    <Box display='flex' gap={6} pt={5} pb={15} flexDirection='column' minHeight='100vh' justifyContent='center' alignItems='center' >
       <Box>
         <TopCenteredSnackbar autoHideDuration={6000} open={notification.show}
           onClose={() => setNotification({ show: false, message: '', type: 'error' })}>

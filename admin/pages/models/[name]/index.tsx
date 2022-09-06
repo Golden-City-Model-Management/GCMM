@@ -9,7 +9,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import EditModelDetails from '@/components/models/EditModelDetails'
 import ModelOverview from '@/components/models/ModelOverview'
-import PolaroidsOverview from "@/components/models/PolaroidsOverview"
+import PolaroidsOverview from "@/components/models/AllPolaroidsOverview"
 
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -47,7 +47,7 @@ const Models = ({ model, message, status }:
   const router = useRouter()
   const query = router.query
 
-  if(Object.keys(model).length === 0){
+  if( !model || Object.keys(model).length === 0){
     return (
       <AdminLayout title='Error'description='An error has occurred!'>
         <Box display='flex' justifyContent='center' alignItems='center' minHeight='65vh'>

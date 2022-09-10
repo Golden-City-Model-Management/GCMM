@@ -8,70 +8,44 @@ import { useRouter } from "next/router"
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import PortfolioImageList from '@/components/models/PortfolioImageList'
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import Button from '@mui/material/Button'
+import { ModelContext } from "@/context/singlemodel"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const accessToken = getAccessTokenFromReq(ctx.req)
-  const headers = { 'Authorization': 'Bearer ' + accessToken?.replace(/"/g, '') }
-
   if (!accessToken) {
     handleRedirectToLogin(ctx.res)
   }
-  const response = await Request({
-    path: `/models/${ctx.query.id}?name=${ctx.query.name}`, method: 'get', headers
-  })
-  if (response.statusCode === 200) {
-    return {
-      props: {
-        model: response.model,
-        message: response.message,
-        status: response.status || null
-      }
-    }
-  } else {
-    return {
-      props: {
-        model: {},
-        message: `An error occured! ${response.message}`,
-        status: response.statusCode || null
-      }
-    }
+  return {
+    props: {}
   }
 }
 
-const PortfolioPage = ({ model, message, status }:
-  { model: ModelWithPolaroidsAndPortfolio, message: string, status: number | null }) => {
+
+const PortfolioPage = () => {
+
+  const { model: modelInState, updateModel } = useContext(ModelContext)
   const router = useRouter()
   const query = router.query
 
   const [isScrolling, setIsScrolling] = useState(false)
-
   useEffect(() => {
     window.addEventListener('scroll', (e) => {
-      if(window.scrollY > 20){
-        setIsScrolling(true)
-      }else{
-        setIsScrolling(false)
-      }
+      if(window.scrollY > 20) setIsScrolling(true)
+      else setIsScrolling(false)
     })
-  
-    return () => {
-      window.removeEventListener('scroll', () => {
-        setIsScrolling(false)
-      })
-    }
+    return () => window.removeEventListener('scroll', () => setIsScrolling(false))
   }, [])
 
-  if (!model || Object.keys(model).length === 0) {
+  if (!modelInState || Object.keys(modelInState).length === 0) {
     return (
       <AdminLayout title='Error' description='An error has occurred!'>
         <Box display='flex' justifyContent='center' alignItems='center' minHeight='65vh'>
           <Box maxWidth='800px' textAlign='center' mx='auto'>
             <Typography lineHeight={1.3} my={3} variant='caption' component='h1'>
-              {message} <br />
-              The server returned a status code of {status}.
+              An Error Occurred <br />
             </Typography>
             <Typography variant='h4' component='p'>
               Please check your internet connection and try refreshing the page.<br />
@@ -83,18 +57,18 @@ const PortfolioPage = ({ model, message, status }:
   }
   
   return (
-    <AdminLayout title={`${model.name}'s Portfolio | GCMM`} description={`Portfolio for ${model.name}`} >
+    <AdminLayout title={`${modelInState.name}'s Portfolio | GCMM`} description={`Portfolio for ${modelInState.name}`} >
       <Box position='relative'>
         <Box px={{xs: 3, md: 0}} py={3} display='flex' borderColor='currentColor' 
           borderBottom='1px solid' justifyContent='space-around' 
          bgcolor={t => t.palette.primary.main} position={isScrolling ? 'fixed' : 'static'} 
         top='13%' zIndex='9999' width='100%'>
           <Typography component='h2' variant='h1' 
-            textAlign='center'>Now Viewing {model.name}&apos;s Portfolio Images</Typography>
+            textAlign='center'>Now Viewing {modelInState.name}&apos;s Portfolio Images</Typography>
           <Button variant='text' color='secondary'>Add New Image</Button>
         </Box>
         <Box width='95vw' maxWidth='1150px' mx='auto'>
-          <PortfolioImageList images={model.portfolio} />
+          <PortfolioImageList images={modelInState.portfolio} />
         </Box>
       </Box>
     </AdminLayout>

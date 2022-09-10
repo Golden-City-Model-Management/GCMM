@@ -20,7 +20,7 @@ const ModelData = ({model}:{model: Model}) => {
   return (
     <>
       <Box position="relative" mx='auto' minHeight='50%' width='100%' borderRadius={'100%'} overflow='hidden' >
-        <Image src={model.cover_image} alt={model.name} 
+        <Image src={`${model.cover_image}`} alt={model.name} 
         objectFit='contain' 
         objectPosition='center' layout='fill' />
       </Box>

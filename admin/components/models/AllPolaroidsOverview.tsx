@@ -5,18 +5,16 @@ import Button from '@mui/material/Button'
 import Loader from "@/components/common/loader"
 import { ErrorAlert, SuccessAlert } from '@/components/common/alert'
 import { TopCenteredSnackbar } from "@/components/common/snackbars"
-import ImageList from '@/components/models/PolaroidsListWithTitle'
 import { useRouter } from "next/router"
-import Request from '@/utils/client/request'
-import { useCallback, useState } from "react"
-import EditOutlined from "@mui/icons-material/EditOutlined"
+import { useState } from "react"
 import PolaroidsOverviewBox from './SinglePolaroidOverviewBox'
 
 const getValuesFromObj = (obj: {[key: string]: any}, excludedFields: string[]) => {
   return Object.keys(obj).filter(key => !excludedFields.includes(key)).map(key  => obj[key as keyof typeof obj])
 }
-const PolaroidsOverview = ({ model }: {
-  model: ModelWithPolaroidsAndPortfolio
+const PolaroidsOverview = ({ model, togglePolaroidsOverview }: {
+  model: ModelWithPolaroidsAndPortfolio,
+  togglePolaroidsOverview: (newState?: boolean) => void
 }) => {
 
   const [notification, setNotification] = useState<{
@@ -48,7 +46,7 @@ const PolaroidsOverview = ({ model }: {
       </Box>
       <Loader open={loading} />
       <Box position='fixed' top='5%' left='2%' >
-        <Button onClick={() => router.back()} variant='text' color='inherit'>&larr;&nbsp;Back</Button>
+        <Button onClick={() => togglePolaroidsOverview(false)} variant='text' color='inherit'>&larr;&nbsp;Back</Button>
       </Box>
       <Typography fontWeight='bold' variant='caption' textAlign='center' mt={3} mb={0} mx='auto' component='h1'>
           Now viewing {model.name}&apos;s Polaroids

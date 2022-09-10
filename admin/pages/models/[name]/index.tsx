@@ -10,7 +10,8 @@ import Typography from '@mui/material/Typography'
 import EditModelDetails from '@/components/models/EditModelDetails'
 import ModelOverview from '@/components/models/ModelOverview'
 import PolaroidsOverview from "@/components/models/AllPolaroidsOverview"
-
+import { useContext, useEffect, useState, useCallback } from "react"
+import { ModelContext } from "@/context/singlemodel"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
@@ -44,9 +45,24 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 const Models = ({ model, message, status }:
    { model: ModelWithPolaroidsAndPortfolio, message: string, status: number | null }) => {
+    
+  const { model: modelInState, updateModel } = useContext(ModelContext)
+  const [isEditDetails, setIsEditDetails] = useState(false)
+  const [isPolaroidsOverview, setIsPolaroidsOverview] = useState(false)
   const router = useRouter()
-  const query = router.query
 
+  const toggleEditDetails = useCallback((newState?: boolean) => {
+    setIsEditDetails(prev => newState !== undefined ? newState : !prev)
+  }, [])
+
+  const togglePolaroidsOverview = useCallback((newState?: boolean) => {
+    setIsPolaroidsOverview(prev => newState !== undefined ? newState : !prev)
+  }, [])
+
+  useEffect(() => {
+    updateModel(model)
+  }, [model, updateModel, router])
+  
   if( !model || Object.keys(model).length === 0){
     return (
       <AdminLayout title='Error'description='An error has occurred!'>
@@ -65,24 +81,27 @@ const Models = ({ model, message, status }:
     )
   }
 
-  if (query.editDetails) {
+  if (isEditDetails) {
     return (
-      <AdminLayout title={`${model.name} | Edit details and statistics`} description={`View and edit ${model.name}'s Polaroids`} 
+      <AdminLayout title={`${modelInState.name} | Edit details and statistics`} description={`View and edit ${modelInState.name}'s Polaroids`} 
       hideLayout={true}>
-        <EditModelDetails model={model} />
+        <EditModelDetails toggleEditDetails={toggleEditDetails} />
       </AdminLayout>
     )
   }
-  if(query.polaroidsOverview){
+  if(isPolaroidsOverview){
     return (
-      <AdminLayout title={`${model.name} | Polaroids`} description={`Edit ${model.name}'s details and statistics`} 
+      <AdminLayout title={`${modelInState.name} | Polaroids`} description={`Edit ${modelInState.name}'s details and statistics`} 
       hideLayout={true}>
-        <PolaroidsOverview model={model} />
+        <PolaroidsOverview togglePolaroidsOverview={togglePolaroidsOverview} model={modelInState} />
       </AdminLayout>
     )
   }
   return (
-    <ModelOverview model={model} />
+    <ModelOverview 
+      model={modelInState} 
+      togglePolaroidsOverview={togglePolaroidsOverview}
+      toggleEditDetails={toggleEditDetails}  />
   )
 }
 

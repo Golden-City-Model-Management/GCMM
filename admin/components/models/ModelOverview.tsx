@@ -7,8 +7,15 @@ import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import ModelDataDetails from '@/components/models/ModelData'
 import NextLink from 'next/link'
+import { useRouter } from 'next/router'
 
-const ModelOverview = ({ model }: { model: ModelWithPolaroidsAndPortfolio }) => {
+const ModelOverview = ({ model, toggleEditDetails, togglePolaroidsOverview }: { 
+  model: ModelWithPolaroidsAndPortfolio,
+  toggleEditDetails: (newState?: boolean) => void,
+  togglePolaroidsOverview: (newState?: boolean) => void
+}) => {
+
+  const router = useRouter()
 
   return (
     <AdminLayout title={`${model.name} | GCMM`} description={`An overview of ${model.name}`}>
@@ -23,24 +30,20 @@ const ModelOverview = ({ model }: { model: ModelWithPolaroidsAndPortfolio }) => 
             <ModelDataDetails model={model} />
             <Grid container columns={2} gap={3} mx='auto' width='90vw' maxWidth='600px' justifyContent='center'>
               <Grid item xs={2} md={2}>
-                <NextLink passHref
-                  href={`/models/${model.name}?id=${model.id}&editDetails=true`} as={`/models/${model.name}?editDetails=true`}>
-                  <Button sx={{ width: '100%' }} size='small' color='primary' variant='contained'>
+                  <Button onClick={() => toggleEditDetails(true)} sx={{ width: '100%' }} size='small' color='primary' variant='contained'>
                     Edit Details
                   </Button>
-                </NextLink>
               </Grid>
               <Grid item xs={2} md={.95}>
-                <NextLink passHref style={{ width: '100%', display: 'block' }}
-                  href={`/models/${model.name}?id=${model.id}&polaroidsOverview=true`} as={`/models/${model.name}?polaroidsOverview=true`}>
-                  <Button sx={{ width: '100%', fontSize: '1.2rem' }} component='a' size='large' color='primary' variant='contained' >
+                  <Button 
+                    onClick={() => togglePolaroidsOverview(true)}
+                    sx={{ width: '100%', fontSize: '1.2rem' }} component='a' size='large' color='primary' variant='contained' >
                     Manage Polaroids
                   </Button>
-                </NextLink>
               </Grid>
               <Grid item xs={2} md={.95}>
                 <NextLink passHref style={{ width: '100%', display: 'block' }}
-                  href={`/models/${model.name}?id=${model.id}/portfolio`} as={`/models/${model.name}/portfolio`}>
+                  href={`${router.asPath}/portfolio`}>
                   <Button component='a' sx={{ width: '100%', fontSize: '1.2rem' }} size='large' color='primary' variant='contained' >
                     Manage Portfolio
                   </Button>

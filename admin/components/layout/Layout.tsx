@@ -10,9 +10,12 @@ const AdminLayout = ({ children, hideLayout, ...headProps }: LayoutProps) => {
 
   const router = useRouter()
   const paths = router.asPath.split('/').filter(x => x)
-  const crumbs = paths.map(path => ({
-    href: '/' + path, label: path.split('?')[0], isActive: paths[paths.length - 1] === path
-  }))
+  const crumbs = paths.map((path, idx) => {
+    return ({
+      href: `/${paths.slice(0, idx + 1).join('/')}`,
+      label: path.split('?')[0], isActive: paths[paths.length - 1] === path
+    })
+  })
 
   if (hideLayout) {
     return (

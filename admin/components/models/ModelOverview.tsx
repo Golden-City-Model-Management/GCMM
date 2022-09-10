@@ -33,7 +33,7 @@ const ModelOverview = ({ model }: { model: ModelWithPolaroidsAndPortfolio }) => 
               <Grid item xs={2} md={.95}>
                 <NextLink passHref style={{ width: '100%', display: 'block' }}
                   href={`/models/${model.name}?id=${model.id}&polaroidsOverview=true`} as={`/models/${model.name}?polaroidsOverview=true`}>
-                  <Button sx={{ width: '100%', fontSize: '1.2rem' }} component='span' size='large' color='primary' variant='contained' >
+                  <Button sx={{ width: '100%', fontSize: '1.2rem' }} component='a' size='large' color='primary' variant='contained' >
                     Manage Polaroids
                   </Button>
                 </NextLink>
@@ -41,7 +41,7 @@ const ModelOverview = ({ model }: { model: ModelWithPolaroidsAndPortfolio }) => 
               <Grid item xs={2} md={.95}>
                 <NextLink passHref style={{ width: '100%', display: 'block' }}
                   href={`/models/${model.name}?id=${model.id}/portfolio`} as={`/models/${model.name}/portfolio`}>
-                  <Button component='span' sx={{ width: '100%', fontSize: '1.2rem' }} size='large' color='primary' variant='contained' >
+                  <Button component='a' sx={{ width: '100%', fontSize: '1.2rem' }} size='large' color='primary' variant='contained' >
                     Manage Portfolio
                   </Button>
                 </NextLink>

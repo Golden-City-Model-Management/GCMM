@@ -7,10 +7,9 @@ import { ModelWithPolaroidsAndPortfolio } from "@/types/models"
 import { useRouter } from "next/router"
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import EditModelDetails from '@/components/models/EditModelDetails'
-import ModelOverview from '@/components/models/ModelOverview'
-import PolaroidsOverview from "@/components/models/AllPolaroidsOverview"
-
+import PortfolioImageList from '@/components/models/PortfolioImageList'
+import { useState, useEffect } from "react"
+import Button from '@mui/material/Button'
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
@@ -42,48 +41,64 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 }
 
-const Models = ({ model, message, status }:
-   { model: ModelWithPolaroidsAndPortfolio, message: string, status: number | null }) => {
+const PortfolioPage = ({ model, message, status }:
+  { model: ModelWithPolaroidsAndPortfolio, message: string, status: number | null }) => {
   const router = useRouter()
   const query = router.query
 
-  if( !model || Object.keys(model).length === 0){
+  const [isScrolling, setIsScrolling] = useState(false)
+
+  useEffect(() => {
+    window.addEventListener('scroll', (e) => {
+      if(window.scrollY > 20){
+        setIsScrolling(true)
+      }else{
+        setIsScrolling(false)
+      }
+    })
+  
+    return () => {
+      window.removeEventListener('scroll', () => {
+        setIsScrolling(false)
+      })
+    }
+  }, [])
+
+  if (!model || Object.keys(model).length === 0) {
     return (
-      <AdminLayout title='Error'description='An error has occurred!'>
+      <AdminLayout title='Error' description='An error has occurred!'>
         <Box display='flex' justifyContent='center' alignItems='center' minHeight='65vh'>
-          <Box maxWidth='800px' textAlign='center'  mx='auto'>
+          <Box maxWidth='800px' textAlign='center' mx='auto'>
             <Typography lineHeight={1.3} my={3} variant='caption' component='h1'>
-              {message} <br/> 
+              {message} <br />
               The server returned a status code of {status}.
             </Typography>
             <Typography variant='h4' component='p'>
-              Please check your internet connection and try refreshing the page.<br/>
+              Please check your internet connection and try refreshing the page.<br />
             </Typography>
           </Box>
         </Box>
       </AdminLayout>
     )
   }
-
-  if (query.editDetails) {
-    return (
-      <AdminLayout title={`${model.name} | Edit details and statistics`} description={`View and edit ${model.name}'s Polaroids`} 
-      hideLayout={true}>
-        <EditModelDetails model={model} />
-      </AdminLayout>
-    )
-  }
-  if(query.polaroidsOverview){
-    return (
-      <AdminLayout title={`${model.name} | Polaroids`} description={`Edit ${model.name}'s details and statistics`} 
-      hideLayout={true}>
-        <PolaroidsOverview model={model} />
-      </AdminLayout>
-    )
-  }
+  
   return (
-    <ModelOverview model={model} />
+    <AdminLayout title={`${model.name}'s Portfolio | GCMM`} description={`Portfolio for ${model.name}`} >
+      <Box position='relative'>
+        <Box px={{xs: 3, md: 0}} py={3} display='flex' borderColor='currentColor' 
+          borderBottom='1px solid' justifyContent='space-around' 
+         bgcolor={t => t.palette.primary.main} position={isScrolling ? 'fixed' : 'static'} 
+        top='13%' zIndex='9999' width='100%'>
+          <Typography component='h2' variant='h1' 
+            textAlign='center'>Now Viewing {model.name}&apos;s Portfolio Images</Typography>
+          <Button variant='text' color='secondary'>Add New Image</Button>
+        </Box>
+        <Box width='95vw' maxWidth='1150px' mx='auto'>
+          <PortfolioImageList images={model.portfolio} />
+        </Box>
+      </Box>
+    </AdminLayout>
   )
 }
 
-export default Models
+export default PortfolioPage 

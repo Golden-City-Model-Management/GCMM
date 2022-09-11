@@ -4,8 +4,6 @@ import { GetServerSideProps } from 'next'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { NextPage } from "next"
-import { BorderInput } from '@/components/Inputs/Inputs'
-import { BasicBtn } from '@/components/Buttons/Buttons'
 import {
   useCallback, useState,
   FormEventHandler, FormEvent, ChangeEventHandler, ChangeEvent
@@ -17,7 +15,9 @@ import { useRouter } from "next/router"
 import { useCookies } from "react-cookie"
 import { getAccessTokenFromReq } from "@/utils/pages/getServerSideProps"
 import Loader from "@/components/common/loader"
-import * as styles from '@/styles/pages/login'
+import * as styles from '@/styles/login'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
 
 
 const AdminHomePage: NextPage = () => {
@@ -80,8 +80,8 @@ const AdminHomePage: NextPage = () => {
       </TopCenteredSnackbar>
       <Box
         onSubmit={handleSubmit} component='form'
-        display='flex' justifyContent='center'
-        alignItems='center' flexDirection='column' sx={styles.formStyles}>
+        display='flex' justifyContent='center' px={4}
+        alignItems='stretch' flexDirection='column' sx={styles.formStyles}>
 
         <Typography
           textAlign='center'
@@ -90,32 +90,30 @@ const AdminHomePage: NextPage = () => {
 
         <Typography
           textAlign='center'
-          color={'rgba(0, 0, 0, 0.6)'}
+          color={'primary'}
           variant='small'>Please sign in to continue</Typography>
 
-        <Box component='label' width={'80%'}>
-          <Box>Username / Email</Box>
-          <BorderInput required value={loginDetails.userName}
+          <TextField variant='outlined' required value={loginDetails.userName}
             name='userName'
             type='text'
-            placeholder="Username or Email"
+            label='Username or Email'
+            color='primary'
+            InputLabelProps={{sx: t => ({color: t.palette.primary.main})}}
             onChange={handleChange}
-            data-testid='email' sx={styles.inputStyles} />
-        </Box>
-
-        <Box component='label' width={'80%'}>
-          <Box>Password</Box>
-          <BorderInput value={loginDetails.password}
+            data-testid='email' 
+            sx={styles.inputStyles} 
+              />
+          <TextField variant='outlined' value={loginDetails.password}
             name='password'
             type='password'
-            placeholder="password"
+            color='primary'
+            label='password'
+            InputLabelProps={{sx: t => ({color: t.palette.primary.main})}}
             onChange={handleChange}
             data-testid='password' sx={styles.inputStyles} />
-        </Box>
-
-        <BasicBtn type="submit" data-testid='login' sx={styles.submitBtnStyles}>
+        <Button type="submit" data-testid='login' variant='outlined' color='primary' sx={styles.submitBtnStyles}>
           Log In
-        </BasicBtn>
+        </Button>
       </Box>
     </Box>
   )

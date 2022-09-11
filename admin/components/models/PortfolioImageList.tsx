@@ -12,10 +12,7 @@ const PortfolioImage = ({ img, handleSelect }: {
 }) => {
   const handleContextMenu = useCallback((e) => {
     e.preventDefault()
-   let shouldDeleteImg = confirm('Do you want delete this image')
-   if(shouldDeleteImg){
-     handleSelect(e.target.id)
-   }
+    handleSelect(e.target.id)
   }, [handleSelect])
 
   return (

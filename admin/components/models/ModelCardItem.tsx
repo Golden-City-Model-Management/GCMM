@@ -9,18 +9,10 @@ import ImageListItemBar from "@mui/material/ImageListItemBar"
 import IconButton from "@mui/material/IconButton"
 import LaunchIcon from "@mui/icons-material/Launch"
 import { useState, useCallback } from 'react'
-import Typography from "@mui/material/Typography";
 import { ImageLIDetails, ImageLIBSx } from './style'
+import { StatsKeyValPair } from './ModelData'
 
-const KeyValueData = ({ objKey, value }: { objKey: string, value: string | number | undefined }) => {
-  return (
-    <Typography textTransform='capitalize' color='secondary' key={objKey}>
-      {objKey}: &nbsp;{typeof value === 'string' ? value.charAt(0).toUpperCase() + value.slice(1) : value}
-    </Typography>
-  )
-}
 const ModelCardItem = React.forwardRef(({ model  }: { model: Model }, ref) => {
-
   const [showStats, setShowStats] = useState(false)
   const toggleShowStats = useCallback((show: boolean) => {
     setShowStats(show)
@@ -38,7 +30,7 @@ const ModelCardItem = React.forwardRef(({ model  }: { model: Model }, ref) => {
           width='100%' height='100%' sx={theme => ImageLIDetails(theme, showStats)}>
           {statKeys.map((key: string) => {
             const value = model[key as keyof Model]
-            return <KeyValueData value={value as string | number | undefined} key={key} objKey={key} />
+            return <StatsKeyValPair color='secondary' value={value as string | number | undefined} key={key} title={key} />
           })
           }
         </Box>

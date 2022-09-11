@@ -4,18 +4,16 @@ import Typography from '@mui/material/Typography'
 import { Model } from '@/types/models'
 import { nonDisplayedFields } from '@/components/models/ModelForm'
 
-const StatsKeyValPair = ({ title, value }: { title: string, value?: string | number }) => {
+export const StatsKeyValPair = ({ title, value, color }: { title: string, value?: string | number, color?: 'primary' | 'secondary'}) => {
   return (
-    <Typography textTransform='capitalize'>
+    <Typography color={color} textTransform='capitalize'>
       <Typography fontWeight='bold' component='b'>{title}</Typography>:&nbsp;
       <Typography component='span'>{value}</Typography>
     </Typography>
   )
 }
 
-
 const ModelData = ({model}:{model: Model}) => { 
-  
   const modelStatistics = Object.keys(model).filter(key => !nonDisplayedFields.includes(key))
   return (
     <>

@@ -20,7 +20,7 @@ const ModelsList = ({ models, handlePaginationWithScroll, shouldFetchWithPaginat
       hasMore={shouldFetchWithPaginate}
       loader={<h4>Loading...</h4>}
       endMessage={
-        <Typography textAlign='center' component='b' display='block' margin='3rem auto 0' fontSize='1.2rem' >
+        <Typography textAlign='center' component='b' display='block' mx='auto' my={2} variant='body1' >
           No more documents to load.
         </Typography>
       }>

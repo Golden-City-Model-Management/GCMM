@@ -3,6 +3,32 @@ import List from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Image from 'next/image'
 import ImageListItemBar from '@mui/material/ImageListItemBar';
+import * as styles from './style'
+import Mapper from "../Mapper"
+
+
+const PolaroidImgWithTitle = ({img}: {
+  img: {
+    img: string,
+    title: string
+  },
+}) => {
+  return (
+    <ImageListItem>
+    <Image
+      src={`${img.img}`}
+      alt={''}
+      objectFit='contain'
+      layout='fill'
+      loading="lazy"
+    />
+    <ImageListItemBar
+      sx={{ textAlign: 'center'}}
+      title={img.title}
+    />
+  </ImageListItem>
+  )
+}
 
 export default function PolaroidsListWithTitle({ images }: {
   images: {
@@ -12,29 +38,10 @@ export default function PolaroidsListWithTitle({ images }: {
 }) {
   return (
     <List sx={theme => ({ 
-      [theme.breakpoints.down('md')]: {
-        gridTemplateColumns: 'repeat(2, 1fr) !important'
-       },
-       [theme.breakpoints.down('sm')]: {
-        gridTemplateColumns: 'repeat(1, 1fr) !important'
-       },
+      ...styles.ImageListSx(theme),
       width: 'auto', height: 350, 
     })} cols={4} rowHeight={350}>
-      {images.map((img, idx) => (
-        <ImageListItem key={idx}>
-          <Image
-            src={`${img.img}`}
-            alt={''}
-            objectFit='contain'
-            layout='fill'
-            loading="lazy"
-          />
-          <ImageListItemBar
-            sx={{ textAlign: 'center'}}
-            title={img.title}
-          />
-        </ImageListItem>
-      ))}
+      <Mapper list={images} ComponentItem={PolaroidImgWithTitle} mapKey={'title'} itemProps={{}} itemName={'img'}  />
     </List>
   );
 }

@@ -14,8 +14,6 @@ const ContextProvider = ({ children }: {
 
   const router = useRouter()
   const isSingleModelPath = router.query.hasOwnProperty('name')
-
-  console.log(isSingleModelPath)
   return (
     <>
       <UserProvider>

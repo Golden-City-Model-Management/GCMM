@@ -1,7 +1,7 @@
 
 
 
-import { useContext } from 'react';
+import { useContext, useCallback } from 'react';
 import AppBar from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
@@ -16,9 +16,15 @@ import Mapper from '../Mapper';
 import { NavLinkListItemWithSubLinks } from '../common/Links';
 import { navLinks } from '@/constants/links';
 import { IconButton } from '@mui/material';
+import { StoreContext } from 'reducers/store';
 
 const Header = () => {
-  const { showNav, toggleShowNav, drawerWidth, boxPadding } = useContext(UIContext)
+  const { state: { ui: { showNav, drawerWidth, boxPadding, }}, combinedDispatch} = useContext(StoreContext)
+
+  const toggleShowNav = useCallback(() => {
+    combinedDispatch.uiDispatch({type: 'TOGGLE_SHOW_NAV', payload: !showNav})
+  }, [combinedDispatch, showNav])
+
   return (
     <AppBar component='header' position="sticky" sx={styles.AppbarSx} >
       <Box display='flex' justifyContent='space-between' alignItems='center'  padding={{ ...boxPadding }}>
@@ -65,3 +71,4 @@ const Header = () => {
 }
 
 export default Header;
+

@@ -11,7 +11,7 @@ import EditModelDetails from '@/components/models/EditModelDetails'
 import ModelOverview from '@/components/models/ModelOverview'
 import PolaroidsOverview from "@/components/models/AllPolaroidsOverview"
 import { useContext, useEffect, useState, useCallback } from "react"
-import { ModelContext } from "@/context/singlemodel"
+import { modelsReducer, StoreContext } from "reducers/store"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
@@ -45,8 +45,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 const Models = ({ model, message, status }:
    { model: ModelWithPolaroidsAndPortfolio, message: string, status: number | null }) => {
-    
-  const { model: modelInState, updateModel } = useContext(ModelContext)
+  const { state: { models: { model: modelInState }}, combinedDispatch } = useContext(StoreContext)
   const [isEditDetails, setIsEditDetails] = useState(false)
   const [isPolaroidsOverview, setIsPolaroidsOverview] = useState(false)
   const router = useRouter()
@@ -60,8 +59,8 @@ const Models = ({ model, message, status }:
   }, [])
 
   useEffect(() => {
-    updateModel(model)
-  }, [model, updateModel, router])
+    combinedDispatch.modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: model})
+  }, [combinedDispatch, model, router])
   
   if( !model || Object.keys(model).length === 0){
     return (

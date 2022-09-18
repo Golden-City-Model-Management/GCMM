@@ -11,6 +11,7 @@ import PortfolioImageList from '@/components/models/PortfolioImageList'
 import { useState, useEffect, useContext } from "react"
 import Button from '@mui/material/Button'
 import { ModelContext } from "@/context/singlemodel"
+import { StoreContext } from "reducers/store"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
@@ -26,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 const PortfolioPage = () => {
 
-  const { model: modelInState, updateModel } = useContext(ModelContext)
+  const { state: { models: { model: modelInState }}} = useContext(StoreContext)
   const router = useRouter()
   const query = router.query
 

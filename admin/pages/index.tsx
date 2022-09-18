@@ -5,8 +5,8 @@ import DashBoard from '@/components/dashboard/Dashboard'
 import { ReactNode, useContext, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import { UIContext } from '@/context/ui'
-import { UserContext, User } from '@/context/user'
 import { useRouter } from 'next/router'
+import { StoreContext, userReducer } from 'reducers/store'
 
 const layoutProps = {
   title: 'Golden City Model Management | Administration',
@@ -16,22 +16,23 @@ const layoutProps = {
 
 export const getServerSideProps = getUserDetails
 
+
 const AdminHomePage = ({ user }: {
   children?: ReactNode,
-  user: User| undefined
+  user: userReducer.userState | undefined
 }) => {
 
   const router = useRouter()
   const { boxPadding } = useContext(UIContext)
-  const { updateUser, user: state } = useContext(UserContext)
+  const { state: { user: stateUser }, combinedDispatch: { userDispatch } } = useContext(StoreContext)
 
   useEffect(() => {
     if(user === undefined){
       router.push('/error?error=An error occurred! Please try again')
     }else{
-      updateUser(user) 
+      userDispatch({type: 'UPDATE_USER', payload: user})
     }
-  }, [updateUser, user, router])
+  }, [user, router, userDispatch])
 
   return ( 
     <Layout {...layoutProps} > 
@@ -40,7 +41,7 @@ const AdminHomePage = ({ user }: {
     alignItems='center' minHeight='80vh'  
     sx={{padding: {...boxPadding}}}
     >
-      <DashBoard user={state} />
+      <DashBoard user={stateUser} />
     </Box>
     </Layout>
   )

@@ -1,34 +1,18 @@
 
 import SearchBox from '@/components/common/searchbox'
 import { Box } from '@mui/material'
-import { ChangeEvent, ChangeEventHandler, KeyboardEventHandler, useCallback, useContext } from 'react'
-import { ModelSearchContext } from '@/context/model.search'
-import { ModelsContext } from '@/context/models'
-import { Model } from '@/types/models'
+import { ChangeEvent, ChangeEventHandler, useCallback, useContext } from 'react'
+import { StoreContext, modelsReducer } from 'reducers/store'
 
 const ModelsListSearchBar = () => {
 
-  const { searchTerm, updateSearchTerm } = useContext(ModelSearchContext)
-  const { models: stateModels, updateModels, updateModelsDisplayed, setErrorDisplayTxt, getModels, modelsDisplayed } = useContext(ModelsContext)
+  const { state: { models: { searchTerm }}, combinedDispatch: { modelsDispatch }  } = useContext(StoreContext)
+  const { modelsActions: { handleSearchTermChange } } = modelsReducer
 
-  const filteredModels = useCallback((models: Model[], search: string) => models.filter(el => el.name.split(' ').some(str => str.startsWith(search)) ||
-  el.name.includes(search)), [])
-
-const handleSearch: ChangeEventHandler<HTMLInputElement> = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
-  const searchValue = e.target.value
-  updateSearchTerm(searchValue)
-  if (searchValue.trim().length === 0) {
-    return updateModelsDisplayed(stateModels)
-  }
-  if(modelsDisplayed.length === 0 && searchValue.trim().length > 0){
-    setErrorDisplayTxt('No models match your search!')
-  }
-  if (filteredModels(stateModels, searchValue).length > 0) {
-    updateModelsDisplayed(filteredModels(stateModels, searchValue))
-  } else {
-    updateModelsDisplayed(filteredModels(stateModels, searchValue))
-  }
-}, [filteredModels, modelsDisplayed, setErrorDisplayTxt, stateModels, updateModelsDisplayed, updateSearchTerm])
+  const handleSearch: ChangeEventHandler<HTMLInputElement> = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
+   const searchValue = e.target.value
+   modelsDispatch({ type: handleSearchTermChange, payload: searchValue })
+  }, [handleSearchTermChange, modelsDispatch])
 
   return (
     <>

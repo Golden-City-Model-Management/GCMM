@@ -9,15 +9,15 @@ import Image from 'next/image'
 import ModelForm from "./ModelForm"
 import Request from '@/utils/client/request'
 import { useCallback, useState, useContext } from "react"
-import { ModelContext } from "@/context/singlemodel"
-
+import { modelsReducer, StoreContext } from "reducers/store"
 
 const EditModelDetails = ({ toggleEditDetails }:
    {
      toggleEditDetails: (newState?: boolean) => void
    }) => {
-  const { model, updateModel } = useContext(ModelContext)
 
+  const { state : {models: { model }}, combinedDispatch } = useContext(StoreContext)
+  
   const [modelData, setModelData] = useState(model)
   const [notification, setNotification] = useState<{
     show: boolean, message: string, type: 'error' | 'success'
@@ -32,14 +32,14 @@ const EditModelDetails = ({ toggleEditDetails }:
     const response = await Request({ path: `/models/${model.id}`, method: 'patch', data })
     if (response.status === 200) {
       setModelData(response.data.doc)
-      updateModel(response.data.doc)
+      combinedDispatch.modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: response.data.doc})
       window.location.pathname = `admin/models/${response.data.doc.name}`
       setNotification({ show: true, message: response.data.message, type: 'success' })
     } else {
       setNotification({ show: true, message: response.data.message, type: 'error' })
     }
     setLoading(false)
-  }, [model, updateModel])
+  }, [combinedDispatch, model.id])
 
   return (
     <Box display='flex' minHeight='100vh' justifyContent='center' alignItems='center' >

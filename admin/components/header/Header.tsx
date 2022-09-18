@@ -9,7 +9,6 @@ import Box from '@mui/material/Box';
 import AdminNavigation from '@/components/navigation/Nav';
 import { TemporaryDrawer } from '@/components/common/Drawer'
 import Logo from '@/components/svgs/Logos';
-import { UIContext } from '@/context/ui';
 import * as styles from './style'
 import List from '@mui/material/List';
 import Mapper from '../Mapper';

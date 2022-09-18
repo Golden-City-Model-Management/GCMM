@@ -3,10 +3,10 @@ import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
 import Box from "@mui/material/Box"
 import * as styles from './style'
-import { User } from '@/context/user'
+import { userState } from 'reducers/user/actionHandlers'
 
 const DashBoard = ({ user }: {
-  user: User
+  user: userState
 }) => {
 
   return (

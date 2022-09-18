@@ -10,7 +10,6 @@ import Typography from '@mui/material/Typography'
 import PortfolioImageList from '@/components/models/PortfolioImageList'
 import { useState, useEffect, useContext } from "react"
 import Button from '@mui/material/Button'
-import { ModelContext } from "@/context/singlemodel"
 import { StoreContext } from "reducers/store"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

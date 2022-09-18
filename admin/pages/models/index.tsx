@@ -7,7 +7,6 @@ import { Model } from '@/types/models'
 import React, {
   useCallback, useContext, useEffect, useState
 } from "react"
-import ModelSearchProvider from '@/context/model.search'
 import ModelsList from "@/components/models/ModelsList"
 import Box from '@mui/material/Box'
 import Loader from "@/components/common/loader"
@@ -102,7 +101,6 @@ const Models = ({ initialModels, initialStatusCode, initialMessage, }:
 
   return (
     <AdminLayout title={"Models | GCMM"} description={"GoldenCity Models"}>
-      <ModelSearchProvider>
         <Loader open={loading} />
         <ModelsListSearchBar />
         <Box data-testid='models-list' m='4vh' display='flex' justifyContent='center' >
@@ -114,7 +112,6 @@ const Models = ({ initialModels, initialStatusCode, initialMessage, }:
            }
           <NotFound searchTerm={searchTerm} models={models} initialStatusCode={initialStatusCode} />
         </Box>
-      </ModelSearchProvider> 
     </AdminLayout>
   )
 }

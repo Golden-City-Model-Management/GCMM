@@ -4,7 +4,6 @@ import Layout from '@/components/layout/Layout'
 import DashBoard from '@/components/dashboard/Dashboard'
 import { ReactNode, useContext, useEffect } from 'react'
 import Box from '@mui/material/Box'
-import { UIContext } from '@/context/ui'
 import { useRouter } from 'next/router'
 import { StoreContext, userReducer } from 'reducers/store'
 
@@ -23,8 +22,7 @@ const AdminHomePage = ({ user }: {
 }) => {
 
   const router = useRouter()
-  const { boxPadding } = useContext(UIContext)
-  const { state: { user: stateUser }, combinedDispatch: { userDispatch } } = useContext(StoreContext)
+  const { state: { user: stateUser, ui: { boxPadding} }, combinedDispatch: { userDispatch } } = useContext(StoreContext)
 
   useEffect(() => {
     if(user === undefined){

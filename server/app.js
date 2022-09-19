@@ -21,7 +21,13 @@ app.use(cors({
   origin: "client url"
 }))
  */
-app.use(cors())
+app.use(cors( {origin: [
+  "http://localhost:4000",
+  "http://goldencitymodelsng.netlify.app",
+],
+credentials: true,
+exposedHeaders: ["set-cookie"],
+}))
 app.options('*', cors())
 app.use(logger('dev')); 
 app.use(express.json());

@@ -7,10 +7,11 @@ const { verifyJWT } = require('../utils/authUtils')
 module.exports.protect = (fields) => (asyncHelper(async (req, res, next) => {
   const access_token = req.cookies.access_token;
   const auth = req.headers.authorization
+  console.log(auth, access_token.replace(/"/g, ''))
   if (!auth && !access_token)
     return next(new CustomError('Unauthorized!', 401))
   const token = access_token || auth.split(' ')[1]
-  const verified = verifyJWT(token)
+  const verified = verifyJWT(token.replace(/"/g, ''))
   if (!verified) return next(new CustomError('Unauthorized!', 401))
   const user = await User.findById(verified.id).select(fields)
   if (!user) return next(new CustomError('Unauthorized!', 401))

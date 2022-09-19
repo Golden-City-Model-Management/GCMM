@@ -1,6 +1,6 @@
 
 import { Model, ModelWithPolaroidsAndPortfolio } from '@/types/models'
-import ClientRequest from '@/utils/client/request'
+import ClientRequest from '@/utils/api/request'
 
 
 export const fields = 'name,age,gender,cover_image,hips,waist,chest,height,shoe,id'
@@ -27,10 +27,11 @@ export const fetchModels = async (query?: { [key: string]: string }[]): Promise<
   try {
     let res = await ClientRequest({ path: `/models?${queryString ? queryString : ''}&fields=${fields}`, method: 'get' })
     const data = await res.data
-    if (data.statusCode === 200) {
-      return { ...data, error: false,}
+    console.log(res)
+    if (res.statusCode === 200) {
+      return { ...res, error: false,}
     } else {
-      return { ...data, error: true,}
+      return { ...res, error: true,}
     }
   } catch (err: any) {
     console.error(err);

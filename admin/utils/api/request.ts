@@ -6,13 +6,11 @@ interface RequestInterface {
   path: string,
   method: string,
   data?: object,
-  headers?: AxiosRequestHeaders
-} 
+  headers?: AxiosRequestHeaders,
+  access_token?: string
+}
 let myAxios = axios.create({
-  baseURL: process.env.SERVER_URL,
-  headers: {
-    client_secret: process.env.CLIENT_SECRET || '' ,        
-  }
+  baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
 })
 
 const Request = async ({
@@ -20,22 +18,33 @@ const Request = async ({
   path,
   method = 'GET',
   data = {},
-  headers = {}
+  headers = {},
+  access_token
 }: RequestInterface) => {
 
-  if(baseURL) myAxios.defaults.baseURL = baseURL
-  return  myAxios({
-      method,
-      url: path,
-      data,
-      headers
+  if (baseURL) myAxios.defaults.baseURL = baseURL
+  myAxios.defaults.withCredentials = true
+
+  return myAxios({
+    method,
+    url: path,
+    data,
+    headers: {
+      ...headers,
+      'Access-Control-Allow-Origin': process.env.NEXT_PUBLIC_BASE_URL || '',
+      'Access-Control-Allow-Methods': 'POST',
+      'Access-Control-Allow-Headers': ' Content-Type, Authorization'
+    },
+  })
+    .then(response => {
+      return { ...response.data, statusCode: response.status }
     })
-    .then(response => ({...response.data, statusCode: response.status}))
     .catch(err => {
-      if(err.response) {
-        return {...err.response.data, statusCode: err.response.status}
+      console.log(err)
+      if (err.response) {
+        return { ...err.response.data, statusCode: err.response.status }
       } else {
-        return {message: 'Something went wrong!', statusCode: 500}
+        return { message: 'Something went wrong!', statusCode: 500 }
       }
     })
 }

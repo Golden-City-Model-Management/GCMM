@@ -10,7 +10,7 @@ import {
 } from "react"
 import { TopCenteredSnackbar } from "@/components/common/snackbars"
 import { ErrorAlert } from '@/components/common/alert'
-import Request from "@/utils/client/request"
+import Request from "@/utils/api/request"
 import { useRouter } from "next/router"
 import { useCookies } from "react-cookie"
 import { getAccessTokenFromReq } from "@/utils/pages/getServerSideProps"
@@ -46,10 +46,9 @@ const AdminHomePage: NextPage = () => {
       return handleSetError({ error: true, message: 'All fields are required!' })
     setIsLoading(true)
 
-    const response = await Request({ path: '/login', method: 'post', data: loginDetails })
-    if (response.status === 200) {
-      const { data } = response
-      setCookie('access_token', JSON.stringify(data.token), {
+    const response = await Request({ path: '/users/login', method: 'post', data: loginDetails })
+    if (response.statusCode === 200) {
+      setCookie('access_token', JSON.stringify(response.token), {
         path: '/',
         sameSite: 'lax',
         maxAge: 3600,
@@ -58,7 +57,7 @@ const AdminHomePage: NextPage = () => {
       setIsLoading(false)
       router.push('/')
     } else {
-      const { data: { message } } = response
+      const { message } = response
       setIsLoading(false)
       return handleSetError({ error: true, message })
     }

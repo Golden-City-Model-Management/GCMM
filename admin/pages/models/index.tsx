@@ -65,7 +65,7 @@ const Models = ({ initialModels, initialStatusCode, initialMessage, }:
     if (!data.error) {
       combinedDispatch.modelsDispatch({ type: modelsActions.updateModels, payload: data.docs})
       setCurrentPage(prev => prev + 1)
-      if (data.docs.length < limit) {
+      if (data.total_count < limit) {
         setShouldFetchWithPaginate(false)
       }
     }

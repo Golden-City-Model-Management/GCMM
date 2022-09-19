@@ -7,7 +7,7 @@ import { ErrorAlert, SuccessAlert } from '@/components/common/alert'
 import { TopCenteredSnackbar } from "@/components/common/snackbars"
 import Image from 'next/image'
 import ModelForm from "./ModelForm"
-import Request from '@/utils/client/request'
+import Request from '@/utils/api/request'
 import { useCallback, useState, useContext } from "react"
 import { modelsReducer, StoreContext } from "reducers/store"
 
@@ -30,13 +30,14 @@ const EditModelDetails = ({ toggleEditDetails }:
     setLoading(true)
     const data = { ...details, dob: new Date(details.dob) }
     const response = await Request({ path: `/models/${model.id}`, method: 'patch', data })
-    if (response.status === 200) {
-      setModelData(response.data.doc)
-      combinedDispatch.modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: response.data.doc})
-      window.location.pathname = `admin/models/${response.data.doc.name}`
-      setNotification({ show: true, message: response.data.message, type: 'success' })
+    console.log(response)
+    if (response.statusCode === 200) {
+      setModelData(response.doc)
+      combinedDispatch.modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: response.doc})
+      window.location.pathname = `admin/models/${response.doc.name}`
+      setNotification({ show: true, message: response.message, type: 'success' })
     } else {
-      setNotification({ show: true, message: response.data.message, type: 'error' })
+      setNotification({ show: true, message: response.message, type: 'error' })
     }
     setLoading(false)
   }, [combinedDispatch, model.id])

@@ -20,7 +20,7 @@ import './commands'
 // require('./commands')
 import * as NextRouter from 'next/router';
 import CssBaseline from '@mui/material/CssBaseline';
-import ContextProvider from 'reducers/provider'
+import ContextProvider from '@/reducers/provider'
 
 import { mount } from 'cypress/react'
 

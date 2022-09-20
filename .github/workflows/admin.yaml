@@ -46,6 +46,7 @@ jobs:
      - name: Cypress e2e
        working-directory: admin
        env: 
+        SERVER_URL: ${{ secrets.SERVER_URL }}
         NEXT_PUBLIC_SERVER_URL: ${{ secrets.SERVER_URL }}
         CYPRESS_SERVER_URL: ${{ secrets.SERVER_URL }}
         CYPRESS_TEST_USERNAME: ${{ secrets.CYPRESS_TEST_USERNAME }}

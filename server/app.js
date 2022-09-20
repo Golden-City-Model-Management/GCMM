@@ -23,6 +23,7 @@ app.use(cors({
  */
 app.use(cors( {origin: [
   "http://localhost:4000",
+  "http://localhost:3000",
   "http://goldencitymodelsng.netlify.app",
 ],
 credentials: true,

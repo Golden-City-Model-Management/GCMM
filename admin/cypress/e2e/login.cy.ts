@@ -11,7 +11,7 @@ describe('Login user with form', () => {
     cy.get('[data-testid="password"]').type(Cypress.env('CYPRESS_TEST_PASSWORD'))
     cy.get('[data-testid="login"]').click()
     cy.wait('@login').then(interception => {
-      if(interception.response.statusCode === 200){
+      if(interception!.response!.statusCode === 200){
         cy.location('href').should('not.include', '/login')
       }else{
         cy.location('href').should('include', '/login')

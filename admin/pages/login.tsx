@@ -12,7 +12,6 @@ import { TopCenteredSnackbar } from "@/components/common/snackbars"
 import { ErrorAlert } from '@/components/common/alert'
 import Request from "@/utils/api/request"
 import { useRouter } from "next/router"
-import { useCookies } from "react-cookie"
 import { getAccessTokenFromReq } from "@/utils/pages/getServerSideProps"
 import Loader from "@/components/common/loader"
 import * as styles from '@/styles/login'
@@ -23,7 +22,6 @@ import Button from '@mui/material/Button'
 const AdminHomePage: NextPage = () => {
 
   const router = useRouter()
-  const [_, setCookie] = useCookies(["access_token"])
   const [loginDetails, setLoginDetails] = useState({
     userName: '', password: ''
   })
@@ -48,12 +46,6 @@ const AdminHomePage: NextPage = () => {
 
     const response = await Request({ path: '/users/login', method: 'post', data: loginDetails })
     if (response.statusCode === 200) {
-      setCookie('access_token', JSON.stringify(response.token), {
-        path: '/',
-        sameSite: 'lax',
-        maxAge: 3600,
-        secure: true
-      })
       setIsLoading(false)
       router.push('/')
     } else {
@@ -61,7 +53,7 @@ const AdminHomePage: NextPage = () => {
       setIsLoading(false)
       return handleSetError({ error: true, message })
     }
-  }, [handleSetError, loginDetails, router, setCookie])
+  }, [handleSetError, loginDetails, router])
 
   const handleChange: ChangeEventHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setLoginDetails(prev => ({ ...prev, [e.target.name]: e.target.value }))

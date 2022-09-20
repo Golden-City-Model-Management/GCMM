@@ -3,7 +3,7 @@ const baseUrl = '/admin'
 
 describe('Login user with form', () => {
   it('Login user with email and password', () => {
-    cy.log(Cypress.env('NEXT_PUBLIC_SERVER_URL'))
+    cy.log(Cypress.env('CYPRESS_SERVER_URL'))
     cy.visit(baseUrl).location('href').should('contain', '/login')
 
     cy.get('[data-testid="email"]').type(Cypress.env('CYPRESS_TEST_USERNAME'))

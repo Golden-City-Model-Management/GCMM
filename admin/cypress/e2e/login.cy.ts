@@ -3,8 +3,8 @@ const baseUrl = '/admin'
 
 describe('Login user with form', () => {
   it('Login user with email and password', () => {
-    cy.intercept(`${Cypress.env('CYPRESS_SERVER_URL')}/users/login`).as('login')
     cy.visit(baseUrl).location('href').should('contain', '/login')
+    cy.intercept(`${Cypress.env('CYPRESS_SERVER_URL')}/users/login`).as('login')
     cy.get('[data-testid="email"]').type(Cypress.env('CYPRESS_TEST_USERNAME'))
     cy.get('[data-testid="password"]').type(Cypress.env('CYPRESS_TEST_PASSWORD'))
     cy.get('[data-testid="login"]').click()

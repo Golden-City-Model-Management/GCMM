@@ -35,13 +35,13 @@ const CrumbLink = ({ crumb }: { crumb: crumb }) => {
       <StyledBreadcrumb
         style={{color: crumb.isActive ? 'gold' : 'inherit'}}
         component={'span'}
-        label={crumb.label} />
+        label={crumb.label.replace('%20', ' ')} />
       :
         <NextLink style={{color: 'inherit'}} href={crumb.href}>
           <StyledBreadcrumb
             component={'a'}
             href={crumb.href}
-            label={crumb.label} />
+            label={crumb.label.replace('%20', ' ')} />
         </NextLink>
   )
 }

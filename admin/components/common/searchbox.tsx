@@ -2,9 +2,9 @@
 import { SearchSharp } from '@mui/icons-material'
 import Box from '@mui/material/Box'
 import Input from '@mui/material/Input'
-import { ChangeEventHandler } from 'react'
+import { ChangeEventHandler, KeyboardEventHandler } from 'react'
 
-const SearchBox = ({ value, handleChange, placeholder }:{
+const SearchBox = ({ value, handleChange, placeholder, }:{
   value: string,
   handleChange: ChangeEventHandler<HTMLInputElement>,
   placeholder?: string

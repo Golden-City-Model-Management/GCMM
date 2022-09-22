@@ -25,9 +25,10 @@
       "@/types/*": ["types/*"],
       "@/context/*": ["context/*"],
       "@/public/*": ["public/*"],
-      "@/constants/*": ["constants/*"], 
+      "@/constants/*": ["constants/*"],
+      "@/reducers/*": ["reducers/*"] 
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "*.d.ts", "**/*.tsx", "next.config.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "*.d.ts", "**/*.tsx", "next.config.js", "reducers/store.tsx"],
   "exclude": ["node_modules"]
 }

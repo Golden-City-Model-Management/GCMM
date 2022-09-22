@@ -5,4 +5,5 @@ export interface LayoutProps {
   title: string,
   description: string,
   favicon?: string,
+  hideLayout?: boolean
 }

@@ -2,125 +2,116 @@
 import { GetServerSideProps } from "next"
 import { getAccessTokenFromReq, handleRedirectToLogin } from "@/utils/pages/getServerSideProps"
 import Request from "@/utils/api/request"
-import ClientRequest from "@/utils/client/request"
 import AdminLayout from "@/components/layout/Layout"
-import { ModelsContext, Model } from "@/context/models"
-import React, { ChangeEvent, ChangeEventHandler, useCallback, useContext, useEffect, useState } from "react"
+import { Model } from '@/types/models'
+import React, {
+  useCallback, useContext, useEffect, useState
+} from "react"
 import ModelsList from "@/components/models/ModelsList"
 import Box from '@mui/material/Box'
-import SearchBox from '@/components/common/searchbox'
 import Loader from "@/components/common/loader"
-import { ErrorAlert, SuccessAlert } from '@/components/common/alert'
-import { TopCenteredSnackbar } from "@/components/common/snackbars"
-import Typography from '@mui/material/Typography';
+import NotFound from '@/components/models/NotFound';
+import ModelsListSearchBar from '@/components/models/Search'
+import{ StoreContext, modelsReducer, notificationReducer } from '../../reducers/store'
 
+const fields = 'name,age,gender,cover_image,hips,waist,chest,height,shoe,id'
+const limit = 5
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const accessToken = getAccessTokenFromReq(ctx.req)
   if (!accessToken) {
     handleRedirectToLogin(ctx.res)
   }
-  const fields = 'name,age,gender,cover_image,hips,waist,chest,height,shoe,id'
   const response = await Request({
-    path: `/models?limit=100&page=1&fields=${fields}`, method: 'get', headers: { 'Authorization': 'Bearer ' + accessToken?.replace(/"/g, '') }
+    path: `/models?limit=${limit}&page=1&fields=${fields}`, method: 'get', headers: { 'Authorization': 'Bearer ' + accessToken?.replace(/"/g, '') }
   })
   if (response.statusCode === 200) {
     return {
       props: {
-        models: response.docs,
-        totalCount: response.total_count,
-        message: response.message,
-        status: response.status,
-        statusCode: response.statusCode
+        initialModels: response.docs,
+        initialTotalCount: response.total_count,
+        initialMessage: response.message,
+        initialStatus: response.status,
+        initialStatusCode: response.statusCode
       }
     }
   } else {
     return {
       props: {
-        models: [],
-        message: 'An error occured!',
-        totalCount: 0,
-        status: response.status || 'failed!',
-        statusCode: response.statusCode
+        initialModels: [],
+        initialMessage: 'An error occured!',
+        initialTotalCount: 0,
+        initialStatus: response.status || 'failed!',
+        initialStatusCode: response.statusCode
       }
     }
   }
 }
 
-const Models = ({ models, statusCode, message, }:
-  { models: Model[]; status: string; message: string; totalCount: number, statusCode: number }) => {
+const Models = ({ initialModels, initialStatusCode, initialMessage, }:
+  { initialModels: Model[]; initialStatus: string; initialMessage: string; initailTotalCount: number, initialStatusCode: number }) => {
 
-  const { models: stateModels, updateModels } = useContext(ModelsContext)
-  const [modelsDisplayed, setModelsDisplayed] = useState(models)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [notification, setNotification] = useState<{
-    type?: 'error' | 'success' | 'info',
-    message: string,
-    show: boolean
-  }>({
-    type: undefined,
-    message: '',
-    show: false
-  })
-  const [loading, setLoading] = useState(true)
+  const { state, combinedDispatch} = useContext(StoreContext)
+  const { models: { models, loading, searchTerm }} = state
+  const { modelsActions, fetchModels,  } = modelsReducer
+  const { notificationActions } = notificationReducer
 
-  const handleSearch: ChangeEventHandler<HTMLInputElement> = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value)
-    if (e.target.value.length === 0) {
-      return setModelsDisplayed(stateModels)
+  const [filteredModels, setFilteredModels] = useState(models)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [shouldFetchWithPaginate, setShouldFetchWithPaginate] = useState(true)
+
+  const handlePaginationWithScroll = useCallback(async () => {
+    const  data = await fetchModels([{ 'limit': `${limit}`, 'page': (currentPage + 1).toString() }])
+    console.log(data)
+    if (!data.error) {
+      combinedDispatch.modelsDispatch({ type: modelsActions.updateModels, payload: data.docs})
+      setCurrentPage(prev => prev + 1)
+      if (data.total_count < limit) {
+        setShouldFetchWithPaginate(false)
+      }
     }
-    setModelsDisplayed(stateModels.filter(el => el.name.split(' ').some(str => str.startsWith(e.target.value))))
-  }, [stateModels])
-
-  const getModels = useCallback(async () => {
-    let res = await ClientRequest({ path: '/models', method: 'get' })
-    const data = res.data
-    if (data.statusCode === 200) {
-      updateModels(data.models)
-      setNotification(prev => ({ ...prev, message: data.message, show: true, type: 'success' }))
-    } else {
-      setNotification(prev => ({ ...prev, message: `${data.message} Please check your internet connection!`, show: true, type: 'error' }))
-    }
-    setLoading(false)
-  }, [updateModels])
+  }, [combinedDispatch, currentPage, fetchModels, modelsActions.updateModels])
 
   useEffect(() => {
-    updateModels(models)
-  }, [updateModels, models])
+    combinedDispatch.modelsDispatch({ type: modelsActions.updateLoading, payload: false})
+    if (initialStatusCode !== 200 && models.length <= 0) {
+      combinedDispatch.modelsDispatch({ type: modelsActions.updateLoading, payload: true})
+      fetchModels().then(({message, docs, statusCode}) => {
+      const notifType = statusCode === 200 ? 'success' : 'error'
+      combinedDispatch.modelsDispatch({ type: modelsActions.updateModels, payload: docs})
+      combinedDispatch.notificationDispatch({type: notificationActions.showNotification, 
+        payload: { message, show: true, type: notifType }})
+      })
+    combinedDispatch.modelsDispatch({ type: modelsActions.updateLoading, payload: false})
+    }
+  }, [combinedDispatch, fetchModels, initialMessage, initialStatusCode, 
+    models.length, modelsActions, notificationActions.showNotification])
 
   useEffect(() => {
-    setLoading(false)
-    if (statusCode !== 200) {
-      setNotification(prev => ({ ...prev, message: `${message} Tryng to get models`, show: true, type: 'error' }))
-      setLoading(true)
-      getModels()
-    } else {
-      setNotification(prev => ({ ...prev, message, show: true, type: 'success' }))
+    state.models.models.length <= 0 && combinedDispatch.modelsDispatch({ type: modelsActions.updateModels, payload: initialModels})
+    combinedDispatch.notificationDispatch({type: notificationActions.showNotification, payload: { message: initialMessage, show: true, type: 'success' }})
+  }, [initialMessage, combinedDispatch, modelsActions.updateModels, initialModels, state.models.models.length, notificationActions.showNotification])
+
+  useEffect(() => {
+    if(searchTerm.trim().length > 0){
+      setFilteredModels(models.filter(el => el.name.split(' ').some(str => str.startsWith(searchTerm)) || el.name.includes(searchTerm)))
+    }else{
+      setFilteredModels(models)
     }
-  }, [statusCode, models, message, getModels])
+  }, [models, searchTerm])
 
   return (
     <AdminLayout title={"Models | GCMM"} description={"GoldenCity Models"}>
-      <Box>
-        <TopCenteredSnackbar autoHideDuration={600000} open={notification.show} onClose={() => setNotification(x => ({ ...x, show: false }))}>
-          <>
-            {notification.type === 'error' && <ErrorAlert>{notification.message}</ErrorAlert>}
-            {notification.type === 'success' && <SuccessAlert>{notification.message}</SuccessAlert>}
-          </>
-        </TopCenteredSnackbar>
-      </Box>
-      <Loader open={loading} />
-      <Box maxWidth='600px' position='sticky' zIndex='20'
-        top='134px' width='80vw' mx='6vw' mb='4vh'
-        sx={theme => ({ background: theme.palette.primary.main })}>
-        <SearchBox handleChange={handleSearch} value={searchTerm} />
-      </Box>
-      <Box m='4vh'  display='flex' justifyContent='center' >
-        {modelsDisplayed.length > 0 && <ModelsList models={modelsDisplayed} />} 
-        <Typography variant='h1' >
-          {searchTerm.trim().length > 0 && modelsDisplayed.length === 0 && 'No Models match your search' }
-          {searchTerm.trim().length === 0 && modelsDisplayed.length === 0 && 'Unable to fetch models. Please try again!'}
-        </Typography>
-      </Box>
+        <Loader open={loading} />
+        <ModelsListSearchBar />
+        <Box data-testid='models-list' m='4vh' display='flex' justifyContent='center' >
+          {filteredModels.length > 0 &&
+            <ModelsList
+              models={filteredModels}
+              handlePaginationWithScroll={handlePaginationWithScroll}
+              shouldFetchWithPaginate={shouldFetchWithPaginate} />
+           }
+          <NotFound searchTerm={searchTerm} models={models} initialStatusCode={initialStatusCode} />
+        </Box>
     </AdminLayout>
   )
 }

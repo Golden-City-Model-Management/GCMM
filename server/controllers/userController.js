@@ -62,10 +62,8 @@ module.exports.loginUser = asyncHelper(async (req, res, next) => {
 
   const token = await user.generateAuthToken()
   const cookieOptions = {
-    expires: new Date(
-      Date.now() * 90 *24 * 60 * 60 * 1000
-    ),
-    httpOnly: true,
+    expires: (new Date(Date.now()+ 86400*2000)),
+    httpOnly: true, 
     secure: (req.secure || req.headers['x-forwarded-proto'] === 'https')
     }
   res.cookie("access_token", token, cookieOptions )

@@ -1,25 +1,24 @@
 
-import { rounded, } from '@/styles/styles'
 import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
 import Box from "@mui/material/Box"
 import * as styles from './style'
-import { User } from '@/context/user'
+import { userState } from 'reducers/user/actionHandlers'
 
 const DashBoard = ({ user }: {
-  user: User
+  user: userState
 }) => {
 
   return (
     <Box 
      display='flex' justifyContent='center' alignItems='center'
-     gap='1rem' flexWrap='wrap'  minHeight='80vh' sx={{...rounded().circle,}}>
+     gap='1rem' flexWrap='wrap'  minHeight='80vh' sx={{borderRadius: '50%'}}>
       <Box
        width='80vw' height='80vw' maxWidth='320px' maxHeight='320px'
        display='flex' justifyContent='center' alignItems='center' 
        sx={theme => ({
         border: `1px solid ${theme.palette.primary.contrastText}`,
-        ...rounded().circle,
+        borderRadius: '50%'
        })}>
         <Avatar
           alt={user.name} src={user.avatar}

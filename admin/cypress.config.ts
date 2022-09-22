@@ -9,7 +9,7 @@ export default defineConfig({
     watchForFileChanges: true,
     specPattern: "./cypress/e2e/*.cy.{js,jsx,ts,tsx}",
     setupNodeEvents(on, config) {
-      config.env.CYPRESS_SERVER_URL = process.env.SERVER_URL
+      config.env.CYPRESS_SERVER_URL = process.env.CYPRESS_SERVER_URL
       config.env.CYPRESS_TEST_USERNAME = process.env.CYPRESS_TEST_USERNAME
       config.env.CYPRESS_TEST_PASSWORD = process.env.CYPRESS_TEST_PASSWORD
       return config

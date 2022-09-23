@@ -27,8 +27,6 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-material-ui-carousel": "^3.4.2",
     "styled-components": "^5.3.5",
-    "iron-session": "latest",
-    "octokit": "^1.7.0",
     "swr": "^1.0.1",
     "webpack": "^5.74.0"
   },

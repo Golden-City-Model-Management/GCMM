@@ -16,8 +16,10 @@ router.route('/')
   .post(protect(), restrict('admin', 'manager'), createNewModel, createResponse)
   .get(getAllModels, createResponse)
 
+  
+router.route('/:name').get(findDocument(Model), getModel, createResponse)
 router.route('/:id')
-  .get(findDocument(Model), getModel, createResponse)
+  // .get(findDocument(Model), getModel, createResponse)
   .patch(protect(), restrict('admin', 'manager'), findDocument(Model), editModelProfile, createResponse) 
   .delete(protect(), restrict('admin', 'manager'), findDocument(Model), handleDelete, createResponse)
 module.exports = router; 

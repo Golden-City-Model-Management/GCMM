@@ -1,6 +1,6 @@
 
-import { GetServerSideProps } from "next"
-import { getAccessTokenFromReq, handleRedirectToLogin } from "@/utils/pages/getServerSideProps"
+import { GetStaticProps } from "next"
+import useLogin from "@/utils/pages/useLogin"
 import Request from "@/utils/api/request"
 import AdminLayout from "@/components/layout/Layout"
 import { Model } from '@/types/models'
@@ -15,40 +15,26 @@ import ModelsListSearchBar from '@/components/models/Search'
 import{ StoreContext, modelsReducer, notificationReducer } from '../../reducers/store'
 
 const fields = 'name,age,gender,cover_image,hips,waist,chest,height,shoe,id'
-const limit = 5
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const accessToken = getAccessTokenFromReq(ctx.req)
-  if (!accessToken) {
-    handleRedirectToLogin(ctx.res)
-  }
+const limit = 100
+
+export const getStaticProps: GetStaticProps = async () => {
   const response = await Request({
-    path: `/models?limit=${limit}&page=1&fields=${fields}`, method: 'get', headers: { 'Authorization': 'Bearer ' + accessToken?.replace(/"/g, '') }
+    path: `/models?limit=${limit}&page=1&fields=${fields}`, method: 'get' 
   })
-  if (response.statusCode === 200) {
-    return {
-      props: {
-        initialModels: response.docs,
-        initialTotalCount: response.total_count,
-        initialMessage: response.message,
-        initialStatus: response.status,
-        initialStatusCode: response.statusCode
-      }
-    }
-  } else {
-    return {
-      props: {
-        initialModels: [],
-        initialMessage: 'An error occured!',
-        initialTotalCount: 0,
-        initialStatus: response.status || 'failed!',
-        initialStatusCode: response.statusCode
-      }
+  return {
+    props: {
+      initialModels: response.docs,
+      initialTotalCount: response.total_count,
+      initialMessage: response.message,
+      initialStatus: response.status,
+      initialStatusCode: response.statusCode
     }
   }
 }
 
 const Models = ({ initialModels, initialStatusCode, initialMessage, }:
   { initialModels: Model[]; initialStatus: string; initialMessage: string; initailTotalCount: number, initialStatusCode: number }) => {
+  useLogin({redirectTo: '/login', redirectIfFound: false})
 
   const { state, combinedDispatch} = useContext(StoreContext)
   const { models: { models, loading, searchTerm }} = state

@@ -1,6 +1,6 @@
 
-import { GetServerSideProps } from "next"
-import { getAccessTokenFromReq, handleRedirectToLogin } from "@/utils/pages/getServerSideProps"
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next"
+import useUser from "@/utils/pages/useLogin"
 import Request from "@/utils/api/request"
 import AdminLayout from "@/components/layout/Layout"
 import { ModelWithPolaroidsAndPortfolio } from "@/types/models"
@@ -13,42 +13,47 @@ import PolaroidsOverview from "@/components/models/AllPolaroidsOverview"
 import { useContext, useEffect, useState, useCallback } from "react"
 import { modelsReducer, StoreContext } from "reducers/store"
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-
-  const accessToken = getAccessTokenFromReq(ctx.req)
-  const headers = { 'Authorization': 'Bearer ' + accessToken?.replace(/"/g, '') }
-
-  if (!accessToken) {
-    handleRedirectToLogin(ctx.res)
-  }
+export const getStaticPaths: GetStaticPaths = async ctx => {
+  const fields = 'name,id'
+  const limit = 100
   const response = await Request({
-    path: `/models/${ctx.query.id}?name=${ctx.query.name}`, method: 'get', headers
+    path: `/models?limit=${limit}&page=1&fields=${fields}`, method: 'get' 
   })
-  if (response.statusCode === 200) {
-    return {
-      props: {
+  const paths = response.docs.map((model: { name: string }) => {
+    return { params: { name: model.name}}
+  })
+  console.log(paths)
+  return {
+    paths: paths,
+    fallback: 'blocking'
+  }
+}
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+
+  const modelName = ctx.params?.name
+  const response = await Request({
+    path: `/models/${modelName}`, method: 'get'
+  })
+  return {
+    props: {
+      model: {
         model: response.model,
         message: response.message,
         status: response.status || null
-      }
-    }
-  } else {
-    return {
-      props: {
-        model: {},
-        message: `An error occured! ${response.message}`,
-        status: response.statusCode || null
-      }
-    }
+      },
+    },
   }
 }
 
 const Models = ({ model, message, status }:
    { model: ModelWithPolaroidsAndPortfolio, message: string, status: number | null }) => {
+  useUser({redirectIfFound: false, redirectTo: '/login'})
   const { state: { models: { model: modelInState }}, combinedDispatch } = useContext(StoreContext)
   const [isEditDetails, setIsEditDetails] = useState(false)
   const [isPolaroidsOverview, setIsPolaroidsOverview] = useState(false)
   const router = useRouter()
+  console.log(router.isFallback)
 
   const toggleEditDetails = useCallback((newState?: boolean) => {
     setIsEditDetails(prev => newState !== undefined ? newState : !prev)

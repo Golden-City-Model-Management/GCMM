@@ -1,5 +1,5 @@
 
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next"
+import { GetStaticPaths, GetStaticProps } from "next"
 import useUser from "@/utils/pages/useLogin"
 import Request from "@/utils/api/request"
 import AdminLayout from "@/components/layout/Layout"
@@ -16,44 +16,62 @@ import { modelsReducer, StoreContext } from "reducers/store"
 export const getStaticPaths: GetStaticPaths = async ctx => {
   const fields = 'name,id'
   const limit = 100
-  const response = await Request({
-    path: `/models?limit=${limit}&page=1&fields=${fields}`, method: 'get' 
-  })
-  const paths = response.docs.map((model: { name: string }) => {
-    return { params: { name: model.name}}
-  })
-  console.log(paths)
-  return {
-    paths: paths,
-    fallback: 'blocking'
+  try{
+    const response = await Request({
+      path: `/models?limit=${limit}&page=1&fields=${fields}`, method: 'get' 
+    })
+    const paths = response.docs.map((model: { name: string }) => {
+      return { params: { name: model.name}}
+    })
+    return {
+      paths: paths,
+      fallback: 'blocking'
+    }
+  }catch(err){
+    return {
+      paths: [],
+      fallback: 'blocking'
+    }
   }
 }
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
 
   const modelName = ctx.params?.name
-  const response = await Request({
-    path: `/models/${modelName}`, method: 'get'
-  })
-  return {
-    props: {
-      model: {
-        model: response.model,
-        message: response.message,
-        status: response.status || null
+  try{
+    const response = await Request({
+      path: `/models/${modelName}`, method: 'get'
+    })
+    return {
+      props: {
+          model: response.model || {},
+          message: response.message,
+          status: response.status || '',
+          statusCode: response.statusCode 
       },
-    },
+    }
+  }catch(err){
+    return {
+      props: {
+        model: {}, message: 'An Error occured', status: 'failed', statusCode: 500 
+      }
+    }
   }
 }
 
-const Models = ({ model, message, status }:
-   { model: ModelWithPolaroidsAndPortfolio, message: string, status: number | null }) => {
+const Models = ( props :
+   { model: ModelWithPolaroidsAndPortfolio, message: string, status: string | null, statusCode: number  }) => {
+
   useUser({redirectIfFound: false, redirectTo: '/login'})
   const { state: { models: { model: modelInState }}, combinedDispatch } = useContext(StoreContext)
   const [isEditDetails, setIsEditDetails] = useState(false)
   const [isPolaroidsOverview, setIsPolaroidsOverview] = useState(false)
   const router = useRouter()
   console.log(router.isFallback)
+  const model = props.model, 
+  message = props.message,
+  status = props.status,
+  statusCode = props.statusCode
 
   const toggleEditDetails = useCallback((newState?: boolean) => {
     setIsEditDetails(prev => newState !== undefined ? newState : !prev)
@@ -73,12 +91,16 @@ const Models = ({ model, message, status }:
         <Box display='flex' justifyContent='center' alignItems='center' minHeight='65vh'>
           <Box maxWidth='800px' textAlign='center'  mx='auto'>
             <Typography lineHeight={1.3} my={3} variant='caption' component='h1'>
+              {status}! <br/> 
+            </Typography>
+            <Typography lineHeight={1.3} my={3} variant='h2' component='p'>
               {message} <br/> 
-              The server returned a status code of {status}.
+              The server returned a status code of {statusCode}.
             </Typography>
-            <Typography variant='h4' component='p'>
+           { !message && 
+           <Typography variant='h4' component='p'>
               Please check your internet connection and try refreshing the page.<br/>
-            </Typography>
+            </Typography>}
           </Box>
         </Box>
       </AdminLayout>

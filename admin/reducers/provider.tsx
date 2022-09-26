@@ -9,9 +9,9 @@ const ContextProvider = ({ children }: {
 }) => {
   return (
     <StoreProvider>
-            <MuiThemeProvider theme={theme}>
-                <>{children}</>
-            </MuiThemeProvider>
+      <MuiThemeProvider theme={theme}>
+        <>{children}</>
+      </MuiThemeProvider>
     </StoreProvider>
   )
 }

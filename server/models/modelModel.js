@@ -3,29 +3,78 @@ const mongoose = require('mongoose')
 const Portfolio = require('../models/portfolioModel')
 const CustomError = require('../utils/errorUtils')
 
+const defaultImage = {
+  asset_id: '',
+  bytes: 0,
+  created_at: new Date(Date.now()),
+  etag: '',
+  folder: '',
+  format: '',
+  height: 0,
+  original_filename: '',
+  placeholder: false,
+  public_id: '',
+  resource_type: '',
+  secure_url: '',
+  signature: '',
+  version: 0,
+  version_id: '',
+  width: 0,
+}
+const ImageSchema = new mongoose.Schema({
+  asset_id: String,
+  bytes: Number,
+  created_at: Date,
+  etag: String,
+  folder: String,
+  format: String,
+  height: Number,
+  original_filename: String,
+  placeholder: Boolean,
+  public_id: String,
+  resource_type: String,
+  secure_url: String,
+  signature: String,
+  version: Number,
+  version_id: String,
+  width: Number,
+})
+
 const polaroidSchema = new mongoose.Schema({
   full_length: {
-    type: String,
-    default: '',
+    type: ImageSchema,
+    default: defaultImage
   },
   waist_up: {
-    type: String,
-    default: '',
+    type: ImageSchema,
+    default: defaultImage
   },
   close_up: {
-    type: String,
-    default: '',
+    type: ImageSchema,
+    default: defaultImage
   },
   profile: {
-    type: String,
-    default: '',
+    type: ImageSchema,
+    default: defaultImage
   },
 })
 const socialsSchema = new mongoose.Schema({
-  instagram: String,
-  facebook: String,
-  twitter: String,
-  tiktok: String,
+  instagram: {
+    type: String,
+    default: ''
+  },
+  facebook: {
+    type: String,
+    default: ''
+  },
+  twitter: {
+    type: String,
+    default: ''
+  },
+  tiktok: {
+    type: String,
+    default: ''
+  },
 })
 const modelSchema = new mongoose.Schema({
   name: {
@@ -36,7 +85,7 @@ const modelSchema = new mongoose.Schema({
   dob: {
     type: Date,
     validate: {
-      validator:  function(val){
+      validator: function (val) {
         return Object.prototype.toString.call(val) === "[object Date]"
       }
     },
@@ -48,15 +97,14 @@ const modelSchema = new mongoose.Schema({
     required: [true, 'Please specify the gender.']
   },
   cover_image: {
-    type: String,
+    type: ImageSchema,
     required: [true, 'Please add a cover image!']
   },
   socials: {
     type: socialsSchema,
-    required: [true, 'Pleae provide the model\'s social media handles']
   },
   bust: Number,
-  hips: Number, 
+  hips: Number,
   waist: {
     type: Number,
     required: [true, 'Please specify the waist']
@@ -70,7 +118,15 @@ const modelSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Please specify the shoe size']
   },
-  polaroids: polaroidSchema, 
+  polaroids: {
+    type: polaroidSchema,
+    default: {
+      full_length: defaultImage,
+      waist_up: defaultImage,
+      close_up: defaultImage,
+      profile: defaultImage
+    }
+  },
   extra_polaroids: {
     type: [polaroidSchema],
     validate: [validateLength, 'No more than 2 extra sets polaroids are allowed!']
@@ -81,40 +137,41 @@ const modelSchema = new mongoose.Schema({
   }
 },
   {
-    toJSON: { virtuals: true ,
-      transform: (_, ret) => {  
+    toJSON: {
+      virtuals: true,
+      transform: (_, ret) => {
         delete ret.__v
         delete ret._id
         return ret
       }
-      },
+    },
     toObject: { virtuals: true },
     timestammps: true,
   }
-  )
+)
 
 function validateLength(val) {
   return val.length <= 2
 }
 
-modelSchema.virtual('portfolio',{
+modelSchema.virtual('portfolio', {
   ref: 'Portfolio',
   foreignField: 'model',
   localField: '_id'
 })
-modelSchema.virtual('age').get(function() {
+modelSchema.virtual('age').get(function () {
   const birthYear = new Date(this.dob).getFullYear()
   const currentYear = new Date(Date.now()).getFullYear()
   return this.age = currentYear - birthYear
 });
-modelSchema.pre('findOne', function(){
+modelSchema.pre('findOne', function () {
   this.populate('portfolio')
 })
 modelSchema.pre('save', async function (next) {
   const Models = this.constructor
   const newModel = this
-  const withName = await Models.find({name: this.name, gender: this.gender})
-  if(withName.length > 0 && withName.every(el => el.id !== newModel.id)) 
+  const withName = await Models.find({ name: this.name, gender: this.gender })
+  if (withName.length > 0 && withName.every(el => el.id !== newModel.id))
     return next(new CustomError(`A ${this.gender}
      model already exists with the name ${this.name},
       please try again with another name!`, 401))
@@ -127,9 +184,9 @@ modelSchema.pre('save', async function (next) {
   }
   return next()
 })
-modelSchema.post( /.*Delete$/, async function(doc, next){
-  if(doc){
-    await Portfolio.deleteMany({model: doc._id})
+modelSchema.post(/.*Delete$/, async function (doc, next) {
+  if (doc) {
+    await Portfolio.deleteMany({ model: doc._id })
   }
   next()
 })

@@ -14,15 +14,16 @@ export const StatsKeyValPair = ({ title, value, color }: { title: string, value?
 }
 
 const ModelData = ({model}:{model: Model}) => { 
-  const modelStatistics = Object.keys(model).filter(key => !nonDisplayedFields.includes(key))
+  const modelStatistics =  Object.keys(model).filter(key => !nonDisplayedFields.includes(key))
+
   return (
     <>
       <Box position="relative" mx='auto' minHeight='50%' width='100%' borderRadius={'100%'} overflow='hidden' >
-        <Image src={`${model.cover_image}`} alt={model.name} 
+        <Image src={`${model.cover_image.secure_url || '/assets/images/bg-01'}`} alt={model.name} 
         objectFit='contain' 
         objectPosition='center' layout='fill' />
       </Box>
-      <Box 
+      <Box   
       my={2} mx='auto' width='80%' 
       display='flex'rowGap={1} columnGap={3} 
       flexWrap='wrap' alignItems='center' justifyContent='center'>

@@ -36,6 +36,7 @@ const Models = ({ initialModels, initialStatusCode, initialMessage, }:
   { initialModels: Model[]; initialStatus: string; initialMessage: string; initailTotalCount: number, initialStatusCode: number }) => {
   useLogin({redirectTo: '/login', redirectIfFound: false})
 
+  console.log(initialModels)
   const { state, combinedDispatch} = useContext(StoreContext)
   const { models: { models, loading, searchTerm }} = state
   const { modelsActions, fetchModels,  } = modelsReducer

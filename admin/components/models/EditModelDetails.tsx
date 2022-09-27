@@ -59,7 +59,7 @@ const EditModelDetails = ({ toggleEditDetails }:
       </Box>
       <Box borderRadius='12px' bgcolor='primary.light' px={8} py={8} >
         <Box width='150px' height='150px' borderRadius='50%' overflow='hidden' mx='auto' position='relative' >
-          <Image layout='fill' alt={model.name} src={model.cover_image} />
+          <Image layout='fill' alt={model.name} src={model.cover_image.secure_url} />
         </Box>
         <Typography variant='caption' textAlign='center' my={3} mx='auto' component='h1'>
           Now editing {modelData.name} 

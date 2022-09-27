@@ -4,7 +4,7 @@ import modelsSlice, { ModelsState } from './models/reducer'
 import userSlice, { userState } from './user/reducer'
 import notificationSlice, { notificationState } from './notification/reducer'
 import uiSlice, { uiState } from './ui/reducer'
-import { Polaroids, Socials } from '@/types/models'
+import { Polaroids, Socials, Image } from '@/types/models'
 
 type Slices = {
   [index: string]: (state: any, action: {type: any, payload: any}) => any
@@ -21,7 +21,7 @@ const initialState: {
   models: [], modelsDisplayed: [], loading: true, searchTerm: '',
   model: {
     name: '', gender: '', dob: '',
-    cover_image: '', waist: 0, 
+    cover_image: {} as Image, waist: 0, 
     chest: 0, bust: 0, hips: 0,
     height: 0, shoe: 0, id: '', 
     isActive: true, socials: {} as Socials,

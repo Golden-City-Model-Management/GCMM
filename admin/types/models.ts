@@ -15,11 +15,29 @@ export interface Portfolio {
 export interface Socials {
   [key: string]: string
 }
+export interface Image {
+  asset_id: string,
+  bytes: number
+  created_at: string,
+  etag: string,
+  folder: string,
+  format: string,
+  height: number,
+  original_filename: string,
+  placeholder: boolean,
+  public_id: string,
+  resource_type: string,
+  secure_url: string,
+  signature: string,
+  version: number,
+  version_id: string,
+  _id: string
+}
 export interface Model {
   name: string, gender: string, dob: string,
-  cover_image: string, waist: number, 
+  cover_image: Image, waist: number,
   chest?: number, bust?: number, hips?: number,
-  height: number, shoe: number, id: string, 
+  height: number, shoe: number, id: string,
   isActive: boolean, socials: Socials
 }
 

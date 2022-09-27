@@ -14,7 +14,7 @@ import Loader from '@/components/common/loader'
 import AdminLayout from '@/components/layout/Layout'
 
 const modelInitialState = {
-  name: '', dob: '', height: 0, bust: 0, shoe: 0, hips: 0, waist: 0, cover_image: '/vercel',
+  name: '', dob: '', height: 0, bust: 0, shoe: 0, hips: 0, waist: 0, cover_image: {} as any,
   gender: 'female', id: '', isActive: true, socials: {}
 }
 

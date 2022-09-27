@@ -1,5 +1,4 @@
 
-import useLogin from '@/utils/pages/useLogin'
 import Layout from '@/components/layout/Layout'
 import DashBoard from '@/components/dashboard/Dashboard'
 import { useContext, useEffect } from 'react'
@@ -17,9 +16,8 @@ const layoutProps = {
 const AdminHomePage = () => {
 
   const router = useRouter() 
-  useLogin({redirectIfFound: false, redirectTo: '/login'})
   const { state: { user: stateUser, ui: { boxPadding} }, combinedDispatch: { userDispatch } } = useContext(StoreContext)
-  const { user } = useUser({redirectTo: '/'})
+  const { user } = useUser({})
 
   useEffect(() => {
     userDispatch({type: 'UPDATE_USER', payload: user})

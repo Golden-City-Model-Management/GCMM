@@ -1,5 +1,4 @@
 
-import useUser from "@/utils/pages/useLogin"
 import Request from "@/utils/api/request"
 import AdminLayout from "@/components/layout/Layout"
 import { useRouter } from "next/router"
@@ -20,14 +19,12 @@ interface Response {
 }
 
 const PortfolioPage = () => {
-  useUser({redirectIfFound: false, redirectTo: 'login'})
   const router = useRouter()
   const query = router.query
   const { data } = useSWR<Response>(`${process.env.NEXT_PUBLIC_SERVER_URL}/models/${query?.name}`, 
   () => Request({path: `/models/${query?.name}`, method: 'get', }))
   const { state: { models: { model: modelInState }}} = useContext(StoreContext)
   const modelData = data?.model || modelInState
-  console.log(data)
 
   const [isScrolling, setIsScrolling] = useState(false)
   useEffect(() => {

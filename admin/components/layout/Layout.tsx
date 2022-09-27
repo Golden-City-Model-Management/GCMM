@@ -5,11 +5,14 @@ import { LayoutProps } from '@/types/layout'
 import Head from './Head'
 import CustomizedBreadcrumbs from '@/components/common/breadcrumbs'
 import { useRouter } from 'next/router'
+import useLogin from '@/utils/pages/useLogin'
 
 const AdminLayout = ({ children, hideLayout, ...headProps }: LayoutProps) => {
 
   const router = useRouter()
   const paths = router.asPath.split('/').filter(x => x)
+  useLogin({redirectTo: '/login', redirectIfFound: false })
+
   const crumbs = paths.map((path, idx) => {
     return ({
       href: `/${paths.slice(0, idx + 1).join('/')}`,

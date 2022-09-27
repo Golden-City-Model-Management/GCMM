@@ -1,6 +1,5 @@
 
 import { GetStaticPaths, GetStaticProps } from "next"
-import useUser from "@/utils/pages/useLogin"
 import Request from "@/utils/api/request"
 import AdminLayout from "@/components/layout/Layout"
 import { ModelWithPolaroidsAndPortfolio } from "@/types/models"
@@ -62,12 +61,10 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 const Models = ( props :
    { model: ModelWithPolaroidsAndPortfolio, message: string, status: string | null, statusCode: number  }) => {
 
-  useUser({redirectIfFound: false, redirectTo: '/login'})
   const { state: { models: { model: modelInState }}, combinedDispatch } = useContext(StoreContext)
   const [isEditDetails, setIsEditDetails] = useState(false)
   const [isPolaroidsOverview, setIsPolaroidsOverview] = useState(false)
   const router = useRouter()
-  console.log(router.isFallback)
   const model = props.model, 
   message = props.message,
   status = props.status,

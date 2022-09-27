@@ -19,9 +19,9 @@ export const nonDisplayedFields = [
   'socials', 'gender', 'dob', 'age',
   'id', 'isActive', 'name']
 
-const ModelForm = ({ model, submitBtnTxt, handleSubmit }: {
+const ModelForm = ({ model, submitBtnTxt, handleSubmit, showSubmitBtn }: {
   model: ModelWithPolaroidsAndPortfolio | Model,
-  submitBtnTxt: string,
+  submitBtnTxt: string, showSubmitBtn: boolean,
   handleSubmit: (data: Model) => void
 }) => {
 
@@ -135,7 +135,7 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit }: {
           </Grid>
         ))}
       </Grid>
-      <Button variant='outlined' color='inherit' type='submit'>{submitBtnTxt}</Button>
+     {showSubmitBtn && <Button variant='outlined' color='inherit' type='submit'>{submitBtnTxt}</Button>}
     </Box>
   )
 }

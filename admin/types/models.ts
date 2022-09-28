@@ -1,9 +1,10 @@
 
 export interface Polaroids {
-  full_length: string,
-  waist_up: string,
-  close_up: string,
-  profile: string,
+  full_length: Image,
+  waist_up: Image,
+  close_up: Image,
+  profile: Image,
+  _id: string,
 }
 
 export interface Portfolio {
@@ -31,7 +32,8 @@ export interface Image {
   signature: string,
   version: number,
   version_id: string,
-  _id: string
+  _id: string,
+  delete_token?: string,
 }
 export interface Model {
   name: string, gender: string, dob: string,

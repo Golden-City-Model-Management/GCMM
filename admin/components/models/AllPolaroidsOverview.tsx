@@ -30,7 +30,6 @@ const PolaroidsOverview = ({ model, togglePolaroidsOverview }: {
   ? getValuesFromObj(model.extra_polaroids[0], ['_id']) : []
   const secondExtraPolaroids =  (hasExtraPolaroids && model.extra_polaroids[1]) 
   ? getValuesFromObj(model.extra_polaroids[1], ['_id']) : []
-  console.log(mainPolaroids, firstExtraPolaroids, secondExtraPolaroids)
 
   const router = useRouter()
   return (
@@ -51,9 +50,9 @@ const PolaroidsOverview = ({ model, togglePolaroidsOverview }: {
       <Typography fontWeight='bold' variant='caption' textAlign='center' mt={3} mb={0} mx='auto' component='h1'>
           Now viewing {model.name}&apos;s Polaroids
       </Typography>
-      <PolaroidsOverviewBox polaroids={model.polaroids} title='Main Polaroids'  />
-      <PolaroidsOverviewBox polaroids={model.extra_polaroids[0]} title='Extra Polaroids 1'  />
-      <PolaroidsOverviewBox polaroids={model.extra_polaroids[1]} title='Extra Polaroids 2'  />
+      <PolaroidsOverviewBox polaroids={model.polaroids} title='Main Polaroids' model={model}  />
+      <PolaroidsOverviewBox polaroids={model.extra_polaroids[0]} title='Extra Polaroids 1' model={model} id={model.extra_polaroids[0]?._id}  />
+      <PolaroidsOverviewBox polaroids={model.extra_polaroids[1]} title='Extra Polaroids 2' model={model} id={model.extra_polaroids[1]?._id}  />
     </Box>
   )
 }

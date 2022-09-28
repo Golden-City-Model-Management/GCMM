@@ -44,7 +44,6 @@ const ModelCardItem = React.forwardRef(({ model  }: { model: Model }, ref) => {
             <IconButton
               aria-label={`more info about ${model.name}`}>
               <LaunchIcon />
-              {console.log(model.cover_image.secure_url)}
             </IconButton>
           }
         />

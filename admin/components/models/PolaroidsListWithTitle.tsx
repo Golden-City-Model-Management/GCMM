@@ -18,7 +18,7 @@ const PolaroidImgWithTitle = ({img}: {
     <ImageListItem>
     <Image
       src={`${img.img.secure_url || placeholderImg.src}`}
-      alt={img.img.secure_url.length <= 0 ? 'no image' : img.title}
+      alt={img.img.secure_url?.length <= 0 ? 'no image' : img.title}
       objectFit='contain'
       layout='fill'
       loading="lazy"

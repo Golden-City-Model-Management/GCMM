@@ -12,11 +12,13 @@ import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { emphasize } from "@mui/material"
+import { emphasize, Icon } from "@mui/material"
 import PolaroidsForm from "./PolaroidsForm"
 import Request from '@/utils/api/request'
 import { uploadFile, deleteWithToken } from "@/utils/cloudinary"
 import { modelsReducer, notificationReducer, StoreContext} from '@/reducers/store'
+import Close from '@mui/icons-material/Close'
+import IconButton from '@mui/material/IconButton'
 
 const PolaroidItem = ({ img }: {
   img: { title: string, img: ImageInterface }
@@ -48,8 +50,9 @@ const transformPolaroidObjKeys = (obj: { [key: string]: any }, excludedFields: s
 }
 
 
-const PolaroidsOverviewBox = ({ polaroids, title, id }: {
-  polaroids?: Polaroids, title: string, model: ModelWithPolaroidsAndPortfolio, id?: string
+const PolaroidsOverviewBox = ({ polaroids, title, id, setLoading, }: {
+  polaroids?: Polaroids, title: string, model: ModelWithPolaroidsAndPortfolio, id?: string,
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
 }) => {
 
   const { state: { models: { model } }, combinedDispatch: { notificationDispatch, modelsDispatch } } = useContext(StoreContext)
@@ -76,15 +79,19 @@ const PolaroidsOverviewBox = ({ polaroids, title, id }: {
         polaroids[key as keyof typeof polaroids].public_id as string)
      })
     }
-  }, [id, model, modelsDispatch, notificationDispatch, title])
+    setLoading(false)
+  }, [id, model.id, modelsDispatch, notificationDispatch, setLoading, title])
 
-  const postImages = useCallback( async (images: {[x: string]: Blob}) => {
-    const uploadedImages = await Promise.all(Object.keys(images).map(async (key: string) => ({
-      name: key, 
-      img: await uploadFile({
-        file: images[key], folder: `polaroids/${model.name}`, upload_preset: process.env.NEXT_PUBLIC_POLIP || ''
-      })
-    })))
+  const postImages = useCallback( async (images: {[x: string]: File}) => {
+    const uploadedImages = await Promise.all(Object.keys(images).map(async (key: string) => {
+      if(images[key].name.length <= 0) return { name: key, img: {}}
+      return {
+        name: key, 
+        img: await uploadFile({
+          file: images[key], folder: `polaroids/${model.name}`, upload_preset: process.env.NEXT_PUBLIC_POLIP || ''
+        })
+      }
+    }))
     const successes = uploadedImages.filter(img => !img.img.error)
     if(successes.length > 0){
       let updPolaroids: {
@@ -100,6 +107,7 @@ const PolaroidsOverviewBox = ({ polaroids, title, id }: {
   const handleUpdatePolaroids = useCallback((data: { [x: string]: {
     file: File, src: string
   }}) => {
+    setLoading(true)
     setIsEditing(prev => !prev)
     const editedPolaroidEntries = Object.entries(data).filter(entry => entry[1].file.name !== undefined)
     let finalData: {
@@ -109,7 +117,7 @@ const PolaroidsOverviewBox = ({ polaroids, title, id }: {
       finalData[entry[0] as keyof typeof finalData] = entry[1].file
     })
     postImages(finalData)
-  }, [postImages])
+  }, [postImages, setLoading])
 
   return (
     <>
@@ -150,11 +158,11 @@ const PolaroidsOverviewBox = ({ polaroids, title, id }: {
         isEditing &&
         <Box position='relative'>
           <Box position='absolute' top='2%' right='2%' >
-            <Button onClick={() => { setIsEditing(prev => !prev) }} variant='text' color='inherit'>
-              Cancel
-            </Button>
+            <IconButton onClick={() => { setIsEditing(prev => !prev) }} color='inherit'>
+              <Close />
+            </IconButton>
           </Box>
-          <PolaroidsForm handleSubmit={(data) => handleUpdatePolaroids(data)} />
+          <PolaroidsForm handleSubmit={(data) => handleUpdatePolaroids(data)} existingPolaroids={polaroids} />
         </Box>
 
       }

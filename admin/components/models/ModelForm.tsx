@@ -19,10 +19,11 @@ export const nonDisplayedFields = [
   'socials', 'gender', 'dob', 'age',
   'id', 'isActive', 'name']
 
-const ModelForm = ({ model, submitBtnTxt, handleSubmit, showSubmitBtn }: {
+const ModelForm = ({ model, submitBtnTxt, handleSubmit, showSubmitBtn, isEditForm }: {
   model: ModelWithPolaroidsAndPortfolio | Model,
   submitBtnTxt: string, showSubmitBtn: boolean,
-  handleSubmit: (data: Model) => void
+  handleSubmit: (data: Model) => void,
+  isEditForm?: boolean
 }) => {
 
   const keysOfNonNestedFields = Object.keys(model)
@@ -43,6 +44,8 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit, showSubmitBtn }: {
       setError(prev => ({ ...prev, [e.target.name]: false }))
     }
     setFormData(prev => {
+      console.log(prev, 'dkkfkkjdkfk')
+      console.log(e.target.name, e.target.type, e.target.value)
       return {
         ...prev, [e.target.name]: e.target.type === 'number' ?
           +e.target.value >= 0 ? +(e.target.value) : 0 :
@@ -63,8 +66,11 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit, showSubmitBtn }: {
     if (hasEmptyFields.some(el => el)) {
       return
     } else {
-      handleSubmit(formData)
-      setFormData(() => {
+      let dataToSubmit = {...formData, 
+        bust: formData.gender === 'female' ? formData.bust : undefined,
+        chest: formData.gender === 'male' ? formData.bust : undefined}
+      handleSubmit(dataToSubmit)
+      !isEditForm && setFormData(() => {
         let data = {}
         initialState.forEach(keyVal => {
           data = { ...data, ...keyVal }
@@ -72,7 +78,7 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit, showSubmitBtn }: {
         return data as Model
       })
     }
-  }, [keysOfNonNestedFields, formData, handleSubmit, initialState])
+  }, [keysOfNonNestedFields, formData, handleSubmit, isEditForm, initialState])
 
   const keysSorted = useMemo(() => keysOfNonNestedFields.sort((a, b) => {
     const isA = typeof model[a as keyof typeof formData] === 'number' ? 1 : 0

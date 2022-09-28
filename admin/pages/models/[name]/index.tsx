@@ -3,7 +3,6 @@ import { GetStaticPaths, GetStaticProps } from "next"
 import Request from "@/utils/api/request"
 import AdminLayout from "@/components/layout/Layout"
 import { ModelWithPolaroidsAndPortfolio } from "@/types/models"
-import { useRouter } from "next/router"
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import EditModelDetails from '@/components/models/EditModelDetails'
@@ -12,7 +11,7 @@ import PolaroidsOverview from "@/components/models/AllPolaroidsOverview"
 import { useContext, useEffect, useState, useCallback } from "react"
 import { modelsReducer, StoreContext } from "reducers/store"
 
-export const getStaticPaths: GetStaticPaths = async ctx => {
+export const getStaticPaths: GetStaticPaths = async () => {
   const fields = 'name,id'
   const limit = 100
   try{
@@ -60,11 +59,9 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
 const Models = ( props :
    { model: ModelWithPolaroidsAndPortfolio, message: string, status: string | null, statusCode: number  }) => {
-
   const { state: { models: { model: modelInState }}, combinedDispatch } = useContext(StoreContext)
   const [isEditDetails, setIsEditDetails] = useState(false)
   const [isPolaroidsOverview, setIsPolaroidsOverview] = useState(false)
-  const router = useRouter()
   const model = props.model, 
   message = props.message,
   status = props.status,
@@ -79,8 +76,8 @@ const Models = ( props :
   }, [])
 
   useEffect(() => {
-    combinedDispatch.modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: model})
-  }, [combinedDispatch, model, router])
+    combinedDispatch.modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: props.model})
+  }, [combinedDispatch, props.model]) 
   
   if( !model || Object.keys(model).length === 0){
     return (

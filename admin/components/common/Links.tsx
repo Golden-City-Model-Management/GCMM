@@ -72,10 +72,12 @@ const LinkListItem = ({link, variant, }: {
 
 const NavLinkListItemWithSubLinks = ({
   link,
-  background
+  background,
+  onClick
 }: {
   link: LinkWithSubLinks
-  background?: boolean
+  background?: boolean,
+  onClick?: () => void
 }) => {
   const [showSubLinks, toggleShowSubLinks] = useToggle(false)
 
@@ -100,6 +102,7 @@ const NavLinkListItemWithSubLinks = ({
     })}>
       <WithNextLink href={link.to} passHref>
         <MUILink
+         onClick={() => onClick && onClick()}
          variant='defaultNavLink'
          sx={theme => ({
           color: isActive ? theme.palette.text.secondary : theme.palette.text.primary,
@@ -125,7 +128,7 @@ const NavLinkListItemWithSubLinks = ({
           list={subLinks}
           ComponentItem={LinkListItem}
           mapKey='to'
-          itemProps={{variant:'defaultNavLink'}}
+          itemProps={{variant:'defaultNavLink', onClick: () => onClick && onClick()}}
         />
       </List>
     </ListItem>

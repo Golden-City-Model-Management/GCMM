@@ -14,11 +14,12 @@ export const StatsKeyValPair = ({ title, value, color }: { title: string, value?
 }
 
 const ModelData = ({model}:{model: Model}) => { 
-  const modelStatistics =  Object.keys(model).filter(key => !nonDisplayedFields.includes(key))
+  const modelStatistics =  Object.keys(model).filter(key => !nonDisplayedFields.includes(key) &&
+   (model.gender === 'female' ? key !== 'chest' : key !== 'bust'))
 
   return (
     <>
-      <Box position="relative" mx='auto' minHeight='50%' width='100%' borderRadius={'100%'} overflow='hidden' >
+      <Box position="relative" mx='auto' minHeight='50%' width='80%' borderRadius={'18px'}  overflow='hidden' >
         <Image src={`${model.cover_image.secure_url || '/assets/images/bg-01'}`} alt={model.name} 
         objectFit='contain' 
         objectPosition='center' layout='fill' />

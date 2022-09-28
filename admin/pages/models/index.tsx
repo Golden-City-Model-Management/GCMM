@@ -1,6 +1,5 @@
 
 import { GetStaticProps } from "next"
-// import useLogin from "@/utils/pages/useLogin"
 import Request from "@/utils/api/request"
 import AdminLayout from "@/components/layout/Layout"
 import { Model } from '@/types/models'
@@ -34,7 +33,6 @@ export const getStaticProps: GetStaticProps = async () => {
 
 const Models = ({ initialModels, initialStatusCode, initialMessage, }:
   { initialModels: Model[]; initialStatus: string; initialMessage: string; initailTotalCount: number, initialStatusCode: number }) => {
-  // useLogin({ redirectTo: '/login', redirectIfFound: false })
 
   console.log(initialModels)
   const { state, combinedDispatch } = useContext(StoreContext)

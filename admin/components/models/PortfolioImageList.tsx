@@ -21,7 +21,7 @@ const PortfolioImage = ({ img, handleSelect }: {
         id={img._id}
         onContextMenu={handleContextMenu}
         layout='fill'
-        src={`${img.image}`}
+        src={`${img.image.secure_url}`}
         alt=''
         loading="lazy"
       />

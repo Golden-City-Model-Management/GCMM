@@ -8,7 +8,7 @@ export interface Polaroids {
 }
 
 export interface Portfolio {
-  image: string,
+  image: Image,
   model: string,
   _id: string,
 }

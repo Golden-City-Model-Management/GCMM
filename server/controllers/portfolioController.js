@@ -6,7 +6,6 @@ const {
   getAllDocuments,
   handleDocDelete,
   createDocument,
-  createResponse,
   createCustomError,
 } = require('../utils/controllerUtils')
 
@@ -44,7 +43,7 @@ module.exports.addPortfolio = asyncHelper(async (req, res, next) => {
   req.data = {doc} 
   }
 }) 
- 
+
 module.exports.deletePortfolio = asyncHelper(async(req,res,next) => {
   const { modelId } = req.params
   const model = await Model.findOne({_id: modelId})

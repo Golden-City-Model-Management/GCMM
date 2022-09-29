@@ -200,3 +200,4 @@ modelSchema.methods.checkFields = function (fields) {
 }
 
 module.exports = mongoose.model('Model', modelSchema) // Model is the name of the collection')
+module.exports.ImageSchema = ImageSchema

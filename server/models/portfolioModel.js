@@ -1,6 +1,6 @@
 
 const mongoose = require('mongoose')
-
+const ImageSchema = require('./modelModel')
 
 const portfolioSchema = new mongoose.Schema({
   model: {
@@ -9,7 +9,7 @@ const portfolioSchema = new mongoose.Schema({
     required: [true, 'Please specify the model this portfolio image belongs to!'],
   },  
   image: {
-   type: String,
+   type: ImageSchema,
    required: [true, 'Please specify the path to the image!']
   },
 },{

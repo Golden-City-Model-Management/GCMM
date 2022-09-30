@@ -1,6 +1,6 @@
 
 const mongoose = require('mongoose')
-const ImageSchema = require('./modelModel')
+const ImageSchema = require('./image')
 
 const portfolioSchema = new mongoose.Schema({
   model: {

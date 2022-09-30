@@ -2,6 +2,7 @@
 const mongoose = require('mongoose')
 const Portfolio = require('../models/portfolioModel')
 const CustomError = require('../utils/errorUtils')
+const ImageSchema = require('./image')
 
 const defaultImage = {
   asset_id: '',
@@ -21,24 +22,6 @@ const defaultImage = {
   version_id: '',
   width: 0,
 }
-const ImageSchema = new mongoose.Schema({
-  asset_id: String,
-  bytes: Number,
-  created_at: Date,
-  etag: String,
-  folder: String,
-  format: String,
-  height: Number,
-  original_filename: String,
-  placeholder: Boolean,
-  public_id: String,
-  resource_type: String,
-  secure_url: String,
-  signature: String,
-  version: Number,
-  version_id: String,
-  width: Number,
-})
 
 const polaroidSchema = new mongoose.Schema({
   full_length: {
@@ -200,4 +183,3 @@ modelSchema.methods.checkFields = function (fields) {
 }
 
 module.exports = mongoose.model('Model', modelSchema) // Model is the name of the collection')
-module.exports.ImageSchema = ImageSchema

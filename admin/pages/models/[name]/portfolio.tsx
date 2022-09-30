@@ -26,7 +26,6 @@ const PortfolioPage = () => {
     () => Request({ path: `/models/${query?.name}`, method: 'get', }))
 
   const { state: { models: { model: modelInState }, }, combinedDispatch: { modelsDispatch } } = useContext(StoreContext)
-  const modelData = modelInState 
 
   const [isScrolling, setIsScrolling] = useState(false)
 
@@ -35,16 +34,21 @@ const PortfolioPage = () => {
     const uploads = []
     if(files && files.length > 0){
       for(let file of files){
-        uploads.push( uploadFile({file, folder: `portfolios/${modelData.name}`, upload_preset: process.env.NEXT_PUBLIC_PORTIP || ''}))
+        uploads.push( uploadFile({file, folder: `portfolios/${modelInState.name}`, upload_preset: process.env.NEXT_PUBLIC_PORTIP || ''}))
       }
     }
     const uploadedImages = [...(await Promise.all([...uploads]))].filter(el => el.error === undefined)
-    const storedPortfolios = await Request({path: '/portfolios', method: 'post', data: { images: uploadedImages, model: modelData.id}})
+    const storedPortfolios = await Request({path: '/portfolios', method: 'post', data: { images: uploadedImages, model: modelInState.id}})
     console.log(storedPortfolios)
-    modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: {
-      ...modelData, portfolio: [...modelData.portfolio, ...storedPortfolios.images]
-    } })
-  }, [modelData, modelsDispatch])
+  console.log(modelInState)
+    if(modelInState){
+      modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: {
+        ...modelInState, portfolio: [...modelInState.portfolio, ...storedPortfolios.images]
+      } })     
+    }else if(data){
+      modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: data.model})
+    }
+  }, [modelInState, modelsDispatch, data])
   
   useEffect(() => {
     if(modelInState.id.length === 0 && data?.model){
@@ -57,9 +61,9 @@ const PortfolioPage = () => {
       else setIsScrolling(false)
     })
     return () => window.removeEventListener('scroll', () => setIsScrolling(false))
-  }, [data, modelData, modelsDispatch, modelInState])
+  }, [data, modelInState, modelsDispatch])
 
-  if (!modelData || Object.keys(modelData).length === 0) {
+  if (!modelInState || Object.keys(modelInState).length === 0) {
     return (
       <AdminLayout title='Error' description='An error has occurred!'>
         <Box display='flex' justifyContent='center' alignItems='center' minHeight='65vh'>
@@ -77,14 +81,14 @@ const PortfolioPage = () => {
   }
 
   return (
-    <AdminLayout title={`${modelData.name}'s Portfolio | GCMM`} description={`Portfolio for ${modelData.name}`} >
+    <AdminLayout title={`${modelInState.name}'s Portfolio | GCMM`} description={`Portfolio for ${modelInState.name}`} >
       <Box position='relative'>
         <Box px={{ xs: 3, md: 0 }} py={3} display='flex' borderColor='currentColor'
           borderBottom='1px solid' justifyContent='space-around'
           bgcolor={t => t.palette.primary.main} position={isScrolling ? 'fixed' : 'static'}
-          top='13%' zIndex='9999' width='100%'>
+          top='13%' zIndex='1' width='100%'>
           <Typography component='h2' variant='h1'
-            textAlign='center'>Now Viewing {modelData.name}&apos;s Portfolio Images</Typography>
+            textAlign='center'>Now Viewing {modelInState.name}&apos;s Portfolio Images</Typography>
           <Button variant='text' color='secondary' component="label">
             <input type="file" name={'add new portfolio image'} multiple value={''} 
             onChange={uploadImages} accept="image/*" hidden />
@@ -92,9 +96,9 @@ const PortfolioPage = () => {
           </Button>
         </Box>
         <Box width='95vw' maxWidth='1150px' mx='auto'>
-          {modelData.portfolio.length <= 0 ?
+          {modelInState.portfolio.length <= 0 ?
             <Typography component='p' variant='h4' textAlign='center' mt={30}>No Images</Typography>
-            : <PortfolioImageList images={modelData.portfolio} />}
+            : <PortfolioImageList images={modelInState.portfolio} />}
         </Box>
       </Box>
     </AdminLayout>

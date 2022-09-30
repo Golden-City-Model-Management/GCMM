@@ -26,7 +26,7 @@ const PortfolioPage = () => {
     () => Request({ path: `/models/${query?.name}`, method: 'get', }))
 
   const { state: { models: { model: modelInState }, }, combinedDispatch: { modelsDispatch } } = useContext(StoreContext)
-  const modelData = data?.model || modelInState 
+  const modelData = modelInState 
 
   const [isScrolling, setIsScrolling] = useState(false)
 
@@ -47,12 +47,17 @@ const PortfolioPage = () => {
   }, [modelData, modelsDispatch])
   
   useEffect(() => {
+    if(modelInState.id.length === 0 && data?.model){
+      modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: {
+        ...data.model
+      } })
+    }
     window.addEventListener('scroll', (e) => {
       if (window.scrollY > 20) setIsScrolling(true)
       else setIsScrolling(false)
     })
     return () => window.removeEventListener('scroll', () => setIsScrolling(false))
-  }, [])
+  }, [data, modelData, modelsDispatch, modelInState])
 
   if (!modelData || Object.keys(modelData).length === 0) {
     return (

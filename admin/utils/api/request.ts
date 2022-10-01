@@ -24,9 +24,7 @@ const Request = async ({
 
   const definedCredentials = typeof withCredentials === 'boolean'
   let access_token = globalThis.localStorage?.getItem('access_token')
-  if(access_token){
-    access_token = JSON.parse(access_token)
-  }
+
   return myAxios({
     method,
     url: path,

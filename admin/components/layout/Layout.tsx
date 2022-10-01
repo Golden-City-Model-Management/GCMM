@@ -5,13 +5,22 @@ import { LayoutProps } from '@/types/layout'
 import Head from './Head'
 import CustomizedBreadcrumbs from '@/components/common/breadcrumbs'
 import { useRouter } from 'next/router'
-import useLogin from '@/utils/pages/useLogin'
+import { useState, useEffect } from 'react'
 
 const AdminLayout = ({ children, hideLayout, ...headProps }: LayoutProps) => {
-
+  const [ isLoggedIn, setIsLoggedIn] = useState(false)
   const router = useRouter()
   const paths = router.asPath.split('/').filter(x => x)
-  useLogin({redirectTo: '/login', redirectIfFound: false })
+  useEffect(() => {
+    if(window.localStorage.getItem('access_token')){
+      !isLoggedIn && setIsLoggedIn(true)
+    }else if(!window.localStorage.getItem('access_token')){
+     isLoggedIn && setIsLoggedIn(false)
+      if(!router.asPath.includes('/login')){
+        router.push('/login')
+      }
+    }
+  }, [isLoggedIn, router])
 
   const crumbs = paths.map((path, idx) => {
     return ({

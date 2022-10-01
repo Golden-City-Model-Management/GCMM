@@ -52,7 +52,7 @@ const PolaroidsForm = ({ handleSubmit, existingPolaroids }: {
                 <Image width={230}
                   height={230}
                   alt={key} src={polaroids[key as keyof typeof polaroids].src
-                    || ((existingPolaroids![key as keyof typeof existingPolaroids] as ImageInterface)?.secure_url)
+                    || (((existingPolaroids || polaroids)[key as keyof typeof existingPolaroids] as ImageInterface)?.secure_url)
                     || placeholderImg.src} />
                 <Button key={key} variant='outlined' size='small' color="secondary" component="label"
                   sx={{

@@ -23,7 +23,7 @@ const Request = async ({
 }: RequestInterface) => {
 
   const definedCredentials = typeof withCredentials === 'boolean'
-  let access_token = localStorage?.getItem('access_token')
+  let access_token = globalThis.localStorage?.getItem('access_token')
   if(access_token){
     access_token = JSON.parse(access_token)
   }

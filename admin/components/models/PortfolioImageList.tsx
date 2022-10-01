@@ -55,7 +55,7 @@ export default function PortfolioImageList({ images }: {
           />
         </Box>
         <Box display='flex' justifyContent='space-around' alignItems='center'>
-         <Button href={focusedImageData?.image.secure_url || '/'} target='_blank' color='inherit' size='small' variant='outlined'>
+         <Button href={focusedImageData?.image.secure_url || '/'} target='_blank' rel="noreferrer" color='inherit' size='small' variant='outlined'>
           Open Preview  
          </Button>
         </Box>

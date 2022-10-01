@@ -1,11 +1,10 @@
-import { ModelWithPolaroidsAndPortfolio, Model, Polaroids } from "@/types/models"
+import { ModelWithPolaroidsAndPortfolio, } from "@/types/models"
 import Typography from "@mui/material/Typography"
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Loader from "@/components/common/loader"
 import { ErrorAlert, SuccessAlert } from '@/components/common/alert'
 import { TopCenteredSnackbar } from "@/components/common/snackbars"
-import { useRouter } from "next/router"
 import { useState } from "react"
 import PolaroidsOverviewBox from './SinglePolaroidOverviewBox'
 
@@ -23,16 +22,6 @@ const PolaroidsOverview = ({ model, togglePolaroidsOverview }: {
     show: false, message: '', type: 'error'
   })
   const [loading, setLoading] = useState(false)
-
-  const mainPolaroids = getValuesFromObj(model.polaroids, ['_id'])
-  const hasExtraPolaroids = model.extra_polaroids.length > 0
-  const firstExtraPolaroids = (hasExtraPolaroids && model.extra_polaroids[0]) 
-  ? getValuesFromObj(model.extra_polaroids[0], ['_id']) : []
-  const secondExtraPolaroids =  (hasExtraPolaroids && model.extra_polaroids[1]) 
-  ? getValuesFromObj(model.extra_polaroids[1], ['_id']) : []
-  console.log(mainPolaroids, firstExtraPolaroids, secondExtraPolaroids)
-
-  const router = useRouter()
   return (
     <Box display='flex' gap={6} pt={5} pb={15} flexDirection='column' minHeight='100vh' justifyContent='center' alignItems='center' >
       <Box>
@@ -51,9 +40,9 @@ const PolaroidsOverview = ({ model, togglePolaroidsOverview }: {
       <Typography fontWeight='bold' variant='caption' textAlign='center' mt={3} mb={0} mx='auto' component='h1'>
           Now viewing {model.name}&apos;s Polaroids
       </Typography>
-      <PolaroidsOverviewBox polaroids={model.polaroids} title='Main Polaroids'  />
-      <PolaroidsOverviewBox polaroids={model.extra_polaroids[0]} title='Extra Polaroids 1'  />
-      <PolaroidsOverviewBox polaroids={model.extra_polaroids[1]} title='Extra Polaroids 2'  />
+      <PolaroidsOverviewBox setLoading={setLoading}  polaroids={model.polaroids} title='Main Polaroids' model={model}  />
+      <PolaroidsOverviewBox setLoading={setLoading} polaroids={model.extra_polaroids[0]} title='Extra Polaroids 1' model={model} id={model.extra_polaroids[0]?._id}  />
+      <PolaroidsOverviewBox setLoading={setLoading} polaroids={model.extra_polaroids[1]} title='Extra Polaroids 2' model={model} id={model.extra_polaroids[1]?._id}  />
     </Box>
   )
 }

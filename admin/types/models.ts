@@ -1,13 +1,14 @@
 
 export interface Polaroids {
-  full_length: string,
-  waist_up: string,
-  close_up: string,
-  profile: string,
+  full_length: Image,
+  waist_up: Image,
+  close_up: Image,
+  profile: Image,
+  _id: string,
 }
 
 export interface Portfolio {
-  image: string,
+  image: Image,
   model: string,
   _id: string,
 }
@@ -15,11 +16,30 @@ export interface Portfolio {
 export interface Socials {
   [key: string]: string
 }
+export interface Image {
+  asset_id: string,
+  bytes: number
+  created_at: string,
+  etag: string,
+  folder: string,
+  format: string,
+  height: number,
+  original_filename: string,
+  placeholder: boolean,
+  public_id: string,
+  resource_type: string,
+  secure_url: string,
+  signature: string,
+  version: number,
+  version_id: string,
+  _id: string,
+  delete_token?: string,
+}
 export interface Model {
   name: string, gender: string, dob: string,
-  cover_image: string, waist: number, 
+  cover_image: Image, waist: number,
   chest?: number, bust?: number, hips?: number,
-  height: number, shoe: number, id: string, 
+  height: number, shoe: number, id: string,
   isActive: boolean, socials: Socials
 }
 

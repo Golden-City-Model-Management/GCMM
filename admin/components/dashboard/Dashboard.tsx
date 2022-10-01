@@ -27,12 +27,12 @@ const DashBoard = ({ user }: {
       <Box mt={0}>
         <Typography  variant='caption' component='h1'>Welcome Back {user.name}</Typography><br />
          <Box display='flex' gap={'5px'}>
-         <Typography lineHeight={2} variant='h2' textTransform='capitalize' >Username:</Typography>
-         <Typography lineHeight={2} variant='h3' textTransform='capitalize' >{user.userName}</Typography>
+         <Typography lineHeight={2} variant='h2' textTransform='capitalize' >Username: {user.userName}</Typography>
+         <Typography lineHeight={2} variant='h3' textTransform='capitalize' ></Typography>
          </Box>
          <Box display='flex' gap={'5px'}>
-         <Typography lineHeight={2} variant='h2' textTransform='capitalize' >Email:</Typography>
-         <Typography lineHeight={2} variant='h4' textTransform='capitalize' >{user.email}</Typography>
+         <Typography lineHeight={2} variant='h2' textTransform='capitalize' >Email: {user.email}</Typography>
+         <Typography lineHeight={2} variant='h2' textTransform='capitalize' ></Typography>
          </Box>     
       </Box>
     </Box>

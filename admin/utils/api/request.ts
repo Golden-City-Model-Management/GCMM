@@ -7,7 +7,7 @@ interface RequestInterface {
   method: string,
   data?: object,
   headers?: AxiosRequestHeaders,
-  access_token?: string
+  withCredentials?: boolean
 }
 let myAxios = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
@@ -19,11 +19,10 @@ const Request = async ({
   method = 'GET',
   data = {},
   headers = {},
-  access_token
+  withCredentials
 }: RequestInterface) => {
 
-  if (baseURL) myAxios.defaults.baseURL = baseURL
-  myAxios.defaults.withCredentials = true
+  const definedCredentials = typeof withCredentials === 'boolean'
 
   return myAxios({
     method,
@@ -31,10 +30,15 @@ const Request = async ({
     data,
     headers: {
       ...headers,
-      'Access-Control-Allow-Origin': process.env.NEXT_PUBLIC_BASE_URL || '',
-      'Access-Control-Allow-Methods': 'POST',
-      'Access-Control-Allow-Headers': ' Content-Type, Authorization'
+      ...( !definedCredentials ? {
+        'Access-Control-Allow-Origin': process.env.NEXT_PUBLIC_BASE_URL || '',
+        'Access-Control-Allow-Methods': 'POST',
+        'Access-Control-Allow-Headers': ' Content-Type, Authorization'
+      } : {})
     },
+    baseURL: baseURL ? baseURL : process.env.NEXT_PUBLIC_SERVER_URL || '',
+    withCredentials: definedCredentials ? withCredentials : true
+
   })
     .then(response => {
       return { ...response.data, statusCode: response.status }

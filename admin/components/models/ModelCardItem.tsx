@@ -21,7 +21,7 @@ const ModelCardItem = React.forwardRef(({ model  }: { model: Model }, ref) => {
   return (
     <NextLink href={`/models/${model.name}?id=${model.id}`} as={`/models/${model.name}`} passHref>
       <ImageListItem ref={ref as RefObject<HTMLAnchorElement>} onMouseEnter={() => toggleShowStats(true)} onMouseLeave={() => toggleShowStats(false)} sx={{ position: 'relative' }} component='a' >
-        <NextImage priority={true} layout="fill" src={model.cover_image} />
+        <NextImage priority={true} layout="fill" src={model.cover_image.secure_url} />
         <Box
           visibility={showStats ? 'visible' : 'hidden'}
           zIndex={1} display='flex' flexDirection='column'

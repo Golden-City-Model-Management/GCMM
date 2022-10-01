@@ -1,10 +1,8 @@
 
-import { GetServerSideProps } from "next"
-import { getAccessTokenFromReq, handleRedirectToLogin } from "@/utils/pages/getServerSideProps"
+import { GetStaticPaths, GetStaticProps } from "next"
 import Request from "@/utils/api/request"
 import AdminLayout from "@/components/layout/Layout"
 import { ModelWithPolaroidsAndPortfolio } from "@/types/models"
-import { useRouter } from "next/router"
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import EditModelDetails from '@/components/models/EditModelDetails'
@@ -13,42 +11,61 @@ import PolaroidsOverview from "@/components/models/AllPolaroidsOverview"
 import { useContext, useEffect, useState, useCallback } from "react"
 import { modelsReducer, StoreContext } from "reducers/store"
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-
-  const accessToken = getAccessTokenFromReq(ctx.req)
-  const headers = { 'Authorization': 'Bearer ' + accessToken?.replace(/"/g, '') }
-
-  if (!accessToken) {
-    handleRedirectToLogin(ctx.res)
-  }
-  const response = await Request({
-    path: `/models/${ctx.query.id}?name=${ctx.query.name}`, method: 'get', headers
-  })
-  if (response.statusCode === 200) {
+export const getStaticPaths: GetStaticPaths = async () => {
+  const fields = 'name,id'
+  const limit = 100
+  try{
+    const response = await Request({
+      path: `/models?limit=${limit}&page=1&fields=${fields}`, method: 'get' 
+    })
+    const paths = response.docs.map((model: { name: string }) => {
+      return { params: { name: model.name}}
+    })
     return {
-      props: {
-        model: response.model,
-        message: response.message,
-        status: response.status || null
-      }
+      paths: paths,
+      fallback: 'blocking'
     }
-  } else {
+  }catch(err){
+    return {
+      paths: [],
+      fallback: 'blocking'
+    }
+  }
+}
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+
+  const modelName = ctx.params?.name
+  try{
+    const response = await Request({
+      path: `/models/${modelName}`, method: 'get'
+    })
     return {
       props: {
-        model: {},
-        message: `An error occured! ${response.message}`,
-        status: response.statusCode || null
+          model: response.model || {},
+          message: response.message,
+          status: response.status || '',
+          statusCode: response.statusCode 
+      },
+    }
+  }catch(err){
+    return {
+      props: {
+        model: {}, message: 'An Error occured', status: 'failed', statusCode: 500 
       }
     }
   }
 }
 
-const Models = ({ model, message, status }:
-   { model: ModelWithPolaroidsAndPortfolio, message: string, status: number | null }) => {
+const Models = ( props :
+   { model: ModelWithPolaroidsAndPortfolio, message: string, status: string | null, statusCode: number  }) => {
   const { state: { models: { model: modelInState }}, combinedDispatch } = useContext(StoreContext)
   const [isEditDetails, setIsEditDetails] = useState(false)
   const [isPolaroidsOverview, setIsPolaroidsOverview] = useState(false)
-  const router = useRouter()
+  const model = props.model, 
+  message = props.message,
+  status = props.status,
+  statusCode = props.statusCode
 
   const toggleEditDetails = useCallback((newState?: boolean) => {
     setIsEditDetails(prev => newState !== undefined ? newState : !prev)
@@ -59,8 +76,8 @@ const Models = ({ model, message, status }:
   }, [])
 
   useEffect(() => {
-    combinedDispatch.modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: model})
-  }, [combinedDispatch, model, router])
+    combinedDispatch.modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: props.model})
+  }, [combinedDispatch, props.model]) 
   
   if( !model || Object.keys(model).length === 0){
     return (
@@ -68,12 +85,16 @@ const Models = ({ model, message, status }:
         <Box display='flex' justifyContent='center' alignItems='center' minHeight='65vh'>
           <Box maxWidth='800px' textAlign='center'  mx='auto'>
             <Typography lineHeight={1.3} my={3} variant='caption' component='h1'>
+              {status}! <br/> 
+            </Typography>
+            <Typography lineHeight={1.3} my={3} variant='h2' component='p'>
               {message} <br/> 
-              The server returned a status code of {status}.
+              The server returned a status code of {statusCode}.
             </Typography>
-            <Typography variant='h4' component='p'>
+           { !message && 
+           <Typography variant='h4' component='p'>
               Please check your internet connection and try refreshing the page.<br/>
-            </Typography>
+            </Typography>}
           </Box>
         </Box>
       </AdminLayout>

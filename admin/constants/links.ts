@@ -5,13 +5,9 @@ const navLinks = [
     to: '/models',
     subLinks: [
       {
-        name: 'add model',
+        name: 'add new model',
         to: '/models/new',
       },
-      {
-        name: 'view models',
-        to: '/models'
-      }
     ]
   },
   {
@@ -20,7 +16,7 @@ const navLinks = [
     subLinks: [
       {
         name: 'add new image',
-        to: '/gallery/add',
+        to: '/gallery/new',
       }
     ]
   },
@@ -30,12 +26,8 @@ const navLinks = [
     subLinks: [
       {
         name: 'create account',
-        to: '/staff/add',
+        to: '/staff/new',
       },
-      {
-        name: 'view staff',
-        to: '/staff'
-      }
     ]
   },
   {
@@ -43,13 +35,9 @@ const navLinks = [
     to: '/applications',
     subLinks: [
       {
-        name: 'model applications',
+        name: 'models',
         to: '/applications/models',
       },
-      {
-        name: 'career applications',
-        to: '/applications/careers'
-      }
     ]
   },
   {

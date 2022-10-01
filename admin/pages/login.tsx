@@ -1,6 +1,5 @@
 
 
-import { GetServerSideProps } from 'next'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { NextPage } from "next"
@@ -12,15 +11,16 @@ import { TopCenteredSnackbar } from "@/components/common/snackbars"
 import { ErrorAlert } from '@/components/common/alert'
 import Request from "@/utils/api/request"
 import { useRouter } from "next/router"
-import { getAccessTokenFromReq } from "@/utils/pages/getServerSideProps"
 import Loader from "@/components/common/loader"
 import * as styles from '@/styles/login'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
+import useLogin from '@/utils/pages/useLogin'
 
 
 const AdminHomePage: NextPage = () => {
 
+  useLogin({ redirectTo: '/', redirectIfFound: true })
   const router = useRouter()
   const [loginDetails, setLoginDetails] = useState({
     userName: '', password: ''
@@ -31,11 +31,8 @@ const AdminHomePage: NextPage = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const handleSetError = useCallback((newState: typeof isError) => {
-    if (router.query.error) {
-      router.push('/login')
-    }
     setIsError(prev => ({ ...prev, ...newState }))
-  }, [router])
+  }, [])
 
   const handleSubmit: FormEventHandler = useCallback(async (e: FormEvent) => {
     e.preventDefault()
@@ -46,8 +43,11 @@ const AdminHomePage: NextPage = () => {
 
     const response = await Request({ path: '/users/login', method: 'post', data: loginDetails })
     if (response.statusCode === 200) {
+      console.log(response.status, 'logged in')
       setIsLoading(false)
-      router.push('/')
+      setTimeout(() => {
+        router.push('/')
+      }, 1500)
     } else {
       const { message } = response
       setIsLoading(false)
@@ -112,15 +112,3 @@ const AdminHomePage: NextPage = () => {
 
 export default AdminHomePage
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const accessToken = getAccessTokenFromReq(ctx.req)
-  if (accessToken) {
-    ctx.res.writeHead(302, {
-      Location: '/admin/models'
-    })
-    ctx.res.end()
-  }
-  return {
-    props: {}
-  }
-}

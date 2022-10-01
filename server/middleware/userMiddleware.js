@@ -11,7 +11,7 @@ const getAllAdministrators = async (select) => {
 
 }
 
-const notifyAdminsOfFeedback = noArgsAsyncHelper(async () => {
+const notifyAdminsOfFeedback = () => noArgsAsyncHelper(async () => {
   const admins = await getAllAdministrators('+name +email -role -avatar -userName -__v -createdAt -_id -emailConfirmationToken -passwordResetExpires -passwordResetToken')
   await Promise.all(admins.map((admin) => {
     const mailOptions = createMailOptions('', admin.email, 'A new feedback has been submitted')

@@ -1,11 +1,11 @@
 
-import getUserDetails from '@/utils/pages/getServerSideProps'
 import Layout from '@/components/layout/Layout'
 import DashBoard from '@/components/dashboard/Dashboard'
-import { ReactNode, useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import { useRouter } from 'next/router'
-import { StoreContext, userReducer } from 'reducers/store'
+import { StoreContext } from 'reducers/store'
+import useUser from '@/utils/pages/useUser'
 
 const layoutProps = {
   title: 'Golden City Model Management | Administration',
@@ -13,24 +13,15 @@ const layoutProps = {
   favicon: '/vercel.svg',
 }
 
-export const getServerSideProps = getUserDetails
+const AdminHomePage = () => {
 
-
-const AdminHomePage = ({ user }: {
-  children?: ReactNode,
-  user: userReducer.userState | undefined
-}) => {
-
-  const router = useRouter()
+  const router = useRouter() 
   const { state: { user: stateUser, ui: { boxPadding} }, combinedDispatch: { userDispatch } } = useContext(StoreContext)
+  const { user } = useUser({})
 
   useEffect(() => {
-    if(user === undefined){
-      router.push('/error?error=An error occurred! Please try again')
-    }else{
-      userDispatch({type: 'UPDATE_USER', payload: user})
-    }
-  }, [user, router, userDispatch])
+    userDispatch({type: 'UPDATE_USER', payload: user})
+  }, [router, user, userDispatch])
 
   return ( 
     <Layout {...layoutProps} > 

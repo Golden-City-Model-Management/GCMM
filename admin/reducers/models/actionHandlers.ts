@@ -57,6 +57,7 @@ export const updateLoading = (state: ModelsState, payload: boolean) => {
 }
 
 export const updateSingleModel = (state: ModelsState, payload: ModelWithPolaroidsAndPortfolio) => {
+  console.log(payload)
   return {...state, model: payload}
 }
 

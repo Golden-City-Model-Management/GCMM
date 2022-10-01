@@ -6,7 +6,7 @@ const nextConfig = {
   reactStrictMode: true,
   basePath: '/admin',
   images: {
-    domains: ['images.unsplash.com']
+    domains: ['res.cloudinary.com']
   },
 }
 

@@ -15,19 +15,11 @@ app.enable('trust proxy')
 dotenv.config({
   path: `${__dirname}/.env`
 })
-
-/*
-app.use(cors({
-  origin: "client url"
-}))
- */
 app.use(cors( {origin: [
   "http://localhost:4000",
   "http://localhost:3000",
   "https://goldencitymodelsng.netlify.app",
-  "https://goldencityadmin.netlify.app",
-  "http://goldencitymodelsng.netlify.app",
-  "https://6336c8808ddf3504fe80b2d9--goldencityadmin.netlify.app",
+  "https://goldencityadmin.netlify.app/admin"
 ],
 credentials: true,
 exposedHeaders: ["set-cookie"],

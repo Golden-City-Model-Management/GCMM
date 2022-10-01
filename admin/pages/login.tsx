@@ -15,12 +15,10 @@ import Loader from "@/components/common/loader"
 import * as styles from '@/styles/login'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import useLogin from '@/utils/pages/useLogin'
+import AdminLayout from '@/components/layout/Layout'
 
 
 const AdminHomePage: NextPage = () => {
-
-  useLogin({ redirectTo: '/', redirectIfFound: true })
   const router = useRouter()
   const [loginDetails, setLoginDetails] = useState({
     userName: '', password: ''
@@ -62,52 +60,54 @@ const AdminHomePage: NextPage = () => {
 
 
   return (
-    <Box display='flex' justifyContent='center'
-      alignItems='center' minHeight='100vh' >
-      <Loader open={isLoading} />
-      <TopCenteredSnackbar onClose={() => handleSetError({ error: false, message: '' })} open={isError.error}>
-        <ErrorAlert >
-          {isError.message}
-        </ErrorAlert>
-      </TopCenteredSnackbar>
-      <Box
-        onSubmit={handleSubmit} component='form'
-        display='flex' justifyContent='center' px={4}
-        alignItems='stretch' flexDirection='column' sx={styles.formStyles}>
+    <AdminLayout hideLayout title={'Login | Golden City Model Management'} description={'Enter your credentials to login'}>
+      <Box display='flex' justifyContent='center'
+        alignItems='center' minHeight='100vh' >
+        <Loader open={isLoading} />
+        <TopCenteredSnackbar onClose={() => handleSetError({ error: false, message: '' })} open={isError.error}>
+          <ErrorAlert >
+            {isError.message}
+          </ErrorAlert>
+        </TopCenteredSnackbar>
+        <Box
+          onSubmit={handleSubmit} component='form'
+          display='flex' justifyContent='center' px={4}
+          alignItems='stretch' flexDirection='column' sx={styles.formStyles}>
 
-        <Typography
-          textAlign='center'
-          color={theme => theme.palette.primary.main}
-          variant='caption'>Welcome Back</Typography>
+          <Typography
+            textAlign='center'
+            color={theme => theme.palette.primary.main}
+            variant='caption'>Welcome Back</Typography>
 
-        <Typography
-          textAlign='center'
-          color={'primary'}
-          variant='small'>Please sign in to continue</Typography>
+          <Typography
+            textAlign='center'
+            color={'primary'}
+            variant='small'>Please sign in to continue</Typography>
 
           <TextField variant='outlined' required value={loginDetails.userName}
             name='userName'
             type='text'
             label='Username or Email'
             color='primary'
-            InputLabelProps={{sx: t => ({color: t.palette.primary.main})}}
+            InputLabelProps={{ sx: t => ({ color: t.palette.primary.main }) }}
             onChange={handleChange}
-            data-testid='email' 
-            sx={styles.inputStyles} 
-              />
+            data-testid='email'
+            sx={styles.inputStyles}
+          />
           <TextField variant='outlined' value={loginDetails.password}
             name='password'
             type='password'
             color='primary'
             label='password'
-            InputLabelProps={{sx: t => ({color: t.palette.primary.main})}}
+            InputLabelProps={{ sx: t => ({ color: t.palette.primary.main }) }}
             onChange={handleChange}
             data-testid='password' sx={styles.inputStyles} />
-        <Button type="submit" data-testid='login' variant='outlined' color='primary' sx={styles.submitBtnStyles}>
-          Log In
-        </Button>
+          <Button type="submit" data-testid='login' variant='outlined' color='primary' sx={styles.submitBtnStyles}>
+            Log In
+          </Button>
+        </Box>
       </Box>
-    </Box>
+    </AdminLayout>
   )
 }
 

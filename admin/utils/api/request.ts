@@ -31,7 +31,7 @@ const Request = async ({
     headers: {
       ...headers,
       ...( !definedCredentials ? {
-        'Access-Control-Allow-Origin': process.env.NEXT_PUBLIC_BASE_URL || '',
+        'Access-Control-Allow-Origin': process.env.NEXT_PUBLIC_BASE_URL || '*',
         'Access-Control-Allow-Methods': 'POST',
         'Access-Control-Allow-Headers': ' Content-Type, Authorization'
       } : {})

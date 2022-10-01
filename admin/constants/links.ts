@@ -13,31 +13,26 @@ const navLinks = [
   {
     name: 'gallery',
     to: '/gallery',
-    subLinks: [
-      {
-        name: 'add new image',
-        to: '/gallery/new',
-      }
-    ]
+    subLinks: []
   },
-  {
-    name: 'staff',
-    to: '/staff',
-    subLinks: [
-      {
-        name: 'create account',
-        to: '/staff/new',
-      },
-    ]
-  },
+  // {
+  //   name: 'staff',
+  //   to: '/staff',
+  //   subLinks: [
+  //     {
+  //       name: 'create account',
+  //       to: '/staff/new',
+  //     },
+  //   ]
+  // },
   {
     name: 'applications',
     to: '/applications',
     subLinks: [
-      {
-        name: 'models',
-        to: '/applications/models',
-      },
+      // {
+      //   name: 'models',
+      //   to: '/applications/models',
+      // },
     ]
   },
   {

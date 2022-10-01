@@ -27,7 +27,7 @@ const ModelOverview = ({ model, toggleEditDetails, togglePolaroidsOverview }: {
               fontSize={'3.8rem'} fontWeight={'100'} textTransform='capitalize'
             >{model.name}</Typography>
             <ModelDataDetails model={model} />
-            <Box display='flex' gap={3} justifyContent='center' >
+            <Box display='flex' gap={3} justifyContent='center' alignItems='center' flexWrap='wrap'>
               <Button onClick={() => toggleEditDetails(true)} size='small' color='inherit' variant='outlined'>
                 Edit Details
               </Button>

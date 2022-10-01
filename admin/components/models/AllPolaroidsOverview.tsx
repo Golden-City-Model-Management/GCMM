@@ -8,9 +8,6 @@ import { TopCenteredSnackbar } from "@/components/common/snackbars"
 import { useState } from "react"
 import PolaroidsOverviewBox from './SinglePolaroidOverviewBox'
 
-const getValuesFromObj = (obj: {[key: string]: any}, excludedFields: string[]) => {
-  return Object.keys(obj).filter(key => !excludedFields.includes(key)).map(key  => obj[key as keyof typeof obj])
-}
 const PolaroidsOverview = ({ model, togglePolaroidsOverview }: {
   model: ModelWithPolaroidsAndPortfolio,
   togglePolaroidsOverview: (newState?: boolean) => void

@@ -19,19 +19,20 @@ import { uploadFile, deleteWithToken } from "@/utils/cloudinary"
 import { modelsReducer, notificationReducer, StoreContext} from '@/reducers/store'
 import Close from '@mui/icons-material/Close'
 import IconButton from '@mui/material/IconButton'
+import PlaceHolderImg from '@/public/assets/images/placeholder.jpeg'
 
 const PolaroidItem = ({ img }: {
-  img: { title: string, img: ImageInterface }
+  img: { title: string, img?: ImageInterface }
 }) => {
   return (
     <Card key={img.title} sx={{ position: 'absolute', width: '100%', height: '100%', backgroundColor: 'transparent' }}>
       <CardMedia>
-        {img.img.secure_url.length === 0 ?
+        {img.img?.secure_url?.length === 0 ?
           <Box position='absolute' display='flex' justifyContent='center' alignItems='center' width='100%' height='100%'>
             <Box>No Image</Box>
           </Box>
           :
-          <Image objectFit="contain" alt={img.title} layout='fill' src={img.img.secure_url} />}
+          <Image objectFit="contain" alt={img.title} layout='fill' src={img.img?.secure_url || PlaceHolderImg.src} />}
       </CardMedia>
       <CardContent sx={theme =>
         ({ position: 'absolute', width: '100%', height: '10%', background: emphasize(theme.palette.primary.light, .1), bottom: 0 })}>

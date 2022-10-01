@@ -43,7 +43,7 @@ const AdminHomePage: NextPage = () => {
 
     const response = await Request({ path: '/users/login', method: 'post', data: loginDetails })
     if (response.statusCode === 200) {
-      console.log(response.status, 'logged in')
+      console.log(response, 'logged in')
       setIsLoading(false)
       setTimeout(() => {
         router.push('/')

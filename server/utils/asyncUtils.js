@@ -10,12 +10,10 @@ module.exports.asyncHelper = (asyncFunction) => {
   }
 }
 
-module.exports.noArgsAsyncHelper = (asyncFunction) => {
-  return async () => {
+module.exports.noArgsAsyncHelper = async (asyncFunction) => {
     try {
      return await asyncFunction()
     } catch (err) {
       throw new Error(err.message)
     }
-  }
 }

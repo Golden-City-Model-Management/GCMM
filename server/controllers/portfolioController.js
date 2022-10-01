@@ -21,7 +21,7 @@ module.exports.addPortfolio = asyncHelper(async (req, res, next) => {
     const saved = []
     for(let i = 0; i < reqImages.length; i++){
       const newPortfolio = {model, image: reqImages[i]} 
-      saved.push( createDocument(Portfolio, newPortfolio)(req, res, next))
+      saved.push(await createDocument(Portfolio, newPortfolio))
     }
     if(saved.length !== reqImages.length)next(createCustomError('Unable to add all images!', 500))
     const images = await Promise.all(saved)
@@ -43,17 +43,15 @@ module.exports.deletePortfolio = asyncHelper(async(req,res,next) => {
 }
   await handleDocDelete(Portfolio, 'imageId')(req, res, next)
 })
-module.exports.getModelPortfolio = asyncHelper(async (req, res, next) => {
+module.exports.getModelPortfolio = asyncHelper(async (req, _res, next) => {
   const docs = await Portfolio.find({model: req.params.modelId})
   if(docs.length === 0){
     req.message = 'No documents were found that match your search.'
   }else{
     req.message = 'Documents successfuly fetched.'
-    req.data.total_count = docs.length
+    req.data = { ...req.data, total_count: docs.length}
   }
   req.data = {...req.data, docs}
-  req.statusCode = 200
-  req.data = { docs }
   req.statusCode = 200
   req.status = 'success'
   next()

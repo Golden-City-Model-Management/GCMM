@@ -4,13 +4,11 @@ const { asyncHelper } = require('../utils/asyncUtils')
 const {
   handleDocDelete,  
   createCustomError,
-  createDocument,
   getAllDocuments, 
 } = require('../utils/controllerUtils')
 
 module.exports.createNewModel = asyncHelper(async (req, res, next) => {
-  const newModel = createDocument(Model, req.body)
-  const model = await newModel(req, res, next)
+  const model = await req.savedDoc
   req.statusCode = 201
   req.status = 'success' 
   req.message = 'Successfully created model'

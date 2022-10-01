@@ -24,7 +24,9 @@ app.use(cors({
 app.use(cors( {origin: [
   "http://localhost:4000",
   "http://localhost:3000",
-  "http://goldencitymodelsng.netlify.app",
+  "https://goldencitymodelsng.netlify.app",
+  "https://goldencityadmin.netlify.app",
+  
 ],
 credentials: true,
 exposedHeaders: ["set-cookie"],

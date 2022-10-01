@@ -4,6 +4,7 @@ const Model = require('../models/modelModel')
 const { createResponse } = require('../middleware/responseMiddleware')
 const { protect, restrict } = require('../middleware/authMiddleware');
 const { findDocument } = require('../middleware/findOneMiddleware')
+const { createDocument } = require('../middleware/createDocument')
 const { 
    createNewModel,
    editModelProfile,
@@ -13,7 +14,7 @@ const {
   } = require('../controllers/modelController')
 
 router.route('/')
-  .post(protect(), restrict('admin', 'manager'), createNewModel, createResponse)
+  .post(protect(), restrict('admin', 'manager'), createDocument(Model), createNewModel, createResponse)
   .get(getAllModels, createResponse)
 
   

@@ -1,8 +1,10 @@
+const Model = require('../models/userModel')
 const express = require('express');
 const router = express.Router();
 const meRouter = express.Router()
 const { protect, restrict, logout, checkSession } = require('../middleware/authMiddleware');
 const { createResponse } = require('../middleware/responseMiddleware')
+const { createDocument } = require('../middleware/createDocument')
 const { 
    createNewUser,
    handleDelete,
@@ -32,7 +34,7 @@ meRouter.patch('/', protect(), editProfile, createResponse);
 
 router.use(protect(), restrict('admin'))
 router.delete('/:id',handleDelete, createResponse)
-router.post('/',createNewUser, createResponse);
+router.post('/', createDocument(Model), createNewUser, createResponse);
 router.get('/', getAllUsers, createResponse)
 
 

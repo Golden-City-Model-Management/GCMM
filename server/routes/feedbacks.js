@@ -8,8 +8,10 @@ const {
   createFeedback,
   getAllFeedBacks
  } = require('../controllers/feedbackController');
+const { createDocument } = require('../middleware/createDocument');
+const feedbackModel = require('../models/feedbackModel');
 
-router.post('/', createFeedback, createResponse,).get('/', getAllFeedBacks, createResponse);
+router.post('/', createDocument(feedbackModel), createFeedback, createResponse,).get('/', getAllFeedBacks, createResponse);
 
 
 module.exports = router

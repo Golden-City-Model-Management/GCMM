@@ -4,16 +4,15 @@ const { asyncHelper } = require('../utils/asyncUtils')
 const {
   createMailOptions,
   createCustomError,
-  createDocument,
   getAllDocuments,
   editDocument,
   handleDocDelete,
   sendEmail,
 } = require('../utils/controllerUtils') 
 
-module.exports.createNewUser = asyncHelper(async (req, res, next) => {
+module.exports.createNewUser = asyncHelper(async (req, _res, next) => {
   const newUserData = req.body
-  const user = await createDocument(User, newUserData)(req, res, next)
+  const user = await req.savedDoc
   const mailOptions = createMailOptions('', user.email, 'Welcome to Golden City')
   const links = { login: `http://localhost:1298/api/v1/users/login`}
   const options = {user: newUserData, links}

@@ -43,9 +43,9 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     return {
       props: {
           model: response.model || {},
-          message: response.message,
+          message: response.message || '',
           status: response.status || '',
-          statusCode: response.statusCode 
+          statusCode: response.statusCode || 0,
       },
     }
   }catch(err){

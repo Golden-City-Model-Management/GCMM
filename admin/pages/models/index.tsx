@@ -22,11 +22,11 @@ export const getStaticProps: GetStaticProps = async () => {
   })
   return {
     props: {
-      initialModels: response.docs,
-      initialTotalCount: response.total_count,
-      initialMessage: response.message,
-      initialStatus: response.status,
-      initialStatusCode: response.statusCode
+      initialModels: response.docs || [],
+      initialTotalCount: response.total_count || 0,
+      initialMessage: response.message || '',
+      initialStatus: response.status || '',
+      initialStatusCode: response.statusCode || 0
     }
   }
 }

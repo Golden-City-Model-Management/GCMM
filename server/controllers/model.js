@@ -53,7 +53,7 @@ module.exports.editModelProfile = asyncHelper(async (req, res, next) => {
 })
 
 module.exports.getModel = asyncHelper(async (req, res, next) => {
-  const model = req.doc
+  const model = req.doc[0]
   req.statusCode = 200
   req.status = 'success' 
   req.message = 'Model found'

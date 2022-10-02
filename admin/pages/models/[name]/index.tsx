@@ -42,7 +42,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     })
     return {
       props: {
-          model: response.doc || {},
+          model: response.model || {},
           message: response.message || '',
           status: response.status || '',
           statusCode: response.statusCode || 0,

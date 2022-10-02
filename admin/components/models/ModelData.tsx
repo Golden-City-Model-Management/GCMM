@@ -17,10 +17,11 @@ const ModelData = ({model}:{model: Model}) => {
   const modelStatistics =  Object.keys(model).filter(key => !nonDisplayedFields.includes(key) &&
    (model.gender === 'female' ? key !== 'chest' : key !== 'bust'))
 
+  console.log(modelStatistics, Object.keys(model), model)
   return (
     <>
       <Box position="relative" mx='auto' minHeight='50%' width='80%' borderRadius={'18px'}  overflow='hidden' >
-        <Image src={`${model.cover_image.secure_url || '/assets/images/bg-01'}`} alt={model.name} 
+        <Image src={`${model.cover_image?.secure_url || '/assets/images/bg-01'}`} alt={model.name} 
         objectFit='contain' 
         objectPosition='center' layout='fill' />
       </Box>

@@ -17,7 +17,7 @@ export const nonDisplayedFields = [
   'polaroids',
   'extra_polaroids',
   'socials', 'gender', 'dob', 'age',
-  'id', 'isActive', 'name']
+  'id', 'isActive', 'name', 'slug']
 
 const ModelForm = ({ model, submitBtnTxt, handleSubmit, showSubmitBtn, isEditForm }: {
   model: ModelWithPolaroidsAndPortfolio | Model,

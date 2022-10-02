@@ -58,11 +58,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 }
 
 const Models = ( props :
-   { model: ModelWithPolaroidsAndPortfolio, message: string, status: string | null, statusCode: number  }) => {
+   { model: ModelWithPolaroidsAndPortfolio[], message: string, status: string | null, statusCode: number  }) => {
   const { state: { models: { model: modelInState }}, combinedDispatch } = useContext(StoreContext)
   const [isEditDetails, setIsEditDetails] = useState(false)
   const [isPolaroidsOverview, setIsPolaroidsOverview] = useState(false)
-  const model = props.model, 
+  const model = props.model[0], 
   message = props.message,
   status = props.status,
   statusCode = props.statusCode
@@ -76,8 +76,8 @@ const Models = ( props :
   }, [])
 
   useEffect(() => {
-    combinedDispatch.modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: props.model})
-  }, [combinedDispatch, props.model]) 
+    combinedDispatch.modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: model})
+  }, [combinedDispatch, model]) 
   
   if( !model || Object.keys(model).length === 0){
     return (

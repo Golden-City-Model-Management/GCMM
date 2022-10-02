@@ -5,12 +5,16 @@ import { LayoutProps } from '@/types/layout'
 import Head from './Head'
 import CustomizedBreadcrumbs from '@/components/common/breadcrumbs'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext, useMemo } from 'react'
+import Request from '@/utils/api/request'
+import { StoreContext } from '@/reducers/store'
 
 const AdminLayout = ({ children, hideLayout, ...headProps }: LayoutProps) => {
   const [ isLoggedIn, setIsLoggedIn] = useState(false)
   const router = useRouter()
   const paths = router.asPath.split('/').filter(x => x)
+  const {combinedDispatch: { userDispatch }, state: { user } } = useContext(StoreContext)
+
   useEffect(() => {
     if(window.localStorage.getItem('access_token')){
       !isLoggedIn && setIsLoggedIn(true)
@@ -21,6 +25,19 @@ const AdminLayout = ({ children, hideLayout, ...headProps }: LayoutProps) => {
       }
     }
   }, [isLoggedIn, router])
+
+
+  useEffect(() => {
+    const getUser = async () => {
+      const data = await Request({path: '/users/me', method: 'get', })
+      if(data.statusCode === 200){
+        userDispatch({type: 'UPDATE_USER', payload: data.user})
+      }else{
+        !router.asPath.includes('/login') && router.push('/login')
+      }
+    }
+    user._id.length === 0 && getUser()
+  }, [router, user, userDispatch])
 
   const crumbs = paths.map((path, idx) => {
     return ({

@@ -1,6 +1,6 @@
 
 const mongoose = require('mongoose')
-const { signToken, bcryptEncrypt, bcryptCompare } = require('../utils/auth')
+const { signToken, bcryptEncrypt, comparePlainAndHashed } = require('../utils/auth')
 const crypto = require('crypto')
 
 const userSchema = new mongoose.Schema({
@@ -73,7 +73,7 @@ userSchema.methods.generateAuthToken = function () {
   return signToken(this._id)
 }
 userSchema.methods.hashKeys = async function (...keys) {
-  for (key of keys) {
+  for (const key of keys) {
     this[key] = await bcryptEncrypt(this[key])
   }
 }

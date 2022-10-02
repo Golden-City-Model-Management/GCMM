@@ -6,7 +6,7 @@ import List from '@mui/material/Link'
 import { ListItem } from "@mui/material"
 import { SvgIconComponent } from "@mui/icons-material"
 import useToggle from '@/utils/hooks/useToggle'
-import Mapper from '@/components/common/Mapper'
+import Mapper from '@/components/Mapper'
 
 interface LinkInterface {
   name: string | SvgIconComponent,
@@ -71,9 +71,13 @@ const LinkListItem = ({link, variant, }: {
 
 
 const NavLinkListItemWithSubLinks = ({
-  link
+  link,
+  background,
+  onClick
 }: {
   link: LinkWithSubLinks
+  background?: boolean,
+  onClick?: () => void
 }) => {
   const [showSubLinks, toggleShowSubLinks] = useToggle(false)
 
@@ -98,6 +102,7 @@ const NavLinkListItemWithSubLinks = ({
     })}>
       <WithNextLink href={link.to} passHref>
         <MUILink
+         onClick={() => onClick && onClick()}
          variant='defaultNavLink'
          sx={theme => ({
           color: isActive ? theme.palette.text.secondary : theme.palette.text.primary,
@@ -108,13 +113,14 @@ const NavLinkListItemWithSubLinks = ({
       <List 
         onMouseLeave={() => toggleShowSubLinks(false)}
         onMouseOut={() => toggleShowSubLinks(false)}
-        sx={() => ({
+        sx={(theme) => ({
+          padding: subLinks.length > 0 ? '1rem 1rem 0' : '',
           display: showSubLinks ? 'flex' : 'none',
           flexDirection: 'column',
           position: 'absolute',
           top: '100%',
           minWidth: 'max-content', 
-
+          backgroundColor: background ? theme.palette.primary.dark : ''
         })}
       >
         <Mapper
@@ -122,7 +128,7 @@ const NavLinkListItemWithSubLinks = ({
           list={subLinks}
           ComponentItem={LinkListItem}
           mapKey='to'
-          itemProps={{variant:'defaultNavLink'}}
+          itemProps={{variant:'defaultNavLink', onClick: () => onClick && onClick()}}
         />
       </List>
     </ListItem>

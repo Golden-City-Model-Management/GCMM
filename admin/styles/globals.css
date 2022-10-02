@@ -1,8 +1,14 @@
 
 
 @font-face {
-  font-family: "Inter";
-  src: url(/fonts/Inter/Inter-VariableFont_slnt,wght.ttf) format("truetype");
+  font-family: "Inter", sans-serif;
+  src: url(/public/fonts/Inter/Inter-VariableFont_slnt,wght.ttf) format("truetype");
   font-style: normal;
   font-display: swap;
   }
+  @font-face {
+    font-family: 'Aboreto', cursive;
+    src: url(/public/fonts/Aboreto/Aboreto-Regular.ttf) format("truetype");
+    font-style: normal;
+    font-display: swap;
+    }

@@ -1,21 +1,16 @@
 
-import axios from 'axios'
+import axios, { AxiosRequestHeaders } from 'axios'
 
 interface RequestInterface {
   baseURL?: string,
   path: string,
   method: string,
   data?: object,
+  headers?: AxiosRequestHeaders,
+  withCredentials?: boolean
 }
-interface ResponseInterface {
-  
-}
-
 let myAxios = axios.create({
-  baseURL: process.env.SERVER_URL,
-  headers: {
-    client_secret: process.env.CLIENT_SECRET || '' ,        
-  }
+  baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
 })
 
 const Request = async ({
@@ -23,20 +18,39 @@ const Request = async ({
   path,
   method = 'GET',
   data = {},
+  headers = {},
+  withCredentials
 }: RequestInterface) => {
 
-  if(baseURL) myAxios.defaults.baseURL = baseURL
-  return  myAxios({
-      method,
-      url: path,
-      data,
+  const definedCredentials = typeof withCredentials === 'boolean'
+  let access_token = globalThis.localStorage?.getItem('access_token')
+
+  return myAxios({
+    method,
+    url: path,
+    data,
+    headers: {
+      ...headers,
+      ...( !definedCredentials ? {
+        'Access-Control-Allow-Origin': process.env.NEXT_PUBLIC_BASE_URL || '*',
+        'Access-Control-Allow-Methods': 'POST',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Authorization': `Bearer ${access_token}`
+      } : {})
+    },
+    baseURL: baseURL ? baseURL : process.env.NEXT_PUBLIC_SERVER_URL || '',
+    withCredentials: definedCredentials ? withCredentials : true
+
+  })
+    .then(response => {
+      return { ...response.data, statusCode: response.status }
     })
-    .then(response => ({...response.data, statusCode: response.status}))
     .catch(err => {
-      if(err.response) {
-        return {...err.response.data, statusCode: err.response.status}
+      console.log(err)
+      if (err.response) {
+        return { ...err.response.data, statusCode: err.response.status }
       } else {
-        return {message: 'Something went wrong!', statusCode: 500}
+        return { message: 'Something went wrong!', statusCode: 500 }
       }
     })
 }

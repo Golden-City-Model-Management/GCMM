@@ -1,146 +1,115 @@
 
 
-import { Theme } from "@mui/material"
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { NextPage } from "next"
-import { rounded, flexDirection, flexCenterCenter } from '../styles/styles'
-import { WhiteBorderInput } from '../components/common/Inputs'
-import { BasicBtn } from '../components/common/Buttons'
-import { useCallback, useState, 
-  FormEventHandler, FormEvent, ChangeEventHandler, ChangeEvent } from "react"
+import {
+  useCallback, useState,
+  FormEventHandler, FormEvent, ChangeEventHandler, ChangeEvent
+} from "react"
 import { TopCenteredSnackbar } from "@/components/common/snackbars"
 import { ErrorAlert } from '@/components/common/alert'
-import Request from "@/utils/client/request"
+import Request from "@/utils/api/request"
 import { useRouter } from "next/router"
-import { useCookies } from "react-cookie"
-import getUserDetails from "@/utils/pages/getServerSideProps"
+import Loader from "@/components/common/loader"
+import * as styles from '@/styles/login'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import AdminLayout from '@/components/layout/Layout'
 
-const formStyles = (theme: Theme) => ({
-  ...flexCenterCenter,
-  flexDirection: flexDirection.column,
-  borderRadius: rounded().md,
-  background: theme.palette.primary.contrastText,
-  color: theme.palette.primary.main,
-  width: '90vw',
-  maxWidth: '450px',
-  height: '70vh',
-  maxHeight: '600px',
-  gap: '26px',
-})
-
-const inputStyles = (theme: Theme) => ({
-  '&.MuiInputBase-root, .MuiInput-root': {
-    width: '100%',
-  },
-  color: theme.palette.primary.main,
-  borderColor: 'currentColor',
-  fontSize: '',
-  '&:hover': {
-    color: theme.palette.primary.main
-  }
-})
-
-const labelStyles = (_?: Theme) => ({
-  width: '80%'
-})
-
-const submitBtnStyles = (theme: Theme) => ({
-  background: theme.palette.primary.main,
-  color: theme.palette.primary.contrastText,
-  width: '80%',
-  minHeight: '55px',
-})
 
 const AdminHomePage: NextPage = () => {
-
   const router = useRouter()
-  const [_, setCookie] = useCookies(["access_token"])
   const [loginDetails, setLoginDetails] = useState({
     userName: '', password: ''
   })
   const [isError, setIsError] = useState({
-    error: false, message: ''
+    error: router.query.error ? true : false, message: router.query.error
   })
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSetError = useCallback((newState: typeof isError) => {
-    setIsError(prev => ({...prev, ...newState}))
-    }, [])
+    setIsError(prev => ({ ...prev, ...newState }))
+  }, [])
 
   const handleSubmit: FormEventHandler = useCallback(async (e: FormEvent) => {
     e.preventDefault()
 
-    if(loginDetails.userName.trim().length === 0 || loginDetails.password.trim().length === 0)
-     return handleSetError({error: true, message: 'All fields are required!'})
+    if (loginDetails.userName.trim().length === 0 || loginDetails.password.trim().length === 0)
+      return handleSetError({ error: true, message: 'All fields are required!' })
+    setIsLoading(true)
 
-    const response = await Request({path: '/login', method: 'post', data: loginDetails})
-    if(response.status === 200) {
-        const { data } = response 
-        setCookie('access_token', JSON.stringify(data.token), {
-          path: '/',
-          sameSite: 'lax',
-          maxAge: 3600,
-        })
+    const response = await Request({ path: '/users/login', method: 'post', data: loginDetails })
+    if (response.statusCode === 200) {
+      console.log(response, 'logged in')
+      setIsLoading(false)
+      localStorage.setItem('access_token', response.token)
+      setTimeout(() => {
         router.push('/')
-     }else {
-       const { data: { message } } = response
-       return handleSetError({error: true, message})
-     }
-  }, [loginDetails])
+      }, 1500)
+    } else {
+      const { message } = response
+      setIsLoading(false)
+      return handleSetError({ error: true, message })
+    }
+  }, [handleSetError, loginDetails, router])
 
   const handleChange: ChangeEventHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setLoginDetails(prev => ({...prev, [e.target.name]: e.target.value}))
+    setLoginDetails(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }, [])
 
 
   return (
-    <Box sx={{ minHeight: '100vh', ...flexCenterCenter, }}>
+    <AdminLayout hideLayout title={'Login | Golden City Model Management'} description={'Enter your credentials to login'}>
+      <Box display='flex' justifyContent='center'
+        alignItems='center' minHeight='100vh' >
+        <Loader open={isLoading} />
+        <TopCenteredSnackbar onClose={() => handleSetError({ error: false, message: '' })} open={isError.error}>
+          <ErrorAlert >
+            {isError.message}
+          </ErrorAlert>
+        </TopCenteredSnackbar>
+        <Box
+          onSubmit={handleSubmit} component='form'
+          display='flex' justifyContent='center' px={4}
+          alignItems='stretch' flexDirection='column' sx={styles.formStyles}>
 
-      <TopCenteredSnackbar onClose={() => handleSetError({error: false, message: ''})} open={isError.error}>
-        <ErrorAlert >
-          {isError.message}
-        </ErrorAlert>
-      </TopCenteredSnackbar>
-      <Box onSubmit={handleSubmit} component='form' sx={formStyles}>
+          <Typography
+            textAlign='center'
+            color={theme => theme.palette.primary.main}
+            variant='caption'>Welcome Back</Typography>
 
-        <Typography
-          sx={{ textAlign: 'center' }}
-          color={theme => theme.palette.primary.main}
-          variant='caption'>Welcome Back</Typography>
+          <Typography
+            textAlign='center'
+            color={'primary'}
+            variant='small'>Please sign in to continue</Typography>
 
-        <Typography
-          sx={{ textAlign: 'center' }}
-          color={'rgba(0, 0, 0, 0.6)'}
-          variant='small'>Please sign in to continue</Typography>
-        
-        <Box component='label' sx={labelStyles}>
-          <Box>Username / Email</Box>
-          <WhiteBorderInput required value={loginDetails.userName} 
-          name='userName' 
-          type='text'
-          placeholder="Username or Email"
-          onChange={handleChange} 
-          data-testid='email' sx={inputStyles} />
+          <TextField variant='outlined' required value={loginDetails.userName}
+            name='userName'
+            type='text'
+            label='Username or Email'
+            color='primary'
+            InputLabelProps={{ sx: t => ({ color: t.palette.primary.main }) }}
+            onChange={handleChange}
+            data-testid='email'
+            sx={styles.inputStyles}
+          />
+          <TextField variant='outlined' value={loginDetails.password}
+            name='password'
+            type='password'
+            color='primary'
+            label='password'
+            InputLabelProps={{ sx: t => ({ color: t.palette.primary.main }) }}
+            onChange={handleChange}
+            data-testid='password' sx={styles.inputStyles} />
+          <Button type="submit" data-testid='login' variant='outlined' color='primary' sx={styles.submitBtnStyles}>
+            Log In
+          </Button>
         </Box>
-
-        <Box component='label' sx={labelStyles}>
-          <Box>Password</Box>
-          <WhiteBorderInput value={loginDetails.password} 
-          name='password' 
-          type='passoword'
-          placeholder="password"
-          onChange={handleChange} 
-          data-testid='password' sx={inputStyles} />
-        </Box>
-
-        <BasicBtn type="submit" data-testid='login' sx={submitBtnStyles}>
-          Log In
-        </BasicBtn>
       </Box>
-    </Box> 
-  ) 
+    </AdminLayout>
+  )
 }
 
-export default AdminHomePage 
+export default AdminHomePage
 
-export const getServerSideProps = getUserDetails

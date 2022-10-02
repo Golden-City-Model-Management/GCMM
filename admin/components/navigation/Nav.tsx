@@ -4,63 +4,30 @@ import List from '@mui/material/List'
 import Typography from '@mui/material/Typography'
 import { NavLinkListItemWithSubLinks, } from '@/components/common/Links'
 import { navLinks } from '@/constants/links'
-import Mapper from '@/components/common/Mapper'
+import Mapper from '@/components/Mapper'
 
-
-export const AdminNavigationDesktop = () => {
-
+const AdminNavigationMobile = ({ toggleShowNav }: {
+  toggleShowNav: () => void
+}) => {
   return (
-    <Box sx={theme => ({
-      position: 'sticky',
-      top: 0,
-      left: 0,
-      right: 0,
-      display: 'none', 
-      alignItems: 'center', 
-      justifyContent: 'center',
-      background: theme.palette.primary.light,
-      [theme.breakpoints.up('md')]: {
-        display: 'flex'
-      }
-     })}>
-         <List
-          sx={theme => ({
-           display: 'flex', 
-           alignItems: 'center', 
-           justifyContent: 'center',
-           gap: 7,
-          })} >
-          <Mapper 
-            itemName='link'
-            list={navLinks}  
-            ComponentItem={NavLinkListItemWithSubLinks} 
-            mapKey='to' 
-            itemProps={{  }} />
-        </List>
-    </Box>
-  )
-}
-
-const AdminNavigationMobile = () => {
-  return (
-      <Box>
+    <Box>
       <Box >
-         <List sx={{
-           display: 'flex', 
-           flexDirection: 'column',
-           alignItems: 'flex-start', 
-           justifyContent: 'flex-start',
-           gap: 7,
-         }} >
-          <Mapper 
+        <List sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          justifyContent: 'flex-start',
+          gap: 7,
+        }} >
+          <Mapper
             itemName='link'
-            list={navLinks}  
-            ComponentItem={NavLinkListItemWithSubLinks} 
-            mapKey='to' 
-            itemProps={{variant:'mainNavLink'}} />
+            list={navLinks}
+            ComponentItem={NavLinkListItemWithSubLinks}
+            mapKey='to'
+            itemProps={{ variant: 'mainNavLink', onClick: () => toggleShowNav() }} />
         </List>
         <Typography
-         sx={(theme) => 
+          sx={(theme) =>
           ({
             color: theme.palette.text.primary,
             textTransform: 'capitalize',
@@ -70,7 +37,7 @@ const AdminNavigationMobile = () => {
           &copy; GOLDEN CITY MODEL MANAGEMENT {new Date().getFullYear()}
         </Typography>
       </Box>
-      </Box>
+    </Box>
   );
 }
 

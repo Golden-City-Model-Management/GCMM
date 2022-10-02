@@ -8,8 +8,8 @@ const styleOverrides = {
     boxSizing: "border-box",
   },
   body: {
-    color: '#fff',
-    background: '#152238'
+    color: '#D9D9D9',
+    background: '#191919'
   },
   html: { fontSize: "62.5%",
   '@media (min-width: 600px)': {
@@ -26,10 +26,10 @@ const styleOverrides = {
 
 const theme = createTheme({
   palette: {
-    primary: {
-      main: '#1c2e4a',
-      light: '#0201267d',
-      dark: '#152238',
+      primary: {
+      main: '#191919',
+      light: '#292929',
+      dark: '#0D0D0D',
       contrastText: '#D9D9D9',
     },
     secondary: {
@@ -39,7 +39,7 @@ const theme = createTheme({
       contrastText: '#00000066',
     },
     text: {
-      primary: '#FFFFFF',
+      primary: '#D9D9D9',
       secondary: '#FFDD26',
     },
   },
@@ -55,6 +55,7 @@ const theme = createTheme({
         fontSize: '2.5rem',
         fontWeight: 400,
         color: palette.text.primary,
+        textTransform: 'capitalize',
       },
       h1: {
         fontSize: '2.25rem',
@@ -152,6 +153,20 @@ const theme = createTheme({
         }
       },
     },
+    MuiInput: {
+      styleOverrides: {
+        root: {
+          '&:hover': {
+            '&:before': {
+              display: 'none'
+            },
+            '&:after': {
+              display: 'none'
+            }
+          }
+        }
+      }
+    }
  }
 })
 

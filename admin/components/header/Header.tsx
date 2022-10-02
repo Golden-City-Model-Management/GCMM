@@ -1,110 +1,74 @@
 
 
 
-import { useContext } from 'react';
+import { useContext, useCallback } from 'react';
 import AppBar from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { flexRowJustifyBetweenAlignCenter, padded } from '@/styles/styles';
-import { IconOrTextBtn } from '@/components/common/bones'
 import AdminNavigation from '@/components/navigation/Nav';
 import { TemporaryDrawer } from '@/components/common/Drawer'
 import Logo from '@/components/svgs/Logos';
-import { UIContext } from '@/context/ui';
-import UserAvatar from '@/components/common/Avatar';
-import { WithNextLink } from '@/components/common/Links'
+import * as styles from './style'
+import List from '@mui/material/List';
+import Mapper from '../Mapper';
+import { NavLinkListItemWithSubLinks } from '../common/Links';
+import { navLinks } from '@/constants/links';
+import { IconButton } from '@mui/material';
+import { StoreContext } from 'reducers/store';
 
+const Header = () => {
+  const { state: { ui: { showNav, drawerWidth, boxPadding, }}, combinedDispatch} = useContext(StoreContext)
 
-const UserIcconLink = ({ avatar }: {
-  avatar: {
-    src: string;
-    alt: string;
-  }
-}) => {
-
-  return (
-    <WithNextLink href="/admin/me" passHref={true}>
-      <UserAvatar component='a' avatar={avatar} />
-    </WithNextLink>
-  )
-}
-
-const Header = ({
-  avatar
-}: {
-  avatar: {
-    src: string;
-    alt: string;
-  }
-}) => {
-  const { showNav, toggleShowNav, drawerWidth } = useContext(UIContext)
+  const toggleShowNav = useCallback(() => {
+    console.log('clicked')
+    combinedDispatch.uiDispatch({type: 'TOGGLE_SHOW_NAV', payload: !showNav})
+  }, [combinedDispatch, showNav])
 
   return (
-    <AppBar
-      position="sticky"
-      sx={theme => ({
-        background: theme.palette.primary.dark,
-        ...flexRowJustifyBetweenAlignCenter(),
-        padding: {
-          lg: '0 55px',
-          md: padded().lg['padding'],
-          xs: padded().sm['padding'],
-        },
-      })} >
-      <Logo />
-      <Box sx={{ marginLeft: 'auto' }}>
-        <Box sx={(theme) => ({
-          display: 'none',
-          [theme.breakpoints.up('md')]: {
-            display: 'flex',
-            alignItems: 'center'
-          }
-        })}>
-          <Typography component='span' mr={2}>
-            Welcome Back
-          </Typography>
-          <UserIcconLink avatar={avatar} />
-        </Box>
-        <Box sx={(theme) => ({
-          display: 'flex',
-          [theme.breakpoints.up('md')]: {
-            display: 'none',
-          }
-        })}>
-          <IconOrTextBtn data-testid='admin-nav-toggle' Icon={MenuIcon} onClick={() => toggleShowNav()} />
+    <AppBar component='header' position="sticky" sx={styles.AppbarSx} >
+      <Box display='flex' justifyContent='space-between' alignItems='center'  padding={{ ...boxPadding }}>
+        <Logo />
+
+        <Box ml='auto'>
+        <List 
+         sx={styles.DesktopNavSx} >
+        <Mapper
+          itemName='link'
+          list={navLinks}
+          ComponentItem={NavLinkListItemWithSubLinks}
+          mapKey='to'
+          itemProps={{background: true}} />
+      </List>
+          <Box sx={styles.MenuBtnSectionSx}>
+            <IconButton color='secondary' data-testid='admin-nav-toggle' onClick={() => toggleShowNav()}>
+              <MenuIcon fontSize='large' />
+            </IconButton>
+          </Box>
         </Box>
       </Box>
+
+
       <TemporaryDrawer
         background={(theme) => (theme.palette.primary.dark)}
         open={showNav}
         handleClose={() => toggleShowNav()}
         isInDesktop={false}
-        drawerWidth={drawerWidth}>    <Box
-          sx={{ 
-            padding: '30px 20px',
-            display: 'flex', 
-            flexDirection: 'column',
-            gap: 5,
-           }}
-          component="nav">
-          <Box sx={
-            {
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-            <UserIcconLink avatar={avatar} />
-            <IconOrTextBtn
-              Icon={CloseIcon}
-              onClick={() => toggleShowNav()} />
+        drawerWidth={drawerWidth}>
+        <Box sx={styles.TemporaryDrawerSx} component="nav">
+
+          <Box display='flex' justifyContent='flex-end' alignItems='center'>
+            <IconButton color='secondary' onClick={() => toggleShowNav()}>
+              <CloseIcon fontSize='large' />
+            </IconButton>
           </Box>
-          <AdminNavigation />
-        </Box> 
+          <AdminNavigation toggleShowNav={toggleShowNav} />
+
+        </Box>
       </TemporaryDrawer>
     </AppBar>
   )
 }
 
 export default Header;
+

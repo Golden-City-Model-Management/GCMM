@@ -13,6 +13,7 @@ forwardRef<HTMLDivElement, AlertProps>((
 ) => {
   return (<Alert {...props} sx={alertSx}  ref={ref} severity="success">{props.children}</Alert>)
 })
+SuccessAlert.displayName = 'SuccessAlert'
 
 export const ErrorAlert = forwardRef<HTMLDivElement, AlertProps>((
   props,
@@ -22,3 +23,4 @@ export const ErrorAlert = forwardRef<HTMLDivElement, AlertProps>((
   <Alert {...props} sx={alertSx}  ref={ref} severity="error">{props.children}</Alert>
   )
 })
+ErrorAlert.displayName = 'ErrorAlert'

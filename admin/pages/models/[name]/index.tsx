@@ -80,7 +80,7 @@ const Models = ( props :
     combinedDispatch.modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: model})
   }, [combinedDispatch, model]) 
   
-  if( statusCode !== 200 ){
+  if(!model){
     return (
       <AdminLayout title='Error'description='An error has occurred!'>
         <Box display='flex' justifyContent='center' alignItems='center' minHeight='65vh'>

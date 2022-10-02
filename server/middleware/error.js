@@ -1,6 +1,6 @@
 
 
-const CustomError = require('../utils/errorUtils')
+const CustomError = require('../utils/error')
 
 const throwDevError = (err, res) => {
   res.status(err.statusCode).json({
@@ -38,7 +38,6 @@ const handleTypeError = (err) => {
   return new CustomError(message, 500)
 }
 const handleValidationError = err => {
-  
   const message = Object.values(err.errors).map(val => val.message).join(', ')
   return new CustomError(message, 400)
 }

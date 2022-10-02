@@ -11,6 +11,9 @@ module.exports.bcryptEncrypt = async (secret) => {
 module.exports.bcryptCompare = async (plain, hashed) => {
   return await bcrypt.compare(plain, hashed)
 }
+module.exports.comparePlainAndHashed = async ({ plain, hashed }) => {
+  return await bcrypt.compare(plain, hashed)
+}
 module.exports.signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN })
 }

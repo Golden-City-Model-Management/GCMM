@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose')
-const Portfolio = require('../models/portfolioModel')
-const CustomError = require('../utils/errorUtils')
+const Portfolio = require('./portfolio')
+const CustomError = require('../utils/error')
 const ImageSchema = require('./image')
 
 const defaultImage = {
@@ -117,6 +117,10 @@ const modelSchema = new mongoose.Schema({
   isActive: {
     type: Boolean,
     default: true
+  },
+  slug: {
+    type: String,
+    default: ''
   }
 },
   {
@@ -142,6 +146,7 @@ modelSchema.virtual('portfolio', {
   foreignField: 'model',
   localField: '_id'
 })
+
 modelSchema.virtual('age').get(function () {
   const birthYear = new Date(this.dob).getFullYear()
   const currentYear = new Date(Date.now()).getFullYear()
@@ -149,6 +154,10 @@ modelSchema.virtual('age').get(function () {
 });
 modelSchema.pre('findOne', function () {
   this.populate('portfolio')
+})
+modelSchema.pre('save', async function(next) {
+  this.slug = this.name.split(' ').join('-')
+  next()
 })
 modelSchema.pre('save', async function (next) {
   const Models = this.constructor

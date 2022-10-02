@@ -1,6 +1,6 @@
 
 const CustomError = require('./errorUtils')
-const { asyncHelper, noArgsAsyncHelper } = require('./asyncUtils')
+const { asyncHelper } = require('./asyncUtils')
 const EmailHandler = require('./emailUtils')
 const QueryBuilder = require('./queryBuilderUtils')
 
@@ -24,13 +24,14 @@ const editFields = (document, fields, newData) => {
   })
   return document
 }
-
-const createDocument = (Model, data) => noArgsAsyncHelper( async () => {
+const createDocument = (Model, data) => {
+  return async (_req, _res, next) => {
     const doc = new Model({ ...data });
-    const savedDoc = await doc.save()
-    return savedDoc
-}) 
-
+    const res = await doc.save()
+    if (!res) return next(createCustomError('Unable to create document! Please try again later', 500))
+    return res
+  }
+}
 const editDocument = (excludedFields, document) => {
   return asyncHelper(async (req, res, next) => {
     const fieldsToChange = Object.keys(req.body)
@@ -43,7 +44,7 @@ const editDocument = (excludedFields, document) => {
     req.statusCode = 200
     req.status = 'success'
     req.message = 'Successfully updated!'
-    req.data = { doc: saved }
+    req.data = { doc: {...saved} }
     return next()
   })
 }

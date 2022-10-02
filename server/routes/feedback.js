@@ -2,14 +2,14 @@
 
 const express = require('express');
 const router = express.Router();
-const { createResponse } = require('../middleware/responseMiddleware')
+const { createResponse } = require('../middleware/response')
 
 const { 
   createFeedback,
   getAllFeedBacks
- } = require('../controllers/feedbackController');
-const { createDocument } = require('../middleware/createDocument');
-const feedbackModel = require('../models/feedbackModel');
+ } = require('../controllers/feedback');
+const { createDocument } = require('../middleware/createDoc');
+const feedbackModel = require('../models/feedback');
 
 router.post('/', createDocument(feedbackModel), createFeedback, createResponse,).get('/', getAllFeedBacks, createResponse);
 

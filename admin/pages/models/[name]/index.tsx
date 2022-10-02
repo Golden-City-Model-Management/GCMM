@@ -62,7 +62,7 @@ const Models = ( props :
   const { state: { models: { model: modelInState }}, combinedDispatch } = useContext(StoreContext)
   const [isEditDetails, setIsEditDetails] = useState(false)
   const [isPolaroidsOverview, setIsPolaroidsOverview] = useState(false)
-  const model = props.model[0], 
+  const model = props.model, 
   message = props.message,
   status = props.status,
   statusCode = props.statusCode
@@ -75,7 +75,7 @@ const Models = ( props :
     setIsPolaroidsOverview(prev => newState !== undefined ? newState : !prev)
   }, [])
 
-  console.log(model)
+  console.log(model, props)
   useEffect(() => {
     combinedDispatch.modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: model})
   }, [combinedDispatch, model]) 

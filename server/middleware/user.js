@@ -1,14 +1,12 @@
 
 
-const User = require('../models/userModel')
-const { noArgsAsyncHelper } = require('../utils/asyncUtils')
-const { createMailOptions, sendEmail } = require('../utils/controllerUtils')
+const User = require('../models/user')
+const { noArgsAsyncHelper } = require('../utils/async')
+const { createMailOptions, sendEmail } = require('../utils/controller')
 
 const getAllAdministrators = async (select) => {
-
   const admins = await User.find({ role: 'admin' }).select(select)
   return admins
-
 }
 
 const notifyAdminsOfFeedback = () => noArgsAsyncHelper(async () => {

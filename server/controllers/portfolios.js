@@ -1,14 +1,12 @@
 
-const Portfolio = require('../models/portfolioModel')
-const Model = require('../models/modelModel')
-const Gallery = require('../models/gallery')
-const {asyncHelper} = require('../utils/asyncUtils')
+const Portfolio = require('../models/portfolio')
+const Model = require('../models/model')
+const {asyncHelper} = require('../utils/async')
 const { 
   getAllDocuments,
-  handleDocDelete,
   createDocument,
   createCustomError,
-} = require('../utils/controllerUtils')
+} = require('../utils/controller')
 
 module.exports.addPortfolio = asyncHelper(async (req, res, next) => {
    const { images: reqImages, model} = req.body
@@ -32,19 +30,8 @@ module.exports.addPortfolio = asyncHelper(async (req, res, next) => {
     next()
 }) 
 
-module.exports.deletePortfolio = asyncHelper(async(req,res,next) => {
-  const { modelId } = req.params
-  const model = await Model.findOne({_id: modelId})
-  if(!model) {
-    req.statusCode = 404
-    req.status = 'failed'
-    req.message = 'Model not found!'
-    return next()
-}
-  await handleDocDelete(Portfolio, 'imageId')(req, res, next)
-})
 module.exports.getModelPortfolio = asyncHelper(async (req, _res, next) => {
-  const docs = await Portfolio.find({model: req.params.modelId})
+  const docs = await Portfolio.find({ model: req.params.model })
   if(docs.length === 0){
     req.message = 'No documents were found that match your search.'
   }else{
@@ -56,4 +43,5 @@ module.exports.getModelPortfolio = asyncHelper(async (req, _res, next) => {
   req.status = 'success'
   next()
 })
+
 module.exports.getAllPortfolios = getAllDocuments(Portfolio)

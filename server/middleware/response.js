@@ -1,5 +1,5 @@
 
-const { asyncHelper } = require('../utils/asyncUtils')
+const { asyncHelper } = require('../utils/async')
 
 
 module.exports.createResponse = asyncHelper(async(req, res, _) => {

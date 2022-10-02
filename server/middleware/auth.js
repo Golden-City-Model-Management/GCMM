@@ -1,8 +1,8 @@
 
-const User = require('../models/userModel')
-const CustomError = require('../utils/errorUtils')
-const { asyncHelper } = require('../utils/asyncUtils')
-const { verifyJWT } = require('../utils/authUtils')
+const User = require('../models/user')
+const CustomError = require('../utils/error')
+const { asyncHelper } = require('../utils/async')
+const { verifyJWT } = require('../utils/auth')
 
 module.exports.checkSession = (fields) => asyncHelper( async(req, res, next) => {
   const access_token = req.cookies.access_token;

@@ -1,11 +1,11 @@
 
-const Feedback = require('../models/feedbackModel')
-const CustomError = require('../utils/errorUtils')
-const { asyncHelper } = require('../utils/asyncUtils')
-const { notifyAdminsOfFeedback } = require('../middleware/userMiddleware')
+const Feedback = require('../models/feedback')
+const CustomError = require('../utils/error')
+const { asyncHelper } = require('../utils/async')
+const { notifyAdminsOfFeedback } = require('../middleware/user')
 const {
   getAllDocuments, 
-} = require('../utils/controllerUtils')
+} = require('../utils/controller')
 
 const createFeedback = asyncHelper(async (req, res, next) => {
  const feedback = req.savedDoc

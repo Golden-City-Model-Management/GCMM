@@ -1,11 +1,10 @@
 
-const Model = require('../models/modelModel');
-const { asyncHelper } = require('../utils/asyncUtils')
-const {
-  handleDocDelete,  
+const Model = require('../models/model');
+const { asyncHelper } = require('../utils/async')
+const { 
   createCustomError,
   getAllDocuments, 
-} = require('../utils/controllerUtils')
+} = require('../utils/controller')
 
 module.exports.createNewModel = asyncHelper(async (req, res, next) => {
   const model = await req.savedDoc
@@ -15,8 +14,9 @@ module.exports.createNewModel = asyncHelper(async (req, res, next) => {
   req.data = { model }
   return next()
 })
+
 module.exports.editModelProfile = asyncHelper(async (req, res, next) => {
-  let model = await Model.findById(req.params.id)
+  let model = req.doc
   if(req.body.polaroids){
     Object.keys(req.body.polaroids).forEach(pol => {
       if(req.body.polaroids[pol]){
@@ -50,8 +50,7 @@ module.exports.editModelProfile = asyncHelper(async (req, res, next) => {
   req.message = 'Successfully updated!'
   req.data = { doc: saved }
   next()
-}) 
-module.exports.handleDelete =  handleDocDelete(Model, 'id')
+})
 
 module.exports.getModel = asyncHelper(async (req, res, next) => {
   const model = req.doc

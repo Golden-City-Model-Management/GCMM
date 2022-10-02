@@ -1,6 +1,6 @@
 
 const mongoose = require('mongoose')
-const { signToken, bcryptEncrypt, bcryptCompare } = require('../utils/authUtils')
+const { signToken, bcryptEncrypt, bcryptCompare } = require('../utils/auth')
 const crypto = require('crypto')
 
 const userSchema = new mongoose.Schema({

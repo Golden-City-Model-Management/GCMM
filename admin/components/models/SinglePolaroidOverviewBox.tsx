@@ -36,7 +36,7 @@ const PolaroidItem = ({ img }: {
       </CardMedia>
       <CardContent sx={theme =>
         ({ position: 'absolute', width: '100%', height: '10%', background: emphasize(theme.palette.primary.light, .1), bottom: 0 })}>
-        <Typography textAlign='center' textTransform='capitalize' variant="subtitle1" component="p">
+        <Typography textAlign='center' textTransform='capitalize' variant="h3" component="p">
           {img.title}
         </Typography>
       </CardContent>
@@ -62,6 +62,7 @@ const PolaroidsOverviewBox = ({ polaroids, title, id, setLoading, }: {
   const images = transformPolaroidObjKeys(polaroids ? polaroids : {}, ['_id'])
 
   const updatePolaroids = useCallback(async (polaroids: { [x:string]: ImageInterface}) => {
+    console.log(polaroids)
     let response
     if(title.toLowerCase() === 'main polaroids'){
       response = await Request({ path: `/models/${model.id}`, method: 'patch', data: { polaroids,} })
@@ -84,8 +85,9 @@ const PolaroidsOverviewBox = ({ polaroids, title, id, setLoading, }: {
   }, [id, model.id, modelsDispatch, notificationDispatch, setLoading, title])
 
   const postImages = useCallback( async (images: {[x: string]: File}) => {
-    const uploadedImages = await Promise.all(Object.keys(images).map(async (key: string) => {
-      if(images[key].name.length <= 0) return { name: key, img: {}}
+    const uploadedImages = await Promise.all(Object.keys(images)
+    .filter(key => images[key].name.length > 0)
+    .map(async (key: string) => {
       return {
         name: key, 
         img: await uploadFile({

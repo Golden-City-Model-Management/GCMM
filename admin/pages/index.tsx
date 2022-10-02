@@ -1,27 +1,19 @@
 
 import Layout from '@/components/layout/Layout'
 import DashBoard from '@/components/dashboard/Dashboard'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import Box from '@mui/material/Box'
-import { useRouter } from 'next/router'
 import { StoreContext } from 'reducers/store'
-import useUser from '@/utils/pages/useUser'
 
 const layoutProps = {
-  title: 'Golden City Model Management | Administration',
+  title: 'GCMM | Administration',
   description: 'Golden City Model Management. Finding and refining talent. African Premium Agency located in Lagos, Nigeria',
   favicon: '/vercel.svg',
 }
 
 const AdminHomePage = () => {
 
-  const router = useRouter() 
-  const { state: { user: stateUser, ui: { boxPadding} }, combinedDispatch: { userDispatch } } = useContext(StoreContext)
-  const { user } = useUser({})
-
-  useEffect(() => {
-    userDispatch({type: 'UPDATE_USER', payload: user})
-  }, [router, user, userDispatch])
+  const { state: { user: stateUser, ui: { boxPadding} }, } = useContext(StoreContext)
 
   return ( 
     <Layout {...layoutProps} > 

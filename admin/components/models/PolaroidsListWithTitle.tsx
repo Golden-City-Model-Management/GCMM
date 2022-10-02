@@ -7,6 +7,7 @@ import * as styles from './style'
 import Mapper from "../Mapper"
 import { Image as ImageInterface } from '@/types/models';
 import placeholderImg from '@/public/assets/images/placeholder.jpeg'
+import Typography from '@mui/material/Typography';
 
 const PolaroidImgWithTitle = ({img}: {
   img: {
@@ -24,7 +25,7 @@ const PolaroidImgWithTitle = ({img}: {
       loading="lazy"
     />
     <ImageListItemBar
-      sx={{ textAlign: 'center'}}
+      sx={{ textAlign: 'center', textTransform: 'capitalize'}}
       title={img.title}
     />
   </ImageListItem>

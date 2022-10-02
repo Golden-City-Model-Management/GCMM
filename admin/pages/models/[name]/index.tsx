@@ -75,11 +75,12 @@ const Models = ( props :
     setIsPolaroidsOverview(prev => newState !== undefined ? newState : !prev)
   }, [])
 
+  console.log(model)
   useEffect(() => {
     combinedDispatch.modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: model})
   }, [combinedDispatch, model]) 
   
-  if( !model || Object.keys(model).length === 0){
+  if( statusCode !== 200 ){
     return (
       <AdminLayout title='Error'description='An error has occurred!'>
         <Box display='flex' justifyContent='center' alignItems='center' minHeight='65vh'>

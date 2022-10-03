@@ -22,6 +22,7 @@ const AdminLayout = ({ children, hideLayout, ...headProps }: LayoutProps) => {
         userDispatch({type: 'UPDATE_USER', payload: data.user})
       }else{
         !router.asPath.includes('/login') && router.push('/login')
+        window.localStorage.removeItem('access_token')
       }
     }
     if(window.localStorage.getItem('access_token')){

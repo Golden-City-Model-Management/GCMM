@@ -26,7 +26,7 @@ app.use(cors( {origin: [
 credentials: true,
 exposedHeaders: ["set-cookie"],
 }))
-app.options('*', cors())
+// app.options('*', cors())
 app.use(logger('dev')); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

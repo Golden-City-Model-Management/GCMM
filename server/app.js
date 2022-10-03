@@ -24,9 +24,8 @@ app.use(cors( {origin: [
   "https://goldencityadmin.netlify.app"
 ],
 credentials: true,
-exposedHeaders: ["set-cookie"],
+exposedHeaders: ["set-cookie", "Access-Control-Allow-Origin", "Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
 }))
-// app.options('*', cors())
 app.use(logger('dev')); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

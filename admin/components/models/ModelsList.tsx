@@ -6,7 +6,7 @@ import { ImageListSx } from './style'
 import React from "react"
 import Mapper from "../Mapper"
 import { Typography } from "@mui/material"
-import InfiniteScroll from "react-infinite-scroll-component"
+import InfiniteScroll from '../common/InfiniteScroll'
 
 const ModelsList = ({ models, handlePaginationWithScroll, shouldFetchWithPaginate }: {
   models: Model[],

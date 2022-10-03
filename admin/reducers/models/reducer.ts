@@ -22,7 +22,6 @@ export const modelsActions = {
 }
 
 export default function reducer(state: ModelsState, action: action) {
-  console.log(action.type)
   const dispatcher = actionHandlers(state, action.payload)[action.type]
   if(dispatcher !== undefined){
     return actionHandlers(state, action.payload)[action.type]()

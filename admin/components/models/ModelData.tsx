@@ -16,8 +16,6 @@ export const StatsKeyValPair = ({ title, value, color }: { title: string, value?
 const ModelData = ({model}:{model: Model}) => { 
   const modelStatistics =  Object.keys(model).filter(key => !nonDisplayedFields.includes(key) &&
    (model.gender === 'female' ? key !== 'chest' : key !== 'bust'))
-
-  console.log(modelStatistics, Object.keys(model), model)
   return (
     <>
       <Box position="relative" mx='auto' minHeight='50%' width='80%' borderRadius={'18px'}  overflow='hidden' >

@@ -27,7 +27,6 @@ export const fetchModels = async (query?: { [key: string]: string }[]): Promise<
   try {
     let res = await ClientRequest({ path: `/models?${queryString ? queryString : ''}&fields=${fields}`, method: 'get' })
     const data = await res.data
-    console.log(res)
     if (res.statusCode === 200) {
       return { ...res, error: false,}
     } else {
@@ -45,7 +44,6 @@ export const handleSearchTermChange = (state: ModelsState, payload: string) => {
   return { ...state, searchTerm: payload }
 }
 export const updateModels = (state: ModelsState, payload: Model[]) => {
-  console.log(Array.isArray(payload), payload, '')
   const stringifiedUpd = payload.map(model => JSON.stringify(model))
   const stringifiedCurrentModels = state.models.map(model => JSON.stringify(model))
   const uniqueModelsString = new Set([...stringifiedCurrentModels, ...stringifiedUpd,])
@@ -57,7 +55,6 @@ export const updateLoading = (state: ModelsState, payload: boolean) => {
 }
 
 export const updateSingleModel = (state: ModelsState, payload: ModelWithPolaroidsAndPortfolio) => {
-  console.log(payload)
   return {...state, model: payload}
 }
 

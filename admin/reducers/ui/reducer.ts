@@ -16,7 +16,6 @@ export const actionsHandlers = (state: uiState, payload: any) => ({
 }) 
 
 export default function reducer(state: uiState, action: action) {
-  console.log(actionsHandlers(state, action.payload)[action.type])
   const dispatcher = actionsHandlers(state, action.payload)[action.type]
   if(dispatcher !== undefined){
     return actionsHandlers(state, action.payload)[action.type]() 

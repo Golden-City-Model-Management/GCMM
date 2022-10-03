@@ -21,7 +21,6 @@ const Header = () => {
   const { state: { ui: { showNav, drawerWidth, boxPadding, }}, combinedDispatch} = useContext(StoreContext)
 
   const toggleShowNav = useCallback(() => {
-    console.log('clicked')
     combinedDispatch.uiDispatch({type: 'TOGGLE_SHOW_NAV', payload: !showNav})
   }, [combinedDispatch, showNav])
 

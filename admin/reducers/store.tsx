@@ -4,6 +4,8 @@ import modelsSlice, { ModelsState } from './models/reducer'
 import userSlice, { userState } from './user/reducer'
 import notificationSlice, { notificationState } from './notification/reducer'
 import uiSlice, { uiState } from './ui/reducer'
+import gallerySlice, { GalleryState } from './gallery/reducer'
+
 import { Polaroids, Socials, Image } from '@/types/models'
 
 type Slices = {
@@ -16,6 +18,7 @@ const initialState: {
   notification: notificationState, 
   user: userState
   ui: uiState,
+  gallery: GalleryState,
 } = { 
   models: {
   models: [], modelsDisplayed: [], loading: true, searchTerm: '',
@@ -54,6 +57,9 @@ const initialState: {
       xs: '0 30px',
     },
     marginBtwContainers: '100px',
+  },
+  gallery: {
+    images: []
   }
  }
 
@@ -63,6 +69,7 @@ export const StoreContext = createContext({state: initialState,
   modelsDispatch: (action: Action) => {},
   userDispatch: (action: Action) => {},
   uiDispatch: (action: Action) => {},
+  galleryDispatch: (action: Action) => {}
 }})
 
 const StoreProvider = ({ children }: {
@@ -72,11 +79,13 @@ const StoreProvider = ({ children }: {
   const [modelsState, modelsDispatch] = useReducer(modelsSlice, initialState.models)
   const [notificationState, notificationDispatch] = useReducer(notificationSlice, initialState.notification)
   const [userState, userDispatch] = useReducer(userSlice, initialState.user)
+  const [galleryState, galleryDispatch] = useReducer(gallerySlice, initialState.gallery)
 
-  const state = useMemo(() => ({models: modelsState, notification: notificationState, user: userState, ui: uiState}), 
-  [modelsState, notificationState, uiState, userState])
+  const state = useMemo(() => ({models: modelsState, notification: notificationState, 
+    user: userState, ui: uiState, gallery: galleryState}), 
+  [galleryState, modelsState, notificationState, uiState, userState])
   const combinedDispatch = useMemo(() => 
-  ({notificationDispatch, modelsDispatch, userDispatch, uiDispatch}), 
+  ({notificationDispatch, modelsDispatch, userDispatch, uiDispatch, galleryDispatch}), 
   [modelsDispatch, notificationDispatch, userDispatch, uiDispatch])
 
   return (
@@ -89,3 +98,4 @@ export default StoreProvider
 export * as modelsReducer  from './models/reducer'
 export * as notificationReducer from './notification/reducer'
 export * as userReducer from './user/reducer'
+export * as galleryReducer from './gallery/reducer'

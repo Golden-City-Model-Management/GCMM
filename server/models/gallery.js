@@ -1,8 +1,6 @@
 const mongoose = require('mongoose')
 const ImageSchema = require('./image')
 
-const galleryImage = new mongoose.Schema({
-  type: ImageSchema,
-})
+const galleryImage = ImageSchema
 
 module.exports = mongoose.model('GalleryImage', galleryImage, 'gallery' )

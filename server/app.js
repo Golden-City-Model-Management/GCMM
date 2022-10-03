@@ -8,7 +8,8 @@ const globalErrorHandler = require('./middleware/error')
 const modelsRouter = require('./routes/model');
 const usersRouter = require('./routes/user');
 const portfoliosRouter = require('./routes/portfolio');
-const inquiriesRouter = require('./routes/feedback');
+const feedbackRouter = require('./routes/feedback');
+const galleryRouter = require('./routes/gallery')
 
 const app = express();
 app.enable('trust proxy')
@@ -34,7 +35,8 @@ app.use(cookieParser());
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/models', modelsRouter)
 app.use('/api/v1/portfolios', portfoliosRouter)
-app.use('/api/v1/feedback', inquiriesRouter)
+app.use('/api/v1/feedback', feedbackRouter)
+app.use('/api/v1/gallery', galleryRouter) 
 
 app.all('*', (req, _, next) => {
   next(new CustomError(`CANNOT ${req.method} ${req.originalUrl} on this server!`, 404));

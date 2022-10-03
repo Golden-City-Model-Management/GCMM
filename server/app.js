@@ -1,3 +1,9 @@
+
+//curl -i -X OPTIONS -H "Origin: origin" \
+// -H 'Access-Control-Request-Method: POST' \
+// -H 'Access-Control-Request-Headers: Content-Type, Authorization' \
+// "server"
+
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -11,12 +17,29 @@ const portfoliosRouter = require('./routes/portfolio');
 const feedbackRouter = require('./routes/feedback');
 const galleryRouter = require('./routes/gallery')
 
+const whitelist = [
+  'https://goldencityadmin.netlify.app',
+  'https://goldencitymodelsng.netlify.app',
+  'http://localhost:4000',
+  'http://localhost:3000'
+]
+
 const app = express();
 app.enable('trust proxy')
 dotenv.config({
   path: `${__dirname}/.env`
 })
-app.use(cors( {origin: '*'}))
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+app.use(cors(corsOptions));
+app.options(cors())
 app.use(logger('dev')); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

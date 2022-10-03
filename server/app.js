@@ -16,7 +16,7 @@ app.enable('trust proxy')
 dotenv.config({
   path: `${__dirname}/.env`
 })
-app.use(cors({origin: '*'}))
+app.use(cors( {origin: '*'}))
 app.use(logger('dev')); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

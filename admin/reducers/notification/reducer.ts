@@ -20,7 +20,6 @@ export const actionsHandlers = (state: notificationState, payload: any) => ({
 export default function reducer(state: notificationState, action: action) {
   const dispatcher = actionsHandlers(state, action.payload)[action.type]
   if(dispatcher !== undefined){
-    console.log(action)
     return actionsHandlers(state, action.payload)[action.type]() 
   }else{
     throw new Error(`the action type ${action.type} is not a valid notification action type`)

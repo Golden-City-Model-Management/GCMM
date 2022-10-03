@@ -44,8 +44,6 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit, showSubmitBtn, isEditFor
       setError(prev => ({ ...prev, [e.target.name]: false }))
     }
     setFormData(prev => {
-      console.log(prev, 'dkkfkkjdkfk')
-      console.log(e.target.name, e.target.type, e.target.value)
       return {
         ...prev, [e.target.name]: e.target.type === 'number' ?
           +e.target.value >= 0 ? +(e.target.value) : 0 :

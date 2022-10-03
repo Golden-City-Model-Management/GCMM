@@ -33,7 +33,7 @@ const Request = async ({
       ...headers,
       ...( !definedCredentials ? {
         'Access-Control-Allow-Origin': process.env.NEXT_PUBLIC_BASE_URL || '*',
-        'Access-Control-Allow-Methods': 'POST',
+        'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PU',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Authorization': `Bearer ${access_token}`
       } : {})

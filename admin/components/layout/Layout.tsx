@@ -16,8 +16,17 @@ const AdminLayout = ({ children, hideLayout, ...headProps }: LayoutProps) => {
   const {combinedDispatch: { userDispatch }, state: { user } } = useContext(StoreContext)
 
   useEffect(() => {
+    const getUser = async () => {
+      const data = await Request({path: '/users/me', method: 'get', })
+      if(data.statusCode === 200){
+        userDispatch({type: 'UPDATE_USER', payload: data.user})
+      }else{
+        !router.asPath.includes('/login') && router.push('/login')
+      }
+    }
     if(window.localStorage.getItem('access_token')){
       !isLoggedIn && setIsLoggedIn(true)
+      user._id.length === 0 && getUser()
       if(router.asPath.includes('/login')){
         router.push('/')
       }
@@ -27,19 +36,11 @@ const AdminLayout = ({ children, hideLayout, ...headProps }: LayoutProps) => {
         router.push('/login')
       }
     }
-  }, [isLoggedIn, router])
+  }, [isLoggedIn, router, user._id.length, userDispatch])
 
 
   useEffect(() => {
-    const getUser = async () => {
-      const data = await Request({path: '/users/me', method: 'get', })
-      if(data.statusCode === 200){
-        userDispatch({type: 'UPDATE_USER', payload: data.user})
-      }else{
-        !router.asPath.includes('/login') && router.push('/login')
-      }
-    }
-    user._id.length === 0 && getUser()
+
   }, [router, user, userDispatch])
 
   const crumbs = paths.map((path, idx) => {

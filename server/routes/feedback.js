@@ -11,7 +11,9 @@ const {
 const { createDocument } = require('../middleware/createDoc');
 const feedbackModel = require('../models/feedback');
 
-router.post('/', createDocument(feedbackModel), createFeedback, createResponse,).get('/', getAllFeedBacks, createResponse);
+router.route('/')
+.post(createDocument(feedbackModel), createFeedback, createResponse)
+.get(getAllFeedBacks, createResponse)
 
 
 module.exports = router

@@ -5,6 +5,7 @@ import userSlice, { userState } from './user/reducer'
 import notificationSlice, { notificationState } from './notification/reducer'
 import uiSlice, { uiState } from './ui/reducer'
 import gallerySlice, { GalleryState } from './gallery/reducer'
+import feedbackSlice, { FeedbackState } from './feedbacks/reducer'
 
 import { Polaroids, Socials, Image } from '@/types/models'
 
@@ -19,6 +20,7 @@ const initialState: {
   user: userState
   ui: uiState,
   gallery: GalleryState,
+  feedbacks: FeedbackState,
 } = { 
   models: {
   models: [], modelsDisplayed: [], loading: true, searchTerm: '',
@@ -60,6 +62,9 @@ const initialState: {
   },
   gallery: {
     images: []
+  },
+  feedbacks: {
+    feedbacks: []
   }
  }
 
@@ -69,7 +74,8 @@ export const StoreContext = createContext({state: initialState,
   modelsDispatch: (action: Action) => {},
   userDispatch: (action: Action) => {},
   uiDispatch: (action: Action) => {},
-  galleryDispatch: (action: Action) => {}
+  galleryDispatch: (action: Action) => {},
+  feedbackDispatch: (action: Action) => {},
 }})
 
 const StoreProvider = ({ children }: {
@@ -79,14 +85,28 @@ const StoreProvider = ({ children }: {
   const [modelsState, modelsDispatch] = useReducer(modelsSlice, initialState.models)
   const [notificationState, notificationDispatch] = useReducer(notificationSlice, initialState.notification)
   const [userState, userDispatch] = useReducer(userSlice, initialState.user)
+  const [feedbackState, feedbackDispatch] = useReducer(feedbackSlice, initialState.feedbacks) 
   const [galleryState, galleryDispatch] = useReducer(gallerySlice, initialState.gallery)
 
-  const state = useMemo(() => ({models: modelsState, notification: notificationState, 
-    user: userState, ui: uiState, gallery: galleryState}), 
-  [galleryState, modelsState, notificationState, uiState, userState])
+  const state = useMemo(() => ({
+    models: modelsState,
+    notification: notificationState, 
+    feedbacks: feedbackState,
+    user: userState, 
+    ui: uiState, 
+    gallery: galleryState
+  }), 
+  [feedbackState, galleryState, modelsState, notificationState, uiState, userState])
+
   const combinedDispatch = useMemo(() => 
-  ({notificationDispatch, modelsDispatch, userDispatch, uiDispatch, galleryDispatch}), 
-  [modelsDispatch, notificationDispatch, userDispatch, uiDispatch])
+  ({
+    notificationDispatch, 
+    feedbackDispatch, 
+    modelsDispatch, 
+    userDispatch, 
+    uiDispatch,  
+    galleryDispatch}),  
+  [modelsDispatch, notificationDispatch, userDispatch, uiDispatch, feedbackDispatch])
 
   return (
     <StoreContext.Provider value={{state, combinedDispatch}}> {children} </StoreContext.Provider>
@@ -99,3 +119,4 @@ export * as modelsReducer  from './models/reducer'
 export * as notificationReducer from './notification/reducer'
 export * as userReducer from './user/reducer'
 export * as galleryReducer from './gallery/reducer'
+export * as feedbacksReducer from './feedbacks/reducer'

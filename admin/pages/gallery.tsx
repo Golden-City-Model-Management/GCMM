@@ -113,9 +113,9 @@ const GalleryPage = ({ images }: {
             <Typography component='p' variant='h4' textAlign='center' mt={30}>No Images</Typography>
             :
             <InfiniteScroll next={handlePaginationWithScroll} hasMore={shouldFetchWithPaginate}
-              dataLength={images.length} loader={null} >
+              dataLength={imagesInState.length} loader={null} >
               <ImageList sx={(t) => ({ ...styles.ImageListSx(t), width: '100vw', minHeight: '70vh', })} cols={3} rowHeight={300} >
-                {[...imagesInState].reverse().map(img => {
+                {[...imagesInState].map(img => {
                   return (
                     <ImageListItem sx={({ width: '100%', height: '100%' })} key={img._id}>
                       <Box  sx={({ width: '100%', height: '100%', position: 'relative' })} >

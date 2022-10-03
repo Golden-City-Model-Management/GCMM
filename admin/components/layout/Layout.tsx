@@ -18,6 +18,9 @@ const AdminLayout = ({ children, hideLayout, ...headProps }: LayoutProps) => {
   useEffect(() => {
     if(window.localStorage.getItem('access_token')){
       !isLoggedIn && setIsLoggedIn(true)
+      if(router.asPath.includes('/login')){
+        router.push('/')
+      }
     }else if(!window.localStorage.getItem('access_token')){
      isLoggedIn && setIsLoggedIn(false)
       if(!router.asPath.includes('/login')){

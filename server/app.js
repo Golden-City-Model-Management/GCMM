@@ -34,7 +34,7 @@ app.options('*', (req, res) => {
   if(whitelist.includes(req.headers.referer)){
     res.header("Access-Control-Allow-Origin", req.headers.referer.slice(0, req.headers.referer.length - 1)); 
   }
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH");
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
@@ -45,7 +45,7 @@ app.use(function(req, res, next) {
   if(whitelist.includes(req.headers.referer)){
     res.header("Access-Control-Allow-Origin", req.headers.referer.slice(0, req.headers.referer.length - 1)); 
   }
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH");
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"

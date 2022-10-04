@@ -1,8 +1,8 @@
 
-//curl -i -X OPTIONS -H "Origin: origin" \
+// curl -i -X OPTIONS -H "Origin: https://gcmm-server.onrender.com" \
 // -H 'Access-Control-Request-Method: POST' \
 // -H 'Access-Control-Request-Headers: Content-Type, Authorization' \
-// "server"
+// "https://goldencityadmin.netlify.app"
 
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -29,17 +29,18 @@ app.enable('trust proxy')
 dotenv.config({
   path: `${__dirname}/.env`
 })
-// app.options(cors(corsOptions))
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
+
+const corsOptionsDelegate = function (req, callback) {
+  let corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
   }
+  callback(null, corsOptions) // callback expects two parameters: error and options
 }
-app.use(cors(corsOptions));
+app.options('*', cors(corsOptionsDelegate))
+app.use('*', cors(corsOptionsDelegate))
 app.use(logger('dev')); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

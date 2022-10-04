@@ -29,7 +29,7 @@ app.enable('trust proxy')
 dotenv.config({
   path: `${__dirname}/.env`
 })
-app.options(cors(corsOptions))
+// app.options(cors(corsOptions))
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {

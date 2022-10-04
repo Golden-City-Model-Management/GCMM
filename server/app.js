@@ -29,19 +29,7 @@ app.enable('trust proxy')
 dotenv.config({
   path: `${__dirname}/.env`
 })
-
-// const corsOptionsDelegate = function (req, callback) {
-//   let corsOptions;
-//   console.log(req.header('Origin'))
-//   if (whitelist.indexOf(req.header('Origin')) !== -1) {
-//     corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
-//   } else {
-//     corsOptions = { origin: false } // disable CORS for this request
-//   }
-//   callback(null, corsOptions) // callback expects two parameters: error and options
-// }
-app.options('*', cors())
-app.use('*', cors())
+app.use(cors())
 app.use(logger('dev')); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

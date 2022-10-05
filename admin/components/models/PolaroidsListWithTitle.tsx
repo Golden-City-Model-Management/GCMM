@@ -7,7 +7,6 @@ import * as styles from './style'
 import Mapper from "../Mapper"
 import { Image as ImageInterface } from '@/types/models';
 import placeholderImg from '@/public/assets/images/placeholder.jpeg'
-import Typography from '@mui/material/Typography';
 
 const PolaroidImgWithTitle = ({img}: {
   img: {

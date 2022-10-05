@@ -52,7 +52,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     return {
       props: {
         model: {}, message: 'An Error occured', status: 'failed', statusCode: 500 
-      }
+      },
+      fallback: true
     }
   }
 }

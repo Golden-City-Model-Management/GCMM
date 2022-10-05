@@ -1,4 +1,4 @@
-import { Model, ModelWithPolaroidsAndPortfolio, Polaroids, Image as ImageInterface } from "@/types/models"
+import { ModelWithPolaroidsAndPortfolio, Polaroids, Image as ImageInterface } from "@/types/models"
 import Typography from "@mui/material/Typography"
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -12,7 +12,7 @@ import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { emphasize, Icon } from "@mui/material"
+import { emphasize } from "@mui/material"
 import PolaroidsForm from "./PolaroidsForm"
 import Request from '@/utils/api/request'
 import { uploadFile, deleteWithToken } from "@/utils/cloudinary"

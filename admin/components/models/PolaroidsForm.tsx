@@ -17,16 +17,17 @@ const PolaroidsForm = ({ handleSubmit, existingPolaroids }: {
 }) => {
 
   const [polaroids, setPolaroids] = useState({
-    full_length: { src: '', file: new File([], '') },
-    waist_up: { src: '', file: new File([], '') },
-    profile: { src: '', file: new File([], '') },
-    close_up: { src: '', file: new File([], '') },
+    full_length: { src: existingPolaroids?.full_length.secure_url, file: new File([], '') },
+    waist_up: { src: existingPolaroids?.waist_up.secure_url, file: new File([], '') },
+    close_up: { src: existingPolaroids?.close_up.secure_url, file: new File([], '') },
+    profile: { src: existingPolaroids?.profile.secure_url, file: new File([], '') },
   })
   const handleFileInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files![0]
     if (file) {
       setPolaroids(prev => {
-        URL.revokeObjectURL(prev[e.target.name as keyof typeof polaroids].src)
+        let prevObjUrl = prev[e.target.name as keyof typeof polaroids].src
+       typeof prevObjUrl === 'string' && URL.revokeObjectURL(prevObjUrl)
         return { ...prev, [e.target.name]: { file, src: URL.createObjectURL(file) } }
       })
     }
@@ -35,9 +36,9 @@ const PolaroidsForm = ({ handleSubmit, existingPolaroids }: {
   const submitPolaroids = useCallback((e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
     Object.entries(polaroids).forEach(entry => {
-      URL.revokeObjectURL(entry[1].src)
+      URL.revokeObjectURL(entry[1].src || '')
     })
-    handleSubmit(polaroids)
+    handleSubmit(polaroids as any)
   }, [handleSubmit, polaroids])
 
   return (
@@ -52,7 +53,7 @@ const PolaroidsForm = ({ handleSubmit, existingPolaroids }: {
                 <Image width={230}
                   height={230}
                   alt={key} src={polaroids[key as keyof typeof polaroids].src
-                    || (((existingPolaroids || polaroids)[key as keyof typeof existingPolaroids] as ImageInterface)?.secure_url)
+                    || (((existingPolaroids || polaroids)[key as keyof typeof existingPolaroids] as ImageInterface)['secure_url' || 'src'])
                     || placeholderImg.src} />
                 <Button key={key} variant='outlined' size='small' color="secondary" component="label"
                   sx={{
@@ -60,7 +61,7 @@ const PolaroidsForm = ({ handleSubmit, existingPolaroids }: {
                     textTransform: 'capitalize', textAlign: 'center', fontSize: '1rem'
                   }}>
                   <input type="file" name={key} value={''} onChange={handleFileInput} accept="image/*" hidden />
-                  {polaroids[key as keyof typeof polaroids].src.length > 0 ? <>change</> : <>choose </>} image
+                  {polaroids[key as keyof typeof polaroids]?.src?.length! > 0 ? <>change</> : <>choose </>} image
                 </Button>
               </Box>
             )

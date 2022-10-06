@@ -9,11 +9,23 @@ export default function Carousel({ carouselItems, }: {
   return (
     <Box overflow='hidden' position='absolute' height='100%' width='100%' >
       <ReactMuiCarousel animation='slide' autoPlay={false} navButtonsAlwaysVisible
-      sx={{height: '100%', overflow: 'hidden'}}
-         NextIcon={<ChevronRightOutlined color='secondary'/>}
-         PrevIcon={<ChevronLeftOutlined  color='secondary'/>}>
-            {carouselItems.map( (item, i) => <Box key={i}>{item}</Box> )}
-        </ReactMuiCarousel>
+        sx={{ height: '100%', overflow: 'hidden' }}
+        NextIcon={<ChevronRightOutlined color='secondary' />}
+        PrevIcon={<ChevronLeftOutlined color='secondary' />}>
+        {carouselItems.map((item, i) => <Box key={i}>{item}</Box>)}
+      </ReactMuiCarousel>
     </Box>
+  );
+}
+
+export function RefactoredCarousel({ carouselItems, }: {
+  carouselItems: any[]
+}) {
+  return (
+    <ReactMuiCarousel animation='slide' autoPlay={false} navButtonsAlwaysVisible
+      NextIcon={<ChevronRightOutlined color='secondary' />}
+      PrevIcon={<ChevronLeftOutlined color='secondary' />}>
+      {carouselItems.map((item, i) => <Box key={i}>{item}</Box>)}
+    </ReactMuiCarousel>
   );
 }

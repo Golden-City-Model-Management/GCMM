@@ -10,13 +10,19 @@ import CardActions from '@mui/material/CardActions';
 import CardActionArea from '@mui/material/CardActionArea';
 import Button from '@mui/material/Button';
 import { Polaroids } from '@/types/models';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { GetStaticProps } from 'next'
 import Request from '@/utils/api/request';
 import Lightbox, { RefactoredLightBox } from '@/components/Lightbox';
 import Carousel, { RefactoredCarousel } from '@/components/Carousel';
 import IconButton from '@mui/material/IconButton';
 import { Delete } from '@mui/icons-material';
+import Image from 'next/image';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 export const getStaticProps: GetStaticProps = async () => {
   const response = await Request({ path: '/model-applications?limit=10&page=1', method: 'get', })
@@ -57,17 +63,46 @@ const Applications = ({
   applications: Applicant[]
 }) => {
 
-  const [currentActivePols, setCurrentActivePols] = useState('')
+  const [currentActive, setCurrentActivePols] = useState('')
   const [stateApplications, setStateApplications] = useState(applications)
+  const [applicationToDel, setApplicationToDel] = useState('')
+  const currentActivePols = useMemo(() => {
+    let active = stateApplications.find(application => application._id === currentActive)
+    return active ? Object.values(active.polaroids) : []
+  }, [currentActive, stateApplications])
+
   const handleDelete = useCallback(async (id: string) => {
-    console.log(id)
     setStateApplications(prev => {
       return prev.filter(item => item._id !== id)
     })
     await Request({ path: `/model-applications/${id}`, method: 'delete', })
+    setApplicationToDel('')
   }, [])
+
   return (
     <AdminLayout title='Model Applications' description='Applications from aspiring models.'>
+       <Dialog
+        open={applicationToDel.length > 0}
+        onClose={handleDelete}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle color='primary' id="alert-dialog-title">
+          Delete model application with by  - { stateApplications.find(app => app._id ===  applicationToDel)?.first_name}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText color='red' id="alert-dialog-description">
+           Are you sure you want to delete this application? 
+           This action CANNOT be undone!
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant='contained' onClick={() => setApplicationToDel('')}>cancel</Button>
+          <Button onClick={() => handleDelete(applicationToDel)} autoFocus>
+            delete
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Box>
         <Typography variant='caption' component='h1' textAlign='center' mx='auto' my={5}>
           Applications
@@ -76,7 +111,8 @@ const Applications = ({
           applications.length === 0 && <Typography textAlign='center' >No Model Applications</Typography>
         }
         <List sx={{
-          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 20%))', minHeight: '70vh', justifyContent: 'space-around',
+          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 20%))', minHeight: '70vh',
+          justifyContent: 'space-around',
           alignItems: 'center', padding: { xs: '1rem', md: '2rem 1.5rem', lg: '1rem 6rem' }, rowGap: '10%'
         }}>
           {
@@ -90,16 +126,17 @@ const Applications = ({
                       image={app.polaroids.close_up.secure_url}
                       alt="green iguana"
                     />
-                    <Button
-                      sx={t => ({ fontSize: '1rem', margin: '0 auto', display: 'block', textAlign: 'center' })}
-                      onClick={() => setCurrentActivePols(app._id)} size="small" color="inherit" variant="outlined" >
-                      view polaroids
-                    </Button>
+                    
                     <CardContent>
                       <Typography component='h3' gutterBottom variant="h3" textTransform='capitalize' >
                         {app.first_name}&nbsp;{app.last_name}
                       </Typography>
-                      <Typography variant="h6" component='h4' color="text.secondary">
+                      <Button
+                      sx={t => ({ fontSize: '1rem', margin: '1rem 0', display: 'block', textAlign: 'center' })}
+                      onClick={() => setCurrentActivePols(app._id)} size="small" color="inherit" variant="outlined" >
+                      view polaroids
+                    </Button>
+                      <Typography variant="h6" component='h4'  textTransform='capitalize' color="text.secondary">
                         statistics
                       </Typography>
                       <Typography>
@@ -120,7 +157,7 @@ const Applications = ({
                       <Typography>
                         waist - {app.waist}cm
                       </Typography>
-                      <Typography component='h5' color='secondary'>
+                      <Typography  textTransform='capitalize' component='h5' color='secondary'>
                         Other Info
                       </Typography>
                       <Typography>
@@ -133,7 +170,7 @@ const Applications = ({
                         instagram - {app.instagram || 'N/A'}
                       </Typography>
                     </CardContent>
-                    <CardActionArea>
+                    <>
                       <CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Button
                           sx={t => ({ fontSize: '1rem' })}
@@ -147,11 +184,11 @@ const Applications = ({
                         </Button>
                         <IconButton
                           sx={t => ({ fontSize: '1rem', })}
-                          onClick={() => handleDelete(app._id)} size="small" color='inherit'>
+                          onClick={() => setApplicationToDel(app._id)} size="small" color='inherit'>
                           <Delete fontSize={'small'} />
                         </IconButton>
                       </CardActions>
-                    </CardActionArea>
+                    </>
                   </Card>
                 </React.Fragment>
               )
@@ -160,24 +197,31 @@ const Applications = ({
         </List>
       </Box>
       <RefactoredLightBox showCloseBtn isOpen={currentActivePols.length > 0} title={'gvhjmjbhgvbbjhv'} close={() => setCurrentActivePols('')}   >
-        <Box  width='100%' height='100%' >
+        <Box width='100%' height='100%' >
           <RefactoredCarousel carouselItems={
-            currentActivePols.length > 0 ?
-              Object.values(applications.find(application => application._id === currentActivePols).polaroids)?.map(el => el.secure_url).map(item => {
-
+              currentActivePols.filter(el => typeof el === 'object').map(item => {
+                const src = item.secure_url
                 return (
-                    <Card  key={item}>
-                      <CardMedia
-                        component="img"
-                        height="100%"
-                        width='100%'
-                        image={item}
-                        alt="green iguana"
+                  <Card sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    position: 'relative',
+                    minHeight: '70vh',
+                    backgroundColor: 'transparent'
+                  }} key={item._id}>
+                    <CardMedia>
+                      <Image
+                        height={item.height || '100%'}
+                        width={item.width || '100%'}
+                        src={src}
+                        alt=""
+                        layout='fixed'
                       />
-                    </Card>
+                    </CardMedia>
+                  </Card>
                 )
               })
-              : []
           } />
         </Box>
 

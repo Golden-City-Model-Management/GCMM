@@ -23,7 +23,7 @@ const defaultImage = {
   width: 0,
 }
 
-module.exports.polaroidSchema = new mongoose.Schema({
+polaroidSchema = new mongoose.Schema({
   full_length: {
     type: ImageSchema,
     default: defaultImage
@@ -102,7 +102,7 @@ const modelSchema = new mongoose.Schema({
     required: [true, 'Please specify the shoe size']
   },
   polaroids: {
-    type: this.polaroidSchema,
+    type: polaroidSchema,
     default: { 
       full_length: defaultImage,
       waist_up: defaultImage,
@@ -111,7 +111,7 @@ const modelSchema = new mongoose.Schema({
     }
   },
   extra_polaroids: {
-    type: [this.polaroidSchema],
+    type: [polaroidSchema],
     validate: [validateLength, 'No more than 2 extra sets polaroids are allowed!']
   },
   isActive: {
@@ -191,4 +191,5 @@ modelSchema.methods.checkFields = function (fields) {
   }
 }
 
-module.exports.default = mongoose.model('Model', modelSchema) // Model is the name of the collection')
+module.exports = mongoose.model('Model', modelSchema) // Model is the name of the collection')
+module.exports.polaroidSchema = polaroidSchema

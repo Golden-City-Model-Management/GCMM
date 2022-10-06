@@ -17,6 +17,7 @@ export interface Socials {
   [key: string]: string
 }
 export interface Image {
+  [x: string]: string | number | undefined
   asset_id: string,
   bytes: number
   created_at: string,
@@ -25,7 +26,6 @@ export interface Image {
   format: string,
   height: number,
   original_filename: string,
-  placeholder: boolean,
   public_id: string,
   resource_type: string,
   secure_url: string,
@@ -34,6 +34,7 @@ export interface Image {
   version_id: string,
   _id: string,
   delete_token?: string,
+  width: number,
 }
 export interface Model {
   name: string, gender: string, dob: string,

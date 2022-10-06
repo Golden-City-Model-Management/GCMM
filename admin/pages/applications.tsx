@@ -13,8 +13,8 @@ import { Polaroids } from '@/types/models';
 import React, { useState, useCallback } from 'react';
 import { GetStaticProps } from 'next'
 import Request from '@/utils/api/request';
-import Lightbox from '@/components/Lightbox';
-import Carousel from '@/components/Carousel';
+import Lightbox, { RefactoredLightBox } from '@/components/Lightbox';
+import Carousel, { RefactoredCarousel } from '@/components/Carousel';
 import IconButton from '@mui/material/IconButton';
 import { Delete } from '@mui/icons-material';
 
@@ -159,9 +159,9 @@ const Applications = ({
           }
         </List>
       </Box>
-      <Lightbox showCloseBtn isOpen={currentActivePols.length > 0} title={'gvhjmjbhgvbbjhv'} close={() => setCurrentActivePols('')}   >
-        <Box position='absolute' width='80%' height='100%' top='10%' left='10%'>
-          <Carousel carouselItems={
+      <RefactoredLightBox showCloseBtn isOpen={currentActivePols.length > 0} title={'gvhjmjbhgvbbjhv'} close={() => setCurrentActivePols('')}   >
+        <Box  width='100%' height='100%' >
+          <RefactoredCarousel carouselItems={
             currentActivePols.length > 0 ?
               Object.values(applications.find(application => application._id === currentActivePols).polaroids)?.map(el => el.secure_url).map(item => {
 
@@ -181,7 +181,7 @@ const Applications = ({
           } />
         </Box>
 
-      </Lightbox>
+      </RefactoredLightBox>
     </AdminLayout>
   )
 }

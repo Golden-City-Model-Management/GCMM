@@ -7,7 +7,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import EditModelDetails from '@/components/models/EditModelDetails'
 import ModelOverview from '@/components/models/ModelOverview'
-import PolaroidsOverview from "@/components/models/AllPolaroidsOverview"
+import PolaroidsOverview from "@/components/models/Polaroids/AllPolaroidsOverview"
 import { useContext, useEffect, useState, useCallback } from "react"
 import { modelsReducer, StoreContext } from "reducers/store"
 

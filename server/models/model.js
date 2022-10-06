@@ -23,7 +23,7 @@ const defaultImage = {
   width: 0,
 }
 
-const polaroidSchema = new mongoose.Schema({
+polaroidSchema = new mongoose.Schema({
   full_length: {
     type: ImageSchema,
     default: defaultImage
@@ -103,7 +103,7 @@ const modelSchema = new mongoose.Schema({
   },
   polaroids: {
     type: polaroidSchema,
-    default: {
+    default: { 
       full_length: defaultImage,
       waist_up: defaultImage,
       close_up: defaultImage,
@@ -192,3 +192,4 @@ modelSchema.methods.checkFields = function (fields) {
 }
 
 module.exports = mongoose.model('Model', modelSchema) // Model is the name of the collection')
+module.exports.polaroidSchema = polaroidSchema

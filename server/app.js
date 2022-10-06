@@ -7,7 +7,6 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const cors = require('cors')
 const dotenv = require('dotenv')
 const CustomError = require('./utils/error')
 const globalErrorHandler = require('./middleware/error')
@@ -16,6 +15,7 @@ const usersRouter = require('./routes/user');
 const portfoliosRouter = require('./routes/portfolio');
 const feedbackRouter = require('./routes/feedback');
 const galleryRouter = require('./routes/gallery')
+const modelApplicationRouter = require('./routes/modelApplications')
 
 const whitelist = [
   'https://goldencityadmin.netlify.app/',
@@ -62,6 +62,7 @@ app.use('/api/v1/models', modelsRouter)
 app.use('/api/v1/portfolios', portfoliosRouter)
 app.use('/api/v1/feedback', feedbackRouter)
 app.use('/api/v1/gallery', galleryRouter) 
+app.use('/api/v1/model-applications', modelApplicationRouter)
 
 app.all('*', (req, _, next) => {
   next(new CustomError(`CANNOT ${req.method} ${req.originalUrl} on this server!`, 404));

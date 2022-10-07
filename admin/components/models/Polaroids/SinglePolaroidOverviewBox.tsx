@@ -6,17 +6,14 @@ import PolaroidsListWithTitle from '@/components/models/Polaroids/PolaroidsListW
 import Image from 'next/image'
 import { useState, useCallback, useContext } from "react"
 import EditOutlined from "@mui/icons-material/EditOutlined"
-import { RefactoredCarousel } from '@/components/Carousel'
-import { RefactoredLightBox } from "../../Lightbox"
-import * as React from 'react';
-import { emphasize } from "@mui/material"
+import Carousel from '@/components/Carousel'
+import Lightbox from "../../Lightbox"
 import PolaroidsForm from "./PolaroidsForm"
 import Request from '@/utils/api/request'
 import { uploadFile, deleteWithToken } from "@/utils/cloudinary"
 import { modelsReducer, notificationReducer, StoreContext } from '@/reducers/store'
 import Close from '@mui/icons-material/Close'
 import IconButton from '@mui/material/IconButton'
-import PlaceHolderImg from '@/public/assets/images/placeholder.jpeg'
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -132,9 +129,9 @@ const PolaroidsOverviewBox = ({ polaroids, title, id, setLoading, }: {
               <Typography variant='body1' component='p' textAlign='center'>{title} has no images.</Typography>}
           </Box>
         </Box>
-        <RefactoredLightBox showCloseBtn isOpen={showLightbox} close={() => setShowLightbox(false)} title={title}>
+        <Lightbox showCloseBtn isOpen={showLightbox} close={() => setShowLightbox(false)} title={title}>
           <Box position='relative' width='90%' top='10%' left='5%'>
-            <RefactoredCarousel carouselItems={
+            <Carousel carouselItems={
               images.map(img => {
                 return (
                   <Card key={img.title} sx={{ backgroundColor: 'transparent', }}>
@@ -164,7 +161,7 @@ const PolaroidsOverviewBox = ({ polaroids, title, id, setLoading, }: {
               })
             } />
           </Box>
-        </RefactoredLightBox>
+        </Lightbox>
       </>
     )
   }

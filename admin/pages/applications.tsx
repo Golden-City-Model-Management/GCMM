@@ -13,8 +13,8 @@ import { Polaroids } from '@/types/models';
 import React, { useState, useCallback, useMemo } from 'react';
 import { GetStaticProps } from 'next'
 import Request from '@/utils/api/request';
-import Lightbox, { RefactoredLightBox } from '@/components/Lightbox';
-import Carousel, { RefactoredCarousel } from '@/components/Carousel';
+import Lightbox from '@/components/Lightbox';
+import Carousel from '@/components/Carousel';
 import IconButton from '@mui/material/IconButton';
 import { Delete } from '@mui/icons-material';
 import Image from 'next/image';
@@ -196,9 +196,9 @@ const Applications = ({
           }
         </List>
       </Box>
-      <RefactoredLightBox showCloseBtn isOpen={currentActivePols.length > 0} title={'gvhjmjbhgvbbjhv'} close={() => setCurrentActivePols('')}   >
+      <Lightbox showCloseBtn isOpen={currentActivePols.length > 0} title={'gvhjmjbhgvbbjhv'} close={() => setCurrentActivePols('')}   >
         <Box width='100%' height='100%' >
-          <RefactoredCarousel carouselItems={
+          <Carousel carouselItems={
               currentActivePols.filter(el => typeof el === 'object').map(item => {
                 const src = item.secure_url
                 return (
@@ -225,7 +225,7 @@ const Applications = ({
           } />
         </Box>
 
-      </RefactoredLightBox>
+      </Lightbox>
     </AdminLayout>
   )
 }

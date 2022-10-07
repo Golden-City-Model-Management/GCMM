@@ -42,13 +42,13 @@ const PolaroidsForm = ({ handleSubmit, existingPolaroids }: {
   }, [handleSubmit, polaroids])
 
   return (
-    <Box component='form' onSubmit={submitPolaroids} border={1} py={4} px={3} display='flex' flexWrap='wrap' flexDirection='column' justifyContent='center' alignItems='center'>
-      <Box display='flex' flexWrap='wrap' justifyContent='space-evenly' mx='auto' my={3} gap={3} >
+    <Box component='form' onSubmit={submitPolaroids} py={4} px={3} display='flex' flexWrap='wrap' flexDirection='column' justifyContent='center' alignItems='center'>
+      <Box display='flex' flexWrap='wrap' justifyContent='space-evenly' mx='auto' my={3} gap={3}>
         {
           Object.keys(polaroids).map((key) => {
             return (
               <Box key={key} display='flex' flexDirection='column' >
-                <Typography component='small' variant='h3' textTransform='capitalize' textAlign='center' borderBottom={1}
+                <Typography component='small' variant='h5' textTransform='capitalize' textAlign='center' borderBottom={1}
                 >{key.split('_').join(' ')}</Typography>
                 <Image width={230}
                   height={230}

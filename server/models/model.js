@@ -60,13 +60,18 @@ const socialsSchema = new mongoose.Schema({
   },
 })
 const modelSchema = new mongoose.Schema({
-  name: {
+  first_name: {
     type: String,
-    required: [true, 'A model must have a name!'],
+    required: [true, 'A model must have a first name!'],
+    minLength: [3, 'The name must be at least 5 characters long!'],
+  },
+  last_name: {
+    type: String,
+    required: [true, 'A model must have a last name!'],
     minLength: [3, 'The name must be at least 5 characters long!'],
   },
   dob: {
-    type: Date,
+    type: Date, 
     validate: {
       validator: function (val) {
         return Object.prototype.toString.call(val) === "[object Date]"
@@ -105,9 +110,9 @@ const modelSchema = new mongoose.Schema({
     type: polaroidSchema,
     default: { 
       full_length: defaultImage,
-      waist_up: defaultImage,
-      close_up: defaultImage,
-      profile: defaultImage
+      half_length: defaultImage,
+      head_shot: defaultImage,
+      side_profile: defaultImage
     }
   },
   extra_polaroids: {

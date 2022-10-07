@@ -18,9 +18,9 @@ const PolaroidsForm = ({ handleSubmit, existingPolaroids }: {
 
   const [polaroids, setPolaroids] = useState({
     full_length: { src: existingPolaroids?.full_length.secure_url, file: new File([], '') },
-    waist_up: { src: existingPolaroids?.waist_up.secure_url, file: new File([], '') },
-    close_up: { src: existingPolaroids?.close_up.secure_url, file: new File([], '') },
-    profile: { src: existingPolaroids?.profile.secure_url, file: new File([], '') },
+    half_length: { src: existingPolaroids?.half_length.secure_url, file: new File([], '') },
+    head_shot: { src: existingPolaroids?.head_shot.secure_url, file: new File([], '') },
+    side_profile: { src: existingPolaroids?.side_profile.secure_url, file: new File([], '') },
   })
   const handleFileInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files![0]

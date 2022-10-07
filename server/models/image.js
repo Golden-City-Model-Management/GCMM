@@ -10,15 +10,9 @@ const ImageSchema = new mongoose.Schema({
   height: Number,
   original_filename: String,
   placeholder: Boolean,
-  public_id:  {
-    type: String,
-    required: [true, 'missing image public_id!']
-  },
+  public_id:  String,
   resource_type: String,
-  secure_url: {
-    type: String,
-    required: [true, 'missing image url!']
-  },
+  secure_url: String,
   signature: String,
   version: Number,
   version_id: String,

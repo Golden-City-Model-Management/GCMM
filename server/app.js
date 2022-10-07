@@ -16,6 +16,7 @@ const portfoliosRouter = require('./routes/portfolio');
 const feedbackRouter = require('./routes/feedback');
 const galleryRouter = require('./routes/gallery')
 const modelApplicationRouter = require('./routes/modelApplications')
+const dbUpdatesRouter = require('./routes/dbupdates')
 
 const whitelist = [
   'https://goldencityadmin.netlify.app/',
@@ -63,6 +64,7 @@ app.use('/api/v1/portfolios', portfoliosRouter)
 app.use('/api/v1/feedback', feedbackRouter)
 app.use('/api/v1/gallery', galleryRouter) 
 app.use('/api/v1/model-applications', modelApplicationRouter)
+app.use('/api/v1/db-updates', dbUpdatesRouter)
 
 app.all('*', (req, _, next) => {
   next(new CustomError(`CANNOT ${req.method} ${req.originalUrl} on this server!`, 404));

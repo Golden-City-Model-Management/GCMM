@@ -1,9 +1,9 @@
 
 export interface Polaroids {
   full_length: Image,
-  waist_up: Image,
-  close_up: Image,
-  profile: Image,
+  half_length: Image,
+  head_shot: Image,
+  side_profile: Image,
   _id: string,
 }
 

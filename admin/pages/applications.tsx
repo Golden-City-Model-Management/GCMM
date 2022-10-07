@@ -123,7 +123,7 @@ const Applications = ({
                     <CardMedia
                       component="img"
                       height="300"
-                      image={app.polaroids.close_up.secure_url}
+                      image={app.polaroids.head_shot.secure_url}
                       alt="green iguana"
                     />
                     

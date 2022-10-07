@@ -127,6 +127,9 @@ const modelSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  name: {
+    type: String,
+  },
   is_new_face: {
     type: Boolean,
     default: false
@@ -165,7 +168,8 @@ modelSchema.pre('findOne', function () {
   this.populate('portfolio')
 })
 modelSchema.pre('save', async function(next) {
-  this.slug = this.name.split(' ').join('-')
+  this.slug =  this.first_name.split(' ').join('-')  + '-' + this.last_name.split(' ').join('-')
+  this.name =  this.first_name  + this.last_name
   next()
 })
 modelSchema.pre('save', async function (next) {

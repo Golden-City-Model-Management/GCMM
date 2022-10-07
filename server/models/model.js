@@ -28,15 +28,15 @@ polaroidSchema = new mongoose.Schema({
     type: ImageSchema,
     default: defaultImage
   },
-  waist_up: {
+  head_shot: {
     type: ImageSchema,
     default: defaultImage
   },
-  close_up: {
+  half_length: {
     type: ImageSchema,
     default: defaultImage
   },
-  profile: {
+  side_profile: {
     type: ImageSchema,
     default: defaultImage
   },
@@ -121,6 +121,10 @@ const modelSchema = new mongoose.Schema({
   slug: {
     type: String,
     default: ''
+  },
+  is_new_face: {
+    type: Boolean,
+    default: false
   }
 },
   {

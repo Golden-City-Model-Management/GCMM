@@ -17,14 +17,16 @@ const style = {
   maxWidth: '80vw',
   boxShadow: 24,
   p: 4,
-  minHeight: '75vh' 
+  overflow: 'auto',
+  height: '100%'
 };
-export default function Lightbox({ title, isOpen, close, children, showCloseBtn }: {
+export default function Lightbox({ title, isOpen, close, children, maxHeight, showCloseBtn }: {
   title: string,
   isOpen: boolean,
   close: () => void,
   children: ReactNode | ReactNode[]
-  showCloseBtn?: boolean
+  showCloseBtn?: boolean,
+  maxHeight?: string
 }) {
   const handleClose = useCallback(() => close(), [close])
 
@@ -42,7 +44,7 @@ export default function Lightbox({ title, isOpen, close, children, showCloseBtn 
         }}
       >
         <Fade in={isOpen}>
-          <Grid borderRadius={1} bgcolor='primary.light' sx={style}>
+          <Grid borderRadius={1} bgcolor='primary.light' maxHeight={maxHeight || '100%'} sx={style}>
           {showCloseBtn && 
           <IconButton 
             color='secondary' 

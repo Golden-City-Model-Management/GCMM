@@ -6,17 +6,14 @@ import PolaroidsListWithTitle from '@/components/models/Polaroids/PolaroidsListW
 import Image from 'next/image'
 import { useState, useCallback, useContext } from "react"
 import EditOutlined from "@mui/icons-material/EditOutlined"
-import { RefactoredCarousel } from '@/components/Carousel'
-import { RefactoredLightBox } from "../../Lightbox"
-import * as React from 'react';
-import { emphasize } from "@mui/material"
+import Carousel from '@/components/Carousel'
+import Lightbox from "../../Lightbox"
 import PolaroidsForm from "./PolaroidsForm"
 import Request from '@/utils/api/request'
 import { uploadFile, deleteWithToken } from "@/utils/cloudinary"
 import { modelsReducer, notificationReducer, StoreContext } from '@/reducers/store'
 import Close from '@mui/icons-material/Close'
 import IconButton from '@mui/material/IconButton'
-import PlaceHolderImg from '@/public/assets/images/placeholder.jpeg'
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -107,81 +104,80 @@ const PolaroidsOverviewBox = ({ polaroids, title, id, setLoading, }: {
     setLoading(false)
   }, [postImages, setLoading])
 
-  if (!isEditing) {
-    return (
-      <>
-        <Box position='relative' width='90vw' maxWidth='1024px' borderRadius='12px' bgcolor='primary.light'
-          px={8} pt={0} pb={5} >
-          <Box position='absolute' top='2%' right='2%' >
-            <Button onClick={() => { setIsEditing(prev => !prev) }} variant='text' color='inherit'>
-              <EditOutlined />&nbsp;Edit</Button>
-          </Box>
-          <Typography variant='h2' textAlign='center' my={3} mx='auto' component='h2'>
-            {title}
-          </Typography>
-          <Box>
-            {images.length > 0 ?
-              <>
-                <PolaroidsListWithTitle images={images} />
-                <Box mx='auto' mt={5} display='flex' justifyContent='center'>
-                  <Button onClick={() => { setShowLightbox(true) }} size='small'
-                    variant='text' color='secondary'>view in lightbox</Button>
-                </Box>
-              </>
-              :
-              <Typography variant='body1' component='p' textAlign='center'>{title} has no images.</Typography>}
-          </Box>
-        </Box>
-        <RefactoredLightBox showCloseBtn isOpen={showLightbox} close={() => setShowLightbox(false)} title={title}>
-          <Box position='relative' width='90%' top='10%' left='5%'>
-            <RefactoredCarousel carouselItems={
-              images.map(img => {
-                return (
-                  <Card key={img.title} sx={{ backgroundColor: 'transparent', }}>
-                    <CardMedia sx={{
-                      position: 'relative',
-                      minHeight: '70vh',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                      <Image
-                        width={img.img.width}
-                        height={img.img.height}
-                        src={img.img.secure_url}
-                        alt={img.title}
-                        layout='fixed'
-                        style={{ display: 'block', margin: '0 auto' }}
-                      />
-                    </CardMedia>
-                    <CardContent>
-                      <Typography variant="h5" textAlign="center" textTransform="capitalize">
-                        {img.title}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                )
-              })
-            } />
-          </Box>
-        </RefactoredLightBox>
-      </>
-    )
-  }
-
   return (
     <>
-      <Box position='relative'>
+      <Box position='relative' width='90vw' maxWidth='1024px' borderRadius='12px' bgcolor='primary.light'
+        px={8} pt={0} pb={5} >
         <Box position='absolute' top='2%' right='2%' >
-          <IconButton onClick={() => { setIsEditing(prev => !prev) }} color='inherit'>
-            <Close />
-          </IconButton>
+          <Button onClick={() => { setIsEditing(prev => !prev) }} variant='text' color='inherit'>
+            <EditOutlined />&nbsp;Edit</Button>
         </Box>
-        <PolaroidsForm handleSubmit={(data) => handleUpdatePolaroids(data)} existingPolaroids={polaroids} />
+        <Typography variant='h2' textAlign='center' my={3} mx='auto' component='h2'>
+          {title}
+        </Typography>
+        <Box>
+          {images.length > 0 ?
+            <>
+              <PolaroidsListWithTitle images={images} />
+              <Box mx='auto' mt={5} display='flex' justifyContent='center'>
+                <Button onClick={() => { setShowLightbox(true) }} size='small'
+                  variant='text' color='secondary'>view in lightbox</Button>
+              </Box>
+            </>
+            :
+            <Typography variant='body1' component='p' textAlign='center'>{title} has no images.</Typography>}
+        </Box>
       </Box>
+      <Lightbox isOpen={isEditing} title={""} close={() => setIsEditing(false)} maxHeight='60vh'  >
+        <>
+          <Box position='relative'>
+            <Typography variant='h2' textAlign='center' component='h3'>Edit  {title}</Typography>
+            <Box position='absolute' top='2%' right='2%' >
+              <IconButton onClick={() => { setIsEditing(prev => !prev) }} color='inherit'>
+                <Close />
+              </IconButton>
+            </Box>
+            <PolaroidsForm handleSubmit={(data) => handleUpdatePolaroids(data)} existingPolaroids={polaroids} />
+          </Box>
+        </>
+      </Lightbox>
+      <Lightbox  showCloseBtn isOpen={showLightbox} close={() => setShowLightbox(false)} title={title}>
+        <Box position='relative' width='90%' top='10%' left='5%'>
+          <Carousel carouselItems={
+            images.map(img => {
+              return (
+                <Card key={img.title} sx={{ backgroundColor: 'transparent', }}>
+                  <CardMedia sx={{
+                    position: 'relative',
+                    height: '65vh',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    overflow: 'scroll'
+                  }}>
+                    <Image
+                      width={img.img.width}
+                      height={img.img.height}
+                      src={img.img.secure_url}
+                      alt={img.title}
+                      layout='fixed'
+                      style={{ display: 'block', margin: '0 auto' }}
+                    />
+                  </CardMedia>
+                  <CardContent>
+                    <Typography variant="h5" textAlign="center" textTransform="capitalize">
+                      {img.title}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              )
+            })
+          } />
+        </Box>
+      </Lightbox>
     </>
-
   )
+  // }
 }
 
 export default PolaroidsOverviewBox 

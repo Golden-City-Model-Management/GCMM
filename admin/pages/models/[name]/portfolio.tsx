@@ -39,8 +39,6 @@ const PortfolioPage = () => {
     }
     const uploadedImages = [...(await Promise.all([...uploads]))].filter(el => el.error === undefined)
     const storedPortfolios = await Request({path: '/portfolios', method: 'post', data: { images: uploadedImages, model: modelInState.id}})
-    console.log(storedPortfolios)
-  console.log(modelInState)
     if(modelInState){
       modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: {
         ...modelInState, portfolio: [...modelInState.portfolio, ...storedPortfolios.images]
@@ -96,9 +94,9 @@ const PortfolioPage = () => {
           </Button>
         </Box>
         <Box width='95vw' maxWidth='1150px' mx='auto'>
-          {modelInState.portfolio.length <= 0 ?
+          {!modelInState.portfolio || modelInState.portfolio.length === 0 ?
             <Typography component='p' variant='h4' textAlign='center' mt={30}>No Images</Typography>
-            : <PortfolioImageList images={modelInState.portfolio} />}
+            : <PortfolioImageList images={modelInState.portfolio || []} />}
         </Box>
       </Box>
     </AdminLayout>

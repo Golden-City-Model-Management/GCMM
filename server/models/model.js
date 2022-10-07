@@ -28,15 +28,15 @@ polaroidSchema = new mongoose.Schema({
     type: ImageSchema,
     default: defaultImage
   },
-  waist_up: {
+  head_shot: {
     type: ImageSchema,
     default: defaultImage
   },
-  close_up: {
+  half_length: {
     type: ImageSchema,
     default: defaultImage
   },
-  profile: {
+  side_profile: {
     type: ImageSchema,
     default: defaultImage
   },
@@ -60,13 +60,18 @@ const socialsSchema = new mongoose.Schema({
   },
 })
 const modelSchema = new mongoose.Schema({
-  name: {
+  first_name: {
     type: String,
-    required: [true, 'A model must have a name!'],
+    required: [true, 'A model must have a first name!'],
+    minLength: [3, 'The name must be at least 5 characters long!'],
+  },
+  last_name: {
+    type: String,
+    required: [true, 'A model must have a last name!'],
     minLength: [3, 'The name must be at least 5 characters long!'],
   },
   dob: {
-    type: Date,
+    type: Date, 
     validate: {
       validator: function (val) {
         return Object.prototype.toString.call(val) === "[object Date]"
@@ -105,9 +110,9 @@ const modelSchema = new mongoose.Schema({
     type: polaroidSchema,
     default: { 
       full_length: defaultImage,
-      waist_up: defaultImage,
-      close_up: defaultImage,
-      profile: defaultImage
+      half_length: defaultImage,
+      head_shot: defaultImage,
+      side_profile: defaultImage
     }
   },
   extra_polaroids: {
@@ -121,6 +126,13 @@ const modelSchema = new mongoose.Schema({
   slug: {
     type: String,
     default: ''
+  },
+  name: {
+    type: String,
+  },
+  is_new_face: {
+    type: Boolean,
+    default: false
   }
 },
   {
@@ -156,7 +168,8 @@ modelSchema.pre('findOne', function () {
   this.populate('portfolio')
 })
 modelSchema.pre('save', async function(next) {
-  this.slug = this.name.split(' ').join('-')
+  this.slug =  this.first_name.split(' ').join('-')  + '-' + this.last_name.split(' ').join('-')
+  this.name =  this.first_name  + this.last_name
   next()
 })
 modelSchema.pre('save', async function (next) {

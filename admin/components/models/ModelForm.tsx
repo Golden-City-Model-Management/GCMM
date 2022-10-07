@@ -1,5 +1,5 @@
 
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, Fragment } from 'react'
 import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
@@ -16,8 +16,8 @@ export const nonDisplayedFields = [
   'portfolio',
   'polaroids',
   'extra_polaroids',
-  'socials', 'gender', 'dob', 'age',
-  'id', 'isActive', 'name', 'slug']
+  'socials', 'gender', 'dob', 'age', 'is_new_face',
+  'id', 'isActive', 'name', 'slug', 'name']
 
 const ModelForm = ({ model, submitBtnTxt, handleSubmit, showSubmitBtn, isEditForm }: {
   model: ModelWithPolaroidsAndPortfolio | Model,
@@ -27,11 +27,10 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit, showSubmitBtn, isEditFor
 }) => {
 
   const keysOfNonNestedFields = Object.keys(model)
-    .filter(key => key === 'name' || key === 'dob' || key === 'gender' || !nonDisplayedFields.includes(key))
-
+    .filter(key => key === 'dob' || key === 'gender' || !nonDisplayedFields.includes(key))
   let initialState = keysOfNonNestedFields.map(key => ({ [key]: model[key as keyof typeof model] }))
   const [formData, setFormData] = useState<Model>(() => {
-    let data = {}
+    let data = { is_new_face: 'no' }
     initialState.forEach(keyVal => {
       data = { ...data, ...keyVal }
     })
@@ -64,12 +63,17 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit, showSubmitBtn, isEditFor
     if (hasEmptyFields.some(el => el)) {
       return
     } else {
-      let dataToSubmit = {...formData, 
-        bust: formData.gender === 'female' ? formData.bust : undefined,
-        chest: formData.gender === 'male' ? formData.bust : undefined}
+      let dataToSubmit = {
+        ...formData,
+        bust: formData.bust || formData.chest,
+        chest: formData.bust || formData.chest,
+        is_new_face: formData.is_new_face === 'yes' 
+      }
+      console.log(dataToSubmit)
+      // return
       handleSubmit(dataToSubmit)
       !isEditForm && setFormData(() => {
-        let data = {}
+        let data = {is_new_face: 'no'}
         initialState.forEach(keyVal => {
           data = { ...data, ...keyVal }
         })
@@ -89,57 +93,79 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit, showSubmitBtn, isEditFor
       component='form' mx='auto' width='80vw' maxWidth='900px' gap={5}
       display='flex' justifyContent='center' alignItems='center'>
       <Grid container columns={3} columnSpacing={3} rowSpacing={3} component='legend'>
-        {keysSorted.map((field: string) => (
-          <Grid key={field} item xs={3} sm={1.5} md={1}>
-            {field !== 'gender' ?
+        <>{ keysSorted.map((field: string) => {
+          return (field !== 'gender' ?
+            <Grid key={field} item xs={3} sm={1.5} md={1}>
               <TextField aria-labelledby={field === 'bust' && formData.gender === 'male' ? 'chest' : field}
-               required aria-label={field === 'bust' && formData.gender === 'male' ? 'chest' : field}
+                required aria-label={field === 'bust' && formData.gender === 'male' ? 'chest' : field}
                 error={error[field]} color={'secondary'}
-                name={field} onChange={handleFormDataChange} 
-                label={field === 'bust' && formData.gender === 'male' ? 'chest' : field} 
+                name={field} onChange={handleFormDataChange}
+                label={field === 'bust' && formData.gender === 'male' ? 'chest' : field}
                 hiddenLabel InputLabelProps={{ shrink: true }} fullWidth variant='outlined'
                 InputProps={{
                   startAdornment: typeof model[field as keyof typeof formData] === 'number' ?
                     <InputAdornment position="start">cm</InputAdornment> : ''
                 }}
-                type={
-                  field === 'dob' ? 'date' :
-                    typeof model[field as keyof typeof formData]}
+                type={field === 'dob' ? 'date' : typeof model[field as keyof typeof formData]}
                 value={formData[field as keyof typeof formData]?.toString()}
                 sx={t => ({
                   '.MuiOutlinedInput-notchedOutline': {
                     borderColor: t.palette.text.primary
                   }
                 })}
-              /> :
-              <>
-                <FormControl fullWidth required sx={t => ({
-                  '.MuiOutlinedInput-notchedOutline': {
-                    borderColor: t.palette.text.primary
-                  }
-                })}>
-                  <InputLabel color={'secondary'} id="gender">gender</InputLabel>
-                  <Select
-                    labelId="gender"
-                    value={formData[field]}
-                    label={field}
-                    name={field}
-                    error={error[field]} color={'secondary'}
-                    fullWidth variant='outlined'
-                    onChange={e => handleFormDataChange(e as React.ChangeEvent<HTMLInputElement>)}>
-                      {[ 'male', 'female' ].map(el => {
-                        return <MenuItem key={el} value={el} sx={({
-                          color: 'primary.dark'
-                        })}>{el}</MenuItem>
-                      })}
-                  </Select>
-                </FormControl>
-              </>
-            }
+              />
+            </Grid> :
+            <Fragment key={field}>
+            </Fragment>)})}
+         </>
+         <Grid item xs={3} sm={1.5} md={1}>
+            <FormControl fullWidth required sx={t => ({
+              '.MuiOutlinedInput-notchedOutline': {
+                borderColor: t.palette.text.primary
+              }
+            })}>
+              <InputLabel color={'secondary'} id="gender">gender</InputLabel>
+              <Select
+                labelId="gender"
+                value={formData.gender}
+                label={'gender'}
+                name={'gender'}
+                error={error['gender']} color={'secondary'}
+                fullWidth variant='outlined'
+                onChange={e => handleFormDataChange(e as React.ChangeEvent<HTMLInputElement>)}>
+                {['male', 'female'].map(el => {
+                  return <MenuItem key={el} value={el} sx={({
+                    color: 'primary.dark'
+                  })}>{el}</MenuItem>
+                })}
+              </Select>
+            </FormControl>
           </Grid>
-        ))}
-      </Grid>
-     {showSubmitBtn && <Button variant='outlined' color='inherit' type='submit'>{submitBtnTxt}</Button>}
+          <Grid item xs={3} sm={1.5} md={1}>
+            <FormControl fullWidth required sx={t => ({
+              '.MuiOutlinedInput-notchedOutline': {
+                borderColor: t.palette.text.primary
+              }
+            })}>
+              <InputLabel color={'secondary'} id="new face">new face</InputLabel>
+              <Select
+                labelId="new face"
+                value={formData.is_new_face}
+                label={'new face'}
+                name={'is_new_face'}
+                error={error['new face']} color={'secondary'}
+                fullWidth variant='outlined'
+                onChange={e => handleFormDataChange(e as React.ChangeEvent<HTMLInputElement>)}>
+                {['yes', 'no'].map(el => {
+                  return <MenuItem key={el} value={el} sx={({
+                    color: 'primary.dark'
+                  })}>{el}</MenuItem>
+                })}
+              </Select>
+            </FormControl>
+          </Grid>
+       </Grid>
+      {showSubmitBtn && <Button variant='outlined' color='inherit' type='submit'>{submitBtnTxt}</Button>}
     </Box>
   )
 }

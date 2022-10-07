@@ -14,8 +14,8 @@ import Loader from '@/components/common/loader'
 import AdminLayout from '@/components/layout/Layout'
 
 const modelInitialState = {
-  name: '', dob: '', height: 0, bust: 0, shoe: 0, hips: 0, waist: 0, cover_image: {} as any,
-  gender: 'female', id: '', isActive: true, socials: {}, is_new: false
+  first_name: '', last_name: '', dob: '', height: 0, bust: 0, shoe: 0, hips: 0, waist: 0, cover_image: {} as any,
+  gender: 'female', id: '', isActive: true, socials: {}, is_new_face: 'no', name: ''
 }
 
 const Models = () => {
@@ -78,9 +78,8 @@ const Models = () => {
     let modelData = composeData(data)
     if(!coverImage?.file) return
     setLoading(true) 
-    const uploadedImage = await uploadFile({ file: coverImage.file, folder: `cover_images/${modelData.name}`, 
+    const uploadedImage = await uploadFile({ file: coverImage.file, folder: `cover_images/${modelData.first_name}-${modelData.last_name}`, 
     upload_preset: process.env.NEXT_PUBLIC_CIP || ''})
-    console.log(uploadedImage)
     if(await uploadedImage?.statusCode === 200){
       modelData = { ...modelData, cover_image: uploadedImage }
       handleResponse(await postData(modelData), {token: uploadedImage.delete_token, public_id: uploadedImage.public_id})

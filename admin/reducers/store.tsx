@@ -32,7 +32,8 @@ const initialState: {
     isActive: true, socials: {} as Socials,
     polaroids: {} as Polaroids,
     extra_polaroids: [],
-    portfolio: []
+    portfolio: [], is_new_face: 'no',
+    first_name: '', last_name: '',
   }
   },
   notification: {

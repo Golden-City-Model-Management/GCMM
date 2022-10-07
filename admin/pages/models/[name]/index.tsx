@@ -19,7 +19,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       path: `/models?limit=${limit}&page=1&fields=${fields}`, method: 'get' 
     })
     const paths = response.docs.map((model: { name: string }) => {
-      return { params: { name: model.name}}
+      return { params: { name: model.name.toString()}}
     })
     return {
       paths: paths,

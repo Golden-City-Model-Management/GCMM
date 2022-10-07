@@ -37,11 +37,11 @@ export interface Image {
   width: number,
 }
 export interface Model {
-  name: string, gender: string, dob: string,
+  first_name: string, last_name: string, name: string, gender: string, dob: string,
   cover_image: Image, waist: number,
   chest?: number, bust?: number, hips?: number,
   height: number, shoe: number, id: string,
-  isActive: boolean, socials: Socials
+  isActive: boolean, socials: Socials, is_new_face: boolean | string
 }
 
 

@@ -80,7 +80,7 @@ const Models = ({ initialModels, initialStatusCode, initialMessage, }:
 
   useEffect(() => {
     if (searchTerm.trim().length > 0) {
-      setFilteredModels(models.filter(el => el.name.split(' ').some(str => str.startsWith(searchTerm)) || el.name.includes(searchTerm)))
+      setFilteredModels(models.filter(el => el.name.split(' ').some(str => str.startsWith(searchTerm)) || el.name?.includes(searchTerm)))
     } else {
       setFilteredModels(models)
     }

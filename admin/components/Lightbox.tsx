@@ -7,18 +7,18 @@ import Grid from '@mui/material/Grid';
 import { ReactNode, useCallback, useState } from 'react';
 import { CloseOutlined } from '@mui/icons-material';
 
+
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: '80vw',
-  maxWidth: '800px',
+  maxWidth: '80vw',
   boxShadow: 24,
   p: 4,
   minHeight: '75vh' 
 };
-
 export default function Lightbox({ title, isOpen, close, children, showCloseBtn }: {
   title: string,
   isOpen: boolean,
@@ -42,50 +42,7 @@ export default function Lightbox({ title, isOpen, close, children, showCloseBtn 
         }}
       >
         <Fade in={isOpen}>
-          <Box position='relative' borderRadius={1} bgcolor='primary.light' sx={style}>
-          { showCloseBtn && <IconButton color='secondary'  onClick={handleClose} sx={{position: 'absolute', top: '5%', right: '5%'}}><CloseOutlined /></IconButton>}
-            {children}
-          </Box>
-        </Fade>
-      </Modal>
-    </>
-  );
-}
-const refactoredstyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '80vw',
-  maxWidth: '80vw',
-  boxShadow: 24,
-  p: 4,
-  minHeight: '75vh' 
-};
-export function RefactoredLightBox({ title, isOpen, close, children, showCloseBtn }: {
-  title: string,
-  isOpen: boolean,
-  close: () => void,
-  children: ReactNode | ReactNode[]
-  showCloseBtn?: boolean
-}) {
-  const handleClose = useCallback(() => close(), [close])
-
-  return (
-    <>
-      <Modal
-        aria-labelledby={title}
-        aria-describedby={`Lightbox for ${title}`}
-        open={isOpen}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={isOpen}>
-          <Grid borderRadius={1} bgcolor='primary.light' sx={refactoredstyle}>
+          <Grid borderRadius={1} bgcolor='primary.light' sx={style}>
           {showCloseBtn && 
           <IconButton 
             color='secondary' 

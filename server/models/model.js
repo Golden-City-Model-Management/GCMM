@@ -169,7 +169,7 @@ modelSchema.pre('findOne', function () {
 })
 modelSchema.pre('save', async function(next) {
   this.slug =  this.first_name.split(' ').join('-')  + '-' + this.last_name.split(' ').join('-')
-  this.name =  this.first_name  + this.last_name
+  this.name =  this.first_name  + ' ' + this.last_name
   next()
 })
 modelSchema.pre('save', async function (next) {

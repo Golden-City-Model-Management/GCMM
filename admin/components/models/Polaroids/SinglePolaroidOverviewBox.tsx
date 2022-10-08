@@ -17,6 +17,7 @@ import IconButton from '@mui/material/IconButton'
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
+import PlaceholderImg from '@/public/assets/images/placeholder.jpeg'
 
 const transformPolaroidObjKeys = (obj: { [key: string]: any }, excludedFields: string[]) => {
   return Object.keys(obj).filter(key => !excludedFields.includes(key)).map(key => ({
@@ -99,9 +100,9 @@ const PolaroidsOverviewBox = ({ polaroids, title, id, setLoading, }: {
     } = {}
     editedPolaroidEntries.forEach(entry => {
       finalData[entry[0] as keyof typeof finalData] = entry[1].file
-    })
-    postImages(finalData)
+    })   
     setLoading(false)
+    postImages(finalData)
   }, [postImages, setLoading])
 
   return (
@@ -158,7 +159,7 @@ const PolaroidsOverviewBox = ({ polaroids, title, id, setLoading, }: {
                     <Image
                       width={img.img.width}
                       height={img.img.height}
-                      src={img.img.secure_url}
+                      src={img.img.secure_url || PlaceholderImg}
                       alt={img.title}
                       layout='fixed'
                       style={{ display: 'block', margin: '0 auto' }}

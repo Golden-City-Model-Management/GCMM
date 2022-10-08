@@ -69,8 +69,6 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit, showSubmitBtn, isEditFor
         chest: formData.bust || formData.chest,
         is_new_face: formData.is_new_face === 'yes' 
       }
-      console.log(dataToSubmit)
-      // return
       handleSubmit(dataToSubmit)
       !isEditForm && setFormData(() => {
         let data = {is_new_face: 'no'}

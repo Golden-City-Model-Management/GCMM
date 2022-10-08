@@ -31,7 +31,7 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-const Models = ({ initialModels, initialStatusCode, initialMessage, }:
+const Models = ({ initialModels, initialStatusCode, initialMessage, initialStatus }:
   { initialModels: Model[]; initialStatus: string; initialMessage: string; initailTotalCount: number, initialStatusCode: number }) => {
 
   console.log(initialModels)
@@ -42,13 +42,12 @@ const Models = ({ initialModels, initialStatusCode, initialMessage, }:
 
   const [filteredModels, setFilteredModels] = useState(models)
   const [currentPage, setCurrentPage] = useState(1)
-  const [shouldFetchWithPaginate, setShouldFetchWithPaginate] = useState(true)
+  const [shouldFetchWithPaginate, setShouldFetchWithPaginate] = useState(initialModels?.length === limit)
 
   const handlePaginationWithScroll = useCallback(async () => {
     const data = await fetchModels([{ 'limit': `${limit}`, 'page': (currentPage + 1).toString() }])
-    console.log(data)
     if (!data.error) {
-      combinedDispatch.modelsDispatch({ type: modelsActions.updateModels, payload: data.docs })
+     Array.isArray(data.docs) && combinedDispatch.modelsDispatch({ type: modelsActions.updateModels, payload: data.docs })
       setCurrentPage(prev => prev + 1)
       if (data.total_count < limit) {
         setShouldFetchWithPaginate(false)
@@ -62,7 +61,7 @@ const Models = ({ initialModels, initialStatusCode, initialMessage, }:
       combinedDispatch.modelsDispatch({ type: modelsActions.updateLoading, payload: true })
       fetchModels().then(({ message, docs, statusCode }) => {
         const notifType = statusCode === 200 ? 'success' : 'error'
-        combinedDispatch.modelsDispatch({ type: modelsActions.updateModels, payload: docs })
+       Array.isArray(docs) && combinedDispatch.modelsDispatch({ type: modelsActions.updateModels, payload: docs })
         combinedDispatch.notificationDispatch({
           type: notificationActions.showNotification,
           payload: { message, show: true, type: notifType }
@@ -74,13 +73,14 @@ const Models = ({ initialModels, initialStatusCode, initialMessage, }:
     models.length, modelsActions, notificationActions.showNotification])
 
   useEffect(() => {
-    state.models.models.length <= 0 && combinedDispatch.modelsDispatch({ type: modelsActions.updateModels, payload: initialModels })
-    combinedDispatch.notificationDispatch({ type: notificationActions.showNotification, payload: { message: initialMessage, show: true, type: 'success' } })
-  }, [initialMessage, combinedDispatch, modelsActions.updateModels, initialModels, state.models.models.length, notificationActions.showNotification])
+    state.models.models.length <= 0 && Array.isArray(initialModels) && combinedDispatch.modelsDispatch({ type: modelsActions.updateModels, payload: initialModels })
+    combinedDispatch.notificationDispatch({ type: notificationActions.showNotification, payload: { message: initialMessage, show: true, type: initialStatus } })
+  }, [initialMessage, combinedDispatch, modelsActions.updateModels, initialModels, state.models.models.length, notificationActions.showNotification, initialStatus])
 
   useEffect(() => {
     if (searchTerm.trim().length > 0) {
-      setFilteredModels(models.filter(el => el.name.split(' ').some(str => str.startsWith(searchTerm)) || el.name?.includes(searchTerm)))
+      setFilteredModels(models.filter(el => el.name.split(' ').some(str => 
+        str.toLowerCase().startsWith(searchTerm.toLowerCase())) || el.name.toLowerCase().includes(searchTerm.toLowerCase())))
     } else {
       setFilteredModels(models)
     }

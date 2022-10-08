@@ -34,7 +34,6 @@ export const getStaticProps: GetStaticProps = async () => {
 const Models = ({ initialModels, initialStatusCode, initialMessage, initialStatus }:
   { initialModels: Model[]; initialStatus: string; initialMessage: string; initailTotalCount: number, initialStatusCode: number }) => {
 
-  console.log(initialModels)
   const { state, combinedDispatch } = useContext(StoreContext)
   const { models: { models, loading, searchTerm } } = state
   const { modelsActions, fetchModels, } = modelsReducer

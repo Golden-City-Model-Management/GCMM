@@ -23,7 +23,6 @@ export const fetchFeedbacks = async (query?: { [key: string]: string }[]): Promi
   const queryString = query?.map(el => Object.keys(el).map(key => `${key}=${el[key as keyof typeof el]}`).join('&')).join()
   try {
     let res = await ClientRequest({ path: `/feedback?${queryString ? queryString : ''}`, method: 'get' })
-    console.log(res)
     if (res.statusCode === 200) {
       return { ...res, error: false,}
     } else {

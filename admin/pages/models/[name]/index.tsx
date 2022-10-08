@@ -76,7 +76,6 @@ const Models = ( props :
     setIsPolaroidsOverview(prev => newState !== undefined ? newState : !prev)
   }, [])
 
-  console.log(model, props)
   useEffect(() => {
     combinedDispatch.modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: model})
   }, [combinedDispatch, model]) 

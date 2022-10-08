@@ -70,7 +70,6 @@ const FeedbacksPage = ({ feedbacks, }: {
     }
   }, [feedbackDispatch, feedbacks, feedbacksInState.length])
 
-  console.log(feedbacks, feedbacksInState)
   return (
     <AdminLayout title={"Feedbacks"} description={"Feedbacks"}>
       <Box>

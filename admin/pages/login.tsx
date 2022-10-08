@@ -41,7 +41,6 @@ const AdminHomePage: NextPage = () => {
 
     const response = await Request({ path: '/users/login', method: 'post', data: loginDetails })
     if (response.statusCode === 200) {
-      console.log(response, 'logged in')
       setIsLoading(false)
       localStorage.setItem('access_token', response.token)
       setTimeout(() => {

@@ -20,7 +20,10 @@ import { StoreContext } from 'reducers/store';
 const Header = () => {
   const { state: { ui: { showNav, drawerWidth, boxPadding, }}, combinedDispatch} = useContext(StoreContext)
 
-  const toggleShowNav = useCallback(() => {
+  const toggleShowNav = useCallback((e?: React.ChangeEvent<HTMLAnchorElement>) => {
+    if(e?.target.href.includes('/login')){
+      localStorage.removeItem('access_token')
+    }
     combinedDispatch.uiDispatch({type: 'TOGGLE_SHOW_NAV', payload: !showNav})
   }, [combinedDispatch, showNav])
 
@@ -37,10 +40,10 @@ const Header = () => {
           list={navLinks}
           ComponentItem={NavLinkListItemWithSubLinks}
           mapKey='to'
-          itemProps={{background: true}} />
+          itemProps={{background: true, onClick: toggleShowNav}} />
       </List>
           <Box sx={styles.MenuBtnSectionSx}>
-            <IconButton color='secondary' data-testid='admin-nav-toggle' onClick={() => toggleShowNav()}>
+            <IconButton color='secondary' data-testid='admin-nav-toggle' onClick={(e) => toggleShowNav()}>
               <MenuIcon fontSize='large' />
             </IconButton>
           </Box>

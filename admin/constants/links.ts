@@ -40,6 +40,11 @@ const navLinks = [
     to: '/feedbacks',
     subLinks: []
   },
+  {
+    name: 'logout',
+    to: '/login',
+    subLinks: []
+  }
 ]
 
 export  { navLinks }

@@ -7,6 +7,7 @@ import { ListItem } from "@mui/material"
 import { SvgIconComponent } from "@mui/icons-material"
 import useToggle from '@/utils/hooks/useToggle'
 import Mapper from '@/components/Mapper'
+import React from "react";
 
 interface LinkInterface {
   name: string | SvgIconComponent,
@@ -77,7 +78,7 @@ const NavLinkListItemWithSubLinks = ({
 }: {
   link: LinkWithSubLinks
   background?: boolean,
-  onClick?: () => void
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
 }) => {
   const [showSubLinks, toggleShowSubLinks] = useToggle(false)
 
@@ -102,7 +103,8 @@ const NavLinkListItemWithSubLinks = ({
     })}>
       <WithNextLink href={link.to} passHref>
         <MUILink
-         onClick={() => onClick && onClick()}
+         onClick={(e) => onClick && onClick(e as React.MouseEvent<HTMLAnchorElement>)}
+         component='a'
          variant='defaultNavLink'
          sx={theme => ({
           color: isActive ? theme.palette.text.secondary : theme.palette.text.primary,
@@ -128,7 +130,7 @@ const NavLinkListItemWithSubLinks = ({
           list={subLinks}
           ComponentItem={LinkListItem}
           mapKey='to'
-          itemProps={{variant:'defaultNavLink', onClick: () => onClick && onClick()}}
+          itemProps={{variant:'defaultNavLink', onClick: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => onClick && onClick(e)}}
         />
       </List>
     </ListItem>

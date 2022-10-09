@@ -13,7 +13,7 @@ import { TopCenteredSnackbar } from '@/components/common/snackbars'
 import { SuccessAlert, ErrorAlert } from '@/components/common/alert'
 import { Prose } from '@/components/common/Typography'
 import { WhiteBorderInput, TextareaAutoResizeWhiteBorder } from '@/components/common/Inputs'
-import { WhiteButton } from '@/components/common/Buttons'
+import { StyledBorderBtn } from '@/components/common/Buttons'
 import Loader from '@/components/common/loader'
 import Box from '@mui/material/Box'
 import Request from '@/utils/client/request'
@@ -169,9 +169,9 @@ const ContactUs: NextPageWithLayout = () => {
       </Box>
      </Box>
      <Box sx={{ margin: '20px 0'}}>
-        <WhiteButton type='submit' variant='contained' sx={() => ({width: '100%'})} >
+        <StyledBorderBtn type='submit' variant='contained' sx={() => ({width: '100%'})} >
           submit
-        </WhiteButton>
+        </StyledBorderBtn>
       </Box>
      </Box>
     </Box>

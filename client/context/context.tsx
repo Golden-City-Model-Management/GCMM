@@ -1,7 +1,7 @@
 
 
 import {  createContext, useCallback } from 'react'
-import { ReactNode, useState } from 'react'
+import { ReactNode, useState, useMemo } from 'react'
 import  useToggle from '@/utils/hooks/useToggle'
 
 interface Model {
@@ -53,12 +53,13 @@ const UIProvider = ({ children }:
       default: return;
     }
   }, [])
-  const value = {
+  const value = useMemo(() => ({
     ...initialValue,
     men, women, mainBoard, newFaces, 
     updateState, gallery,
     showNav, toggleShowNav
-  }
+  }), [men, women, initialValue, mainBoard, newFaces, updateState, gallery, showNav, toggleShowNav])
+  
   return (
     <UIContext.Provider value={value}>
       {children}

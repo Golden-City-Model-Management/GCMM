@@ -2,7 +2,7 @@
 
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
 import theme from '../styles/theme'
-import UIProvider from '@/context/ui'
+import UIProvider from '@/context/context'
 
 const ContextProvider = ( { children }: {
   children: React.ReactNode | React.ReactNode[]

@@ -10,7 +10,7 @@ import { HideInDesktop, IconOrTextBtn } from '@/components/common/bones'
 import Navigation from '@/components/navigation/Nav';
 import { ResponsiveDrawer } from '@/components/common/Drawer'
 import Logo from '@/components/svgs/Logos';
-import { UIContext } from '@/context/ui'
+import { UIContext } from '@/context/context'
 import { flexRowJustifyBetweenAlignCenter } from '@/styles/styles';
  
 

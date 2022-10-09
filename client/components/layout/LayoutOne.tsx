@@ -2,7 +2,7 @@
 
 import { useContext } from 'react'
 import { LayoutProps } from '@/types/layout'
-import { UIContext } from '@/context/ui'
+import { UIContext } from '@/context/context'
 import Box from '@mui/material/Box'
 import Head from './Head'
 import Header from '@/components/header/Header'

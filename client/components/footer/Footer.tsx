@@ -10,7 +10,7 @@ import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import { mainNavLinks, subNavLinks, socialLinks, } from '@/constants/links'
 import { LinkListItem } from '@/components/common/Links'
-import { UIContext } from '@/context/ui'
+import { UIContext } from '@/context/context'
 
 
 const Footer = () => {

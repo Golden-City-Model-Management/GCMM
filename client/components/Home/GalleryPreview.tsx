@@ -9,7 +9,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { StyledBorderBtn } from '@/components/common/Buttons'
 import Carousel from '@/components/common/Carousel'
-import { UIContext } from '@/context/ui'
+import { UIContext } from '@/context/context'
 
 const GalleryPreview = ({images}:{images: { img: StaticImageData, title: string }[]}) => { 
 

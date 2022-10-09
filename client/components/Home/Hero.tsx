@@ -1,6 +1,6 @@
 
 import { useContext, useState } from 'react'
-import { UIContext } from '@/context/ui'
+import { UIContext } from '@/context/context'
 import { StyledBorderBtn } from '@/components/common/Buttons'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'

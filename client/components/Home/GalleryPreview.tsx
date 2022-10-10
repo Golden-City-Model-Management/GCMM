@@ -44,7 +44,6 @@ const GalleryPreview = ({images}:{images: { img: StaticImageData, title: string 
         </StyledBorderBtn>
       </NextLink>
       </Box>
-
     </Box>
   )
 }

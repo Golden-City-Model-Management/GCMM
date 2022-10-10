@@ -1,5 +1,4 @@
 
-import { useContext, useState } from 'react'
 import { UIContext } from '@/context/context'
 import { StyledBorderBtn } from '@/components/common/Buttons'
 import Box from '@mui/material/Box'
@@ -7,47 +6,31 @@ import Typography from '@mui/material/Typography'
 import { WithNextLink } from '@/components/common/Links'
 import { heroLinks } from '@/constants/links'
 import Bg5 from '@/public/assets/images/BG-05.jpg'
-
-
+import Paper from '@mui/material/Paper';
+import Grow from '@mui/material/Grow';
+import { useState, useEffect, useContext } from 'react'
 
 const Hero = () => {
+  const [animateCta, setAnimateCta] = useState(false);
 
+  useEffect(() => {
+    const animationTimeout = setTimeout(() => {
+      !animateCta && setAnimateCta(true)
+    }, 1000)
+    return () => {
+      clearTimeout(animationTimeout)
+    }
+  }, [])
   const { fullHeightWithoutHeader, universalContainerPadding } = useContext(UIContext)
-
-  const bgElementSx = () => ({
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    backgroundPosition: 'center',
-    backgroundSize: {
-      xs: 'cover',
-      md: 'contain',
-    },
-    transition: 'all .5s ease-in'
-  })
   return (
-    <Box sx={{
-      display: 'flex',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      minHeight: fullHeightWithoutHeader,
-      position: 'relative',
-      background: ` url(${Bg5.src}), url(${Bg5.blurDataURL})`,
-      backgroundPosition: 'center',
+    <Box  sx={{
+      background: `url(${Bg5.src}), url(${Bg5.src})`,
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'contain',
-      transition: 'all .45 ease-in',
+      backgroundPosition: 'right',
     }}>
-      <Box sx={() => ({
-        ...bgElementSx(),
-        background: `url(${Bg5.src}), url(${Bg5.blurDataURL})`,
-        opacity: '.1'
-      })} />
-
-      <Box sx={{
+      <Paper elevation={3} sx={{
         zIndex: 2,
-        background: '#191919bf',
-        transition: 'all .5s ease-in',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -56,41 +39,37 @@ const Hero = () => {
         position: 'relative',
         minHeight: fullHeightWithoutHeader,
         padding: universalContainerPadding,
-      }}>
+        background: '#050505a6'
+      }}> <Typography
+        variant='caption'
+        component='span'
+        sx={{ animation: 'slide-down 1s linear', animationDelay: '.5s', animationFillMode: 'backwards'}}
+        color={(theme) => theme.palette.text.secondary}>
+          GoldenCity</Typography>
         <Typography
           component='h1'
           variant='caption'
-          mb='25px'
-          sx={{
-            fontWeight: '700',
-            fontSize: '4rem'
-          }}
+          sx={{ animation: 'from-left 1s linear', animationDelay: '1s', animationFillMode: 'backwards'}}
         >
-          <Typography
-            sx={{
-              fontWeight: '700',
-              fontSize: '4rem'
-            }}
-            variant='caption'
-            color={(theme) => theme.palette.text.secondary}>
-            Golden</Typography>City <div />
           Model Management
         </Typography>
-        <Box
-          sx={{ display: 'flex', gap: '25px' }}
-          data-testid='hero-cta'
-        >
+        <Box display='flex' gap={'25px'} minHeight='60px'>
           {
-            heroLinks.map(link => (
-              <WithNextLink key={link.to} href={link.to} passHref>
-                <StyledBorderBtn>
-                  {link.name}
-                </StyledBorderBtn>
-              </WithNextLink>
+            heroLinks.map((link, idx) => (
+              <Grow key={link.to} mountOnEnter in={animateCta} style={{ transformOrigin: '0 0 0' }}
+                {...(animateCta ? { timeout: idx * 1000 + 500 } : {})}>
+                <Paper sx={{ backgroundColor: 'transparent' }} elevation={0}>
+                  <WithNextLink key={link.to} href={link.to} passHref>
+                    <StyledBorderBtn>
+                      {link.name}
+                    </StyledBorderBtn>
+                  </WithNextLink>
+                </Paper>
+              </Grow>
             ))
           }
         </Box>
-      </Box>
+      </Paper>
     </Box>
   )
 }

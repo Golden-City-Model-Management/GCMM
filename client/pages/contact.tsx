@@ -5,8 +5,8 @@
 import { useState, useCallback } from 'react'
 import { NextPageWithLayout } from '@/types/pages'
 import LayoutOne from '@/components/layout/LayoutOne'
-import getLayout from '@/utils/pages/getLayout' 
-import Typography  from '@mui/material/Typography'
+import getLayout from '@/utils/pages/getLayout'
+import Typography from '@mui/material/Typography'
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import { TopCenteredSnackbar } from '@/components/common/snackbars'
@@ -18,15 +18,15 @@ import Loader from '@/components/common/loader'
 import Box from '@mui/material/Box'
 import Request from '@/utils/client/request'
 
-const ContactUs: NextPageWithLayout = () => { 
+const ContactUs: NextPageWithLayout = () => {
 
-  const [ feedback, setFeedback ] = useState({
+  const [feedback, setFeedback] = useState({
     name: '', email: '', message: ''
   })
 
-  const [ loading, setLoading ] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const [ submitSuccessfull, setSubmitSuccessfull ] = useState({
+  const [submitSuccessfull, setSubmitSuccessfull] = useState({
     success: false, message: '', open: false
   })
 
@@ -43,137 +43,128 @@ const ContactUs: NextPageWithLayout = () => {
     })
   }, [])
 
-  const handleSubmit = useCallback( async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if(feedback.message.trim().length < 10) return setSubmitSuccessfull({
+    if (feedback.message.trim().length < 10) return setSubmitSuccessfull({
       success: false, message: 'Message must be at least 10 characters long', open: true
     })
-    if(feedback.message.trim().length > 500) return setSubmitSuccessfull({
-      success: false, message: `Message too long!`, open: true 
+    if (feedback.message.trim().length > 500) return setSubmitSuccessfull({
+      success: false, message: `Message too long!`, open: true
     })
     setLoading(true)
-     const response = await Request({
-       method: 'POST', 
-        path: '/feedback',
-        data: feedback
-      }) 
-      if( response.status === 201) {
-        const { data: { message } } = response 
-        setSubmitSuccessfull({ 
-          success: true, message, open: true,
-        })
-        setFeedback({
-          name: '', email: '', message: ''
-        })
-      }else{
-        const { data: { message } } = response.response
-        setSubmitSuccessfull({
-          success: false, message, open: true, 
-        })
-      }
-      setLoading(false)
+    const response = await Request({
+      method: 'POST',
+      path: '/feedback',
+      data: feedback
+    })
+    if (response.status === 201) {
+      const { data: { message } } = response
+      setSubmitSuccessfull({
+        success: true, message, open: true,
+      })
+      setFeedback({
+        name: '', email: '', message: ''
+      })
+    } else {
+      const { data: { message } } = response.response
+      setSubmitSuccessfull({
+        success: false, message, open: true,
+      })
+    }
+    setLoading(false)
   }, [feedback])
 
   const AlertChildren = () =>
   (<Box component='div'>
-        {submitSuccessfull.message}
-        <IconButton sx={{justifyContent: 'flex-end'}} data-testid='close-contact-form-success' onClick={resetSubmituccessful} color="inherit" size="small">
-            <CloseIcon />
-        </IconButton>
-      </Box>)
+    {submitSuccessfull.message}
+    <IconButton sx={{ justifyContent: 'flex-end' }} data-testid='close-contact-form-success' onClick={resetSubmituccessful} color="inherit" size="small">
+      <CloseIcon />
+    </IconButton>
+  </Box>)
 
-  return ( 
-    <Box sx={{padding: '60px 0', maxWidth: {
-      lg: '600px'
-    }}}> 
-     <TopCenteredSnackbar
-      data-testid='contact-form-success'
-      open={submitSuccessfull.open}
-      autoHideDuration={600000} 
-      onClose={resetSubmituccessful}>
-       {
-        submitSuccessfull.success  ?
-         <SuccessAlert children={<AlertChildren />} /> :
-         <ErrorAlert children={<AlertChildren />} />
-       }
+  return (
+    <Box sx={{
+      padding: '60px 0', maxWidth: {
+        lg: '600px'
+      }
+    }}>
+      <TopCenteredSnackbar
+        open={submitSuccessfull.open}
+        autoHideDuration={600000}
+        onClose={resetSubmituccessful}>
+        {
+          submitSuccessfull.success ?
+            <SuccessAlert children={<AlertChildren />} /> :
+            <ErrorAlert children={<AlertChildren />} />
+        }
       </TopCenteredSnackbar>
       <Loader open={loading} />
-     <Typography variant='caption' component='h1'>Contact Us</Typography> 
-     <Prose 
-      sxProp={{margin: '20px 0 35px'}} 
-      text={
-      `Questions?  Compliants?  Feedback? 
+      <Typography variant='caption' component='h1'>Contact Us</Typography>
+      <Prose
+        sxProp={{ margin: '20px 0 35px' }}
+        text={
+          `Questions?  Compliants?  Feedback? 
       \n Don't hesitate to reach us.
       \n Our team will get back to you as soon as possible`}
-     />
-     <Box
-     onSubmit={handleSubmit}
-      component='form' sx={{
-        maxWidth: '600px',
-     }}>
-     <Box sx={{
-      display: {
-        md:  'flex',
-      },
-      alignItems: 'stretch',
-      gap: '20px',
-     }}>
-      <Box sx={{
-        flexBasis: '35%',
-        display: 'flex', 
-        flexDirection: 'column',
-        alignItems: 'stretch',
-        gap: '20px',
-      }}> 
-        <WhiteBorderInput 
-          name='name'
-          type='text'
-          placeholder='Enter your name'
-          onChange={handleChange}
-          value={feedback.name}
-          sx={() => ({ width: '100%' })}
-          inputProps={{ maxLength: 30, minLength: 3 }}
-          required
-         />
-         <WhiteBorderInput 
-          name='email'
-          type='email'
-          placeholder='Enter your email'
-          onChange={handleChange}
-          value={feedback.email}
-          sx={() => ({ width: '100%' })}
-          inputProps={{ maxLength: 30, minLength: 3 }}
-          required
-         />
+      />
+      <Box
+        onSubmit={handleSubmit}
+        component='form' sx={{
+          maxWidth: '600px',
+        }}>
+        <Box sx={{
+          display: {
+            md: 'flex',
+          },
+          alignItems: 'stretch',
+          gap: '20px',
+        }}>
+          <Box sx={{
+            flexBasis: '35%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'stretch',
+            gap: '20px',
+          }}>
+            <WhiteBorderInput
+              name='name'
+              type='text'
+              placeholder='Enter your name'
+              onChange={handleChange}
+              value={feedback.name}
+              sx={() => ({ width: '100%' })}
+              inputProps={{ maxLength: 30, minLength: 3 }}
+              required
+            />
+            <WhiteBorderInput
+              name='email'
+              type='email'
+              placeholder='Enter your email'
+              onChange={handleChange}
+              value={feedback.email}
+              sx={() => ({ width: '100%' })}
+              inputProps={{ maxLength: 30, minLength: 3 }}
+              required
+            />
+          </Box>
+          <Box flexBasis='60%' marginTop={{ xs: '20px', md: '0' }}
+            maxWidth={{ md: '60%' }} display='flex'
+            flexDirection='column' alignItems='stretch'>
+            <TextareaAutoResizeWhiteBorder
+              name='message'
+              placeholder={`Enter your message \nMinimum of 10 characters \nMaximum of 500 characters`}
+              onChange={handleChange}
+              value={feedback.message}
+              required
+            />
+          </Box>
+        </Box>
+        <Box sx={{ margin: '20px 0' }}>
+          <StyledBorderBtn type='submit' variant='contained' sx={() => ({ width: '100%' })} >
+            submit
+          </StyledBorderBtn>
+        </Box>
       </Box>
-      <Box  sx={{
-        flexBasis: '60%',
-        marginTop: {
-          xs: '20px',
-          md: '0'
-        },
-        maxWidth: {
-          md: '60%',
-        },
-        display: 'flex', 
-        flexDirection: 'column',
-        alignItems: 'stretch',
-      }}>
-        <TextareaAutoResizeWhiteBorder 
-          name='message'
-          placeholder={`Enter your message \nMinimum of 10 characters \nMaximum of 500 characters`}
-          onChange={handleChange}
-          value={feedback.message}
-          required
-         />
-      </Box>
-     </Box>
-     <Box sx={{ margin: '20px 0'}}>
-        <StyledBorderBtn type='submit' variant='contained' sx={() => ({width: '100%'})} >
-          submit
-        </StyledBorderBtn>
-      </Box>
-     </Box>
     </Box>
   )
 }

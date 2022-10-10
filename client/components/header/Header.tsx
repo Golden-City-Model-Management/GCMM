@@ -11,7 +11,6 @@ import Navigation from '@/components/navigation/Nav';
 import { ResponsiveDrawer } from '@/components/common/Drawer'
 import Logo from '@/components/svgs/Logos';
 import { UIContext } from '@/context/context'
-import { flexRowJustifyBetweenAlignCenter } from '@/styles/styles';
  
 
 const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
@@ -35,7 +34,6 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
     hideInDesktop={!showMenuBtnAlways} />
 
   const appBarSx = (theme: Theme) => ({
-   ...flexRowJustifyBetweenAlignCenter(),
     background: theme.palette.primary.dark,
     padding: {
       lg: showMenuBtnAlways ? '0 55px' : '0 114px',
@@ -43,6 +41,10 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
       xs: '0 15px',
     }, 
     borderBottom: { lg: `1px solid ${theme.palette.secondary.light}`},
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row'
   })
 
   const DrawerChildren = (

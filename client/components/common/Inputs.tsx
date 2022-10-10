@@ -4,7 +4,6 @@ import { Theme } from '@mui/material'
 import TextAreaAutoSize, { TextareaAutosizeProps } from '@mui/material/TextareaAutosize'
 import Input, { InputProps } from '@mui/material/Input'
 import Box from '@mui/material/Box'
-import { rounded, padded } from '@/styles/styles'
  
 const whiteBorderStyles = (theme: Theme) => ({
   color: theme.palette.text.primary,
@@ -33,9 +32,9 @@ export const WhiteBorderInput = ({
     {...rest}
     sx={(theme) => ({
       ...whiteBorderStyles(theme),
-      ...rounded().sm,
-      ...padded().sm,
-      ...(sx ? sx(theme) : {})
+      ...(sx ? sx(theme) : {}),
+      borderRadius: '8px',
+      padding: '8px 12px'
       })}
     placeholder={placeholder}
     name={name}
@@ -51,11 +50,9 @@ export const TextareaAutoResizeWhiteBorder = ({
   } & TextareaAutosizeProps) => {
 
   return (
-    <Box
+    <Box padding={3} borderRadius={3}
      sx={(theme: Theme) => ({
       ...whiteBorderStyles(theme),
-      ...rounded().sm,
-      ...padded().sm,
       ...(sx ? sx(theme) : {}),
       height: '100%', 
       })}

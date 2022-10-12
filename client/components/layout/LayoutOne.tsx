@@ -27,7 +27,7 @@ const LayoutWithFixedNavInDesktop = ({ children, pad, ...headProps }: LayoutProp
         {children}
       </Box>
       <Box sx={{ width: { lg: bodyWidth}}}>
-        <Footer />      
+        <Footer layout={1} />      
       </Box>
     </>
   )

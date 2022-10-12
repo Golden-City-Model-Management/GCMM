@@ -5,12 +5,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { Theme } from '@mui/material';
+import { Theme, Typography } from '@mui/material';
 import { HideInDesktop, IconOrTextBtn } from '@/components/common/bones'
 import Navigation from '@/components/navigation/Nav';
 import { ResponsiveDrawer } from '@/components/common/Drawer'
 import Logo from '@/components/svgs/Logos';
 import { UIContext } from '@/context/context'
+import { WithNextLink } from '../common/Links';
 
 
 const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
@@ -53,7 +54,7 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
   const DrawerChildren = (
     <>
       {CloseMenuBtn}
-      <Navigation />
+      <Navigation onClick={showMenuBtnAlways ? toggleShowNav : undefined} />
     </>
   )
 
@@ -63,11 +64,12 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
         position="sticky"
         sx={(theme) => ({ ...appBarSx(theme) })}>
         <>
-          <Button
-            variant='text'
-            href='/'>
+          <WithNextLink href='/' passHref>
+          <Button variant='text'>
+            <Typography component='span' sx={{display: 'none', visibility:'hidden'}}>Home</Typography>
             <Logo />
           </Button>
+          </WithNextLink>
           {showMenuBtnAlways ?
             <>{OpenMenuBtn}</> :
             <HideInDesktop hideInDesktop={!showMenuBtnAlways} >{OpenMenuBtn}</HideInDesktop>

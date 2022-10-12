@@ -21,9 +21,9 @@ const Hero = () => {
       clearTimeout(animationTimeout)
     }
   }, [])
-  const { fullHeightWithoutHeader, universalContainerPadding } = useContext(UIContext)
+  const { fullHeightWithoutHeader, containerPadLayout1 } = useContext(UIContext)
   return (
-    <Box  sx={{
+    <Box sx={{
       background: `url(${Bg5.src}), url(${Bg5.src})`,
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'contain',
@@ -38,21 +38,25 @@ const Hero = () => {
         width: '100%',
         position: 'relative',
         minHeight: fullHeightWithoutHeader,
-        padding: universalContainerPadding,
+        padding: containerPadLayout1,
         background: '#050505a6'
-      }}> <Typography
-        variant='caption'
-        component='span'
-        sx={{ animation: 'slide-down 1s linear', animationDelay: '.5s', animationFillMode: 'backwards'}}
-        color={(theme) => theme.palette.text.secondary}>
-          GoldenCity</Typography>
-        <Typography
-          component='h1'
-          variant='caption'
-          sx={{ animation: 'from-left 1s linear', animationDelay: '1s', animationFillMode: 'backwards'}}
-        >
-          Model Management
-        </Typography>
+      }}>
+        <Box component='h1' lineHeight={1}>
+          <Typography
+            variant='caption'
+            component='span'
+            sx={{ animation: 'slide-down 1s linear', animationDelay: '.5s', 
+            animationFillMode: 'backwards', display: 'block', lineHeight: .8 }}
+            color={(theme) => theme.palette.text.secondary}>
+            GoldenCity</Typography>
+          <Typography
+            component='span'
+            variant='caption'
+            sx={{ animation: 'from-left 1s linear', animationDelay: '1s', animationFillMode: 'backwards' }}
+          >
+            Model Management
+          </Typography>
+        </Box>
         <Box display='flex' gap={'25px'} minHeight='60px'>
           {
             heroLinks.map((link, idx) => (

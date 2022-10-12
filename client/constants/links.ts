@@ -6,7 +6,7 @@ import InstagramIcon from '@mui/icons-material/Instagram'
 const mainNavLinks = [
   {
     name: 'main board',
-    to: '/mainboard',
+    to: '/main-board',
   },
   {
     name: 'women',
@@ -18,7 +18,7 @@ const mainNavLinks = [
   },
   {
     name: 'new faces',
-    to: '/newfaces'
+    to: '/new-faces'
   },
   {
     name: 'gallery',
@@ -51,11 +51,11 @@ const socialLinks = [
 const heroLinks = [
   {
     name: 'main board',
-    to: '/mainboard'
+    to: '/main-board'
   },
   {
     name: 'new faces',
-    to: '/newfaces'
+    to: '/new-faces'
   }
 ]
 

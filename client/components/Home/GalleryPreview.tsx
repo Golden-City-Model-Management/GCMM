@@ -44,7 +44,7 @@ const GalleryPreview = ({ images }: { images: { img: StaticImageData, title: str
               <Image alt='Gallery' src={img.img.src} layout='fill' objectFit='contain' />
             </Box>
           ))
-        } stopAutoPlayOnHover navButtonsAlwaysVisible />
+        } animation='slide' stopAutoPlayOnHover navButtonsAlwaysVisible />
       </Box>
 
       <Box sx={{ display: { md: 'block', xs: 'flex' }, justifyContent: 'center' }}>

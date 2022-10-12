@@ -2,19 +2,13 @@
 import { useRouter } from "next/router"
 import NextLink from 'next/link';
 import { Link as MUILink } from '@mui/material';
-import List from '@mui/material/Link'
 import { ListItem } from "@mui/material"
 import { SvgIconComponent } from "@mui/icons-material"
-import useToggle from '@/utils/hooks/useToggle'
-import Mapper from '@/components/common/Mapper'
 
 interface LinkInterface {
   name: string | SvgIconComponent,
   to: string,
   onClick?: () => void,
-}
-interface LinkWithSubLinks extends LinkInterface {
-  subLinks?: LinkInterface[],
 }
 
 const WithNextLink = ({children, href, passHref }:

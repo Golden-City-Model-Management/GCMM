@@ -18,7 +18,7 @@ const LayoutWithMenuBtnAlways = ({ children, ...headProps }: LayoutProps) => {
       <Box component='main' minHeight={fullHeightWithoutHeader} padding={layout2ContainerPad} >
         {children}
       </Box>
-      <Footer />      
+      <Footer layout={2}/>      
     </>
   )
 } 

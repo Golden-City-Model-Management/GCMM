@@ -11,27 +11,30 @@ import Navigation from '@/components/navigation/Nav';
 import { ResponsiveDrawer } from '@/components/common/Drawer'
 import Logo from '@/components/svgs/Logos';
 import { UIContext } from '@/context/context'
- 
+
 
 const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
 
-  const {showNav, toggleShowNav, drawerWidth } = useContext(UIContext)
-  
-  const OpenMenuBtn = <IconOrTextBtn 
+  const { showNav, toggleShowNav, drawerWidth } = useContext(UIContext)
+
+  const OpenMenuBtn = <IconOrTextBtn
     data-testid="menu-button"
-    onClick={() => toggleShowNav()} 
+    onClick={() => toggleShowNav()}
     Icon={showMenuBtnAlways ? 'menu' : MenuIcon} />
 
-  const CloseMenuBtn = <HideInDesktop 
-    sxProp={{justifyContent: 'flex-end', padding: {
-      md: '18px 18px 0 0',
-      xs: '13px 13px 0 0',
-    },}}
-    children={ <IconOrTextBtn
-    data-testid="close-menu-button"
-    onClick={() => toggleShowNav()}
-    Icon={CloseIcon}/>} 
-    hideInDesktop={!showMenuBtnAlways} />
+  const CloseMenuBtn = <HideInDesktop
+    sxProp={{
+      justifyContent: 'flex-end', padding: {
+        md: '18px 18px 0 0',
+        xs: '13px 13px 0 0',
+      },
+    }}
+    hideInDesktop={!showMenuBtnAlways}>
+    <IconOrTextBtn
+      data-testid="close-menu-button"
+      onClick={() => toggleShowNav()}
+      Icon={CloseIcon} />
+  </HideInDesktop>
 
   const appBarSx = (theme: Theme) => ({
     background: theme.palette.primary.dark,
@@ -39,8 +42,8 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
       lg: showMenuBtnAlways ? '0 55px' : '0 114px',
       md: '0 35px',
       xs: '0 15px',
-    }, 
-    borderBottom: { lg: `1px solid ${theme.palette.secondary.light}`},
+    },
+    borderBottom: { lg: `1px solid ${theme.palette.secondary.light}` },
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -49,40 +52,38 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
 
   const DrawerChildren = (
     <>
-    {CloseMenuBtn}
-    <Navigation />
+      {CloseMenuBtn}
+      <Navigation />
     </>
   )
 
-  return ( 
+  return (
     <>
-    <AppBar 
-      position="sticky" 
-      sx={(theme) => ({...appBarSx(theme)})}> 
-      <>
-        <Button  
-          variant='text' 
-          href='/'>
-          <Logo />
-        </Button>
-       { showMenuBtnAlways ?
-         <>{OpenMenuBtn}</> :
-         <HideInDesktop 
-          children={OpenMenuBtn} 
-          hideInDesktop={!showMenuBtnAlways} />
-       }
-     </>
-    </AppBar>
-    <Box >
-    <ResponsiveDrawer 
-      component="nav"
-      open={showNav} 
-      handleClose={() => toggleShowNav()} 
-      isInDesktop={showMenuBtnAlways} 
-      drawerWidth={drawerWidth}>
-      {DrawerChildren}
-    </ResponsiveDrawer>
-    </Box>
+      <AppBar
+        position="sticky"
+        sx={(theme) => ({ ...appBarSx(theme) })}>
+        <>
+          <Button
+            variant='text'
+            href='/'>
+            <Logo />
+          </Button>
+          {showMenuBtnAlways ?
+            <>{OpenMenuBtn}</> :
+            <HideInDesktop hideInDesktop={!showMenuBtnAlways} >{OpenMenuBtn}</HideInDesktop>
+          }
+        </>
+      </AppBar>
+      <Box >
+        <ResponsiveDrawer
+          component="nav"
+          open={showNav}
+          handleClose={() => toggleShowNav()}
+          isInDesktop={showMenuBtnAlways}
+          drawerWidth={drawerWidth}>
+          {DrawerChildren}
+        </ResponsiveDrawer>
+      </Box>
     </>
   )
 }

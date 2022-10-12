@@ -10,7 +10,7 @@ import Footer from '@/components/footer/Footer'
 
 const LayoutWithFixedNavInDesktop = ({ children, pad, ...headProps }: LayoutProps & { pad?: boolean}) => {
 
-  const { bodyWidth, fullHeightWithoutHeader, universalContainerPadding } = useContext(UIContext)
+  const { bodyWidth, fullHeightWithoutHeader, containerPadLayout1 } = useContext(UIContext)
   return (
     <>
       <Header showMenuBtnAlways={false} />
@@ -20,7 +20,7 @@ const LayoutWithFixedNavInDesktop = ({ children, pad, ...headProps }: LayoutProp
         borderRight: { lg: `2px solid ${theme.palette.secondary.light}`},
         minHeight: fullHeightWithoutHeader,
         background: theme.palette.primary.main,
-        padding: pad ? universalContainerPadding : '',
+        padding: pad ? containerPadLayout1 : '',
         width: { lg: bodyWidth},
        })}
        component='main' >

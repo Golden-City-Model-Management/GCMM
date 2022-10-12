@@ -20,7 +20,7 @@ const Hero = () => {
     return () => {
       clearTimeout(animationTimeout)
     }
-  }, [])
+  }, [animateCta])
   const { fullHeightWithoutHeader, containerPadLayout1 } = useContext(UIContext)
   return (
     <Box sx={{

@@ -16,10 +16,15 @@ const initialValue = {
   showNav: false,
   toggleShowNav: () => {},
   fullHeightWithoutHeader: 'calc(100vh - 89px)',
-  universalContainerPadding: {
+  containerPadLayout1: {
     lg: '0 119px',
     md: '0 50px',
     xs: '0 30px',
+  },
+  layout2ContainerPad:  {
+    lg: '0 55px',
+    md: '0 35px',
+    xs: '0 15px',
   },
   marginBtwContainers: '100px',
   mainBoard: [] as Model[],
@@ -58,7 +63,7 @@ const UIProvider = ({ children }:
     men, women, mainBoard, newFaces, 
     updateState, gallery,
     showNav, toggleShowNav
-  }), [men, women, initialValue, mainBoard, newFaces, updateState, gallery, showNav, toggleShowNav])
+  }), [men, women, mainBoard, newFaces, updateState, gallery, showNav, toggleShowNav])
   
   return (
     <UIContext.Provider value={value}>

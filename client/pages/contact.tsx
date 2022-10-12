@@ -94,8 +94,8 @@ const ContactUs: NextPageWithLayout = () => {
         onClose={resetSubmituccessful}>
         {
           submitSuccessfull.success ?
-            <SuccessAlert children={<AlertChildren />} /> :
-            <ErrorAlert children={<AlertChildren />} />
+            <SuccessAlert><AlertChildren /></SuccessAlert> :
+            <ErrorAlert><AlertChildren /></ErrorAlert>
         }
       </TopCenteredSnackbar>
       <Loader open={loading} />
@@ -174,6 +174,7 @@ const props = {
   description: 'Contact Us. #20 Street Address, Town Address, City,  State, Nigeria  PO BOX 32342',
   favicon: '/vercel.svg',
   pad: true,
+  canonical: `${process.env.BASE_URL}/contact`
 }
 
 ContactUs.getLayout = getLayout(LayoutOne, props)

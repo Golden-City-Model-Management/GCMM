@@ -1,15 +1,26 @@
 
 
 import { NextPageWithLayout } from '@/types/pages'
-import LayoutOne from '@/components/layout/LayoutOne'
+import LayoutTwo from '@/components/layout/LayoutTwo'
 import getLayout from '@/utils/pages/getLayout'
 import ComingSoonPlaceHolder from '@/components/common/ComingSoon'
-
+import React, { useState, useMemo} from "react";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography'
 
 const MainBoard: NextPageWithLayout = () => {
 
   return (
-    <ComingSoonPlaceHolder page='Main Board' />
+    <Box component='article'> 
+      {/* <ComingSoonPlaceHolder page='Main Board' /> */}
+      <Typography variant='caption' component='h1' textAlign='center' my={3} fontWeight='400'>
+        Main Board
+      </Typography>
+
+      <Box>
+        
+      </Box>
+    </Box>
   )
 }
 
@@ -20,6 +31,6 @@ const props = {
   pad: true,
 }
 
-MainBoard.getLayout = getLayout(LayoutOne, props)
+MainBoard.getLayout = getLayout(LayoutTwo, props)
 
 export default MainBoard

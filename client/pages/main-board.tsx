@@ -12,7 +12,7 @@ import InfiniteScroll from '@/components/common/InfiniteScroll';
 import Request from '@/utils/client/request';
 import ErrorDisplay from '@/components/common/ErrorDisplay';
 import Button from '@mui/material/Button'
-import { Skeletons } from '@/components/models/Skeleton';
+import { Skeletons } from '@/components/common/Skeleton';
 import Grid from '@mui/material/Grid'
 import Grow from '@mui/material/Grow'
 import Paper from '@mui/material/Paper'

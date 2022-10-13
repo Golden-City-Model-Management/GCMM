@@ -55,7 +55,8 @@ const ContactUs: NextPageWithLayout = () => {
     const response = await Request({
       method: 'POST',
       path: '/feedback',
-      data: feedback
+      data: feedback,
+      returnErr: true
     })
     const { message } = await response
     if (response.statusCode === 201) {

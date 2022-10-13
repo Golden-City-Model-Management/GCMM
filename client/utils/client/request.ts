@@ -11,7 +11,7 @@ interface RequestInterface {
 }
 
 let myAxios = axios.create({
-  baseURL: '/api',
+  baseURL: process.env.SERVER_URL || 'http://localhost:9876/api/v1',
 })
 
 myAxios = setUpInterceptors(myAxios)
@@ -32,10 +32,14 @@ async function Request ({
       url: path,
       data,
     })
-    return response
-
+   return { ...response.data, statusCode: response.status }
   }catch(err: any){
-    return err
+    console.error(err)
+    if (err.response) {
+      return { ...err.response.data, message: err.message, statusCode: err.response.status }
+    } else {
+      return { message: 'Something went wrong!', statusCode: 500 }
+    }
   }
 }
 

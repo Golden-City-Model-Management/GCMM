@@ -17,13 +17,13 @@ const ModelCard = ({ component, model, }: {
 }) => {
 
   const [hovered, setHovered] = useState(false)
-  console.log(hovered)
+
   return (
     <Card component={component} sx={t => ({ color: t.palette.primary.contrastText,
       bgcolor: 'transparent', position: 'relative',boxShadow: '0px 0px 10px 0px #ffdd260a' })}> 
       <CardMedia component='div' sx={{ width: '90vw', maxWidth: '280px', 
        height: '350px', position: 'relative', filter: hovered ? 'blur(4px)' : 'none' }}>
-        <Image src={Bg.src} alt='' layout='fill' />
+        <Image src={model.cover_image.secure_url} alt='' layout='fill' />
       </CardMedia>
       <CardContent onMouseOver={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}

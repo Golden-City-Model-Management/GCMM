@@ -57,8 +57,8 @@ const ContactUs: NextPageWithLayout = () => {
       path: '/feedback',
       data: feedback
     })
-    if (response.status === 201) {
-      const { data: { message } } = response
+    const { message } = await response
+    if (response.statusCode === 201) {
       setSubmitSuccessfull({
         success: true, message, open: true,
       })
@@ -66,7 +66,6 @@ const ContactUs: NextPageWithLayout = () => {
         name: '', email: '', message: ''
       })
     } else {
-      const { data: { message } } = response.response
       setSubmitSuccessfull({
         success: false, message, open: true,
       })

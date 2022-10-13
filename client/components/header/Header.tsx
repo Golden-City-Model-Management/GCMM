@@ -1,5 +1,5 @@
 
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
@@ -17,6 +17,7 @@ import { WithNextLink } from '../common/Links';
 const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
 
   const { showNav, toggleShowNav, drawerWidth } = useContext(UIContext)
+  const [isMobile, setIsMobile] = useState(() => globalThis.innerWidth <= 1200)
 
   const OpenMenuBtn = <IconOrTextBtn
     data-testid="menu-button"
@@ -54,10 +55,17 @@ const Header = ({ showMenuBtnAlways }: { showMenuBtnAlways: boolean }) => {
   const DrawerChildren = (
     <>
       {CloseMenuBtn}
-      <Navigation onClick={showMenuBtnAlways ? toggleShowNav : undefined} />
+      <Navigation onClick={(isMobile || showMenuBtnAlways) ? toggleShowNav : undefined} />
     </>
   )
 
+  useEffect(() => {
+    if(window.innerWidth >= 1200){
+      setIsMobile(false)
+    }else{
+      setIsMobile(true)
+    }
+  }, [])
   return (
     <>
       <AppBar

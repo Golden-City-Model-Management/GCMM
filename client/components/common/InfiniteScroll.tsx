@@ -9,12 +9,7 @@ const InfiniteScroll = ({ children, ...rest}: Props & {
   return (
     <InfiniteScrollElement
     {...rest}
-    loader={<Typography textAlign='center' component='b' display='block' mx='auto' my={2} variant='body1'>Loading...</Typography>}
-    endMessage={
-      <Typography textAlign='center' component='b' display='block' mx='auto' my={2} variant='body1' >
-        No more documents to load.
-      </Typography>
-    }>
+    endMessage={rest.endMessage}>
      {children}      
    </InfiniteScrollElement>
   )

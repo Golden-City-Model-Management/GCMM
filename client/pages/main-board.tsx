@@ -6,47 +6,79 @@ import getLayout from '@/utils/pages/getLayout'
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography'
 import ModelCard from '@/components/models/ModelCard';
-import React, { useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import useSWRInfinite from "swr/infinite";
 import InfiniteScroll from '@/components/common/InfiniteScroll';
+import Request from '@/utils/client/request';
+import ErrorDisplay from '@/components/common/ErrorDisplay';
+import Button from '@mui/material/Button'
+import { Skeletons } from '@/components/models/Skeleton';
+import Grid from '@mui/material/Grid'
+import Grow from '@mui/material/Grow'
+import Paper from '@mui/material/Paper'
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const PAGE_SIZE = 6;
+const fetcher = async (url: string) => await Request({ path: url.split('/v1/')[1], method: 'get' })
 
 const MainBoard: NextPageWithLayout = () => {
-  const [repo, setRepo] = useState("reactjs/react-a11y");
-  const [val, setVal] = useState(repo);
 
-  const { data, error, mutate, size, setSize, isValidating } = useSWRInfinite(
+  const [animateCards, setAnimateCards] = useState(false)
+  const { data, error, size, setSize } = useSWRInfinite(
     (index) =>
-      `https://morning-hamlet-86693.herokuapp.com/api/v1/models?limit=${PAGE_SIZE}&page=${index + 1
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/models?is_main_board=true&limit=${PAGE_SIZE}&page=${index + 1
       }`,
     fetcher
   );
 
-  const issues = data ? [].concat(...data) : [];
-  const isLoadingInitialData = !data && !error;
-  const isLoadingMore =
-    isLoadingInitialData ||
-    (size > 0 && data && data[size - 1]?.length === PAGE_SIZE);
-  const isEmpty = data?.[0]?.length === 0;
-  const isReachingEnd =
-    isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
-  const isRefreshing = isValidating && data && data.length === size;
-  console.log(data, 'jhhjbj', size, issues, isLoadingMore)
+  const models = useMemo(() => {
+    if(data){
+      return new Array().concat(...data.map(el => {
+        return el.docs
+      }))
+    }else return []
+  }, [data]);
+  const isLoadingInitialData = useMemo(() => !data && !error, [data, error])
+  const isLoadingMore = useMemo(() => isLoadingInitialData || (size > 0 && data && data[size - 1]?.length === PAGE_SIZE), 
+  [isLoadingInitialData, size, data]);
+
+  useEffect(() => {
+    const animationTimeout = setTimeout(() => {
+      !animateCards && setAnimateCards(true)
+    }, 1000)
+    return () => {
+      clearTimeout(animationTimeout)
+    }
+  }, [animateCards])
+  
   return (
-    <Box component='article'>
-      <Typography variant='caption' component='h1' textAlign='center' my={3} fontWeight='400'>
-        Main Board
-      </Typography>
-      <InfiniteScroll next={() => setSize((prev) => prev + 1)} hasMore={isLoadingMore || false} loader={'Loading'} dataLength={size}>
-        <Box component='ul' display='flex' flexWrap='wrap' justifyContent='center' gap={3} padding={0} >
+    <Box component='article' sx={error  && models.length === 0 ? { display: 'flex', justifyContent: 'center', 
+      flexDirection: 'column', minHeight: '80vh'} : {}}>
+        <Typography variant='caption' component='h1' textAlign='center' my={3} fontWeight='400'>
+          Main Board
+        </Typography>
+      <InfiniteScroll
+        next={() => setSize((prev) => prev + 1)}
+        hasMore={isLoadingMore || false} 
+        loader={<Skeletons arrayLength={30} loading={isLoadingMore || false}/> } dataLength={size}
+        endMessage={(!error ) ? '' :
+          models.length === 0 && 
+          <ErrorDisplay msg={'An Error Occured! \n This was not supposed to happen'}>
+            <Button
+              onClick={() => setSize(size)} sx={{ my: 5 }}
+              size='large' variant='outlined' color='inherit'> Refresh </Button>
+          </ErrorDisplay>}>
+        <Grid container component='ul' justifyContent='start' gap={3}>
           {
-            [1, 2, 3, 3, 3, 4, 5, 5, 34, 4, 34, 1, 2, 2, 2, 22, 2, 2, 22, 2, 2, 2, 22, 2, 2, 2, 2, 2, 2, 22, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, , 2, 2, 2, 22, 2, 2, 2, 2222].fill(9, 10).map((e, i) => (
-              <ModelCard component='li' key={i} />
+           models.map((model, i) => (
+              <Grow key={i} mountOnEnter in={animateCards} style={{ transformOrigin: '0 0 0' }}
+                {...(animateCards ? { timeout: i * 1000 + 300 } : {})}>
+                <Paper sx={{ backgroundColor: 'transparent' }} elevation={0}>
+                   <ModelCard model={model} component='li' key={i} />
+                </Paper>
+              </Grow>
             ))
           }
-        </Box>
+        </Grid>
       </InfiniteScroll>
     </Box>
   )

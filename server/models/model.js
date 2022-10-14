@@ -133,7 +133,12 @@ const modelSchema = new mongoose.Schema({
   is_new_face: {
     type: Boolean,
     default: false
-  }
+  },
+  is_main_board: {
+    type: Boolean,
+    default: false,
+  },
+  
 },
   {
     toJSON: {

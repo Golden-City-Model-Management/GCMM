@@ -1,8 +1,7 @@
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography'
-import ModelCard from '@/components/models/ModelCard';
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useContext } from "react";
 import useSWRInfinite from "swr/infinite";
 import InfiniteScroll from '@/components/common/InfiniteScroll';
 import Request from '@/utils/client/request';
@@ -12,6 +11,7 @@ import { Skeletons } from '@/components/common/Skeleton';
 import Grid from '@mui/material/Grid'
 import Grow from '@mui/material/Grow'
 import Paper from '@mui/material/Paper'
+import { UIContext } from '@/context/context';
 
 const PAGE_SIZE = 50;
 const fetcher = async (url: string) => await Request({ path: url.split('/v1/')[1], method: 'get' })
@@ -21,6 +21,9 @@ export default function ModelsDisplay ({ name, pathAndQuery, ListItem }:
     pathAndQuery: string
     ListItem: (props:{[x:string]: any}) => JSX.Element,
   }) {
+
+  const { marginBtwContainers } = useContext(UIContext)
+
   const [animateCards, setAnimateCards] = useState(false)
   const { data, error, size, setSize } = useSWRInfinite(
     (index) =>
@@ -37,7 +40,7 @@ export default function ModelsDisplay ({ name, pathAndQuery, ListItem }:
     }else return []
   }, [data]);
   const isLoadingInitialData = useMemo(() => !data && !error, [data, error])
-  const isLoadingMore = useMemo(() => isLoadingInitialData || (size > 0 && data && data[size - 1]?.length === PAGE_SIZE), 
+  const isLoadingMore = useMemo(() => isLoadingInitialData || (size > 0 && data && data[size - 1]?.docs.length === PAGE_SIZE), 
   [isLoadingInitialData, size, data]);
 
   useEffect(() => {
@@ -51,7 +54,7 @@ export default function ModelsDisplay ({ name, pathAndQuery, ListItem }:
   
   return (
     <Box component='article' sx={error  && list.length === 0 ? { display: 'flex', justifyContent: 'center', 
-      flexDirection: 'column', minHeight: '80vh'} : {}}>
+      flexDirection: 'column', minHeight: '80vh'} : {}} margin={marginBtwContainers} marginLeft={0} marginRight={0} marginTop={0}>
         <Typography variant='caption' component='h1' textAlign='center' textTransform='capitalize' my={3} fontWeight='400'>
           {name}
         </Typography>
@@ -62,7 +65,7 @@ export default function ModelsDisplay ({ name, pathAndQuery, ListItem }:
         endMessage={(!error ) ? 
         list.length === 0 && 
         <Typography variant='h2' textAlign='center' component='p'>
-          Models will be updated soon...
+          The {name} page will be updated soon...
         </Typography> :
           list.length === 0 && 
           <ErrorDisplay msg={'An Error Occured! \n This was not supposed to happen'}>
@@ -74,7 +77,7 @@ export default function ModelsDisplay ({ name, pathAndQuery, ListItem }:
           {
            list.map((item, i) => (
               <Grow key={i} mountOnEnter in={animateCards} style={{ transformOrigin: '0 0 0' }}
-                {...(animateCards ? { timeout: i * 1000 + 300 } : {})}>
+                {...(animateCards ? { timeout: i * 200 } : {})}>
                 <Paper sx={{ backgroundColor: 'transparent' }} elevation={0}>
                    <ListItem item={item} component='li' key={i} />
                 </Paper>

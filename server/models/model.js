@@ -138,7 +138,14 @@ const modelSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  
+  eye_color: {
+    type: String,
+    default: 'black'
+  },
+  hair_color: {
+    type: String, 
+    default: 'black'
+  }
 },
   {
     toJSON: {

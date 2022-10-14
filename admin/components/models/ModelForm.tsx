@@ -16,7 +16,7 @@ export const nonDisplayedFields = [
   'portfolio',
   'polaroids',
   'extra_polaroids',
-  'socials', 'gender', 'dob', 'age', 'is_new_face',
+  'socials', 'gender', 'dob', 'age', 'is_new_face', 'is_main_board',
   'id', 'isActive', 'name', 'slug', 'name']
 
 const ModelForm = ({ model, submitBtnTxt, handleSubmit, showSubmitBtn, isEditForm }: {
@@ -152,6 +152,29 @@ const ModelForm = ({ model, submitBtnTxt, handleSubmit, showSubmitBtn, isEditFor
                 label={'new face'}
                 name={'is_new_face'}
                 error={error['new face']} color={'secondary'}
+                fullWidth variant='outlined'
+                onChange={e => handleFormDataChange(e as React.ChangeEvent<HTMLInputElement>)}>
+                {['yes', 'no'].map(el => {
+                  return <MenuItem key={el} value={el} sx={({
+                    color: 'primary.dark'
+                  })}>{el}</MenuItem>
+                })}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={3} sm={1.5} md={1}>
+            <FormControl fullWidth required sx={t => ({
+              '.MuiOutlinedInput-notchedOutline': {
+                borderColor: t.palette.text.primary
+              }
+            })}>
+              <InputLabel color={'secondary'} id="new face">main board</InputLabel>
+              <Select
+                labelId="main board"
+                value={formData.is_main_board}
+                label={'main board'}
+                name={'is_main_board'}
+                error={error['main board']} color={'secondary'}
                 fullWidth variant='outlined'
                 onChange={e => handleFormDataChange(e as React.ChangeEvent<HTMLInputElement>)}>
                 {['yes', 'no'].map(el => {

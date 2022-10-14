@@ -15,7 +15,7 @@ import AdminLayout from '@/components/layout/Layout'
 
 const modelInitialState = {
   first_name: '', last_name: '', dob: '', height: 0, bust: 0, shoe: 0, hips: 0, waist: 0, cover_image: {} as any,
-  gender: 'female', id: '', isActive: true, socials: {}, is_new_face: 'no', name: ''
+  gender: 'female', id: '', isActive: true, socials: {}, is_new_face: 'no', name: '', is_main_board: 'no'
 }
 
 const Models = () => {

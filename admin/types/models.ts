@@ -41,7 +41,7 @@ export interface Model {
   cover_image: Image, waist: number,
   chest?: number, bust?: number, hips?: number,
   height: number, shoe: number, id: string,
-  isActive: boolean, socials: Socials, is_new_face: boolean | string
+  isActive: boolean, socials: Socials, is_new_face: boolean | string, is_main_board: boolean | string
 }
 
 

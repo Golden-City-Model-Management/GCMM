@@ -2,10 +2,11 @@
 import { NextPageWithLayout } from '@/types/pages'
 import LayoutTwo from '@/components/layout/LayoutTwo'
 import getLayout from '@/utils/pages/getLayout'
-
 import ModelsDisplay from '@/utils/pages/modelsPages';
+import ModelCard from '@/components/models/ModelCard';
 
-const Men: NextPageWithLayout = () => <ModelsDisplay query='gender=male' name='men' />
+const Men: NextPageWithLayout = () => <ModelsDisplay ListItem={ModelCard}
+pathAndQuery='/models?gender=male' name='men' />
 
 const props = {
   title: 'Golden City Model Management | Men',

@@ -7,8 +7,10 @@ import { NextPageWithLayout } from '@/types/pages'
 import LayoutTwo from '@/components/layout/LayoutTwo'
 import getLayout from '@/utils/pages/getLayout'
 import ModelsDisplay from '@/utils/pages/modelsPages';
+import ModelCard from '@/components/models/ModelCard';
 
-const NewFaces: NextPageWithLayout = () => <ModelsDisplay query='is_new_face=true' name='new faces' />
+const NewFaces: NextPageWithLayout = () => <ModelsDisplay ListItem={ModelCard} 
+pathAndQuery='/models?is_new_face=true' name='new faces' />
 
 const props = {
   title: 'Golden City Model Management | Main Board',

@@ -3,10 +3,11 @@
 import { NextPageWithLayout } from '@/types/pages'
 import LayoutTwo from '@/components/layout/LayoutTwo'
 import getLayout from '@/utils/pages/getLayout'
-
 import ModelsDisplay from '@/utils/pages/modelsPages';
+import ModelCard from '@/components/models/ModelCard';
 
-const MainBoard: NextPageWithLayout = () => <ModelsDisplay query='is_main_board=true' name='main board' />
+const MainBoard: NextPageWithLayout = () => <ModelsDisplay ListItem={ModelCard} 
+pathAndQuery='/models?is_main_board=true' name='main board' />
 
 const props = {
   title: 'Golden City Model Management | Main Board',

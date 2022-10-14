@@ -13,19 +13,23 @@ import Grid from '@mui/material/Grid'
 import Grow from '@mui/material/Grow'
 import Paper from '@mui/material/Paper'
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 50;
 const fetcher = async (url: string) => await Request({ path: url.split('/v1/')[1], method: 'get' })
 
-export default function ModelsDisplay ({ name, query }: {name: string, query: string}) {
+export default function ModelsDisplay ({ name, pathAndQuery, ListItem }:
+   {name: string, 
+    pathAndQuery: string
+    ListItem: (props:{[x:string]: any}) => JSX.Element,
+  }) {
   const [animateCards, setAnimateCards] = useState(false)
   const { data, error, size, setSize } = useSWRInfinite(
     (index) =>
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/models?${query}&limit=${PAGE_SIZE}&page=${index + 1
+      `${process.env.NEXT_PUBLIC_SERVER_URL}${pathAndQuery}&limit=${PAGE_SIZE}&page=${index + 1
       }`,
     fetcher
   );
 
-  const models = useMemo(() => {
+  const list = useMemo(() => {
     if(data){
       return new Array().concat(...data.map(el => {
         return el.docs
@@ -46,7 +50,7 @@ export default function ModelsDisplay ({ name, query }: {name: string, query: st
   }, [animateCards])
   
   return (
-    <Box component='article' sx={error  && models.length === 0 ? { display: 'flex', justifyContent: 'center', 
+    <Box component='article' sx={error  && list.length === 0 ? { display: 'flex', justifyContent: 'center', 
       flexDirection: 'column', minHeight: '80vh'} : {}}>
         <Typography variant='caption' component='h1' textAlign='center' textTransform='capitalize' my={3} fontWeight='400'>
           {name}
@@ -56,11 +60,11 @@ export default function ModelsDisplay ({ name, query }: {name: string, query: st
         hasMore={isLoadingMore || false} 
         loader={<Skeletons arrayLength={30} loading={isLoadingMore || false}/> } dataLength={size}
         endMessage={(!error ) ? 
-        models.length === 0 && 
+        list.length === 0 && 
         <Typography variant='h2' textAlign='center' component='p'>
           Models will be updated soon...
         </Typography> :
-          models.length === 0 && 
+          list.length === 0 && 
           <ErrorDisplay msg={'An Error Occured! \n This was not supposed to happen'}>
             <Button
               onClick={() => setSize(size)} sx={{ my: 5 }}
@@ -68,11 +72,11 @@ export default function ModelsDisplay ({ name, query }: {name: string, query: st
           </ErrorDisplay>}>
         <Grid container component='ul' justifyContent={{lg: 'start', xs: 'center'}} gap={3}>
           {
-           models.map((model, i) => (
+           list.map((item, i) => (
               <Grow key={i} mountOnEnter in={animateCards} style={{ transformOrigin: '0 0 0' }}
                 {...(animateCards ? { timeout: i * 1000 + 300 } : {})}>
                 <Paper sx={{ backgroundColor: 'transparent' }} elevation={0}>
-                   <ModelCard model={model} component='li' key={i} />
+                   <ListItem item={item} component='li' key={i} />
                 </Paper>
               </Grow>
             ))

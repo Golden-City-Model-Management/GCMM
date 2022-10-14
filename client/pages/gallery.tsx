@@ -2,17 +2,13 @@
 
 
 import { NextPageWithLayout } from '@/types/pages'
-import LayoutOne from '@/components/layout/LayoutOne'
+import LayoutTwo from '@/components/layout/LayoutTwo'
 import getLayout from '@/utils/pages/getLayout'
-import ComingSoonPlaceHolder from '@/components/common/ComingSoon'
+import ModelsDisplay from '@/utils/pages/modelsPages'
+import GalleryImage from '@/components/gallery/GalleryImage'
 
-
-const Gallery: NextPageWithLayout = () => {
-
-  return (
-    <ComingSoonPlaceHolder page='Gallery' />
-  )
-}
+const Gallery: NextPageWithLayout = () => <ModelsDisplay ListItem={GalleryImage} 
+pathAndQuery='/gallery?x=y' name='gallery' />
 
 const props = {
   title: 'Golden City Model Management | Main Board',
@@ -22,6 +18,6 @@ const props = {
   canonical: `${process.env.BASE_URL}/gallery`
 }
 
-Gallery.getLayout = getLayout(LayoutOne, props)
+Gallery.getLayout = getLayout(LayoutTwo, props)
 
 export default Gallery

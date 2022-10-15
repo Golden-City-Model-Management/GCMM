@@ -21,7 +21,7 @@ import AdminLayout from '@/components/layout/Layout'
 const AdminHomePage: NextPage = () => {
   const router = useRouter()
   const [loginDetails, setLoginDetails] = useState({
-    userName: '', password: ''
+    user_name: '', password: ''
   })
   const [isError, setIsError] = useState({
     error: router.query.error ? true : false, message: router.query.error
@@ -35,7 +35,7 @@ const AdminHomePage: NextPage = () => {
   const handleSubmit: FormEventHandler = useCallback(async (e: FormEvent) => {
     e.preventDefault()
 
-    if (loginDetails.userName.trim().length === 0 || loginDetails.password.trim().length === 0)
+    if (loginDetails.user_name.trim().length === 0 || loginDetails.password.trim().length === 0)
       return handleSetError({ error: true, message: 'All fields are required!' })
     setIsLoading(true)
 
@@ -83,8 +83,8 @@ const AdminHomePage: NextPage = () => {
             color={'primary'}
             variant='small'>Please sign in to continue</Typography>
 
-          <TextField variant='outlined' required value={loginDetails.userName}
-            name='userName'
+          <TextField variant='outlined' required value={loginDetails.user_name}
+            name='user_name'
             type='text'
             label='Username or Email'
             color='primary'

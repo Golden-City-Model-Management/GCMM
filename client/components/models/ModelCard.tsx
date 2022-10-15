@@ -55,7 +55,7 @@ const ModelCard = ({ component, item, }: { [x: string]: any}) => {
 
       </CardContent>
       <CardActionArea sx={{ padding: '12px 16px', display: 'flex', justifyContent: 'space-between' }}>
-        <WithNextLink href={`/models/${item.gender}/${item.slug}`} passHref>
+        <WithNextLink href={`/models/${item.slug}`} passHref>
           <Typography component='div' lineHeight={1}>
           <Typography variant='h6' component={'p'} lineHeight={0} fontWeight={900} textAlign='right'>
             {item.first_name}
@@ -67,7 +67,7 @@ const ModelCard = ({ component, item, }: { [x: string]: any}) => {
           </Typography>
         </WithNextLink>
         <CardActions>
-          <WithNextLink href={`/models/${item.gender}/${item.slug}`} passHref>
+          <WithNextLink href={`/models/${item.slug}`} passHref>
             <IconButton color='secondary'>
               <LaunchIcon />
             </IconButton>

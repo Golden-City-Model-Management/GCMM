@@ -33,13 +33,13 @@ module.exports.getAllUsers = getAllDocuments(User)
 
 module.exports.loginUser = asyncHelper(async (req, res, next) => {
   const {
-    userName,
+    user_name,
     password
   } = req.body
-  if (!password || !userName) {
+  if (!password || !user_name) {
     return next(createCustomError('Please specify all required fields', 400))
   }
-  const user =  await User.findOne({$or:[{userName: userName}, {email: userName}]}).select('+isVerified +password') 
+  const user =  await User.findOne({$or:[{user_name: user_name}, {email: user_name}]}).select('+isVerified +password') 
   if (!user) {
     return next(createCustomError('Invalid credentials', 401))
   }
@@ -54,8 +54,8 @@ module.exports.loginUser = asyncHelper(async (req, res, next) => {
   }
   isMatch.password = undefined
   isMatch.isVerified = undefined
-  isMatch.passwordResetExpires = undefined
-  isMatch.passwordResetToken = undefined
+  isMatch.password_reset_expires = undefined
+  isMatch.password_reset_token = undefined
 
   const token = await user.generateAuthToken()
   const cookieOptions = {
@@ -76,10 +76,10 @@ module.exports.verifyUser = asyncHelper(async (req, res, next) => {
   if (!token || !id) return next(createCustomError('Unauthorized', 403))
   const user = await User.findOne({ _id: id })
   if (!user) return next(createCustomError('Cannot verify non-existent user!', 404))
-  if (!user.emailConfirmationToken) return next(createCustomError('Unauthorized', 403))
-  const isMatch = user.compareKey('emailConfirmationToken', token)
+  if (!user.email_confirmation_token) return next(createCustomError('Unauthorized', 403))
+  const isMatch = user.compareKey('email_confirmation_token', token)
   if (!isMatch) return next(createCustomError('Invalid token', 403))
-  user.emailConfirmationToken = undefined
+  user.email_confirmation_token = undefined
   user.isVerified = true
   const saved = await user.save()
   if (!saved) return next(createCustomError('Unable to verify email', 500))
@@ -100,12 +100,12 @@ module.exports.forgotPassword = asyncHelper(async (req, res, next) => {
   })
   if (!user)
     return next(createCustomError('No user with that email', 401))
-  const passwordResetToken = user.generateToken('passwordResetToken')
-  user.passwordResetExpires = Date.now() + 10 * 60 * 1000
-  await user.hashKeys('passwordResetToken')
+  const password_reset_token = user.generateToken('password_reset_token')
+  user.password_reset_expires = Date.now() + 10 * 60 * 1000
+  await user.hashKeys('password_reset_token')
   const mailOptions = createMailOptions('', email, 'Password Reset Request')
   const links = {
-    resetPassword: `http://localhost:1298/api/v1/users/password-reset/${passwordResetToken}/${user._id}`
+    resetPassword: `http://localhost:1298/api/v1/users/password-reset/${password_reset_token}/${user._id}`
   }
   const options = {links, user}
   const emailSent = await sendEmail(mailOptions, 'passwordReset', options, {}) 
@@ -125,18 +125,18 @@ module.exports.passwordReset = asyncHelper(async (req, res, next) => {
   const { token, id } = req.params
   const user = await User.findOne({ _id: id})
   if (!user) return next(createCustomError('Unauthorized!', 401))
-  if (!user.passwordResetToken) return next(createCustomError('Token expired or invalid!', 401))
-  const isMatch = await user.compareKey('passwordResetToken', token)
+  if (!user.password_reset_token) return next(createCustomError('Token expired or invalid!', 401))
+  const isMatch = await user.compareKey('password_reset_token', token)
   if (!isMatch) return next(createCustomError('Invalid Reset Token', 401))
   const timeElapsed =
-    new Date(user.passwordResetExpires).getTime() < Date.now()
+    new Date(user.password_reset_expires).getTime() < Date.now()
   if (timeElapsed) return next(createCustomError('Reset Token Expired! Please try again', 401))
   const newPassword = req.body.password
   if (!newPassword) return next(createCustomError('Please provide your new password', 400))
   user.password = newPassword
   await user.hashKeys('password')
-  user.passwordResetExpires = undefined
-  user.passwordResetToken = undefined
+  user.password_reset_expires = undefined
+  user.password_reset_token = undefined
   const saved = await user.save()
   if (!saved) return next(createCustomError('Unable to reset your password. Please try again', 500))
   req.statusCode = 200
@@ -213,8 +213,8 @@ module.exports.editProfile = asyncHelper(async (req, res, next) => {
 })
 
 const sendEmailConfirmation  = async (user, email) => {
-  const token = user.generateToken('emailConfirmationToken')
-    await user.hashKeys('emailConfirmationToken')
+  const token = user.generateToken('email_confirmation_token')
+    await user.hashKeys('email_confirmation_token')
     user.email = email
     await user.save()
     const confirmEmail = `/api/v1/users/verify?token=${token}&id=${user._id}`

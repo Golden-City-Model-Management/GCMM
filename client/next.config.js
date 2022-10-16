@@ -21,11 +21,15 @@ module.exports = {
       },
       ...modelpaths.map(path => ({
         source: `/${path}/:slug`,
-        destination: '/models/:slug', // Matched parameters can be used in the destination
+        destination: '/models/:slug', 
       })),
       ...modelpaths.map(path => ({
         source: `/${path}/:slug/portfolio`,
-        destination: '/models/:slug/portfolio', // Matched parameters can be used in the destination
+        destination: '/models/:slug/portfolio', 
+      })),
+      ...modelpaths.map(path => ({
+        source: `/${path}/:slug/polaroids`,
+        destination: '/models/:slug/polaroids', 
       }))
     ]
   },

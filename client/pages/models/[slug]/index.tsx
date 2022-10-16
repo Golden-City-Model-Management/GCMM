@@ -50,18 +50,18 @@ const Model: NextPageWithLayout = ({
     <Box display='flex'  flexWrap={{ lg: 'nowrap', xs: 'wrap' }} rowGap={'30px'}
      justifyContent='space-between' alignItems='center' mt={9}>
       <Card elevation={0} sx={{
-        backgroundColor: 'transparent', display: 'flex', flexWrap: { lg: 'nowrap', xs: 'wrap' },
-        alignItems: 'end', padding: 0, width: { lg: '70%' }, margin: {xs: 'auto', lg: '0'}
+        backgroundColor: 'transparent', display: 'flex', flexWrap: { md: 'nowrap', xs: 'wrap' },
+        alignItems: 'end', padding: 0, width: { md: '70%' }, margin: {xs: 'auto', lg: '0'}
       }}>
-        <CardMedia sx={{ width: '100%', height: '37vmax', maxHeight: '600px', maxWidth: '450px', 
+        <CardMedia sx={{ width: '100%', height: '37vmax', maxHeight: { lg: '600px'}, maxWidth: { xs: '250px', lg: '450px'}, 
         position: 'relative', margin: { xs: '0 auto', lg: '0'} }} >
           <Image src={model.cover_image.secure_url} layout='fill' alt={model.name} />
         </CardMedia>
         <Box>
           
           <CardContent sx={{
-            display: 'flex', flexDirection: { xs: 'row', lg: 'column' }, flexWrap: 'wrap',
-            alignItems: { xs: 'center', lg: 'start'}, justifyContent: 'center', columnGap: 3
+            display: 'flex', flexDirection: { xs: 'row', md: 'column' }, flexWrap: 'wrap',
+            alignItems: { xs: 'center', md: 'start'}, justifyContent: 'center', columnGap: 3
           }}>
             <Typography variant='h1' component='h1' textTransform='capitalize'
               color='secondary' sx={{ fontFamily: '"Poppins", sans-serif' }}
@@ -92,7 +92,9 @@ const Model: NextPageWithLayout = ({
             <WithNextLink passHref href={`/${router.asPath.split('/')[1]}/${model.slug}/portfolio`}>
               <Button variant='outlined' color='inherit'>Portfolio</Button>
             </WithNextLink>&nbsp;&nbsp;
-            <Button variant='outlined' color='inherit'>Polaroids</Button>
+            <WithNextLink passHref href={`/${router.asPath.split('/')[1]}/${model.slug}/polaroids`}>
+              <Button variant='outlined' color='inherit'>Polaroids</Button>
+            </WithNextLink>
           </CardActions>
         </Box>
       </Card>

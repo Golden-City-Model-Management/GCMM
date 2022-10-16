@@ -1,4 +1,5 @@
 
+const { isObjectIdOrHexString } = require('mongoose')
 const Portfolio = require('../models/portfolio')
 const Model = require('../models/model')
 const {asyncHelper} = require('../utils/async')
@@ -18,7 +19,7 @@ module.exports.addPortfolio = asyncHelper(async (req, res, next) => {
   if(!Array.isArray(reqImages)) return next(createCustomError('Please specify an array of images!', 400))
     const saved = []
     for(let i = 0; i < reqImages.length; i++){
-      const newPortfolio = {model, image: reqImages[i]} 
+      const newPortfolio = {model, model_slug: exists.slug, image: reqImages[i]} 
       saved.push(await createDocument(Portfolio, newPortfolio))
     }
     if(saved.length !== reqImages.length)next(createCustomError('Unable to add all images!', 500))
@@ -31,7 +32,13 @@ module.exports.addPortfolio = asyncHelper(async (req, res, next) => {
 }) 
 
 module.exports.getModelPortfolio = asyncHelper(async (req, _res, next) => {
-  const docs = await Portfolio.find({ model: req.params.model })
+  const isModelId = isObjectIdOrHexString(req.params.model)
+  let docs
+  if(isModelId){
+    docs = await Portfolio.find({ model: req.params.model })
+  }else{
+    docs = await Portfolio.find({model_slug: req.params.model})
+  }
   if(docs.length === 0){
     req.message = 'No documents were found that match your search.'
   }else{

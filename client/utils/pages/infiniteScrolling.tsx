@@ -16,10 +16,11 @@ import { UIContext } from '@/context/context';
 const PAGE_SIZE = 50;
 const fetcher = async (url: string) => await Request({ path: url.split('/v1/')[1], method: 'get' })
 
-export default function InfiniteScroller ({ name, pathAndQuery, ListItem }:
+export default function InfiniteScroller ({ name, pathAndQuery, ListItem, onEmptyMsg }:
    {name: string, 
     pathAndQuery: string
     ListItem: (props:{[x:string]: any}) => JSX.Element,
+    onEmptyMsg?: string
   }) {
 
   const { marginBtwContainers } = useContext(UIContext)
@@ -65,7 +66,7 @@ export default function InfiniteScroller ({ name, pathAndQuery, ListItem }:
         endMessage={(!error ) ? 
         list.length === 0 && 
         <Typography variant='h2' textAlign='center' component='p'>
-          The {name} page will be updated soon...
+          {onEmptyMsg || <>The {name} page will be updated soon...</>}
         </Typography> :
           list.length === 0 && 
           <ErrorDisplay msg={'An Error Occured! \n This was not supposed to happen'}>

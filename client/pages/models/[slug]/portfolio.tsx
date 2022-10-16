@@ -17,6 +17,7 @@ const PortfolioPage: NextPageWithLayout = ({ portfolio }: {
 
   return (
   <InfiniteScroller name={`Portfolio - ${slug?.split('-').join(' ')}`} 
+    onEmptyMsg={`${slug?.split('-').join(' ')}'s portfolio will be updated soon...`}
     pathAndQuery={`/portfolios?model_slug=${slug}`} ListItem={(props: {[x: string]: any}) =>
      <GalleryImage component='li' item={props.item.image} />} />
   )

@@ -14,7 +14,7 @@ function SkeletonElement(props: MediaProps) {
 
   return (
     <Box>
-      <Skeleton variant="rectangular" width={280} height={118} />
+      <Skeleton variant="rectangular" width={280} height={250} />
       <Skeleton  width={280} variant='text'  />
       <Skeleton  width={280} variant='text' />
     </Box>

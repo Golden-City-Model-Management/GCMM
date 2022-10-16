@@ -16,7 +16,7 @@ import { UIContext } from '@/context/context';
 const PAGE_SIZE = 50;
 const fetcher = async (url: string) => await Request({ path: url.split('/v1/')[1], method: 'get' })
 
-export default function ModelsDisplay ({ name, pathAndQuery, ListItem }:
+export default function InfiniteScroller ({ name, pathAndQuery, ListItem }:
    {name: string, 
     pathAndQuery: string
     ListItem: (props:{[x:string]: any}) => JSX.Element,

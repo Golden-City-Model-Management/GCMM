@@ -9,9 +9,8 @@ import { useState, useEffect, useContext, useCallback } from "react"
 import Button from '@mui/material/Button'
 import { StoreContext, modelsReducer } from "reducers/store"
 import useSWR from 'swr'
-import { ModelWithPolaroidsAndPortfolio } from "@/types/models"
+import { ModelWithPolaroidsAndPortfolio, Portfolio } from "@/types/models"
 import { uploadFile } from '@/utils/cloudinary/index'
-
 interface ModelResponse {
   message: string,
   status: string,
@@ -24,7 +23,9 @@ const PortfolioPage = () => {
   const query = router.query
   const { data } = useSWR<ModelResponse>(`${process.env.NEXT_PUBLIC_SERVER_URL}/models/${query?.name}`,
     () => Request({ path: `/models/${query?.name}`, method: 'get', }))
-
+    const portfolio = useSWR<{docs: Portfolio[]}>(`${process.env.NEXT_PUBLIC_SERVER_URL}/portfolios/${query?.name}`,
+    () => Request({ path: `/portfolios/${query?.name}`, method: 'get', }))
+    
   const { state: { models: { model: modelInState }, }, combinedDispatch: { modelsDispatch } } = useContext(StoreContext)
 
   const [isScrolling, setIsScrolling] = useState(false)
@@ -39,19 +40,20 @@ const PortfolioPage = () => {
     }
     const uploadedImages = [...(await Promise.all([...uploads]))].filter(el => el.error === undefined)
     const storedPortfolios = await Request({path: '/portfolios', method: 'post', data: { images: uploadedImages, model: modelInState.id}})
-    if(modelInState){
+    if(modelInState.portfolio){
       modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: {
         ...modelInState, portfolio: [...modelInState.portfolio, ...storedPortfolios.images]
       } })     
-    }else if(data){
-      modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: data.model})
+    }else{
+      modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, 
+        payload: {...modelInState, portfolio: [...storedPortfolios.images]}})
     }
-  }, [modelInState, modelsDispatch, data])
+  }, [modelInState, modelsDispatch])
   
   useEffect(() => {
-    if(modelInState.id.length === 0 && data?.model){
+    if(modelInState.id.length === 0 && data?.model && portfolio.data?.docs){
       modelsDispatch({type: modelsReducer.modelsActions.updateSingleModel, payload: {
-        ...data.model
+        ...data.model, portfolio: [...portfolio.data?.docs]
       } })
     }
     window.addEventListener('scroll', (e) => {
@@ -59,7 +61,7 @@ const PortfolioPage = () => {
       else setIsScrolling(false)
     })
     return () => window.removeEventListener('scroll', () => setIsScrolling(false))
-  }, [data, modelInState, modelsDispatch])
+  }, [data, modelInState, modelsDispatch, portfolio])
 
   if (!modelInState || Object.keys(modelInState).length === 0) {
     return (

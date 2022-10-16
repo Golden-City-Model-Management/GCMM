@@ -2,10 +2,11 @@
 import { NextPageWithLayout } from '@/types/pages'
 import LayoutTwo from '@/components/layout/LayoutTwo'
 import getLayout from '@/utils/pages/getLayout'
-import ModelsDisplay from '@/utils/pages/modelsPages';
+import ModelsDisplay from '@/utils/pages/infiniteScrolling';
 import ModelCard from '@/components/models/ModelCard';
 
-const Men: NextPageWithLayout = () => <ModelsDisplay ListItem={ModelCard}
+const Men: NextPageWithLayout = () => <ModelsDisplay 
+ListItem={({item}: {[x:string]: any}) => <ModelCard  component='li' item={item} parentRoute='men'/>} 
 pathAndQuery='/models?gender=male' name='men' />
 
 const props = {

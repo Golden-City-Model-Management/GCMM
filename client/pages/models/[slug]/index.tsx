@@ -11,12 +11,12 @@ import Image from 'next/image'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
-import { UIContext } from '@/context/context'
-import { useContext } from 'react'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import CardActions from '@mui/material/CardActions'
 import BrokenImage from '@mui/icons-material/BrokenImage'
+import { WithNextLink } from '@/components/common/Links'
+import { useRouter } from 'next/router'
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const response = await Request({ path: '/models?fields=slug', method: 'get', })
@@ -44,12 +44,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 const Model: NextPageWithLayout = ({
   model
 }) => {
+  const router = useRouter()
 
-  const { fullHeightWithoutHeader } = useContext(UIContext)
-  
   return (
-    <Box display='flex' minHeight={fullHeightWithoutHeader} flexWrap={{ lg: 'nowrap', xs: 'wrap' }} rowGap={'30px'}
-     justifyContent='space-between' alignItems='center'>
+    <Box display='flex'  flexWrap={{ lg: 'nowrap', xs: 'wrap' }} rowGap={'30px'}
+     justifyContent='space-between' alignItems='center' mt={9}>
       <Card elevation={0} sx={{
         backgroundColor: 'transparent', display: 'flex', flexWrap: { lg: 'nowrap', xs: 'wrap' },
         alignItems: 'end', padding: 0, width: { lg: '70%' }, margin: {xs: 'auto', lg: '0'}
@@ -90,7 +89,9 @@ const Model: NextPageWithLayout = ({
               textAlign='center' fontWeight={800} whiteSpace='nowrap' >hair {model.hair_color}</Typography>
           </CardContent>
           <CardActions sx={{ padding: '0', margin: { lg: '18px 0 0 15px', xs: '5px auto 0'}, justifyContent: 'center' }}>
-            <Button variant='outlined' color='inherit'>Portfolio</Button>&nbsp;&nbsp;
+            <WithNextLink passHref href={`/${router.asPath.split('/')[1]}/${model.slug}/portfolio`}>
+              <Button variant='outlined' color='inherit'>Portfolio</Button>
+            </WithNextLink>&nbsp;&nbsp;
             <Button variant='outlined' color='inherit'>Polaroids</Button>
           </CardActions>
         </Box>

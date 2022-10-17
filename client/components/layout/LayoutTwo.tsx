@@ -9,9 +9,10 @@ import { UIContext } from '@/context/context'
 import { useContext } from 'react'
 import CustomizedBreadcrumbs from '../common/breadcrumbs'
 import { useRouter } from 'next/router'
+import Lightbox from '@/components/common/Lightbox';
 
 const LayoutWithMenuBtnAlways = ({ children, ...headProps }: LayoutProps) => {
-  const { fullHeightWithoutHeader, layout2ContainerPad, } = useContext(UIContext)
+  const { fullHeightWithoutHeader, layout2ContainerPad, modal, closeModal  } = useContext(UIContext)
   const router = useRouter()
   const paths = router.asPath.split('/').filter(x => x)
   const crumbs = paths.map((path, idx) => {
@@ -33,6 +34,7 @@ const LayoutWithMenuBtnAlways = ({ children, ...headProps }: LayoutProps) => {
         {children}
       </Box>
       <Footer layout={2} />
+      <Lightbox open={modal.open} handleClose={closeModal}>{modal.content}</Lightbox>
     </>
   )
 }

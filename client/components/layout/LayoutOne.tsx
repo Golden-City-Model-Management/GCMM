@@ -7,10 +7,11 @@ import Box from '@mui/material/Box'
 import Head from './Head'
 import Header from '@/components/header/Header'
 import Footer from '@/components/footer/Footer'
+import Lightbox from '@/components/common/Lightbox';
 
 const LayoutWithFixedNavInDesktop = ({ children, pad, ...headProps }: LayoutProps & { pad?: boolean}) => {
 
-  const { bodyWidth, fullHeightWithoutHeader, containerPadLayout1 } = useContext(UIContext)
+  const { bodyWidth, fullHeightWithoutHeader, containerPadLayout1, modal, closeModal } = useContext(UIContext)
   return (
     <>
       <Header showMenuBtnAlways={false} />
@@ -29,6 +30,7 @@ const LayoutWithFixedNavInDesktop = ({ children, pad, ...headProps }: LayoutProp
       <Box sx={{ width: { lg: bodyWidth}}}>
         <Footer layout={1} />      
       </Box>
+      <Lightbox open={modal.open} handleClose={closeModal}>{modal.content}</Lightbox>
     </>
   )
 } 

@@ -64,11 +64,13 @@ const modelSchema = new mongoose.Schema({
     type: String,
     required: [true, 'A model must have a first name!'],
     minLength: [3, 'The name must be at least 5 characters long!'],
+    unique: [true, 'A model already exists with that first name!']
   },
   last_name: {
     type: String,
     required: [true, 'A model must have a last name!'],
     minLength: [3, 'The name must be at least 5 characters long!'],
+    unique: [true, 'A model already exists with that last name!']
   },
   dob: {
     type: Date, 

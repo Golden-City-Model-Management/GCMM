@@ -1,15 +1,10 @@
 
 
-import {  createContext, useCallback } from 'react'
+import React, {  createContext, useCallback } from 'react'
 import { ReactNode, useState, useMemo } from 'react'
 import  useToggle from '@/utils/hooks/useToggle'
 
-interface Model {
 
-}
-interface ImageInterface {
-kjk: 'u'
-}
 const initialValue = {
   drawerWidth: 340,
   bodyWidth:  `calc(100% - 340px)`,
@@ -27,12 +22,12 @@ const initialValue = {
     xs: '0 15px',
   },
   marginBtwContainers: '100px',
-  mainBoard: [] as Model[],
-  newFaces: [] as Model[],
-  women: [] as Model[],
-  men: [] as Model[],
-  gallery: [] as ImageInterface[],
-  updateState: (payload: Model[], state: 'men' | 'women' | 'mainBoard' | 'newFaces'): void => {}
+  modal: {
+    content: '' as ReactNode | ReactNode[],
+    open: false,
+  },
+  closeModal: () => {},
+  openModal: (content: ReactNode | ReactNode[]) => {}
 }
 
 export const UIContext = createContext(initialValue)
@@ -41,29 +36,20 @@ const UIProvider = ({ children }:
    { children: ReactNode | ReactNode[] }) => {
 
   const [showNav, toggleShowNav] = useToggle(false)
-  const [mainBoard, setMainBoard] = useState<Model[]>([])
-  const [women, setWomen] = useState<Model[]>([])
-  const [men, setMen] = useState<Model[]>([])
-  const [newFaces, setNewFaces] = useState<Model[]>([])
-  const [gallery, setGallery] = useState<ImageInterface[]>([])
+  const [modal, setModal] = useState({
+    open: false, content: '' as ReactNode | ReactNode[]
+  })
 
-  const updateState = useCallback((payload: Model[] | ImageInterface[], state: 
-    'men' | 'women' | 'mainBoard' | 'newFaces' | 'gallery') => {
-    switch(state){
-      case 'men': return setMen(payload as Model[]);
-      case 'women': return setWomen(payload as Model[]);
-      case 'mainBoard': return setMainBoard(payload as Model[]);
-      case 'newFaces': return setNewFaces(payload as Model[]);
-      case 'gallery': return setGallery(payload as ImageInterface[]);
-      default: return;
-    }
+  const openModal = useCallback((content: ReactNode | ReactNode[]) => setModal({open: true, content}) , [])
+  const closeModal = useCallback(() => {
+    setModal(prev => ({...prev, open: false, content: ''}))
   }, [])
+
   const value = useMemo(() => ({
     ...initialValue,
-    men, women, mainBoard, newFaces, 
-    updateState, gallery,
-    showNav, toggleShowNav
-  }), [men, women, mainBoard, newFaces, updateState, gallery, showNav, toggleShowNav])
+    showNav, toggleShowNav,
+    modal, closeModal, openModal
+  }), [closeModal, modal, openModal, showNav, toggleShowNav])
   
   return (
     <UIContext.Provider value={value}>

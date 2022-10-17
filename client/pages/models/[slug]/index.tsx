@@ -19,6 +19,13 @@ import { WithNextLink } from '@/components/common/Links'
 import { useRouter } from 'next/router'
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+    return {
+      paths: [],
+      fallback: 'blocking',
+    }
+  }
+
   const response = await Request({ path: '/models?fields=slug', method: 'get', })
   const paths = await response.docs.map((el: {
     slug: string, age: number, id: string
@@ -99,7 +106,7 @@ const Model: NextPageWithLayout = ({
         </Box>
       </Card>
       <Grid container gap={3} sx={{ width: { lg: '45%', xs: '100%' },
-       height: { lg: '37vmax', xs: '60vmax' }, }} justifyContent='center' flexWrap='wrap' alignItems='center' >
+       height: { lg: '37vmax', xs: '60vmax' }, overflowX: 'auto' }} justifyContent='center' flexWrap='wrap' alignItems='center' >
         {
           Object.keys(model.polaroids).filter(el => el !== '_id').map(el => (
             <Card key={el} elevation={0} sx={{

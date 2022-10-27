@@ -9,3 +9,5 @@ export const StyledBorderBtn = forwardRef(({ children, ...otherProps }: ButtonPr
       {children}
     </Button>)
 })
+
+StyledBorderBtn.displayName = 'StyledBorderBtn'

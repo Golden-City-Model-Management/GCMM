@@ -30,6 +30,7 @@ const UserImage = forwardRef<any, AvatarPropsExtended>((props, ref) => {
     </Box>
   )
 })
+UserImage.displayName = 'UserImage'
 
 export default UserImage
 

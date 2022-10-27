@@ -7,7 +7,12 @@ const portfolioSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Model',
     required: [true, 'Please specify the model this portfolio image belongs to!'],
-  },  
+  }, 
+  model_slug: {
+    type: String,
+    ref: 'Model',
+    required: [true, 'Please specify the model slug!']
+  }, 
   image: {
    type: ImageSchema,
    required: [true, 'Please specify the path to the image!']

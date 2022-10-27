@@ -10,16 +10,20 @@ import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import { mainNavLinks, subNavLinks, socialLinks, } from '@/constants/links'
 import { LinkListItem } from '@/components/common/Links'
-import { UIContext } from '@/context/ui'
+import { UIContext } from '@/context/context'
 
 
-const Footer = () => {
-  const { universalContainerPadding } = useContext(UIContext)
+const Footer = ({
+  layout
+}: {
+  layout: number
+}) => {
+  const { layout2ContainerPad, containerPadLayout1 } = useContext(UIContext)
   return (
     <Box component='footer' sx={(theme) => ({
       minHeight: '30vh',
       background: theme.palette.primary.light,
-      padding: universalContainerPadding,
+      padding: layout === 1 ? containerPadLayout1 : layout2ContainerPad, containerPadLayout1,
     })}>
       <Box sx={{
         padding: '40px 0',

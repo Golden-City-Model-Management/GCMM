@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Please specify a name!'],
     trim: true,
   },
-  userName: {
+  user_name: {
     type: String,
     required: [true, 'Please provide a username'],
     unique: [true, 'Username already exists!'],
@@ -33,15 +33,15 @@ const userSchema = new mongoose.Schema({
   },
   avatar:{
     type: String,
-    default: 'https://res.cloudinary.com/dzqbzqjqw/image/upload/v1587010900/avatar_default_qjqjqj.png'
+    default: ''
   },
-  emailConfirmationToken: {
+  email_confirmation_token: {
     type: String
   },
-  passwordResetToken: {
+  password_reset_token: {
     type: String,
   },
-  passwordResetExpires: {
+  password_reset_expires: {
     type: Date
   },
   active: {

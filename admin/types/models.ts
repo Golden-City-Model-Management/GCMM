@@ -40,8 +40,8 @@ export interface Model {
   first_name: string, last_name: string, name: string, gender: string, dob: string,
   cover_image: Image, waist: number,
   chest?: number, bust?: number, hips?: number,
-  height: number, shoe: number, id: string,
-  isActive: boolean, socials: Socials, is_new_face: boolean | string
+  height: number, shoe: number, id: string, hair_color: string, eye_color: string,
+  isActive: boolean, socials: Socials, is_new_face: boolean | string, is_main_board: boolean | string
 }
 
 

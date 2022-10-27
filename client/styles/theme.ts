@@ -58,7 +58,7 @@ const theme = createTheme({
       fontWeightBold: 700,
       color: palette.text.primary,
       caption: {
-        fontSize: '2.5rem',
+        fontSize: '3.5rem',
         fontWeight: 400,
         color: palette.text.primary,
       },

@@ -31,9 +31,10 @@ const initialState: {
     height: 0, shoe: 0, id: '', 
     isActive: true, socials: {} as Socials,
     polaroids: {} as Polaroids,
-    extra_polaroids: [],
+    extra_polaroids: [], is_main_board: 'no',
     portfolio: [], is_new_face: 'no',
-    first_name: '', last_name: '',
+    first_name: '', last_name: '', hair_color: '',
+    eye_color: ''
   }
   },
   notification: {
@@ -46,7 +47,7 @@ const initialState: {
     name: '',
     avatar: '',
     email: '',
-    userName: '',
+    user_name: '',
     role: '', 
   },
   ui: {

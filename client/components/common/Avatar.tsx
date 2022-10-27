@@ -2,7 +2,6 @@
 
 import Box from '@mui/material/Box';
 import Avatar, { AvatarProps } from '@mui/material/Avatar';
-import { rounded } from '@/styles/styles'
 import { ElementType, forwardRef } from 'react';
 
 interface AvatarPropsExtended extends AvatarProps {
@@ -25,7 +24,7 @@ const UserImage = forwardRef<any, AvatarPropsExtended>((props, ref) => {
       sx={{ 
         width: 55, 
         height: 55,
-        ...rounded().circle,
+        borderRadius: '50%'
        }}
     />
     </Box>

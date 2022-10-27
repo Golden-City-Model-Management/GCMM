@@ -34,6 +34,7 @@ const props = {
   description: 'Golden City Model Management. Finding and refining talent. African Premium Agency located in Lagos, Nigeria',
   favicon: '/vercel.svg',
   pad: true,
+  canonical: `${process.env.BASE_URL}/about`
 }
 
 AboutUs.getLayout = getLayout(LayoutOne, props)

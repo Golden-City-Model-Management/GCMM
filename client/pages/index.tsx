@@ -6,7 +6,6 @@ import getLayout from '@/utils/pages/getLayout'
 import Hero from '@/components/Home/Hero'
 import GalleryPreview from '@/components/Home/GalleryPreview'
 import Box from '@mui/material/Box'
-
 import Bg1 from '@/public/assets/images/BG-01.jpg'
 import Bg2 from '@/public/assets/images/BG-02.jpg'
 import Bg3 from '@/public/assets/images/BG-03.jpg' 

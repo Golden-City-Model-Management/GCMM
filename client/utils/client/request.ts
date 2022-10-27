@@ -1,6 +1,5 @@
 
 import axios from 'axios'
-import { AxiosResponse, AxiosError} from "axios";
 import setUpInterceptors from './interceptors'
 
 interface RequestInterface {
@@ -8,10 +7,11 @@ interface RequestInterface {
   path: string,
   method: string,
   data?: object,
+  returnErr?: boolean
 }
 
 let myAxios = axios.create({
-  baseURL: '/api',
+  baseURL: process.env.SERVER_URL || 'http://localhost:9876/api/v1',
 })
 
 myAxios = setUpInterceptors(myAxios)
@@ -21,6 +21,7 @@ async function Request ({
   path,
   method = 'GET',
   data = {},
+  returnErr,
 }: RequestInterface) {
 
   if(baseURL) myAxios.defaults.baseURL = baseURL
@@ -32,10 +33,13 @@ async function Request ({
       url: path,
       data,
     })
-    return response
-
+   return { ...response.data, statusCode: response.status }
   }catch(err: any){
-    return err
+    console.error(err)
+    if(returnErr){
+      return err
+    }
+    throw new Error(err)
   }
 }
 

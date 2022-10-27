@@ -73,7 +73,7 @@ const ModelCard = ({ component, item, parentRoute }: { [x: string]: any }) => {
             </Typography>
 
             <CardActions>
-              <IconButton color='secondary'>
+              <IconButton component='span' color='secondary'>
                 <LaunchIcon />
               </IconButton>
             </CardActions>

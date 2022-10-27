@@ -2,7 +2,6 @@ import * as React from 'react';
 import { emphasize, styled } from '@mui/material/styles';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Chip from '@mui/material/Chip';
-import Box from '@mui/material/Box';
 import HomeIcon from '@mui/icons-material/Home';
 import NextLink from 'next/link';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
@@ -53,13 +52,13 @@ export default function CustomizedBreadcrumbs({ crumbs, currentPath }: {
   return (
     <div role="presentation">
       <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+        <NextLink href='/' passHref>
         <StyledBreadcrumb
           sx={{color: isHome ? 'gold' : ''}}
-          component={isHome ? 'span' : 'a'}
-          href="/"
           label="Home"
           icon={<HomeIcon fontSize="small" />}
         />
+        </NextLink>
         {
           crumbs.map(crumb => {
             return <CrumbLink key={crumb.label} crumb={crumb} />

@@ -62,7 +62,7 @@ const Polaroids: NextPageWithLayout =  ({ model }: {
     </Typography>
     <Grid container component='ul' justifyContent='center' alignItems='center' gap={3} >
       {polaroids.map(el => ( 
-        <GalleryImage key={el.secure_url} item={el} component='li'/>
+        <GalleryImage key={el._id} item={el} component='li'/>
       ))}
     </Grid>
   </Box>

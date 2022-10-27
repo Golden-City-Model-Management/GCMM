@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const ADMIN_URL = process.env.ADMIN_URL ||  'http://localhost:4000'
+const ADMIN_URL = process.env.NEXT_PUBLIC_ADMIN_URL ||  'http://localhost:4000'
 
 const modelpaths = ['main-board', 'men', 'women', 'new-faces'] 
 

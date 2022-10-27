@@ -5,6 +5,7 @@ import Chip from '@mui/material/Chip';
 import HomeIcon from '@mui/icons-material/Home';
 import NextLink from 'next/link';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { useRouter } from 'next/router'
 
 type crumb = {
   href: string, label: string, isActive: boolean
@@ -45,10 +46,16 @@ const CrumbLink = ({ crumb }: { crumb: crumb }) => {
         </NextLink>
   )
 }
-export default function CustomizedBreadcrumbs({ crumbs, currentPath }: {
-  crumbs: crumb[], currentPath: string,
-}) {
-  const isHome = currentPath === '/'
+export default function CustomizedBreadcrumbs() {
+  const router = useRouter()
+  const paths = router.asPath.split('/').filter((x: string) => x)
+  const crumbs = paths.map((path: string, idx: number) => {
+    return ({
+      href: `/${paths.slice(0, idx + 1).join('/')}`,
+      label: path.split('?')[0], isActive: paths[paths.length - 1] === path
+    })
+  })
+  const isHome = router.asPath === '/'
   return (
     <div role="presentation">
       <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">

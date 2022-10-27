@@ -17,6 +17,7 @@ import CardActions from '@mui/material/CardActions'
 import BrokenImage from '@mui/icons-material/BrokenImage'
 import { WithNextLink } from '@/components/common/Links'
 import { useRouter } from 'next/router'
+import ErrorDisplay from '@/components/common/ErrorDisplay'
 
 export const getStaticPaths: GetStaticPaths = async () => {
   if (process.env.SKIP_BUILD_STATIC_GENERATION) {
@@ -41,7 +42,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const model = await response.model
   return {
     props: {
-      model,
+      model: model || null,
       status: response.status, message: response.message,
       statusCode: response.statusCode
     }
@@ -52,6 +53,14 @@ const Model: NextPageWithLayout = ({
   model
 }) => {
   const router = useRouter()
+
+  if(!model) {
+    return (
+      <Box display='flex' justifyContent='center' alignItems='center' minHeight='65vh'>
+        <ErrorDisplay msg='An Error Occured!'> </ErrorDisplay>
+      </Box>
+    )
+  }
 
   return (
     <Box display='flex'  flexWrap={{ lg: 'nowrap', xs: 'wrap' }} rowGap={'30px'}

@@ -11,7 +11,7 @@ interface RequestInterface {
 }
 
 let myAxios = axios.create({
-  baseURL: process.env.SERVER_URL || 'http://localhost:9876/api/v1',
+  baseURL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:9876/api/v1',
 })
 
 myAxios = setUpInterceptors(myAxios)

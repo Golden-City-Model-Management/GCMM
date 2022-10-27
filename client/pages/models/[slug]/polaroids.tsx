@@ -9,6 +9,7 @@ import GalleryImage from "@/components/gallery/GalleryImage";
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import { Typography } from "@mui/material";
+import ErrorDisplay from "@/components/common/ErrorDisplay";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   if (process.env.SKIP_BUILD_STATIC_GENERATION) {
@@ -33,7 +34,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const response = await Request({path: `/models?slug=${modelSlug}&fields=polaroids,extra_polaroids,name,`, method: 'get'})
   return {
     props: {
-      model: response.docs[0]
+      model: response.docs[0] || null 
     }
   }
 }
@@ -43,10 +44,10 @@ const Polaroids: NextPageWithLayout =  ({ model }: {
 }) => {
 
   const polaroids = useMemo(() => {
-    const polaroids = Object.keys(model.polaroids).map(el => {
+    const polaroids = model && model.polaroids ? Object.keys(model.polaroids).map(el => {
       return model.polaroids[el]
-    })
-    if(model.extra_polaroids.length > 0) {
+    }) : []
+    if( model && model.extra_polaroids && model.extra_polaroids.length > 0) {
       model.extra_polaroids.forEach((el: any) => {
         polaroids.push(...(Object.keys(el).map(key => el[key])))
       })
@@ -54,7 +55,15 @@ const Polaroids: NextPageWithLayout =  ({ model }: {
     return polaroids.filter(el => typeof el !== 'string')
   }, [model])
 
-  console.log(polaroids)
+
+  if(!model) {
+    return (
+      <Box display='flex' justifyContent='center' alignItems='center' minHeight='65vh'>
+        <ErrorDisplay msg='An Error Occured!'> </ErrorDisplay>
+      </Box>
+    )
+  }
+
   return(
   <Box>
     <Typography variant='caption' component='h1' my={4} textTransform='capitalize' textAlign='center'>

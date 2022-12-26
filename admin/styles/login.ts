@@ -23,6 +23,7 @@ export const submitBtnStyles = (theme: Theme) => ({
   borderRadius: '8px',
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.primary.contrastText,
+  fontSize: "1rem",
   '&:hover': {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,

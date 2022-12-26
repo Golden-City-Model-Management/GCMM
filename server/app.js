@@ -17,42 +17,46 @@ const feedbackRouter = require('./routes/feedback');
 const galleryRouter = require('./routes/gallery')
 const modelApplicationRouter = require('./routes/modelApplications')
 const dbUpdatesRouter = require('./routes/dbupdates')
+const cors = require('cors')
 
-const whitelist = [
-  'https://goldencityadmin.netlify.app/',
-  'https://goldencitymodelsng.netlify.app/',
-  'http://localhost:4000/',
-  'http://localhost:3000/',
-]
+// const whitelist = [
+//   'https://goldencityadmin.netlify.app/',
+//   'https://goldencitymodelsng.netlify.app/',
+//   'http://localhost:4000/',
+//   'http://localhost:3000/',
+// ]
 
 const app = express();
 app.enable('trust proxy')
+app.use(cors())
 dotenv.config({
   path: `${__dirname}/.env`
 })
-app.options('*', (req, res) => {
-  console.log(req.headers.referer, req.headers.origin.slice(0, req.headers.origin.length))
-  if(whitelist.includes(req.headers.referer)){
-    res.header("Access-Control-Allow-Origin", req.headers.referer.slice(0, req.headers.referer.length - 1)); 
-  }
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  ); 
-  res.send('ok');
-});
-app.use(function(req, res, next) {
-  if(whitelist.includes(req.headers.referer)){
-    res.header("Access-Control-Allow-Origin", req.headers.referer.slice(0, req.headers.referer.length - 1)); 
-  }
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  next();
-});
+
+// app.options('*', (req, res) => {
+//   console.log(req.headers.referer, req.headers.origin.slice(0, req.headers.origin.length))
+//   if(whitelist.includes(req.headers.referer)){
+//     res.header("Access-Control-Allow-Origin", req.headers.referer.slice(0, req.headers.referer.length - 1)); 
+//   }
+//   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+//   ); 
+//   res.send('ok');
+// });
+// app.use(function(req, res, next) {
+//   if(whitelist.includes(req.headers.referer)){
+//     res.header("Access-Control-Allow-Origin", req.headers.referer.slice(0, req.headers.referer.length - 1)); 
+//   }
+//   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+//   );
+//   next();
+// });
+
 app.use(logger('dev')); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

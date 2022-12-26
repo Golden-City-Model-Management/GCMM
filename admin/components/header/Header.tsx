@@ -40,10 +40,10 @@ const Header = () => {
           list={navLinks}
           ComponentItem={NavLinkListItemWithSubLinks}
           mapKey='to'
-          itemProps={{background: true, onClick: toggleShowNav}} />
+          itemProps={{background: true, onClick: () => {}}} />
       </List>
           <Box sx={styles.MenuBtnSectionSx}>
-            <IconButton color='secondary' data-testid='admin-nav-toggle' onClick={(e) => toggleShowNav()}>
+            <IconButton color='secondary' data-testid='admin-nav-toggle' onClick={() => toggleShowNav()}>
               <MenuIcon fontSize='large' />
             </IconButton>
           </Box>

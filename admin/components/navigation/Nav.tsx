@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 import { NavLinkListItemWithSubLinks, } from '@/components/common/Links'
 import { navLinks } from '@/constants/links'
 import Mapper from '@/components/Mapper'
-import React, { HTMLAttributeAnchorTarget, useCallback } from 'react'
+import React, { useCallback } from 'react'
 
 const AdminNavigationMobile = ({ toggleShowNav }: {
   toggleShowNav: (e: React.ChangeEvent<HTMLAnchorElement>) => void

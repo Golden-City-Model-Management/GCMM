@@ -47,7 +47,7 @@ const initialState: {
     name: '',
     avatar: '',
     email: '',
-    userName: '',
+    user_name: '',
     role: '', 
   },
   ui: {

@@ -22,7 +22,7 @@ const DashBoard = ({ user }: {
       <Box mt={0}>
         <Typography  variant='caption' component='h1'>Welcome Back {user.name}</Typography><br />
          <Box>
-          <Typography lineHeight={2} variant='h2' textTransform='capitalize' >Username: {user.userName}</Typography>
+          <Typography lineHeight={2} variant='h2' textTransform='capitalize' >Username: {user.user_name}</Typography>
           <Typography lineHeight={2} variant='h2' textTransform='capitalize' >Email: {user.email}</Typography>
          </Box>     
       </Box>

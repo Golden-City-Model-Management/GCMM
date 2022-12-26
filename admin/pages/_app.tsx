@@ -4,7 +4,7 @@ import '../styles/globals.css'
 import CssBaseline from '@mui/material/CssBaseline';
 import ContextProvider from 'reducers/provider'
 import { AppProps } from "next/app"
-import { ErrorAlert, SuccessAlert } from '@/components/common/alert';
+import { ErrorAlert, PrimaryAlert, SuccessAlert } from '@/components/common/alert';
 import { TopCenteredSnackbar } from '@/components/common/snackbars';
 import { Box } from '@mui/material';
 import { ReactNode, useContext } from 'react';
@@ -27,6 +27,7 @@ const NotificationHelper = ({ children }: {
           <>
             {notification.type === 'error' && <ErrorAlert>{notification.message}</ErrorAlert>}
             {notification.type === 'success' && <SuccessAlert>{notification.message}</SuccessAlert>}
+            {notification.type === 'primary' && <PrimaryAlert>{notification.message}</PrimaryAlert>}
           </>
         </TopCenteredSnackbar>}
       </Box> 

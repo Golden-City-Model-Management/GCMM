@@ -9,6 +9,9 @@ import { useState, useEffect, useContext, useMemo } from 'react'
 import Request from '@/utils/api/request'
 import { StoreContext } from '@/reducers/store'
 
+const nonRestrictedPaths = [
+  "/forgot-password", "/password-reset", "/login"
+]
 const AdminLayout = ({ children, hideLayout, ...headProps }: LayoutProps) => {
   const [ isLoggedIn, setIsLoggedIn] = useState(false)
   const router = useRouter()
@@ -21,7 +24,9 @@ const AdminLayout = ({ children, hideLayout, ...headProps }: LayoutProps) => {
       if(data.statusCode === 200){
         userDispatch({type: 'UPDATE_USER', payload: data.user})
       }else{
-        !router.asPath.includes('/login') && router.push('/login')
+        if(!nonRestrictedPaths.some(path => router.asPath.includes(path))){
+          router.push('/login')
+        }
         window.localStorage.removeItem('access_token')
       }
     }
@@ -33,9 +38,9 @@ const AdminLayout = ({ children, hideLayout, ...headProps }: LayoutProps) => {
       }
     }else if(!window.localStorage.getItem('access_token')){
      isLoggedIn && setIsLoggedIn(false)
-      if(!router.asPath.includes('/login')){
-        router.push('/login')
-      }
+        if(!nonRestrictedPaths.some(path => router.asPath.includes(path))){
+          router.push('/login')
+        }
     }
   }, [isLoggedIn, router, user._id.length, userDispatch])
 

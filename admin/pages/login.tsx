@@ -5,10 +5,8 @@ import Box from '@mui/material/Box'
 import { NextPage } from "next"
 import {
   useCallback, useState,
-  FormEventHandler, FormEvent, ChangeEventHandler, ChangeEvent
+  FormEventHandler, FormEvent, ChangeEventHandler, ChangeEvent, useContext
 } from "react"
-import { TopCenteredSnackbar } from "@/components/common/snackbars"
-import { ErrorAlert } from '@/components/common/alert'
 import Request from "@/utils/api/request"
 import { useRouter } from "next/router"
 import Loader from "@/components/common/loader"
@@ -16,27 +14,26 @@ import * as styles from '@/styles/login'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import AdminLayout from '@/components/layout/Layout'
+import Link from 'next/link'
+import { emphasize } from '@mui/material'
+import { notificationActions } from '@/reducers/notification/reducer'
+import { StoreContext } from '@/reducers/store'
 
-
-const AdminHomePage: NextPage = () => {
+const LoginPage: NextPage = () => {
+  const { combinedDispatch } = useContext(StoreContext)
   const router = useRouter()
   const [loginDetails, setLoginDetails] = useState({
     user_name: '', password: ''
   })
-  const [isError, setIsError] = useState({
-    error: router.query.error ? true : false, message: router.query.error
-  })
   const [isLoading, setIsLoading] = useState(false)
-
-  const handleSetError = useCallback((newState: typeof isError) => {
-    setIsError(prev => ({ ...prev, ...newState }))
-  }, [])
 
   const handleSubmit: FormEventHandler = useCallback(async (e: FormEvent) => {
     e.preventDefault()
 
     if (loginDetails.user_name.trim().length === 0 || loginDetails.password.trim().length === 0)
-      return handleSetError({ error: true, message: 'All fields are required!' })
+      return combinedDispatch.notificationDispatch({type: notificationActions.showNotification, payload: {
+        message: "All fields are required!", type: "error", show: true
+      }})
     setIsLoading(true)
 
     const response = await Request({ path: '/users/login', method: 'post', data: loginDetails })
@@ -49,9 +46,11 @@ const AdminHomePage: NextPage = () => {
     } else {
       const { message } = response
       setIsLoading(false)
-      return handleSetError({ error: true, message })
+      combinedDispatch.notificationDispatch({type: notificationActions.showNotification, payload: {
+        message, type: "error", show: true
+      }})
     }
-  }, [handleSetError, loginDetails, router])
+  }, [combinedDispatch, loginDetails, router])
 
   const handleChange: ChangeEventHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setLoginDetails(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -63,11 +62,6 @@ const AdminHomePage: NextPage = () => {
       <Box display='flex' justifyContent='center'
         alignItems='center' minHeight='100vh' >
         <Loader open={isLoading} />
-        <TopCenteredSnackbar onClose={() => handleSetError({ error: false, message: '' })} open={isError.error}>
-          <ErrorAlert >
-            {isError.message}
-          </ErrorAlert>
-        </TopCenteredSnackbar>
         <Box
           onSubmit={handleSubmit} component='form'
           display='flex' justifyContent='center' px={4}
@@ -83,7 +77,7 @@ const AdminHomePage: NextPage = () => {
             color={'primary'}
             variant='small'>Please sign in to continue</Typography>
 
-          <TextField variant='outlined' required value={loginDetails.user_name}
+          <TextField variant='outlined' aria-required value={loginDetails.user_name}
             name='user_name'
             type='text'
             label='Username or Email'
@@ -100,15 +94,20 @@ const AdminHomePage: NextPage = () => {
             label='password'
             InputLabelProps={{ sx: t => ({ color: t.palette.primary.main }) }}
             onChange={handleChange}
-            data-testid='password' sx={styles.inputStyles} />
+            aria-required sx={styles.inputStyles} />
           <Button type="submit" data-testid='login' variant='outlined' color='primary' sx={styles.submitBtnStyles}>
             Log In
           </Button>
+          <Link href="/forgot-password" passHref><Typography variant="small" textTransform="capitalize" 
+          sx={t => ({color: emphasize(t.palette.primary.main), opacity: ".8",  ml: "auto"})} component="a">
+            forgot password?
+            </Typography>
+            </Link>
         </Box>
       </Box>
     </AdminLayout>
   )
 }
 
-export default AdminHomePage
+export default LoginPage
 

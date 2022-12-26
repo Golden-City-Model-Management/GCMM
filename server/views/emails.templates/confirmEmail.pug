@@ -12,18 +12,10 @@ block content
     |Hello #{user.name.split(' ')[0]},
   p
     |You have requested to update your email to this email 
-  p 
-    |Please use the following credentials to login:
-  ul
-    li 
-      |Username: #{user.userName}
-    li 
-      |Password: #{user.password}
-    
-    | Follow this 
+    |Follow this 
     a(href=links.confirmEmail)
       |link
-    |to login
+    |to confirm your email address
   p 
     |Feel free to change your username and password once you are signed in.
   p

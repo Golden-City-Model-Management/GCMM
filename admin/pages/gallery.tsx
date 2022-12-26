@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography'
 import ImageList from '@mui/material/ImageList'
 import { useState, useEffect, useContext, useCallback } from "react"
 import Button from '@mui/material/Button'
-import { StoreContext, galleryReducer } from "reducers/store"
+import { StoreContext, galleryReducer, notificationReducer } from "reducers/store"
 import { Image as ImageInterface } from "@/types/models"
 import { uploadFile } from '@/utils/cloudinary/index'
 import { GetStaticProps } from "next"
@@ -18,9 +18,11 @@ import { galleryActions } from "@/reducers/gallery/reducer"
 import { ImageListItem } from "@mui/material"
 import Image from "next/image"
 import Loader from "@/components/common/loader"
+import { notificationActions, showNotification } from "@/reducers/notification/reducer"
 
 let limit = 20
 export const getStaticProps: GetStaticProps = async () => {
+
   const response = await Request({ path: `/gallery?limit=${limit}&page=1`, method: 'get', })
   let images
   if (response.statusCode === 200) images = response.docs
@@ -39,7 +41,7 @@ export const getStaticProps: GetStaticProps = async () => {
 const GalleryPage = ({ images }: {
   images: ImageInterface[]
 }) => {
-  const { state: { gallery: { images: imagesInState }, }, combinedDispatch: { galleryDispatch } } = useContext(StoreContext)
+  const { state: { gallery: { images: imagesInState }, }, combinedDispatch: { galleryDispatch, notificationDispatch } } = useContext(StoreContext)
   const [isScrolling, setIsScrolling] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [shouldFetchWithPaginate, setShouldFetchWithPaginate] = useState(true)
@@ -74,9 +76,14 @@ const GalleryPage = ({ images }: {
           ...storedData.images
         ]
       })
+    }else{
+      setLoading(false)
+      return  notificationDispatch({
+        type: notificationActions.showNotification,
+        payload: { type: 'error', message: "Unable to upload all images", show: true}} )
     }
     setLoading(false)
-  }, [galleryDispatch])
+  }, [galleryDispatch, notificationDispatch])
 
   useEffect(() => {
     if (imagesInState.length < images.length) {

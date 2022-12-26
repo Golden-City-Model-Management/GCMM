@@ -8,7 +8,7 @@ export interface userState {
   name: string,
   avatar: string,
   email: string,
-  user_name: string,
+  userName: string,
   role: string,
 }
 

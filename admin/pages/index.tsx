@@ -13,15 +13,11 @@ const layoutProps = {
 
 const AdminHomePage = () => {
 
-  const { state: { user: stateUser, ui: { boxPadding} }, } = useContext(StoreContext)
+  const { state: { user: stateUser  }, } = useContext(StoreContext)
 
   return ( 
     <Layout {...layoutProps} > 
-    <Box 
-    display='flex' justifyContent='start' 
-    alignItems='center' minHeight='80vh'  
-    sx={{padding: {...boxPadding}}}
-    >
+    <Box display='flex' justifyContent='start' alignItems='center' minHeight='80vh' px="80px" >
       <DashBoard user={stateUser} />
     </Box>
     </Layout>

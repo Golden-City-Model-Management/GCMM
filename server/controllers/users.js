@@ -12,7 +12,7 @@ const {
 module.exports.createNewUser = asyncHelper(async (req, _res, next) => {
   const user = await req.savedDoc
   const mailOptions = createMailOptions('', user.email, 'Welcome to Golden City')
-  const links = { login: `http://localhost:1298/api/v1/users/login`}
+  const links = { login: `${process.env.ADMIN_FRONTEND}/login`}
   const options = {user: user, links}
   const emailSent = await sendEmail(mailOptions, 'newUser', options, {})
   if (emailSent.response === 'success') {
@@ -106,7 +106,7 @@ module.exports.forgotPassword = asyncHelper(async (req, res, next) => {
   await user.hashKeys('password_reset_token')
   const mailOptions = createMailOptions('', email, 'Password Reset Request')
   const links = {
-    resetPassword: `http://localhost:1298/api/v1/users/password-reset/${password_reset_token}/${user._id}`
+    resetPassword: `${process.env.ADMIN_FRONTEND}/admin/password-reset?prt=${password_reset_token}&uid=${user._id}`
   }
   const options = {links, user}
   const emailSent = await sendEmail(mailOptions, 'passwordReset', options, {}) 

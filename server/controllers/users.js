@@ -49,6 +49,7 @@ module.exports.loginUser = asyncHelper(async (req, res, next) => {
     return next(createCustomError('Please verify your account. Check your email for a verification link.', 400))
   }
   const isMatch = await user.compareKey('password', password)
+  console.log(isMatch, password)
   if (!isMatch) {
     return next(createCustomError('Invalid credentials', 401))
   }
@@ -134,7 +135,6 @@ module.exports.passwordReset = asyncHelper(async (req, res, next) => {
   const newPassword = req.body.password
   if (!newPassword) return next(createCustomError('Please provide your new password', 400))
   user.password = newPassword
-  await user.hashKeys('password')
   user.password_reset_expires = undefined
   user.password_reset_token = undefined
   const saved = await user.save()
@@ -154,10 +154,8 @@ module.exports.changePassword = asyncHelper(async (req, res, next) => {
   if (!isMatch) return next(createCustomError('Old password not matched', 403))
   if (isSameAsOldPassword) return next(createCustomError('Your new password must be different from your old password!', 400))
   user.password = newPassword
-  // await user.hashKeys('password')
   const saved = await user.save()
   if (!saved) return next(createCustomError('Unable to change your password! Please try again later', 500))
-  // res.cookies.access_token = undefined
   req.statusCode = 200
   req.status = 'success'
   req.message = 'Password changed successfully.'

@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "set NODE_ENV=prod && node ./bin/www",
-    "dev": "set NODE_ENV=dev & nodemon ./bin/www",
+    "start:win": "set NODE_ENV=prod && node ./bin/www",
+    "start": "export NODE_ENV=prod && node ./bin/www",
+    "dev:win": "set NODE_ENV=dev && nodemon ./bin/www",
+    "dev": "export NODE_ENV=dev && nodemon ./bin/www",
     "debug": "ndb ./bin/www"
   },
   "dependencies": {

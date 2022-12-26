@@ -24,3 +24,13 @@ export const ErrorAlert = forwardRef<HTMLDivElement, AlertProps>((
   )
 })
 ErrorAlert.displayName = 'ErrorAlert'
+
+export const PrimaryAlert = forwardRef<HTMLDivElement, AlertProps>((
+  props,
+  ref,
+) => {
+  return (
+  <Alert {...props} sx={alertSx}  ref={ref} severity="info">{props.children}</Alert>
+  )
+})
+PrimaryAlert.displayName = 'PrimaryAlert'

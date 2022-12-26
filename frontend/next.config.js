@@ -8,10 +8,6 @@ module.exports = {
   async rewrites() {
     return [
       {
-        source: '/:path*',
-        destination: `/:path*`,
-      },
-      {
         source: '/admin',
         destination: `${ADMIN_URL}/admin`,
       },
